@@ -1,0 +1,38 @@
+name: Build and Run
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up C++ environment
+        uses: actions/setup-cpp@v1
+        with:
+          compiler: gcc
+
+      - name: Compile the C++ code
+        run: g++ -o web web.cpp
+
+      - name: Run the executable
+        run: ./web
+
+      - name: Check for output file
+        run: |
+          if [ -f "index.html" ]; then
+            echo "HTML file generated successfully!"
+          else
+            echo "Error: HTML file not generated!"
+            exit 1
+          fi
+
+      - name: Upload generated HTML file
+        uses: actions/upload-artifact@v2
+        with:
+          name: generated-html
+          path: index.html

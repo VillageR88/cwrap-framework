@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Builder</title>
+    <link rel="stylesheet" href="builder.css">
+</head>
+
+<body>
+    <header>
+        <h1>CartoWrapper</h1>
+    </header>
+    <main>
+        <div>
+            <button>header</button>
+            <a href="/body.html">body</a>
+        </div>
+        <!-- <button onclick="generate()">Generate</button> -->
+    </main>
+
+    <script src="http://localhost:35729/livereload.js"></script>
+    <script>
+        function generate() {
+            fetch('/generate')
+                .then(response => response.text())
+                .then(data => {
+                    alert(data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error generating HTML');
+                });
+        }
+    </script>
+
+</body>
+
+</html>
