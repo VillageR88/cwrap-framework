@@ -1,2 +1,8 @@
 .vscode
 web.exe
+node_modules
+build
+web.cpp
+web.js
+nlohmann/
+updateManualVersion.js

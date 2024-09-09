@@ -1,0 +1,22 @@
+{
+  "name": "cwrap",
+  "version": "0.1.0-alpha.20240907",
+  "description": "CWrap is a microframework for web designers.",
+  "main": "preview.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "start http://localhost:36969/body.html && node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "connect": "^3.7.0",
+    "connect-livereload": "^0.6.1",
+    "jsdom": "^24.1.1",
+    "livereload": "^0.9.3",
+    "mkdirp": "^3.0.1",
+    "serve-static": "^1.14.1",
+    "body-parser": "^1.20.2"
+  }
+}

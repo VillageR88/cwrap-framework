@@ -1,0 +1,23 @@
+{
+  "fonts": [
+    {
+      "font-family": "Figtree",
+      "src": "url('static/fonts/Figtree-VariableFont_wght.ttf') format('truetype')",
+      "font-display": "swap"
+    },
+    {
+      "font-family": "FigtreeExtraBold",
+      "src": "url('static/fonts/Figtree-ExtraBold.ttf') format('truetype')",
+      "font-display": "swap"
+    }
+  ],
+  "element": "body",
+  "style": "background-color: white;",
+  "children": [
+    {
+      "element": "span",
+      "style": "font-family: 'Figtree';",
+      "text": "Hello, world!"
+    }
+  ]
+}

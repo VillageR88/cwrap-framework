@@ -1,14 +1,59 @@
+:root {
+  /* --primary-color: #4ccf6f;
+  --secondary-color: #042018;
+  --background-color: #121212;
+  --text-color: white; */
+  --text-color1: #fbfcfb;
+  --border-color1: #5b5b5b;
+  --border-color2: rgb(82, 79, 79);
+  --background-color1: #121212;
+  --background-color2: rgb(46, 49, 46);
+}
+
+.separatorVertical {
+  border-left: 1px solid var(--border-color1);
+  height: 100%;
+}
+
+body.horizontal {
+  flex-direction: row;
+  gap: 0;
+}
+
 body {
-  font-family: Arial, sans-serif;
-  background-color: #121212;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  background-color: var(--background-color1);
   text-align: left;
   color: white;
   margin: 0;
-  padding: 0;
+  box-sizing: border-box;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  gap: 24px;
+  overflow-x: clip;
+}
+
+body > div {
+  display: flex;
+  flex-direction: column;
   width: 100%;
   padding: 24px;
   box-sizing: border-box;
-  min-height: 100vh;
+  gap: 24px;
+}
+
+body > div > header {
+  display: flex;
+  justify-content: space-between;
+}
+
+body > div > header > div#menuDiv {
+  display: flex;
+  gap: 12px;
+  align-items: center;
 }
 
 h1 {
@@ -16,19 +61,36 @@ h1 {
   margin: 0;
 }
 
-main {
+body > div > nav {
   margin-top: 10px;
-  width: fit-content;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: fit-content;
+}
+
+body > div > main {
+  margin-top: 24px;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  width: 100%;
+  flex-grow: 1;
+  box-sizing: border-box;
 }
 
-main > div {
-  display: flex;
-  gap: 12px;
+#preview {
+  flex-grow: 1;
+  /* border: 1px solid var(--border-color1);
+  border-radius: 10px; */
+  align-items: center;
+  justify-content: center;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  /* padding: 24px; */
+  box-sizing: border-box;
+  border: none;
+  min-height: 100vh;
 }
 
 button,
@@ -36,24 +98,142 @@ a {
   padding: 10px 20px;
   border: none;
   border-radius: 10px;
-  background-color: #212121;
-  border: 1px solid #454444;
-  color: white;
+  background-color: var(--background-color2);
+  border: 1px solid var(--border-color2);
+  color: var(--text-color1);
   cursor: pointer;
   font-size: medium;
   box-sizing: border-box;
   max-width: fit-content;
 }
 
-#canvas {
-  width: 100%;
-  height: 100%;
-  min-height: 600px;
-  box-sizing: border-box;
+#elementDiv,
+#screenDiv,
+#propertyDiv,
+#attributeDiv {
   display: flex;
   flex-direction: column;
+  gap: 12px;
+}
+
+#screenHeaderDiv,
+#elementHeaderDiv,
+#stateHeaderDiv,
+#propertyHeaderDiv,
+#attributeHeaderDiv,
+#valueHeaderDiv,
+#attributeValueHeaderDiv {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+#openAddScreen,
+#closeAddScreen,
+#removeScreen,
+#openState,
+#openAddElement,
+#closeState,
+#removeState,
+#closeAddState,
+#openAddState,
+#closeAddElement,
+#removeElement,
+#openAddProperty,
+#addAttribute,
+#closeAddProperty,
+#removeAttribute,
+#updateProperty,
+#updateAttribute,
+#removeProperty {
+  border-radius: 6px;
+  display: flex;
   align-items: center;
-  border-radius: 10px;
+  justify-content: center;
+  height: 20px;
+  min-width: 25px;
+  padding: 0;
+  padding-inline: 5px;
+  box-sizing: border-box;
+}
+
+#removeElement:disabled:hover,
+#openAddElement:disabled:hover {
+  cursor: not-allowed;
+}
+
+#screenSelectAllDiv,
+#elementStateDiv,
+#stateSelectAllDiv,
+#contextSelectAllDiv,
+#stateOfContextSelectAllDiv,
+#elementSelectAllDiv,
+#propertySelectAllDiv {
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+}
+
+#propertySelectAllDiv > div,
+#elementStateDiv > div,
+#elementSelectAllDiv > div,
+#stateSelectAllDiv > div,
+#screenSelectAllDiv > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+#elementAddRemoveDiv,
+#stateAddRemoveDiv,
+#screenAddRemoveDiv,
+#propertyAddRemoveDiv,
+#attributeAddRemoveDiv {
+  display: flex;
+  gap: 12px;
+}
+
+select,
+input {
   padding: 10px;
-  border: #454444 1px solid;
+  border: 1px solid var(--border-color1);
+  border-radius: 10px;
+  background-color: var(--background-color2);
+  color: var(--text-color1);
+  font-size: medium;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.awesomplete {
+  width: 100%;
+}
+
+.awesomplete ul {
+  background-color: var(--background-color2);
+  border: 1px solid var(--border-color2);
+  max-height: 200px; /* Maximum height for the suggestion list */
+  overflow-y: auto; /* Scrollable if the list is too long */
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  width: 100%;
+}
+
+.awesomplete li {
+  background-color: var(--background-color2);
+  padding: 5px 10px; /* Padding for each suggestion */
+  cursor: pointer; /* Pointer cursor for suggestions */
+}
+
+.awesomplete li:hover,
+.awesomplete li[aria-selected="true"] {
+  background-color: #0078d7; /* Blue background for hovered/selected suggestion */
+  color: #fff; /* White text for hovered/selected suggestion */
+}
+
+.awesomplete li[aria-selected="true"] {
+  background-color: #0078d7; /* Blue background for selected suggestion */
+  color: #fff; /* White text for selected suggestion */
 }
