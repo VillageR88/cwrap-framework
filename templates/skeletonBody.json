@@ -1,4 +1,24 @@
 {
+  "head": {
+    "meta": [
+      {
+        "name": "viewport",
+        "content": "width=device-width, initial-scale=1.0"
+      },
+      {
+        "charset": "UTF-8"
+      },
+      {
+        "name": "description",
+        "content": "A preview card for a blog post."
+      },
+      {
+        "name": "keywords",
+        "content": "blog, preview, card, HTML, CSS"
+      }
+    ],
+    "title": "Blog preview card"
+  },
   "fonts": [
     {
       "font-family": "Figtree",
@@ -11,6 +31,11 @@
       "font-display": "swap"
     }
   ],
+  "root": {
+    "--color-titanium-white": "#ffffff",
+    "--color-midnight-black": "#000000",
+    "--color-cadmium-yellow": "#ffef00"
+  },
   "element": "body",
   "style": "margin: auto; display: flex; justify-content: center; align-items: center; width: 100%; min-height: 100vh; background-color: #f4d04e; overflow-x: hidden; box-sizing: border-box; font-family: 'Figtree', sans-serif;",
   "mediaQueries": [
@@ -22,10 +47,11 @@
   "children": [
     {
       "element": "main",
+      "class": "mainComponent",
       "style": "display: flex; flex-direction: column; background-color: white; width: 100%; max-width: 384px; min-height: 522px; border: 1px solid black; border-radius: 20px; padding: 24px; box-sizing: border-box; gap: 24px; box-shadow: 8px 8px 0px rgba(0, 0, 0, 1); transition: 0.3s ease-in-out; margin: 24px;",
       "extend": [
         {
-          "extension": ":has(div:nth-of-type(1) > a:nth-of-type(1):hover)",
+          "extension": ":has(div:nth-of-type(1).secondDiv > a:nth-of-type(1):hover)",
           "style": "box-shadow: 16px 16px 0px rgba(0, 0, 0, 1);"
         }
       ],
@@ -38,6 +64,7 @@
       "children": [
         {
           "element": "img",
+          "class": "image1",
           "attributes": {
             "width": "336",
             "height": "201",
@@ -48,10 +75,12 @@
         },
         {
           "element": "div",
+          "class": "secondDiv",
           "style": "display: flex; flex-direction: column; gap: 12px;",
           "children": [
             {
               "element": "h1",
+              "class": "learning",
               "style": "display: flex; align-items: center; justify-content: center; width: 82px; height: 29px; background-color: #f4d04e; font-size: 14px; color: black; font-weight: bolder; border-radius: 4px; line-height: 150%; margin-block: auto; font-family: 'FigtreeExtraBold', sans-serif;",
               "mediaQueries": [
                 {
@@ -63,6 +92,7 @@
             },
             {
               "element": "span",
+              "class": "published",
               "style": "color: black; font-size: 14px; line-height: 150%; margin-block: auto; font-weight: 600;",
               "mediaQueries": [
                 {
@@ -107,10 +137,12 @@
         },
         {
           "element": "div",
+          "class": "thirdDiv",
           "style": "display: flex; gap: 12px; align-items: center;",
           "children": [
             {
               "element": "img",
+              "class": "image2",
               "attributes": {
                 "src": "./static/images/image-avatar.webp",
                 "alt": ""
@@ -119,6 +151,7 @@
             },
             {
               "element": "span",
+              "class": "nameSpan",
               "style": "color: black; font-size: 14px; font-weight: bolder; line-height: 150%; margin-block: auto; font-family: 'FigtreeExtraBold', sans-serif;",
               "text": "Greg Hooper"
             }

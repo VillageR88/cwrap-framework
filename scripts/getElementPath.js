@@ -1,10 +1,8 @@
 /**
  * Gets the full path of the element in the DOM tree.
  * It runs inside createElementFromJson.js and loadPreview.js
- * This function runs at the first load to select body element 
+ * This function runs at the first load to select body element
  * and each time somebody clicks on DOM element on iframe.
- * @todo this function is probably overcomplicating things
- * and can be simplified in a more efficient way.
  *
  * @param {HTMLElement} element - The DOM element.
  * @returns {string} - The full path of the element.

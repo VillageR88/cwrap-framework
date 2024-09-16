@@ -4,8 +4,8 @@
  * If parent element is the element like img, input, the select is disabled.
  */
 export default function validateParentElement() {
-  const openAddElement = document.getElementById("openAddElement");
-  const selectedElement = document.getElementById("elementSelect");
+  const openAddElement = global.id.openAddElement;
+  const selectedElement = global.id.elementSelect;
   const parentType = selectedElement.value
     .split(">")
     .pop()

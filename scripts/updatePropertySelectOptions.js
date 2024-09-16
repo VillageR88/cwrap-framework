@@ -6,7 +6,7 @@
  */
 export default function updatePropertySelectOptions(fullPath, cssMap) {
   // Get the property select element by its ID
-  const propertySelect = document.getElementById("propertySelect");
+  const propertySelect = global.id.propertySelect;
   // Get the current style for the full path from the cssMap or set it to an empty string if not found
   const currentStyle = cssMap.get(fullPath) || "";
   // Split the current style string into individual properties, filter out empty strings, and trim whitespace
@@ -34,7 +34,7 @@ export default function updatePropertySelectOptions(fullPath, cssMap) {
   }
 
   // Get the property input element by its ID
-  const propertyInput = document.getElementById("propertyInput");
+  const propertyInput = global.id.propertyInput;
   // Set an event listener for when the selected option in the property select element changes
   propertySelect.onchange = () => {
     // Get the selected property key

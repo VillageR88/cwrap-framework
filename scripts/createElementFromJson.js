@@ -37,7 +37,8 @@ export default function createElementFromJson(
 
   // Add a click event listener to the element
   element.addEventListener("click", (event) => {
-    // Prevent the click event from propagating to parent elements
+    const elementStateDiv = document.getElementById("elementStateDiv");
+    if (elementStateDiv.style.display === "flex") return; // Do nothing if some elements are displayed like state
     event.stopPropagation();
     // Get the full path of the element
     const fullPath = getElementPath(element);

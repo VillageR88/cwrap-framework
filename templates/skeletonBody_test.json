@@ -1,4 +1,20 @@
 {
+  "head": {
+    "title": "Hello, world!",
+    "meta": [
+      {
+        "name": "viewport",
+        "content": "width=device-width, initial-scale=1.0"
+      },
+      {
+        "charset": "UTF-8"
+      },
+      {
+        "name": "description",
+        "content": "Hello, world!"
+      }
+    ]
+  },
   "fonts": [
     {
       "font-family": "Figtree",
@@ -11,8 +27,13 @@
       "font-display": "swap"
     }
   ],
+  "root": {
+    "--color-titanium-white": "#ffffff",
+    "--color-midnight-black": "#000000",
+    "--color-cadmium-yellow": "#ffef00"
+  },
   "element": "body",
-  "style": "background-color: white;",
+  "style": "background-color: var(--color-titanium-white);",
   "children": [
     {
       "element": "span",

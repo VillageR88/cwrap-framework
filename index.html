@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CWrap</title>
+  <link rel="stylesheet" href="builder.css" />
+  <link rel="icon" href="./static/favicon/favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/awesomplete/1.1.5/awesomplete.min.css" />
+
+</head>
+
+<body style="display: none;" class="horizontal">
+
+  <div id="onlyLogo">
+    <img height="48" width="48" src="static/favicon/favicon.ico" alt="Website favicon" />
+  </div>
+  <div id="handOnLogo"></div>
+  <div id="leftSidebar" class="smaller">
+    <header>
+      <img height="48" width="48" src="static/favicon/favicon.ico" alt="Website favicon" />
+      <div id="menuDiv">
+
+        <button class="mediumButtons save" title="save project" id="menuSave"></button>
+        <button class="mediumButtons restart" title="reload project" id="menuReload"></button>
+        <button class="mediumButtons switchRight" id="leftSidebarSwitchSide" title="switch sidebar side"></button>
+      </div>
+    </header>
+    <nav>
+      <div>
+        <label for="sectionsVariables">Sections & Variables</label>
+      </div>
+      <select id="sectionsVariables">
+        <option value="head">head</option>
+        <option value="fonts">fonts</option>
+        <option value="root">root</option>
+        <option value="body">body</option>
+      </select>
+    </nav>
+
+    <main id="mainBody">
+      <div id="elementStateDiv">
+        <span id="stateRow">State of <span id="stateOf"></span></span>
+        <div id="stateHeaderDiv">
+          <label for="elementStateSelect">Select Pseudo-class</label>
+          <div id="stateAddRemoveDiv">
+            <button id="closeState">close</button>
+            <div class="separatorVertical"></div>
+            <button class="add" id="openAddState">add</button>
+            <button id="removeState">del</button>
+          </div>
+        </div>
+        <select id="elementStateSelect"></select>
+      </div>
+      <div id="elementDiv">
+        <div id="elementHeaderDiv">
+          <label for="elementSelect">Select Element</label>
+          <div id="elementAddRemoveDiv">
+            <button class="state" id="openState" title="manage state"></button>
+            <div class="separatorVertical"></div>
+            <button type="button" class="add" id="openAddElement" title="add element"></button>
+            <button class="remove" id="removeElement" title="remove element"></button>
+          </div>
+        </div>
+        <select id="elementSelect"></select>
+        <div id="screenDiv">
+          <div id="screenHeaderDiv">
+            <label for="responsiveSelect">Screen Size </label>
+            <div id="screenAddRemoveDiv">
+              <button class="smallButtons add" id="openAddScreen" title="add screen"></button>
+              <button class="smallButtons remove" id="removeScreen" title="remove screen"></button>
+            </div>
+          </div>
+          <select id="responsiveSelect"></select>
+        </div>
+        <div id="styleRow">Style <span id="style">none</span></div>
+      </div>
+      <div id="propertyDiv">
+        <div id="propertyHeaderDiv">
+          <label for="propertySelect">Select Property</label>
+          <div id="propertyAddRemoveDiv">
+            <button class="smallButtons add" id="openAddProperty" title="add property"></button>
+            <button class="smallButtons remove" id="removeProperty" title="remove property"></button>
+          </div>
+        </div>
+        <select id="propertySelect"></select>
+        <div id="valueHeaderDiv">
+          <label for="propertyInput">Update Value</label>
+          <button class="smallButtons save" id="updateProperty" title="update property value"></button>
+        </div>
+        <input type="text" id="propertyInput" class="awesomplete" />
+      </div>
+      <div id="attributeDiv">
+        <div id="attributeHeaderDiv">
+          <label for="attributeSelect">Select Attribute</label>
+          <div id="attributeAddRemoveDiv">
+            <button class="smallButtons add" id="addAttribute" title="add attribute"></button>
+            <button class="smallButtons remove" id="removeAttribute" title="remove attribute"></button>
+          </div>
+        </div>
+        <select id="attributeSelect"></select>
+        <div id="attributeValueHeaderDiv">
+          <label for="attributeInput">Update Value</label>
+          <button class="smallButtons save" id="updateAttribute" title="update attribute value"></button>
+        </div>
+        <input type="text" id="attributeInput" class="awesomplete" />
+      </div>
+
+      <div id="stateSelectAllDiv">
+        <div>
+          <label for="stateSelectAll">Add State:</label>
+          <button id="closeAddState">close</button>
+        </div>
+        <div>
+          <select id="stateSelectAll"></select>
+          <button id="addState">Add</button>
+        </div>
+      </div>
+
+      <div id="contextSelectAllDiv">
+        <label for="selectContext">Select Context:</label>
+        <select id="selectContext"></select>
+      </div>
+
+      <div id="stateOfContextSelectAllDiv">
+        <label for="selectStateOfContext">State of Context:</label>
+        <select id="selectStateOfContext"></select>
+      </div>
+
+      <div id="elementSelectAllDiv">
+        <span>Parent: <span id="parent"></span></span>
+        <div>
+          <label for="elementSelectAll">Add Element:</label>
+          <button id="closeAddElement">close</button>
+        </div>
+        <div>
+          <select id="elementSelectAll"></select>
+          <button id="addElement">Add</button>
+        </div>
+      </div>
+      <div id="screenSelectAllDiv">
+        <div>
+          <label for="screenSelectAll">Add Screen:</label>
+          <button class="smallButtons" id="closeAddScreen">close</button>
+        </div>
+        <div>
+          <input type="text" id="screenSelectAll" class="awesomplete" />
+          <button id="addScreen">Add</button>
+        </div>
+      </div>
+      <div id="propertySelectAllDiv">
+        <div>
+          <label for="propertySelectAll">Add Property:</label>
+          <button id="closeAddProperty">close</button>
+        </div>
+        <div>
+          <select id="propertySelectAll"></select>
+          <button id="addProperty">Add</button>
+        </div>
+      </div>
+    </main>
+  </div>
+  <iframe id="preview" title="Preview"></iframe>
+  <div id="noPreview"><span>NO PREVIEW</span></div>
+  <div id="wizardDiv">
+    <form id="wizard">
+      <div>
+        <h3 id="wizardTitle">Wizard Title</h3>
+        <div>
+
+          <button id="creatorExtend" type="button" class="smallButtons extend" title="extend"></button>
+          <div class="separatorVertical"></div>
+          <button id="creatorSave" type="button" class="smallButtons save" title="update element"></button>
+        </div>
+      </div>
+
+      <div id="wizardHeadDiv">
+
+        <div>
+          <label for="wizardHeadTitle">Title</label>
+          <input type="text" id="wizardHeadTitle" placeholder="My App" autocomplete="off" />
+        </div>
+        <div>
+          <label for="wizardHeadMetaDescription">Meta Description</label>
+          <textarea rows="8" type="text" id="wizardHeadMetaDescription"
+            placeholder="A short description of the page."></textarea>
+          </textarea>
+        </div>
+
+        <div>
+          <label for="wizardHeadMetaKeywords">Meta Keywords</label>
+          <input type="text" id="wizardHeadMetaKeywords" placeholder="keywords, separated, by, commas"
+            autocomplete="off" />
+        </div>
+
+      </div>
+      <div id="wizardFontsDiv"></div>
+      <div id="wizardRootDiv"></div>
+    </form>
+  </div>
+
+  <script src="http://localhost:35729/livereload.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/awesomplete/1.1.5/awesomplete.min.js"></script>
+  <script src="scripts/localStorage.js"></script>
+  <script src="scripts/_globals.js"></script>
+  <script type="module" src="scripts/main.js"></script>
+
+
+</body>
+
+</html>

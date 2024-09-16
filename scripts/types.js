@@ -1,6 +1,8 @@
 /**
  * @typedef {Object} JsonObject
  * //add property for fontMap will be in Json as fonts
+ * @property {Object} head
+ * @property {Object} root
  * @property {Object} fonts - The font styles for the element.
  * @property {string} element - The HTML element type (e.g., 'div', 'span').
  * @property {string} [class] - The CSS class of the element.

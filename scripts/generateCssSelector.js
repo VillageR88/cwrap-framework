@@ -1,7 +1,6 @@
 /**
  * @typedef {import('./types.js').JsonObject} JsonObject
  */
-
 /**
  * Generates a CSS selector string based on the provided JSON object.
  * Example output: "body > main:nth-of-type(1) > section:nth-of-type(2).container"
@@ -12,29 +11,18 @@
  * @param {Map} [mediaQueriesMap=new Map()] - A Map to store media query styles.
  * @param {Map} [siblingCountMap=new Map()] - A Map to keep track of sibling elements count.
  * @param {Map} [fontMap=new Map()] - A Map to store font styles.
+ * @param {Map} [rootMap=new Map()] - A Map to store root styles.
  */
 export default function generateCssSelector(
   jsonObj,
   parentSelector = "",
   cssMap = new Map(),
   mediaQueriesMap = new Map(),
-  siblingCountMap = new Map(),
-  fontMap = new Map()
+  siblingCountMap = new Map()
 ) {
   // Start with the parent selector
   let selector = parentSelector;
 
-  // Check if the JSON object has a 'fonts' property
-  if (jsonObj.fonts) {
-    if (!fontMap.has("fonts")) {
-      fontMap.set("fonts", []);
-    }
-    for (const font of jsonObj.fonts) {
-      fontMap.get("fonts").push(font);
-    }
-  }
-
-  // Check if the JSON object has an 'element' property
   if (jsonObj.element) {
     const element = jsonObj.element;
 
@@ -111,8 +99,7 @@ export default function generateCssSelector(
           selector,
           cssMap,
           mediaQueriesMap,
-          siblingCountMap,
-          fontMap
+          siblingCountMap
         );
       }
     }

@@ -7,3 +7,5 @@ export const stateNonContextual = [
   "disabled",
   "checked",
 ];
+
+export const skeletonSourceSkeletonBody = "templates/skeletonBody.json";

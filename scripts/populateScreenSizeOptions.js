@@ -1,4 +1,3 @@
-const ELEMENT_SELECT_ID = "elementSelect";
 const RESPONSIVE_SELECT_ID = "responsiveSelect";
 
 /**
@@ -7,8 +6,8 @@ const RESPONSIVE_SELECT_ID = "responsiveSelect";
  * @param {Map} mediaQueriesMap
  */
 export default function populateScreenSizeOptions(mediaQueriesMap) {
-  const elementSelect = document.getElementById(ELEMENT_SELECT_ID);
-  const responsiveSelect = document.getElementById(RESPONSIVE_SELECT_ID);
+  const elementSelect = global.id.elementSelect;
+  const responsiveSelect = global.id.responsiveSelect;
   const responsiveSelectMemory = responsiveSelect.value;
   responsiveSelect.innerHTML = "any";
   responsiveSelect.appendChild(new Option("any"));

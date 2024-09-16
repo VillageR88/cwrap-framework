@@ -7,11 +7,10 @@
  * @returns {void}
  */
 export default function removeStyle(cssMap, mediaQueriesMap, removedCSS) {
-  // console.log("Removed CSS: ", removedCSS);
-  for (const key of cssMap.keys()) {
-    if (removedCSS === key) {
-      cssMap.delete(key);
-      break;
-    }
-  }
+	for (const key of cssMap.keys()) {
+		if (removedCSS === key) {
+			cssMap.delete(key);
+			break;
+		}
+	}
 }
