@@ -6,3 +6,5 @@ web.cpp
 web.js
 nlohmann/
 updateManualVersion.js
+static/fonts/
+static/images/

@@ -5,7 +5,7 @@
   "main": "scripts/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "start http://localhost:36969/index.html && node server.js",
+    "start": "cd node_modules/cwrap && npm start",
     "postinstall": "node scripts/postinstall.js"
   },
   "keywords": [],
@@ -23,5 +23,8 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/VillageR88/cwrap.git"
+  },
+  "dependencies": {
+    "cwrap": "file:cwrap-0.1.0-alpha.20241002.tgz"
   }
 }
