@@ -28,6 +28,7 @@ function onLoadPopulateHeadCreator() {
 	const metaDescription = meta.find(
 		(meta) => meta.name === "description",
 	).content;
+	if (!meta) return;
 	const metaKeywords = meta.find((meta) => meta.name === "keywords").content;
 	if (title) wizardHeadTitle.value = title;
 	if (metaDescription) wizardHeadMetaDescription.value = metaDescription;

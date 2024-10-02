@@ -1,4 +1,7 @@
 /**
+ * @type {import('./_globals.js')}
+ */
+/**
  * Validates the parent element select based on the selected element.
  * It is being done in order to prevent appending child elements to the elements that cannot have children.
  * If parent element is the element like img, input, the select is disabled.
@@ -54,6 +57,6 @@ export default function validateParentElement() {
     );
   } else {
     openAddElement.removeAttribute("disabled");
-    openAddElement.removeAttribute("title");
+    openAddElement.setAttribute("title", "add element")
   }
 }

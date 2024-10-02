@@ -1,6 +1,15 @@
+/**
+ * @type {import("./_globals")}
+ */
 export function loadHeadView() {
-	global.id.mainBody.style.display = "none";
+	// global.id.leftSidebarAddition.style.display = "none";
+	global.id.selectedElementLabelContainer.style.display = "none";
+	global.id.navBodyAdditional.style.display = "none";
+	global.id.navDevice.style.display = "none";
+	global.id.navPreview.style.display = "none";
+	global.id.mainBody.style.display = "none"; //todo: remove after debug
 	global.id.preview.style.display = "none";
+	global.id.previewTree.style.display = "none";
 	global.id.noPreview.style.display = "none";
 	global.id.styleRow.style.display = "flex";
 	global.id.wizardDiv.style.display = "flex";
@@ -9,12 +18,18 @@ export function loadHeadView() {
 	global.id.wizardFontsDiv.style.display = "none";
 	global.id.wizardRootDiv.style.display = "none";
 	global.id.wizard.classList.remove(global.class.shaded);
-	global.id.leftSidebar.classList.add(global.class.smaller);
+	centralBarCleanup();
 }
 
 export function loadFontsView() {
-	global.id.mainBody.style.display = "none";
+	// global.id.leftSidebarAddition.style.display = "none";
+	global.id.selectedElementLabelContainer.style.display = "none";
+	global.id.navBodyAdditional.style.display = "none";
+	global.id.navDevice.style.display = "none";
+	global.id.navPreview.style.display = "none";
+	global.id.mainBody.style.display = "none"; //todo: remove after debug
 	global.id.preview.style.display = "none";
+	global.id.previewTree.style.display = "none";
 	global.id.noPreview.style.display = "none";
 	global.id.styleRow.style.display = "flex";
 	global.id.wizardDiv.style.display = "flex";
@@ -23,12 +38,18 @@ export function loadFontsView() {
 	global.id.wizardFontsDiv.style.display = "flex";
 	global.id.wizardRootDiv.style.display = "none";
 	global.id.wizard.classList.add(global.class.shaded);
-	global.id.leftSidebar.classList.add(global.class.smaller);
+	centralBarCleanup();
 }
 
 export function loadRootView() {
-	global.id.mainBody.style.display = "none";
+	// global.id.leftSidebarAddition.style.display = "none";
+	global.id.selectedElementLabelContainer.style.display = "none";
+	global.id.navBodyAdditional.style.display = "none";
+	global.id.navDevice.style.display = "none";
+	global.id.navPreview.style.display = "none";
+	global.id.mainBody.style.display = "none"; //todo: remove after debug
 	global.id.preview.style.display = "none";
+	global.id.previewTree.style.display = "none";
 	global.id.noPreview.style.display = "none";
 	global.id.styleRow.style.display = "flex";
 	global.id.wizardDiv.style.display = "flex";
@@ -37,14 +58,37 @@ export function loadRootView() {
 	global.id.wizardFontsDiv.style.display = "none";
 	global.id.wizardRootDiv.style.display = "flex";
 	global.id.wizard.classList.add(global.class.shaded);
-	global.id.leftSidebar.classList.add(global.class.smaller);
+	centralBarCleanup();
 }
 
 export function loadBodyView() {
-	global.id.mainBody.style.display = "flex";
+	// global.id.leftSidebarAddition.style.display = "flex";
+	global.id.selectedElementLabelContainer.style.display = "flex";
+	global.id.mainBody.style.display = "none"; //todo: remove after debug
+	global.id.navBodyAdditional.style.display = "flex";
+	global.id.navDevice.style.display = "none";
+	global.id.navPreview.style.display = "none";
 	global.id.preview.style.display = "flex";
+	global.id.previewTree.style.display = "none";
 	global.id.noPreview.style.display = "none";
 	global.id.styleRow.style.display = "none";
 	global.id.wizardDiv.style.display = "none";
-	global.id.leftSidebar.classList.remove(global.class.smaller);
+	// global.id.leftSidebar.classList.remove(global.class.smaller); //debug
+	centralBarCleanup();
+}
+
+function centralBarCleanup() {
+	global.id.navSelectPreview.classList.remove("preview", "tree");
+	global.id.navSelectPreview.classList.add("preview");
+	global.id.mainInitialSelector.style.display = "flex";
+	global.id.selectedElementHighlight.style.display = "flex";
+	global.id.mainElementAdd.style.display = "none";
+	global.id.mainTextEditor.style.display = "none";
+	global.id.mainTextEditor2.style.display = "none";
+	global.id.mainAttributeAdd.style.display = "none";
+	global.id.mainAttributeSelector.style.display = "none";
+	global.id.mainAttributeSelector2.style.display = "none";
+	global.id.mainStyleAdd.style.display = "none";
+	global.id.mainStyleSelector.style.display = "none";
+	global.id.mainStyleSelector2.style.display = "none";
 }

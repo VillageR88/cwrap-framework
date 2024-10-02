@@ -26,14 +26,14 @@ export default function populateElementStateOptions(cssMap, mediaQueriesMap) {
 	const previewDocument =
 		preview.contentDocument || preview.contentWindow.document;
 	const element = previewDocument.querySelector(firstKey);
-	if (firstKey) updateElementInfo(firstKey, element, cssMap, mediaQueriesMap);
+	if (firstKey) updateElementInfo(firstKey, element);
 	else {
 		const responsiveSelect = global.id.responsiveSelect;
 		responsiveSelect.innerHTML = "";
 		const option = document.createElement("option");
 		option.textContent = "any";
 		responsiveSelect.appendChild(option);
-		global.id.style.textContent = "";
+		global.variable.style = "";
 		global.id.propertySelect.innerHTML = "";
 		global.id.propertyInput.value = "";
 		global.id.attributeSelect.innerHTML = "";

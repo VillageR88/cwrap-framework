@@ -39,7 +39,7 @@ function onLoadPopulateFontsCreator() {
 				if (subSubKey === "font-family") {
 					labelDiv.appendChild(FontTitle);
 					const removeButton = document.createElement("button");
-					removeButton.classList.add("smallButtons", "remove");
+					removeButton.classList.add("mediumButtons", "remove");
 					removeButton.type = "button";
 					labelDiv.appendChild(removeButton);
 					fontDiv.appendChild(labelDiv);

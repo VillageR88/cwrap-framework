@@ -34,6 +34,9 @@ export default function applyStyles() {
 	cssMap.forEach((value, key) => {
 		customStyles += `${key} {${value}}\n`;
 	});
+
+	customStyles = addCustomClasses(customStyles);
+
 	if (mediaQueriesMap)
 		mediaQueriesMap.forEach((styles, query) => {
 			customStyles += `@media (${query}) {\n`;
@@ -42,5 +45,15 @@ export default function applyStyles() {
 			});
 			customStyles += "}\n";
 		});
+
 	previewDocument.getElementById("custom-styles").textContent = customStyles;
+}
+
+function addCustomClasses(customStyles) {
+	let updatedStyles = customStyles;
+	updatedStyles += ".glowing {\n";
+	updatedStyles += "outline: 2px solid red;\n";
+	updatedStyles += "outline-offset: -2px;\n";
+	updatedStyles += "}\n";
+	return updatedStyles;
 }

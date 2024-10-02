@@ -38,7 +38,7 @@ function onLoadPopulateRootCreator() {
 		label1.textContent = "Variable name";
 		labelDiv.appendChild(label1);
 
-		removeButton.classList.add(global.class.smallButtons, global.class.remove);
+		removeButton.classList.add(global.class.mediumButtons, global.class.remove);
 		removeButton.type = "button";
 		labelDiv.appendChild(removeButton);
 

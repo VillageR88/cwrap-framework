@@ -24,110 +24,219 @@ import {
 	loadRootView,
 	loadBodyView,
 } from "./loadView.js";
-import { skeletonSourceSkeletonBody } from "./_const.js";
+import populateAttributeSelectAll from "./populateAttributeSelectAll.js";
+import populatePropertyValue from "./populatePropertyValue.js";
+import populateAttributeOptions from "./populateAttributeOptions.js";
+import serializeElement from "./serializeElement.js";
+import populateTreeView from "./populateTreeView.js";
+import highlightSelectedElement from "./highlightSelectedElement.js";
+import getElementFromPath from "./getElementFromPath.js";
+// import initializeAwesomplete from "./initializeAwesomplete.js";
 
 /**
  * Sets up the event handlers.
  * @param {Array} cssProperties - The array containing CSS properties.
  */
-export const eventHandlers = (cssProperties) => {
+export const eventHandlers = () => {
+	const cssProperties = getCssProperties();
+
+	function getCssProperties() {
+		// Create a dummy element to access the full list of possible CSS properties
+		const dummyElement = document.createElement("div");
+
+		// Access the style object, which contains all possible CSS properties
+		const allCSSProperties = dummyElement.style;
+
+		// Log all the CSS properties
+		const cssProperties = [];
+		for (const property in allCSSProperties) {
+			if (Object.prototype.hasOwnProperty.call(allCSSProperties, property)) {
+				// Convert camelCase to kebab-case
+				const kebabCaseProperty = camelCaseToKebabCase(property);
+				cssProperties.push(kebabCaseProperty);
+			}
+		}
+		return cssProperties;
+	}
+
+	function camelCaseToKebabCase(camelCase) {
+		return camelCase.replace(/[A-Z]/g, (match) => `-${match.toLowerCase()}`);
+	}
+	//initializeAwesomplete(cssProperties);
+
 	const headMap = global.map.headMap;
 	const rootMap = global.map.rootMap;
 	const fontMap = global.map.fontMap;
 	const cssMap = global.map.cssMap;
 	const mediaQueriesMap = global.map.mediaQueriesMap;
 
-	document;
-	global.id.sectionsVariables.addEventListener("change", () => {
-		switch (global.id.sectionsVariables.value) {
-			case "head":
-				loadHeadView();
-				break;
-			case "body":
-				loadBodyView();
-				break;
-			case "fonts":
-				loadFontsView();
-				break;
-			case "root":
-				loadRootView();
-				break;
+	global.id.navHead.addEventListener("click", () => {
+		loadHeadView();
+	});
+	global.id.navBody.addEventListener("click", () => {
+		loadBodyView();
+	});
+	global.id.navFonts.addEventListener("click", () => {
+		loadFontsView();
+	});
+	global.id.navRoot.addEventListener("click", () => {
+		loadRootView();
+	});
+
+	global.id.navAdditionalScreen.addEventListener("click", () => {
+		if (global.id.navDevice.style.display === "flex") {
+			global.id.navDevice.style.display = "none";
+		} else {
+			global.id.navDevice.style.display = "flex";
+			global.id.navPreview.style.display = "none";
 		}
 	});
 
-	//document element id onlyLogo on mouse enter display none
-	global.id.onlyLogo.addEventListener("mouseenter", () => {
-		global.id.onlyLogo.style.display = "none";
-		global.id.handOnLogo.style.display = "none";
-		global.id.leftSidebar.style.display = "flex";
+	global.id.navSelectPreview.addEventListener("click", () => {
+		if (global.id.navPreview.style.display === "flex") {
+			global.id.navPreview.style.display = "none";
+		} else {
+			global.id.navPreview.style.display = "flex";
+			global.id.navDevice.style.display = "none";
+		}
 	});
 
-	global.id.leftSidebar.addEventListener("mouseleave", () => {
-		global.id.onlyLogo.style.display = "flex";
-		global.id.leftSidebar.style.display = "none";
+	function tempUpdateFunction() {
+		const element = getElementFromPath();
+		updateElementInfo(global.id.elementSelect.value, element);
+	}
+
+	global.id.navScreenDesktop.addEventListener("click", () => {
+		global.id.navAdditionalScreen.classList.remove(
+			"screenDesktop",
+			"screenTablet",
+			"screenMobile",
+		);
+		global.id.navAdditionalScreen.classList.add("screenDesktop");
+		const preview = global.id.preview;
+		preview.style.width = "100%";
+		tempUpdateFunction();
+	});
+	global.id.navScreenTablet.addEventListener("click", () => {
+		global.id.navAdditionalScreen.classList.remove(
+			"screenDesktop",
+			"screenTablet",
+			"screenMobile",
+		);
+		global.id.navAdditionalScreen.classList.add("screenTablet");
+		const preview = global.id.preview;
+		preview.style.width = "768px";
+		tempUpdateFunction();
+	});
+	global.id.navScreenMobile.addEventListener("click", () => {
+		global.id.navAdditionalScreen.classList.remove(
+			"screenDesktop",
+			"screenTablet",
+			"screenMobile",
+		);
+		global.id.navAdditionalScreen.classList.add("screenMobile");
+		const preview = global.id.preview;
+		preview.style.width = "375px";
+		tempUpdateFunction();
+	});
+	global.id.navPreviewNormal.addEventListener("click", () => {
+		global.id.navSelectPreview.classList.remove("preview", "tree");
+		global.id.navSelectPreview.classList.add("preview");
+		global.id.preview.style.display = "flex";
+		global.id.previewTree.style.display = "none";
+		global.id.navAdditionalScreen.style.display = "flex";
+		global.id.mainInitialSelector.style.display = "flex";
+		global.id.selectedElementHighlight.style.display = "flex";
+	});
+	global.id.navPreviewTree.addEventListener("click", () => {
+		global.id.navSelectPreview.classList.remove("preview", "tree");
+		global.id.navSelectPreview.classList.add("tree");
+		global.id.preview.style.display = "none";
+		global.id.previewTree.style.display = "flex";
+		global.id.navAdditionalScreen.style.display = "none";
+		// global.id.mainInitialSelector.style.display = "none";
+		global.id.selectedElementHighlight.style.display = "none";
+		populateTreeView();
+		highlightSelectedElement();
+	});
+
+	global.id.navDevice.addEventListener("mouseleave", () => {
+		global.id.navDevice.style.display = "none";
+	});
+	global.id.navPreview.addEventListener("mouseleave", () => {
+		global.id.navPreview.style.display = "none";
+	});
+
+	//document element id onlyLogo on mouse enter display none
+	global.id.leftSidebarCanvas.addEventListener("mouseenter", () => {
+		global.id.leftSidebarCanvas.style.transform = "translateX(0)";
+		global.id.leftSidebarCanvas.style.transition = "transform 0.5s";
+	});
+
+	global.id.leftSidebarCanvas.addEventListener("mouseleave", () => {
+		global.id.navDevice.style.display = "none";
+		global.id.navPreview.style.display = "none";
+
+		if (global.id.leftSide.classList.contains(global.class.right)) {
+			global.id.leftSidebarCanvas.style.transform = "translateX(85%)";
+		} else global.id.leftSidebarCanvas.style.transform = "translateX(-85%)";
 	});
 
 	global.id.leftSidebarSwitchSide.addEventListener("click", () => {
-		global.id.onlyLogo.classList.toggle(global.class.right);
-		global.id.leftSidebar.classList.toggle(global.class.right);
+		global.id.leftSide.classList.toggle(global.class.right);
+		global.id.leftSidebar.style.transition = "none";
 	});
 
 	global.id.elementSelect.addEventListener("change", () => {
 		const selectedValue = global.id.elementSelect.value;
-		const previewDocument =
-			global.id.preview.contentDocument ||
-			global.id.preview.contentWindow.document;
-		const element = previewDocument.querySelector(selectedValue);
-		updateElementInfo(selectedValue, element, cssMap, mediaQueriesMap);
-		populatePropertySelectAll(selectedValue, cssMap, cssProperties);
+		const element = getElementFromPath();
+		updateElementInfo(selectedValue, element);
+		populatePropertySelectAll(cssProperties);
+		highlightSelectedElement();
 	});
 
-	global.id.responsiveSelect.addEventListener("change", () => {
-		const previewDocument =
-			global.id.preview.contentDocument ||
-			global.id.preview.contentWindow.document;
-		const selectedValue = global.id.elementSelect.value;
-		const element = previewDocument.querySelector(selectedValue);
-		updateElementInfo(
-			global.id.elementSelect.value,
-			element,
-			cssMap,
-			mediaQueriesMap,
-		);
+	global.id.selectedElementHighlight.addEventListener("mousedown", () => {
+		const nameHelper = global.id.nameHelper;
+		const element = getElementFromPath();
+		if (element) {
+			element.classList.add("glowing");
+		}
+		nameHelper.style.display = "flex";
 	});
+
+	global.id.selectedElementHighlight.addEventListener("mouseup", () => {
+		const nameHelper = global.id.nameHelper;
+		const element = getElementFromPath();
+		if (element) {
+			element.classList.remove("glowing");
+		}
+		nameHelper.style.display = "none";
+	});
+
+	global.id.selectedElementLabelContainerSwitchSide.addEventListener(
+		"click",
+		() => {
+			global.id.selectedElementLabelContainer.classList.toggle("bottom");
+		},
+	);
 
 	global.id.propertySelect.addEventListener("change", () => {
-		const previewDocument =
-			global.id.preview.contentDocument ||
-			global.id.preview.contentWindow.document;
-		const selectedValue = global.id.elementSelect.value;
-		const element = previewDocument.querySelector(selectedValue);
-		updateElementInfo(
-			global.id.elementSelect.value,
-			element,
-			cssMap,
-			mediaQueriesMap,
-		);
-	});
-
-	global.id.attributeSelect.addEventListener("change", () => {
-		populateAttributeOptionsValue();
+		const element = getElementFromPath();
+		updateElementInfo(global.id.elementSelect.value, element);
+		populatePropertyValue();
 	});
 
 	global.id.stateSelectAll.addEventListener("change", () => {
 		resolveToggleContext();
 	});
 
-	global.id.creatorSave.addEventListener("click", () => {
-		creatorSave();
-	});
-
 	/**
 	 * Event handler for the save button.
 	 * When the button is clicked, the data from the iframe is saved to skeletonBody.json.
 	 */
-	const extendMap = new Map();
+	const extendMap = global.map.extendMap;
 	global.id.menuSave.addEventListener("click", () => {
+		creatorSave();
 		console.log("Save clicked"); //debugging
 		for (const [key, _] of cssMap) {
 			if (key.includes(":has")) {
@@ -139,148 +248,6 @@ export const eventHandlers = (cssProperties) => {
 				const newValue = `:hover${key.split(":hover")[1]}`;
 				extendMap.set(newKey, newValue);
 			}
-		}
-
-		/**
-		 * Serialize the DOM element to JSON.
-		 *
-		 * @param {HTMLElement} element - The DOM element to serialize.
-		 * @returns {Object} The serialized element.
-		 */
-		function serializeElement(element) {
-			const cssMap = global.map.cssMap;
-			const mediaQueriesMap = global.map.mediaQueriesMap;
-			const obj = {
-				element: element.tagName.toLowerCase(),
-			};
-
-			if (element.className) {
-				obj.class = element.className;
-			}
-
-			if (element.attributes) {
-				obj.attributes = [];
-				for (let i = 0; i < element.attributes.length; i++) {
-					if (
-						element.attributes[i].name !== "class" &&
-						element.attributes[i].name !== "style"
-					) {
-						obj.attributes.push({
-							name: element.attributes[i].name,
-							value: element.attributes[i].value,
-						});
-					}
-				}
-				if (obj.attributes.length === 0) {
-					obj.attributes = undefined;
-				} else {
-					const attributesObj = {};
-					for (const attr of obj.attributes) {
-						attributesObj[attr.name] = attr.value;
-					}
-					obj.attributes = attributesObj;
-				}
-			}
-
-			// Append styles if they exist in the cssMap
-			const selector = generateCssSelectorForElement(element);
-			if (cssMap.has(selector)) {
-				obj.style = cssMap.get(selector);
-			}
-
-			if (extendMap.has(selector)) {
-				const newSelector = selector + extendMap.get(selector);
-				const newStyle = cssMap.get(newSelector);
-				obj.extend = [{ extension: extendMap.get(selector), style: newStyle }];
-			}
-
-			// Append media queries if they exist in the mediaQueriesMap
-			const mediaQueries = [];
-			for (const [query, elementsMap] of mediaQueriesMap.entries()) {
-				if (elementsMap.has(selector)) {
-					mediaQueries.push({
-						query: query,
-						style: elementsMap.get(selector),
-					});
-				}
-			}
-			if (mediaQueries.length > 0) {
-				obj.mediaQueries = mediaQueries;
-			}
-
-			// Serialize child elements
-			if (element.children.length > 0) {
-				obj.children = [];
-				for (const child of element.children) {
-					obj.children.push(serializeElement(child));
-				}
-			} else if (element.textContent) {
-				obj.text = element.textContent;
-			}
-
-			return obj;
-		}
-
-		/**
-		 * Generate a CSS selector for the given element.
-		 *
-		 * @param {HTMLElement} element - The DOM element.
-		 * @returns {string} The CSS selector.
-		 */
-		function generateCssSelectorForElement(element) {
-			let selector = element.tagName.toLowerCase();
-
-			// Add nth-of-type for the current element if it is not body, main, nav, or footer
-			if (
-				!["body", "main", "nav", "footer"].includes(
-					element.tagName.toLowerCase(),
-				)
-			) {
-				const siblings = Array.from(element.parentElement.children).filter(
-					(sibling) =>
-						sibling.tagName.toLowerCase() === element.tagName.toLowerCase(),
-				);
-
-				if (siblings.length > 0) {
-					const index = siblings.indexOf(element) + 1;
-					selector += `:nth-of-type(${index})`;
-				}
-			}
-
-			if (element.className) {
-				selector += `.${element.className.split(" ").join(".")}`;
-			}
-
-			// Traverse up the DOM tree to build the full selector path
-			let parent = element.parentElement;
-			while (parent && parent.tagName.toLowerCase() !== "html") {
-				let parentSelector = parent.tagName.toLowerCase();
-
-				// Add nth-of-type for parent elements that are not body, main, nav, or footer
-				if (
-					!["body", "main", "nav", "footer"].includes(
-						parent.tagName.toLowerCase(),
-					)
-				) {
-					const siblings = Array.from(parent.parentElement.children).filter(
-						(sibling) =>
-							sibling.tagName.toLowerCase() === parent.tagName.toLowerCase(),
-					);
-					if (siblings.length > 0) {
-						const index = siblings.indexOf(parent) + 1;
-						parentSelector += `:nth-of-type(${index})`;
-					}
-				}
-
-				if (parent.className) {
-					parentSelector += `.${parent.className.split(" ").join(".")}`;
-				}
-
-				selector = `${parentSelector} > ${selector}`;
-				parent = parent.parentElement;
-			}
-
-			return selector;
 		}
 
 		// Serialize the body element of the preview iframe
@@ -347,230 +314,69 @@ export const eventHandlers = (cssProperties) => {
 		initialLoader();
 	});
 
-	const parent = global.id.parent;
-	const elementSelect = global.id.elementSelect;
-	const elementSelectAllDiv = global.id.elementSelectAllDiv;
-
-	const elementDiv = global.id.elementDiv;
-	const propertyDiv = global.id.propertyDiv;
-
-	global.id.openState.addEventListener("click", () => {
-		global.id.elementStateDiv.style.display = "flex";
-		global.id.elementHeaderDiv.style.display = "none";
-		global.id.elementSelect.style.display = "none";
-		const elementName = global.id.elementSelect.value;
-		global.id.stateOf.textContent = elementName;
-		populateElementStateOptions(cssMap, mediaQueriesMap);
+	global.id.editStyle.addEventListener("click", () => {
+		global.id.mainInitialSelector.style.display = "none";
+		global.id.mainStyleSelector.style.display = "flex";
+		global.id.mainStyleSelector2.style.display = "flex";
+		populatePropertyValue();
 	});
-
-	global.id.closeState.addEventListener("click", () => {
-		global.id.elementStateDiv.style.display = "none";
-		global.id.elementHeaderDiv.style.display = "flex";
-		global.id.elementSelect.style.display = "flex";
-		global.id.attributeDiv.style.display = "flex";
-		const selectedValue = global.id.stateOf.textContent;
-		const preview = global.id.preview;
-		const previewDocument =
-			preview.contentDocument || preview.contentWindow.document;
-		const element = previewDocument.querySelector(selectedValue);
-		updateElementInfo(selectedValue, element, cssMap, mediaQueriesMap);
-	});
-
-	global.id.openAddState.addEventListener("click", () => {
-		document.getElementById("elementDiv").style.display = "none";
-		document.getElementById("propertyDiv").style.display = "none";
-		global.id.attributeDiv.style.display = "none";
-		document.getElementById("stateHeaderDiv").style.display = "none";
-		document.getElementById("elementStateSelect").style.display = "none";
-		document.getElementById("stateSelectAllDiv").style.display = "flex";
-		populateStateSelectAllOptions(cssMap, mediaQueriesMap);
-	});
-
-	global.id.closeAddState.addEventListener("click", () => {
-		document.getElementById("elementDiv").style.display = "flex";
-		document.getElementById("propertyDiv").style.display = "flex";
-		global.id.attributeDiv.style.display = "flex";
-		document.getElementById("stateHeaderDiv").style.display = "flex";
-		document.getElementById("elementStateSelect").style.display = "flex";
-		document.getElementById("stateSelectAllDiv").style.display = "none";
-		document.getElementById("contextSelectAllDiv").style.display = "none";
-		document.getElementById("stateOfContextSelectAllDiv").style.display =
-			"none";
-	});
-
-	global.id.openAddElement.addEventListener("click", () => {
-		elementDiv.style.display = "none";
-		propertyDiv.style.display = "none";
-		elementSelectAllDiv.style.display = "flex";
-		propertySelectAllDiv.style.display = "none";
-		document.getElementById("screenSelectAllDiv").style.display = "none";
-		global.id.attributeDiv.style.display = "none";
-		parent.textContent = elementSelect.value;
-		populateElementSelectAll();
-	});
-
-	global.id.closeAddElement.addEventListener("click", () => {
-		elementDiv.style.display = "flex";
-		propertyDiv.style.display = "flex";
-		global.id.attributeDiv.style.display = "flex";
-		elementSelectAllDiv.style.display = "none";
-	});
-
-	/**
-	 * Event handler for the add element button.
-	 * When the button is clicked, the selected element is added to the iframe DOM.
-	 * The selected element is also added to the element selector.
-	 * @todo Media queries should be also updated.
-	 */
-	global.id.addElement.addEventListener("click", () => {
-		elementDiv.style.display = "flex";
-		propertyDiv.style.display = "flex";
-		elementSelectAllDiv.style.display = "none";
-
-		const elementSelectAll = document.getElementById("elementSelectAll");
-		const selectedValue = elementSelectAll.value;
-		const fullPath = elementSelect.value;
-		const newElement = `${fullPath} > ${selectedValue}`;
-		elementSelect.options[elementSelect.options.length] = new Option(
-			newElement,
-			newElement,
-		);
-		cssMap.set(newElement, "");
-		elementSelect.value = newElement;
-		updateElementInfo(newElement, null, cssMap, mediaQueriesMap);
-		const preview = global.id.preview;
-		const previewDocument =
-			preview.contentDocument || preview.contentWindow.document;
-		const parentElement = previewDocument.querySelector(fullPath);
-		const newElementNode = document.createElement(selectedValue);
-		parentElement.appendChild(newElementNode);
-		console.log(`Element ${selectedValue} added to iframe.`);
-		applyStyles();
-		validateParentElement();
-	});
-
-	global.id.removeElement.addEventListener("click", () => {
-		const elementSelect = global.id.elementSelect;
-		const selectedValue = elementSelect.value;
-
-		if (selectedValue !== "none") {
-			const preview = global.id.preview;
-			const previewDocument =
-				preview.contentDocument || preview.contentWindow.document;
-
-			// Remove the selected element and its descendants from the iframe DOM
-			const element = previewDocument.querySelector(selectedValue);
-			if (element) {
-				element.remove();
-				// console.log(`Element ${selectedValue} removed from iframe.`);
-			} else {
-				// console.log(`Element ${selectedValue} not found in iframe.`);
-			}
-
-			// Remove all options that contain the selected value
-			/**
-			 * @type {HTMLOptionsCollection} options
-			 */
-			const options = elementSelect.options;
-			for (let i = options.length - 1; i >= 0; i--) {
-				if (options[i].value.includes(selectedValue)) {
-					// console.log(`Option ${options[i].value} removed from selector.`);
-					removeStyle(cssMap, mediaQueriesMap, options[i].value);
-					options[i].remove();
-				}
-			}
-		}
-		//TODO rebuildCssSelector function need fix
-		rebuildCssSelector(cssMap, mediaQueriesMap);
-		populateSelectOptions(cssMap);
-		applyStyles();
-		validateRemoveElement();
-	});
-
-	global.id.openAddScreen.addEventListener("click", () => {
-		document.getElementById("screenSelectAllDiv").style.display = "flex";
-		document.getElementById("screenDiv").style.display = "none";
-		document.getElementById("styleRow").style.display = "none";
-		document.getElementById("propertyDiv").style.display = "none";
-		document.getElementById("propertySelectAllDiv").style.display = "none";
-		document.getElementById("attributeDiv").style.display = "none";
-	});
-
-	global.id.closeAddScreen.addEventListener("click", () => {
-		document.getElementById("screenSelectAllDiv").style.display = "none";
-		document.getElementById("screenDiv").style.display = "flex";
-		document.getElementById("styleRow").style.display = "block";
-		document.getElementById("propertyDiv").style.display = "flex";
-		document.getElementById("attributeDiv").style.display = "flex";
-		document.getElementById("screenSelectAll").value = "";
-	});
-
-	/**
-	 * Event handler for the add screen button. It adds a new screen size to the mediaQueriesMap.
-	 * @param {Map} mediaQueriesMap - The map containing media queries for responsive styles.
-	 */
-	document.getElementById("addScreen").addEventListener("click", () => {
-		const screenSelectAll = document.getElementById("screenSelectAll");
-		const selectedValue = screenSelectAll.value;
-		const elementSelectValue = document.getElementById("elementSelect").value;
-
-		if (selectedValue === "") return;
-		console.log("Add screen clicked"); // debugging
-
-		// Check if the screen size already exists
-		if (!mediaQueriesMap.has(selectedValue)) {
-			const valueMap = new Map();
-			valueMap.set(elementSelectValue, ""); // Use elementSelectValue as the key
-			mediaQueriesMap.set(selectedValue, valueMap);
-
-			global.id.responsiveSelect.options[
-				global.id.responsiveSelect.options.length
-			] = new Option(selectedValue, selectedValue);
-			console.log(`Screen size ${selectedValue} added.`);
-		} else {
-			console.log(`Screen size ${selectedValue} already exists.`);
-			const valueMap = mediaQueriesMap.get(selectedValue);
-
-			// Check if the elementSelectValue already exists in the inner Map
-			if (valueMap.has(elementSelectValue)) {
-				console.log(
-					`Element ${elementSelectValue} already exists in screen size ${selectedValue}.`,
-				);
-			} else {
-				valueMap.set(elementSelectValue, ""); // Use elementSelectValue as the key
-				console.log(
-					`Element ${elementSelectValue} added to screen size ${selectedValue}.`,
-				);
-			}
-		}
-
-		console.log("mediaQueriesMap", mediaQueriesMap); // debugging
-	});
-
-	const propertySelectAllDiv = global.id.propertySelectAllDiv;
 
 	global.id.openAddProperty.addEventListener("click", () => {
-		propertySelectAllDiv.style.display = "flex";
-		propertyDiv.style.display = "none";
-		document.getElementById("attributeDiv").style.display = "none";
-		populatePropertySelectAll(
-			global.id.elementSelect.value,
-			cssMap,
-			cssProperties,
-		);
+		global.id.mainStyleSelector.style.display = "none";
+		global.id.mainStyleSelector2.style.display = "none";
+		global.id.mainStyleAdd.style.display = "flex";
+
+		populatePropertySelectAll(cssProperties);
 	});
 
-	global.id.closeAddProperty.addEventListener("click", () => {
-		propertySelectAllDiv.style.display = "none";
-		propertyDiv.style.display = "flex";
-		document.getElementById("attributeDiv").style.display = "flex";
+	global.id.openAddAttribute.addEventListener("click", () => {
+		global.id.mainAttributeSelector.style.display = "none";
+		global.id.mainAttributeSelector2.style.display = "none";
+		global.id.mainAttributeAdd.style.display = "flex";
+		populateAttributeSelectAll();
+	});
+
+	global.id.attributeSelect.addEventListener("change", () => {
+		console.log("attributeSelect change event"); // debugging
+		//here function that add attribute
+		populateAttributeOptionsValue();
+	});
+
+	global.id.addAttribute.addEventListener("click", () => {
+		const attributeSelect = global.id.attributeSelect;
+		const attributeSelectAll = global.id.attributeSelectAll;
+		const selectedAttribute = attributeSelectAll.value;
+		const element = getElementFromPath();
+		if (element) {
+			element.setAttribute(selectedAttribute, "");
+			const newOption = new Option(selectedAttribute, selectedAttribute);
+			attributeSelect.appendChild(newOption);
+			attributeSelect.value = selectedAttribute;
+		}
+		populateAttributeOptionsValue();
+		backToMainAttributeSelector();
+	});
+
+	function backToMainStyleSelector() {
+		global.id.mainStyleSelector.style.display = "flex";
+		global.id.mainStyleSelector2.style.display = "flex";
+		global.id.mainStyleAdd.style.display = "none";
+	}
+
+	function backToMainAttributeSelector() {
+		global.id.mainAttributeSelector.style.display = "flex";
+		global.id.mainAttributeSelector2.style.display = "flex";
+		global.id.mainAttributeAdd.style.display = "none";
+	}
+
+	global.id.mainStyleAddBack.addEventListener("click", () => {
+		backToMainStyleSelector();
 	});
 
 	global.id.addProperty.addEventListener("click", () => {
-		propertySelectAllDiv.style.display = "none";
-		propertyDiv.style.display = "flex";
-		const propertySelectAll = document.getElementById("propertySelectAll");
+		const propertySelectAll = global.id.propertySelectAll;
 		const fullPath = global.id.elementSelect.value;
+		console.log("fullPath", fullPath); // debugging
 		const selectedProperty = propertySelectAll.value; // Use propertySelectAll for new property
 		const newValue = ""; // Use empty string for new property for now
 		const currentStyle = cssMap.get(fullPath) || "";
@@ -595,13 +401,263 @@ export const eventHandlers = (cssProperties) => {
 					.concat(";");
 		cssMap.set(fullPath, newStyle);
 		applyStyles();
-		global.id.style.textContent = newStyle;
-		updatePropertySelectOptions(fullPath, cssMap);
+		global.variable.style = newStyle;
+		updatePropertySelectOptions();
 		global.id.propertySelect.value = selectedProperty;
 		global.id.propertyInput.value = ""; // Clear the input field for now
+		console.log("Add property clicked"); // debugging
+		backToMainStyleSelector();
 	});
 
+	global.id.mainAttributeAddBack.addEventListener("click", () => {
+		backToMainAttributeSelector();
+	});
+
+	global.id.editText.addEventListener("click", () => {
+		global.id.mainInitialSelector.style.display = "none";
+		global.id.mainTextEditor.style.display = "flex";
+		global.id.mainTextEditor2.style.display = "flex";
+		global.id.mainTextEditor2.value = "";
+		if (global.id.elementSelect.value !== "none") {
+			/**
+			 * @type {Element}
+			 */
+			const element = getElementFromPath();
+			// Get only the text content of the element itself, excluding its children
+			const textContent = Array.from(element.childNodes)
+				.filter((node) => node.nodeType === Node.TEXT_NODE)
+				.map((node) => node.nodeValue.trim())
+				.join(" ");
+
+			global.id.mainTextEditor2.value = textContent;
+		}
+	});
+
+	global.id.mainTextEditorBack.addEventListener("click", () => {
+		global.id.mainInitialSelector.style.display = "flex";
+		global.id.mainTextEditor.style.display = "none";
+		global.id.mainTextEditor2.style.display = "none";
+	});
+
+	global.id.updateText.addEventListener("click", () => {
+		const element = getElementFromPath();
+		element.textContent = global.id.mainTextEditor2.value;
+	});
+
+	global.id.editAttributes.addEventListener("click", () => {
+		global.id.mainInitialSelector.style.display = "none";
+		global.id.mainAttributeSelector.style.display = "flex";
+		global.id.mainAttributeSelector2.style.display = "flex";
+		populateAttributeOptions();
+		populateAttributeOptionsValue();
+	});
+
+	global.id.mainStyleSelectorBack.addEventListener("click", () => {
+		global.id.mainInitialSelector.style.display = "flex";
+		global.id.mainStyleSelector.style.display = "none";
+		global.id.mainStyleSelector2.style.display = "none";
+	});
+	global.id.mainAttributeSelectorBack.addEventListener("click", () => {
+		global.id.mainInitialSelector.style.display = "flex";
+		global.id.mainAttributeSelector.style.display = "none";
+		global.id.mainAttributeSelector2.style.display = "none";
+	});
+
+	global.id.openState.addEventListener("click", () => {
+		global.id.elementStateDiv.style.display = "flex";
+		global.id.elementHeaderDiv.style.display = "none";
+		global.id.elementSelect.style.display = "none";
+		const elementName = global.id.elementSelect.value;
+		global.id.stateOf.textContent = elementName;
+		populateElementStateOptions(cssMap, mediaQueriesMap);
+	});
+
+	global.id.closeState.addEventListener("click", () => {
+		global.id.elementStateDiv.style.display = "none";
+		global.id.elementHeaderDiv.style.display = "flex";
+		global.id.elementSelect.style.display = "flex";
+		const selectedValue = global.id.stateOf.textContent;
+		const element = getElementFromPath();
+		updateElementInfo(selectedValue, element);
+	});
+
+	global.id.openAddState.addEventListener("click", () => {
+		document.getElementById("elementDiv").style.display = "none";
+		document.getElementById("propertyDiv").style.display = "none";
+		document.getElementById("stateHeaderDiv").style.display = "none";
+		document.getElementById("elementStateSelect").style.display = "none";
+		document.getElementById("stateSelectAllDiv").style.display = "flex";
+		populateStateSelectAllOptions(cssMap, mediaQueriesMap);
+	});
+
+	global.id.closeAddState.addEventListener("click", () => {
+		document.getElementById("elementDiv").style.display = "flex";
+		document.getElementById("propertyDiv").style.display = "flex";
+		document.getElementById("stateHeaderDiv").style.display = "flex";
+		document.getElementById("elementStateSelect").style.display = "flex";
+		document.getElementById("stateSelectAllDiv").style.display = "none";
+		document.getElementById("contextSelectAllDiv").style.display = "none";
+		document.getElementById("stateOfContextSelectAllDiv").style.display =
+			"none";
+	});
+
+	global.id.openAddElement.addEventListener("click", () => {
+		global.variable.parent = global.id.elementSelect.value;
+		populateElementSelectAll();
+		global.id.mainInitialSelector.style.display = "none";
+		global.id.mainElementAdd.style.display = "flex";
+	});
+
+	function backToMainInitialSelector() {
+		global.id.mainInitialSelector.style.display = "flex";
+		global.id.mainElementAdd.style.display = "none";
+	}
+	global.id.closeAddElement.addEventListener("click", () => {
+		backToMainInitialSelector();
+	});
+
+	/**
+	 * Event handler for the add element button.
+	 * When the button is clicked, the selected element is added to the iframe DOM.
+	 * The selected element is also added to the element selector.
+	 * @todo Media queries should be also updated.
+	 */
+	global.id.addElement.addEventListener("click", () => {
+		const selectedValue = global.id.elementSelectAll.value;
+		function countSibling(selectedValue) {
+			/** @type {Element} parentElement */
+			const parentElement = getElementFromPath();
+			if (!parentElement) {
+				console.error("Parent element not found");
+				return 0;
+			}
+
+			/** @type {HTMLCollection} children */
+			const children = parentElement.children; // Use children to get only element nodes
+
+			// Filter children by tag name and count them
+			const count = Array.from(children).filter(
+				(child) => child.tagName.toLowerCase() === selectedValue.toLowerCase(),
+			).length;
+
+			return count + 1;
+		}
+
+		const fullPath = global.id.elementSelect.value;
+		const newElement = `${fullPath} > ${selectedValue}:nth-of-type(${countSibling(selectedValue)})`; // this function replaces need of using generateCssSelector.js for total rebuild (possible refractor in the future)
+		global.id.elementSelect.options[global.id.elementSelect.options.length] =
+			new Option(newElement, newElement);
+		cssMap.set(newElement, "");
+		global.id.elementSelect.value = newElement;
+		updateElementInfo(newElement, null);
+		console.log("fullPath", fullPath); // debugging
+		const parentElement = getElementFromPath(fullPath);
+		const newElementNode = document.createElement(selectedValue);
+		parentElement.appendChild(newElementNode);
+		console.log(`Element ${selectedValue} added to iframe.`);
+		applyStyles();
+		populateTreeView();
+		highlightSelectedElement();
+		backToMainInitialSelector();
+	});
+
+	global.id.removeElement.addEventListener("click", () => {
+		const selectedValue = global.id.elementSelect.value;
+
+		if (selectedValue !== "none") {
+			const element = getElementFromPath();
+			if (element) {
+				element.remove();
+				// console.log(`Element ${selectedValue} removed from iframe.`);
+			} else {
+				// console.log(`Element ${selectedValue} not found in iframe.`);
+			}
+			// Remove all options that contain the selected value
+			/**
+			 * @type {HTMLOptionsCollection} options
+			 */
+			const options = global.id.elementSelect.options;
+			for (let i = options.length - 1; i >= 0; i--) {
+				if (options[i].value.includes(selectedValue)) {
+					// console.log(`Option ${options[i].value} removed from selector.`);
+					removeStyle(cssMap, mediaQueriesMap, options[i].value);
+					options[i].remove();
+				}
+			}
+		}
+		rebuildCssSelector();
+		populateSelectOptions();
+		applyStyles();
+		validateRemoveElement();
+	});
+
+	// global.id.openAddScreen.addEventListener("click", () => {
+	// 	document.getElementById("screenSelectAllDiv").style.display = "flex";
+	// 	document.getElementById("screenDiv").style.display = "none";
+	// 	document.getElementById("styleRow").style.display = "none";
+	// 	document.getElementById("propertyDiv").style.display = "none";
+	// 	document.getElementById("propertySelectAllDiv").style.display = "none";
+	// 	document.getElementById("attributeDiv").style.display = "none";
+	// });
+
+	// global.id.closeAddScreen.addEventListener("click", () => {
+	// 	document.getElementById("screenSelectAllDiv").style.display = "none";
+	// 	document.getElementById("screenDiv").style.display = "flex";
+	// 	document.getElementById("styleRow").style.display = "block";
+	// 	document.getElementById("propertyDiv").style.display = "flex";
+	// 	document.getElementById("attributeDiv").style.display = "flex";
+	// 	document.getElementById("screenSelectAll").value = "";
+	// });
+
+	/**
+	 * Event handler for the add screen button. It adds a new screen size to the mediaQueriesMap.
+	 * @param {Map} mediaQueriesMap - The map containing media queries for responsive styles.
+	 */
+	// document.getElementById("addScreen").addEventListener("click", () => {
+	// const screenSelectAll = document.getElementById("screenSelectAll");
+	// const selectedValue = screenSelectAll.value;
+	// 	const elementSelectValue = document.getElementById("elementSelect").value;
+
+	// 	if (selectedValue === "") return;
+	// 	console.log("Add screen clicked"); // debugging
+
+	// 	// Check if the screen size already exists
+	// 	if (!mediaQueriesMap.has(selectedValue)) {
+	// 		const valueMap = new Map();
+	// 		valueMap.set(elementSelectValue, ""); // Use elementSelectValue as the key
+	// 		mediaQueriesMap.set(selectedValue, valueMap);
+
+	// 		global.id.responsiveSelect.options[
+	// 			global.id.responsiveSelect.options.length
+	// 		] = new Option(selectedValue, selectedValue);
+	// 		console.log(`Screen size ${selectedValue} added.`);
+	// 	} else {
+	// 		console.log(`Screen size ${selectedValue} already exists.`);
+	// 		const valueMap = mediaQueriesMap.get(selectedValue);
+
+	// 		// Check if the elementSelectValue already exists in the inner Map
+	// 		if (valueMap.has(elementSelectValue)) {
+	// 			console.log(
+	// 				`Element ${elementSelectValue} already exists in screen size ${selectedValue}.`,
+	// 			);
+	// 		} else {
+	// 			valueMap.set(elementSelectValue, ""); // Use elementSelectValue as the key
+	// 			console.log(
+	// 				`Element ${elementSelectValue} added to screen size ${selectedValue}.`,
+	// 			);
+	// 		}
+	// 	}
+
+	// 	console.log("mediaQueriesMap", mediaQueriesMap); // debugging
+	// });
+
 	global.id.updateProperty.addEventListener("click", () => {
+		const classList = Array.from(
+			global.id.navAdditionalScreen.classList,
+		).filter(
+			(className) => className !== "mediumButtons" && className !== "device",
+		);
+		const selectedValue = classList[0]; // Assuming the third class is the one you are always looking for
 		const propertySelect = global.id.propertySelect;
 		const propertyInput = global.id.propertyInput;
 		const fullPath = global.id.elementSelect.value;
@@ -609,15 +665,17 @@ export const eventHandlers = (cssProperties) => {
 		let targetMap;
 		let newStyle;
 
-		if (global.id.responsiveSelect.value === "any") {
+		if (global.id.navAdditionalScreen.classList.contains("screenDesktop")) {
 			currentStyle = cssMap.get(fullPath);
 			targetMap = cssMap;
 		} else {
-			const styleSpan = global.id.style;
-			const selectedValue = global.id.responsiveSelect.value;
+			let styleSpan = global.variable.style;
+			if (global.id.navAdditionalScreen.classList.contains("screenTablet"))
+				currentStyle = mediaQueriesMap.get("max-width: 768px").get(fullPath);
+			else currentStyle = mediaQueriesMap.get("max-width: 640px").get(fullPath);
 			const mediaQueries = mediaQueriesMap.get(selectedValue);
 			const mediaQuery = mediaQueries.get(fullPath);
-			styleSpan.textContent = mediaQuery || "No media query style";
+			styleSpan = mediaQuery || "No media query style";
 			currentStyle = mediaQuery;
 			targetMap = mediaQueries;
 		}
@@ -645,13 +703,25 @@ export const eventHandlers = (cssProperties) => {
 
 		targetMap.set(fullPath, newStyle);
 		applyStyles();
-		global.id.style.textContent = newStyle;
+		global.variable.style = newStyle;
+	});
+
+	global.id.updateAttribute.addEventListener("click", () => {
+		const attributeSelect = global.id.attributeSelect;
+		const attributeInput = global.id.attributeInput;
+		const selectedAttribute = attributeSelect.value;
+		const newValue = attributeInput.value;
+
+		const element = getElementFromPath();
+		if (element) {
+			element.setAttribute(selectedAttribute, newValue);
+		}
 	});
 
 	global.id.removeProperty.addEventListener("click", () => {
-		const propertySelect = global.id.propertySelect;
 		const fullPath = global.id.elementSelect.value;
-		const styleSpan = global.id.style;
+		const propertySelect = global.id.propertySelect;
+		let styleSpan = global.variable.style;
 		const selectedProperty = propertySelect.value;
 		const currentStyle = cssMap.get(fullPath) || "";
 		const styleProperties = currentStyle
@@ -664,12 +734,12 @@ export const eventHandlers = (cssProperties) => {
 			.concat(";");
 		cssMap.set(fullPath, newStyle);
 		applyStyles(rootMap, cssMap, mediaQueriesMap);
-		styleSpan.textContent = newStyle;
-		updatePropertySelectOptions(fullPath, cssMap);
+		styleSpan = newStyle;
+		updatePropertySelectOptions(cssMap);
 	});
 };
 
-loadHeadView();
+loadBodyView();
 // global.id.sectionsVariables.value = "root";
 localStorage.setItem("hideArrow", "true");
 document.body.style.display = "flex";

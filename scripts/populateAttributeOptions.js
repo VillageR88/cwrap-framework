@@ -5,7 +5,10 @@
  *
  * @param {Document} doc
  */
-export default function populateAttributeOptions(doc) {
+export default function populateAttributeOptions() {
+	const preview = global.id.preview;
+	const doc = preview.contentDocument || preview.contentWindow.document;
+	console.log("populateAttributeOptions");
 	const selectorMap = new Map();
 	const elements = [doc.body, ...doc.body.querySelectorAll("*")];
 
@@ -42,7 +45,10 @@ export default function populateAttributeOptions(doc) {
 				valuesArray.length === 1 ? valuesArray[0] : valuesArray;
 			simplifiedAttributesMap.set(attributeName, valuesString);
 		}
-		simplifiedSelectorMap.set(selector, simplifiedAttributesMap);
+		simplifiedSelectorMap.set(
+			selector.replace(".glowing", ""),
+			simplifiedAttributesMap,
+		);
 	}
 	const elementAttributes = simplifiedSelectorMap.get(
 		global.id.elementSelect.value,
@@ -51,6 +57,7 @@ export default function populateAttributeOptions(doc) {
 	attributeSelect.innerHTML = "";
 	if (!elementAttributes) return;
 	for (const [attributeName, attributeValues] of elementAttributes.entries()) {
+		if (attributeValues === "glowing") return; //this in future has to be replaced with some collection of build-in CWRAP unique classes
 		const option = document.createElement("option");
 		option.value = attributeName;
 		option.textContent = attributeName;

@@ -12,194 +12,185 @@
 </head>
 
 <body style="display: none;" class="horizontal">
-
-  <div id="onlyLogo">
-    <img height="48" width="48" src="static/favicon/favicon.ico" alt="Website favicon" />
-  </div>
-  <div id="handOnLogo"></div>
-  <div id="leftSidebar" class="smaller">
-    <header>
-      <img height="48" width="48" src="static/favicon/favicon.ico" alt="Website favicon" />
-      <div id="menuDiv">
-
-        <button class="mediumButtons save" title="save project" id="menuSave"></button>
-        <button class="mediumButtons restart" title="reload project" id="menuReload"></button>
-        <button class="mediumButtons switchRight" id="leftSidebarSwitchSide" title="switch sidebar side"></button>
-      </div>
-    </header>
-    <nav>
-      <div>
-        <label for="sectionsVariables">Sections & Variables</label>
-      </div>
-      <select id="sectionsVariables">
-        <option value="head">head</option>
-        <option value="fonts">fonts</option>
-        <option value="root">root</option>
-        <option value="body">body</option>
-      </select>
-    </nav>
-
-    <main id="mainBody">
-      <div id="elementStateDiv">
-        <span id="stateRow">State of <span id="stateOf"></span></span>
-        <div id="stateHeaderDiv">
-          <label for="elementStateSelect">Select Pseudo-class</label>
-          <div id="stateAddRemoveDiv">
-            <button id="closeState">close</button>
-            <div class="separatorVertical"></div>
-            <button class="add" id="openAddState">add</button>
-            <button id="removeState">del</button>
+  <div id="leftSide">
+    <div id="leftSidebarCanvas">
+      <div id="leftSidebar" class="smaller">
+        <header>
+          <img height="24" width="24" src="static/favicon/favicon.ico" alt="Website favicon" />
+          <div id="menuDiv">
+            <button class="mediumButtons save" title="save project" id="menuSave"></button>
+            <button class="mediumButtons restart" title="reload project" id="menuReload"></button>
+            <button class="mediumButtons switchRight" id="leftSidebarSwitchSide" title="switch sidebar side"></button>
           </div>
-        </div>
-        <select id="elementStateSelect"></select>
-      </div>
-      <div id="elementDiv">
-        <div id="elementHeaderDiv">
-          <label for="elementSelect">Select Element</label>
-          <div id="elementAddRemoveDiv">
-            <button class="state" id="openState" title="manage state"></button>
-            <div class="separatorVertical"></div>
-            <button type="button" class="add" id="openAddElement" title="add element"></button>
-            <button class="remove" id="removeElement" title="remove element"></button>
-          </div>
-        </div>
-        <select id="elementSelect"></select>
-        <div id="screenDiv">
-          <div id="screenHeaderDiv">
-            <label for="responsiveSelect">Screen Size </label>
-            <div id="screenAddRemoveDiv">
-              <button class="smallButtons add" id="openAddScreen" title="add screen"></button>
-              <button class="smallButtons remove" id="removeScreen" title="remove screen"></button>
+        </header>
+        <nav>
+          <div>
+            <span class="label">Sections</span>
+            <div>
+              <button id="navHead" class="mediumButtons head" title="Head"></button>
+              <button id="navFonts" class="mediumButtons fonts" title="Fonts"></button>
+              <button id="navRoot" class="mediumButtons root" title="Root"></button>
+              <button id="navBody" class="mediumButtons body" title="Body"></button>
             </div>
           </div>
-          <select id="responsiveSelect"></select>
-        </div>
-        <div id="styleRow">Style <span id="style">none</span></div>
-      </div>
-      <div id="propertyDiv">
-        <div id="propertyHeaderDiv">
-          <label for="propertySelect">Select Property</label>
-          <div id="propertyAddRemoveDiv">
-            <button class="smallButtons add" id="openAddProperty" title="add property"></button>
-            <button class="smallButtons remove" id="removeProperty" title="remove property"></button>
+          <div id="navBodyAdditional">
+            <span class="label">Toolset</span>
+            <div>
+              <button id="navAdditionalScreen" class="mediumButtons device screenDesktop"
+                title="select device"></button>
+              <button id="navSelectPreview" class="mediumButtons preview" title="select preview"></button>
+            </div>
+          </div>
+          <div id="navDevice">
+            <span class="label">Device</span>
+            <div>
+              <button id="navScreenDesktop" class="mediumButtons screenDesktop" title="desktop computer"></button>
+              <button id="navScreenTablet" class="mediumButtons screenTablet" title="tablet"></button>
+              <button id="navScreenMobile" class="mediumButtons screenMobile" title="mobile phone"></button>
+            </div>
+          </div>
+          <div id="navPreview">
+            <span class="label">Preview</span>
+            <div>
+              <button id="navPreviewNormal" class="mediumButtons preview" title="normal preview"></button>
+              <button id="navPreviewTree" class="mediumButtons tree" title="tree view"></button>
+            </div>
+          </div>
+        </nav>
+        <div id="mainBody">
+          <div id="elementStateDiv">
+            <span id="stateRow">State of <span id="stateOf"></span></span>
+            <div id="stateHeaderDiv">
+              <label for="elementStateSelect">Select Pseudo-class</label>
+              <div id="stateAddRemoveDiv">
+                <button class="smallButtons back" id="closeState" title="return to select element"></button>
+                <div class="separatorVertical"></div>
+                <button class="smallButtons add" id="openAddState" title="add state"></button>
+                <button class="smallButtons remove" id="removeState" title="remove state"></button>
+              </div>
+            </div>
+            <select id="elementStateSelect"></select>
+          </div>
+          <div id="elementDiv">
+            <div id="styleRow">Style <span id="style">none</span></div>
+          </div>
+          <div id="stateSelectAllDiv">
+            <div>
+              <div>
+                <button class="smallButtons back" id="closeAddState" title="return to select state"></button>
+                <div class="separatorVertical"></div>
+                <button class="smallButtons add" id="addState" title="add state"></button>
+              </div>
+            </div>
+            <select id="stateSelectAll"></select>
+          </div>
+          <div id="contextSelectAllDiv">
+            <select id="selectContext"></select>
+          </div>
+          <div id="stateOfContextSelectAllDiv">
+            <select id="selectStateOfContext"></select>
           </div>
         </div>
-        <select id="propertySelect"></select>
-        <div id="valueHeaderDiv">
-          <label for="propertyInput">Update Value</label>
-          <button class="smallButtons save" id="updateProperty" title="update property value"></button>
-        </div>
-        <input type="text" id="propertyInput" class="awesomplete" />
       </div>
-      <div id="attributeDiv">
-        <div id="attributeHeaderDiv">
-          <label for="attributeSelect">Select Attribute</label>
-          <div id="attributeAddRemoveDiv">
-            <button class="smallButtons add" id="addAttribute" title="add attribute"></button>
-            <button class="smallButtons remove" id="removeAttribute" title="remove attribute"></button>
-          </div>
-        </div>
-        <select id="attributeSelect"></select>
-        <div id="attributeValueHeaderDiv">
-          <label for="attributeInput">Update Value</label>
-          <button class="smallButtons save" id="updateAttribute" title="update attribute value"></button>
-        </div>
-        <input type="text" id="attributeInput" class="awesomplete" />
-      </div>
-
-      <div id="stateSelectAllDiv">
-        <div>
-          <label for="stateSelectAll">Add State:</label>
-          <button id="closeAddState">close</button>
-        </div>
-        <div>
-          <select id="stateSelectAll"></select>
-          <button id="addState">Add</button>
-        </div>
-      </div>
-
-      <div id="contextSelectAllDiv">
-        <label for="selectContext">Select Context:</label>
-        <select id="selectContext"></select>
-      </div>
-
-      <div id="stateOfContextSelectAllDiv">
-        <label for="selectStateOfContext">State of Context:</label>
-        <select id="selectStateOfContext"></select>
-      </div>
-
-      <div id="elementSelectAllDiv">
-        <span>Parent: <span id="parent"></span></span>
-        <div>
-          <label for="elementSelectAll">Add Element:</label>
-          <button id="closeAddElement">close</button>
-        </div>
-        <div>
-          <select id="elementSelectAll"></select>
-          <button id="addElement">Add</button>
-        </div>
-      </div>
-      <div id="screenSelectAllDiv">
-        <div>
-          <label for="screenSelectAll">Add Screen:</label>
-          <button class="smallButtons" id="closeAddScreen">close</button>
-        </div>
-        <div>
-          <input type="text" id="screenSelectAll" class="awesomplete" />
-          <button id="addScreen">Add</button>
-        </div>
-      </div>
-      <div id="propertySelectAllDiv">
-        <div>
-          <label for="propertySelectAll">Add Property:</label>
-          <button id="closeAddProperty">close</button>
-        </div>
-        <div>
-          <select id="propertySelectAll"></select>
-          <button id="addProperty">Add</button>
-        </div>
-      </div>
-    </main>
+    </div>
   </div>
-  <iframe id="preview" title="Preview"></iframe>
-  <div id="noPreview"><span>NO PREVIEW</span></div>
-  <div id="wizardDiv">
-    <form id="wizard">
+  <div id="selectedElementLabelContainer">
+    <div>
       <div>
-        <h3 id="wizardTitle">Wizard Title</h3>
+        <div id="mainInitialSelector">
+          <button id="openAddElement" type="button" class="add mediumButtons" title="add element"></button>
+          <select class="mediumButtons" id="elementSelect" title="select element"></select>
+          <button id="editText" class="mediumButtons text" title="edit text content"></button>
+          <button id="editAttributes" class="mediumButtons editAttributes2" title="edit attributes"></button>
+          <button id="editStyle" class="mediumButtons editStyle" title="edit style"></button>
+          <button class="mediumButtons remove" id="removeElement" title="remove element"></button>
+        </div>
+        <div id="mainElementAdd">
+          <button class="mediumButtons back" id="closeAddElement" title="return to select element"></button>
+          <select class="mediumButtons" id="elementSelectAll"></select>
+          <button class="mediumButtons add" id="addElement" title="add element"></button>
+        </div>
+        <div id="mainStyleSelector">
+          <button id="mainStyleSelectorBack" class="mediumButtons back" title="back to element selector"></button>
+          <button class="mediumButtons state" id="openState" title="manage state"></button>
+          <button class="mediumButtons add" id="openAddProperty" title="open add property"></button>
+          <select class="mediumButtons" id="propertySelect"></select>
+          <button class="mediumButtons remove" id="removeProperty" title="remove property"></button>
+        </div>
+        <div id="mainStyleAdd">
+          <button id="mainStyleAddBack" class="mediumButtons back" title="back to property selector"></button>
+          <select id="propertySelectAll" class="mediumButtons"></select>
+          <button id="addProperty" class="mediumButtons add" title="add property"></button>
+        </div>
+        <div id="mainTextEditor">
+          <button id="mainTextEditorBack" class="mediumButtons back" title="back to element selector"></button>
+          <button id="updateText" class="mediumButtons update" title="update text content"></button>
+        </div>
+        <div id="mainAttributeSelector">
+          <button id="mainAttributeSelectorBack" class="mediumButtons back" title="back to element selector"></button>
+          <button class="mediumButtons add" id="openAddAttribute" title="open add attribute"></button>
+          <select class="mediumButtons" id="attributeSelect"></select>
+          <button class="mediumButtons remove" id="removeAttribute" title="remove attribute"></button>
+        </div>
+        <div id="mainAttributeAdd">
+          <button id="mainAttributeAddBack" class="mediumButtons back" title="back to attribute selector"></button>
+          <select id="attributeSelectAll" class="mediumButtons"></select>
+          <button id="addAttribute" class="mediumButtons add" title="add attribute"></button>
+        </div>
         <div>
-
-          <button id="creatorExtend" type="button" class="smallButtons extend" title="extend"></button>
           <div class="separatorVertical"></div>
-          <button id="creatorSave" type="button" class="smallButtons save" title="update element"></button>
+          <button id="selectedElementHighlight" class="mediumButtons highlight"
+            title="highlight selected element"></button>
+          <button class="removeAttribute switch mediumButtons" title="switch side"
+            id="selectedElementLabelContainerSwitchSide">
+            <img src="/lib/icons/switch_left_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg" alt="" />
+          </button>
         </div>
       </div>
-
-      <div id="wizardHeadDiv">
-
-        <div>
-          <label for="wizardHeadTitle">Title</label>
-          <input type="text" id="wizardHeadTitle" placeholder="My App" autocomplete="off" />
-        </div>
-        <div>
-          <label for="wizardHeadMetaDescription">Meta Description</label>
-          <textarea rows="8" type="text" id="wizardHeadMetaDescription"
-            placeholder="A short description of the page."></textarea>
-          </textarea>
-        </div>
-
-        <div>
-          <label for="wizardHeadMetaKeywords">Meta Keywords</label>
-          <input type="text" id="wizardHeadMetaKeywords" placeholder="keywords, separated, by, commas"
-            autocomplete="off" />
-        </div>
-
+      <textarea id="mainTextEditor2" aria-label="edit text content"></textarea>
+      <div id="mainAttributeSelector2">
+        <input aria-label="attribute input" type="text" id="attributeInput" class="awesomplete" />
+        <button class="mediumButtons update" id="updateAttribute" title="update attribute value"></button>
       </div>
-      <div id="wizardFontsDiv"></div>
-      <div id="wizardRootDiv"></div>
-    </form>
+      <div id="mainStyleSelector2">
+        <input aria-label="property input" type="text" id="propertyInput" class="awesomplete" />
+        <button class="mediumButtons update" id="updateProperty" title="update property value"></button>
+      </div>
+    </div>
+    <div class="mediumButtons" id="nameHelper">nameHelper</div>
   </div>
-
+  <main>
+    <iframe id="preview" title="Preview"></iframe>
+    <div id="previewTree"></div>
+    <div id="noPreview"><span>NO PREVIEW</span></div>
+    <div id="wizardDiv">
+      <form id="wizard">
+        <div>
+          <h3 id="wizardTitle">Wizard Title</h3>
+          <button id="creatorExtend" type="button" class="mediumButtons extend" title="extend"></button>
+        </div>
+        <div id="wizardHeadDiv">
+          <div>
+            <label for="wizardHeadTitle">Title</label>
+            <input type="text" id="wizardHeadTitle" placeholder="My App" autocomplete="off" />
+          </div>
+          <div>
+            <label for="wizardHeadMetaDescription">Meta Description</label>
+            <textarea rows="8" type="text" id="wizardHeadMetaDescription"
+              placeholder="A short description of the page."></textarea>
+            </textarea>
+          </div>
+          <div>
+            <label for="wizardHeadMetaKeywords">Meta Keywords</label>
+            <input type="text" id="wizardHeadMetaKeywords" placeholder="keywords, separated, by, commas"
+              autocomplete="off" />
+          </div>
+        </div>
+        <div id="wizardFontsDiv"></div>
+        <div id="wizardRootDiv"></div>
+      </form>
+    </div>
+  </main>
   <script src="http://localhost:35729/livereload.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/awesomplete/1.1.5/awesomplete.min.js"></script>
   <script src="scripts/localStorage.js"></script>

@@ -6,11 +6,9 @@
  * @param {Map} cssMap - The map of CSS styles.
  * @param {Array} cssProperties - The object containing all CSS properties.
  */
-export default function populatePropertySelectAll(
-	fullPath,
-	cssMap,
-	cssProperties,
-) {
+export default function populatePropertySelectAll(cssProperties) {
+	const cssMap = global.map.cssMap;
+	const fullPath = global.id.elementSelect.value;
 	const currentStyle = cssMap.get(fullPath) || "";
 	const appliedProperties = currentStyle
 		.split(";")
@@ -20,7 +18,7 @@ export default function populatePropertySelectAll(
 	const propertySelectAll = global.id.propertySelectAll;
 	propertySelectAll.innerHTML = "";
 
-	for (const property in cssProperties) {
+	for (const property of cssProperties) {
 		if (!appliedProperties.includes(property)) {
 			const option = document.createElement("option");
 			option.value = property;

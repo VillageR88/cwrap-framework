@@ -1,10 +1,9 @@
 /**
  * Populates the select options with the generated CSS selectors.
- *
- * @param {Map} cssMap - The Map object containing CSS selectors and styles.
- * @returns {void}
+ * @todo problem is probably related to cssMap
  */
-export default function populateSelectOptions(cssMap) {
+export default function populateSelectOptions() {
+	const cssMap = global.map.cssMap;
 	const selectElement = global.id.elementSelect;
 	selectElement.innerHTML = "";
 	for (const [key, value] of cssMap) {

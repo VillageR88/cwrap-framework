@@ -2,7 +2,8 @@
  * Rebuilds CSS selectors by finding the first nth-of-type greater than 1 and
  * @param {Map<string, string>} cssMap
  */
-export default function rebuildCssSelectors(cssMap) {
+export default function rebuildCssSelectors() {
+	const cssMap = global.map.cssMap;
 	// Create a classless version of cssMap for comparison purposes
 	const cssMapNoClass = new Map(
 		Array.from(cssMap).map(([key, value]) => {
