@@ -32,7 +32,7 @@ rl.question("Enter project name (default: my-new-cwrap-project): ", (input) => {
 		},
 		devDependencies: {
 			// cwrap: "file:../../cw_blog_preview_card/cwrap-0.1.0-alpha.20241008.tgz",
-			cwrap: "github:VillageR88/cwrap",
+			"cwrap-framework": "0.1.0-alpha.20241008",
 			"body-parser": "^1.20.2",
 			connect: "^3.7.0",
 			"connect-livereload": "^0.6.1",
@@ -49,7 +49,8 @@ rl.question("Enter project name (default: my-new-cwrap-project): ", (input) => {
 	);
 
 	console.log("Installing packages. This might take a couple of minutes.");
-	execSync("npm install", { stdio: "inherit", cwd: projectPath });
+	// execSync("npm install", { stdio: "inherit", cwd: projectPath });
+	execSync("npm install");
 
 	console.log("Project setup complete!");
 

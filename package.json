@@ -1,5 +1,5 @@
 {
-  "name": "cwrap",
+  "name": "cwrap-framework",
   "version": "0.1.0-alpha.20241008",
   "description": "CWrap is open microframework for web developers and those learning web development.",
   "main": "scripts/main.js",
