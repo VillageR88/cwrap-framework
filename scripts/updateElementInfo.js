@@ -78,7 +78,6 @@ export default function updateElementInfo(fullPath, element) {
 		propertySelect.value = propertySelectMemory;
 	}
 
-
 	//populateAttributeOptions(previewDocument);
 	//populateAttributeOptionsValue();
 	validateRemoveElement();

@@ -51,7 +51,13 @@
   "children": [
     {
       "element": "main",
-      "style": "width: 384; height: 522; background-color: white; border: 1px solid black; border-radius: 20px; display: flex; justify-content: start; padding: 24px; box-sizing: border-box; flex-direction: column; gap: 24px; box-shadow: 8px 8px black;",
+      "style": "width: 384; height: 522; background-color: white; border: 1px solid black; border-radius: 20px; display: flex; justify-content: start; padding: 24px; box-sizing: border-box; flex-direction: column; gap: 24px; box-shadow: 8px 8px black; transition: 300ms;",
+      "extend": [
+        {
+          "extension": ":has(div:nth-of-type(1) > h2:nth-of-type(1):hover)",
+          "style": "box-shadow: 16px 16px black;"
+        }
+      ],
       "children": [
         {
           "element": "img",
@@ -84,11 +90,11 @@
             },
             {
               "element": "h2",
-              "style": "margin: 0px; padding: 0px; font-weight: 800; line-height: 150%;",
+              "style": "margin: 0px; padding: 0px; font-weight: 800; line-height: 150%; transition: 150ms;",
               "extend": [
                 {
                   "extension": ":hover",
-                  "style": "color: #f4d04e; cursor: pointer; transition: 150ms;"
+                  "style": "color: #f4d04e; cursor: pointer;"
                 }
               ],
               "text": "HTML & CSS foundations"

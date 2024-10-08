@@ -1,16 +1,24 @@
 import updateElementInfo from "./updateElementInfo.js";
+import getElementFromPath from "./getElementFromPath.js";
 /**
  *
  * @param {Map} cssMap
  * @param {Map} mediaQueriesMap
  */
-export default function populateElementStateOptions(cssMap, mediaQueriesMap) {
+export default function populateElementStateOptions() {
+	const cssMap = global.map.cssMap;
+	const mediaQueriesMap = global.map.mediaQueriesMap;
+
 	const elementStateSelect = global.id.elementStateSelect;
-	const selectedElement = global.id.elementSelect.value;
 	const optionsMap = new Map();
 	let firstKey;
 	for (const [key, value] of cssMap) {
-		if (key.includes(`${selectedElement}:`)) {
+		// console.log("key", key);
+		// console.log("selectedElement", global.id.elementSelect.value);
+		// console.log(key.includes(`${global.id.elementSelect.value}:`));
+		console.log("key", key);
+		if (key.includes(`${global.id.elementSelect.value}:`)) {
+			console.log("includes key", key);
 			if (!firstKey) firstKey = key;
 			optionsMap.set(key, value);
 		}
@@ -19,24 +27,32 @@ export default function populateElementStateOptions(cssMap, mediaQueriesMap) {
 	for (const [key, _] of optionsMap) {
 		const option = document.createElement("option");
 		option.value = key;
-		option.text = key;
+		if (key.includes("has")) {
+			option.textContent = "has";
+		} else {
+			option.textContent = key.split(":")[key.split(":").length - 1];
+		}
 		elementStateSelect.appendChild(option);
 	}
-	const preview = global.id.preview;
-	const previewDocument =
-		preview.contentDocument || preview.contentWindow.document;
-	const element = previewDocument.querySelector(firstKey);
-	if (firstKey) updateElementInfo(firstKey, element);
-	else {
-		const responsiveSelect = global.id.responsiveSelect;
-		responsiveSelect.innerHTML = "";
-		const option = document.createElement("option");
-		option.textContent = "any";
-		responsiveSelect.appendChild(option);
-		global.variable.style = "";
-		global.id.propertySelect.innerHTML = "";
-		global.id.propertyInput.value = "";
-		global.id.attributeSelect.innerHTML = "";
-		global.id.attributeInput.value = "";
+
+	if (firstKey) {
+		console.log("firstKey", firstKey);
+		updateElementInfo(firstKey, getElementFromPath(firstKey));
+		global.id.elementSelect.value = global.variable.memoryElement;
+		global.id.nameHelper.textContent = global.variable.memoryElement;
+		global.id.editStateStyle.disabled = false;
+	} else {
+		global.id.editStateStyle.disabled = true;
+
+		// const responsiveSelect = global.id.responsiveSelect;
+		// responsiveSelect.innerHTML = "";
+		// const option = document.createElement("option");
+		// option.textContent = "any";
+		// responsiveSelect.appendChild(option);
+		// global.variable.style = "";
+		// global.id.propertySelect.innerHTML = "";
+		// global.id.propertyInput.value = "";
+		// global.id.attributeSelect.innerHTML = "";
+		// global.id.attributeInput.value = "";
 	}
 }

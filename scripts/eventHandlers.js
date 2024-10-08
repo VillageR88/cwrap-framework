@@ -221,13 +221,22 @@ export const eventHandlers = () => {
 	);
 
 	global.id.propertySelect.addEventListener("change", () => {
+		console.log("propertySelect change event"); // debugging
 		const element = getElementFromPath();
 		updateElementInfo(global.id.elementSelect.value, element);
-		populatePropertyValue();
+		populatePropertyValue(undefined, false);
+	});
+
+	global.id.statePropertySelect.addEventListener("change", () => {
+		console.log("statePropertySelect change event"); // debugging
+		const element = getElementFromPath();
+		updateElementInfo(global.id.elementSelect.value, element);
+		populatePropertyValue(undefined, true);
 	});
 
 	global.id.stateSelectAll.addEventListener("change", () => {
-		resolveToggleContext();
+		populateStateSelectAllOptions();
+		// resolveToggleContext();
 	});
 
 	/**
@@ -250,15 +259,10 @@ export const eventHandlers = () => {
 			}
 		}
 
-		// Serialize the body element of the preview iframe
-		const previewDocument =
-			global.id.preview.contentDocument ||
-			global.id.preview.contentWindow.document;
-
 		/**
 		 * @type {JsonObject} bodyJson
 		 */
-		let bodyJson = serializeElement(previewDocument.body);
+		let bodyJson = serializeElement(global.id.doc.body);
 
 		if (rootMap.size > 0) {
 			const root = {};
@@ -286,7 +290,7 @@ export const eventHandlers = () => {
 		}
 
 		console.log(bodyJson); //debugging
-		fetch("/save-skeleton-body", {
+		fetch("/save-skeleton", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -315,6 +319,7 @@ export const eventHandlers = () => {
 	});
 
 	global.id.editStyle.addEventListener("click", () => {
+		global.variable.memoryElement = global.id.elementSelect.value;
 		global.id.mainInitialSelector.style.display = "none";
 		global.id.mainStyleSelector.style.display = "flex";
 		global.id.mainStyleSelector2.style.display = "flex";
@@ -325,7 +330,6 @@ export const eventHandlers = () => {
 		global.id.mainStyleSelector.style.display = "none";
 		global.id.mainStyleSelector2.style.display = "none";
 		global.id.mainStyleAdd.style.display = "flex";
-
 		populatePropertySelectAll(cssProperties);
 	});
 
@@ -373,12 +377,11 @@ export const eventHandlers = () => {
 		backToMainStyleSelector();
 	});
 
-	global.id.addProperty.addEventListener("click", () => {
-		const propertySelectAll = global.id.propertySelectAll;
-		const fullPath = global.id.elementSelect.value;
-		console.log("fullPath", fullPath); // debugging
-		const selectedProperty = propertySelectAll.value; // Use propertySelectAll for new property
-		const newValue = ""; // Use empty string for new property for now
+	global.id.addStateProperty.addEventListener("click", () => {
+		const statePropertySelectAll = global.id.statePropertySelectAll;
+		const fullPath = global.id.elementStateSelect.value;
+		const selectedProperty = statePropertySelectAll.value;
+		const newValue = "";
 		const currentStyle = cssMap.get(fullPath) || "";
 		const styleProperties = currentStyle
 			.split(";")
@@ -403,6 +406,47 @@ export const eventHandlers = () => {
 		applyStyles();
 		global.variable.style = newStyle;
 		updatePropertySelectOptions();
+		global.id.statePropertySelect.value = selectedProperty;
+		global.id.statePropertyInput.value = ""; // Clear the input field for now
+		global.id.mainStateStyleSelector2.style.display = "flex";
+		console.log("Add state property clicked"); // debugging
+	});
+
+	global.id.mainStateStyleAddBack.addEventListener("click", () => {
+		global.id.mainStateStyleSelector.style.display = "flex";
+		global.id.mainStateStyleAdd.style.display = "none";
+		// populatePropertyValue(global.variable.memoryElement);
+	});
+
+	global.id.addProperty.addEventListener("click", () => {
+		const propertySelectAll = global.id.propertySelectAll;
+		const fullPath = global.id.elementSelect.value;
+		const selectedProperty = propertySelectAll.value;
+		const newValue = "";
+		const currentStyle = cssMap.get(fullPath) || "";
+		const styleProperties = currentStyle
+			.split(";")
+			.map((prop) => prop.trim())
+			.filter(Boolean);
+		// Check if the property already exists
+		const propertyExists = styleProperties.some((prop) =>
+			prop.startsWith(selectedProperty),
+		);
+		// If the property exists, update it; otherwise, add it
+		const newStyle = propertyExists
+			? styleProperties
+					.map((prop) => {
+						const [key] = prop.split(":").map((item) => item.trim());
+						return key === selectedProperty ? `${key}: ${newValue}` : prop;
+					})
+					.join("; ")
+			: [...styleProperties, `${selectedProperty}: ${newValue}`]
+					.join("; ")
+					.concat(";");
+		cssMap.set(fullPath, newStyle);
+		applyStyles();
+		global.variable.style = newStyle;
+		updatePropertySelectOptions(false);
 		global.id.propertySelect.value = selectedProperty;
 		global.id.propertyInput.value = ""; // Clear the input field for now
 		console.log("Add property clicked"); // debugging
@@ -464,41 +508,75 @@ export const eventHandlers = () => {
 	});
 
 	global.id.openState.addEventListener("click", () => {
-		global.id.elementStateDiv.style.display = "flex";
-		global.id.elementHeaderDiv.style.display = "none";
-		global.id.elementSelect.style.display = "none";
-		const elementName = global.id.elementSelect.value;
-		global.id.stateOf.textContent = elementName;
-		populateElementStateOptions(cssMap, mediaQueriesMap);
+		global.id.mainStyleSelector.style.display = "none";
+		global.id.mainStyleSelector2.style.display = "none";
+		global.id.mainStateSelector.style.display = "flex";
+		populateElementStateOptions();
 	});
 
-	global.id.closeState.addEventListener("click", () => {
-		global.id.elementStateDiv.style.display = "none";
-		global.id.elementHeaderDiv.style.display = "flex";
-		global.id.elementSelect.style.display = "flex";
-		const selectedValue = global.id.stateOf.textContent;
-		const element = getElementFromPath();
-		updateElementInfo(selectedValue, element);
+	global.id.editStateStyle.addEventListener("click", () => {
+		global.id.mainStateSelector.style.display = "none";
+		global.id.mainStateStyleSelector.style.display = "flex";
+		global.id.mainStateStyleSelector2.style.display = "flex";
+		populatePropertyValue(undefined, true);
+	});
+
+	global.id.openAddStateProperty.addEventListener("click", () => {
+		global.id.mainStateStyleSelector.style.display = "none";
+		global.id.mainStateStyleAdd.style.display = "flex";
+		global.id.mainStateStyleSelector2.style.display = "none";
+		populatePropertySelectAll(cssProperties);
+	});
+
+	global.id.mainStateSelectorBack.addEventListener("click", () => {
+		global.id.mainStyleSelector.style.display = "flex";
+		global.id.mainStyleSelector2.style.display = "flex";
+		global.id.mainStateSelector.style.display = "none";
+		global.id.elementSelect.value = global.variable.memoryElement;
+		global.id.nameHelper.textContent = global.variable.memoryElement;
+		populatePropertyValue(undefined, false);
+
+		// const selectedValue = global.id.stateOf.textContent;
+		// const element = getElementFromPath();
+		// updateElementInfo(selectedValue, element);
+	});
+
+	global.id.mainStateStyleSelectorBack.addEventListener("click", () => {
+		global.id.mainStateSelector.style.display = "flex";
+		global.id.mainStateStyleSelector.style.display = "none";
+		global.id.mainStateStyleSelector2.style.display = "none";
 	});
 
 	global.id.openAddState.addEventListener("click", () => {
-		document.getElementById("elementDiv").style.display = "none";
-		document.getElementById("propertyDiv").style.display = "none";
-		document.getElementById("stateHeaderDiv").style.display = "none";
-		document.getElementById("elementStateSelect").style.display = "none";
-		document.getElementById("stateSelectAllDiv").style.display = "flex";
-		populateStateSelectAllOptions(cssMap, mediaQueriesMap);
+		populateStateSelectAllOptions();
+		global.id.mainStateSelector.style.display = "none";
+		global.id.mainStateAdd.style.display = "flex";
+	});
+
+	global.id.addState.addEventListener("click", () => {
+		console.log("Add state clicked"); // debugging
+		const stateSelectAll = global.id.stateSelectAll;
+		const elementSelect = global.id.elementSelect;
+		const selectedState = stateSelectAll.value;
+		const selectedElement = elementSelect.value;
+		let fullPath;
+		if (stateSelectAll.value === "has") {
+			console.log("has"); // debugging
+			fullPath = `${selectedElement}:${selectedState}(${global.id.selectContext.value}:${global.id.selectStateOfContext.value})`;
+		} else {
+			console.log("not has"); // debugging
+			fullPath = `${selectedElement}:${selectedState}`;
+		}
+		console.log("fullPath", fullPath); // debugging
+		cssMap.set(fullPath, "");
+		global.id.mainStateSelector.style.display = "flex";
+		global.id.mainStateAdd.style.display = "none";
+		populateElementStateOptions();
 	});
 
 	global.id.closeAddState.addEventListener("click", () => {
-		document.getElementById("elementDiv").style.display = "flex";
-		document.getElementById("propertyDiv").style.display = "flex";
-		document.getElementById("stateHeaderDiv").style.display = "flex";
-		document.getElementById("elementStateSelect").style.display = "flex";
-		document.getElementById("stateSelectAllDiv").style.display = "none";
-		document.getElementById("contextSelectAllDiv").style.display = "none";
-		document.getElementById("stateOfContextSelectAllDiv").style.display =
-			"none";
+		global.id.mainStateSelector.style.display = "flex";
+		global.id.mainStateAdd.style.display = "none";
 	});
 
 	global.id.openAddElement.addEventListener("click", () => {
@@ -663,7 +741,6 @@ export const eventHandlers = () => {
 		const fullPath = global.id.elementSelect.value;
 		let currentStyle;
 		let targetMap;
-		let newStyle;
 
 		if (global.id.navAdditionalScreen.classList.contains("screenDesktop")) {
 			currentStyle = cssMap.get(fullPath);
@@ -688,22 +765,57 @@ export const eventHandlers = () => {
 		const selectedProperty = propertySelect.value;
 		const newValue = propertyInput.value;
 
-		if (newValue === "") {
-			newStyle = `${styleProperties
-				.filter((prop) => !prop.startsWith(selectedProperty))
-				.join("; ")};`;
-		} else {
-			newStyle = `${styleProperties
-				.map((prop) => {
-					const [key] = prop.split(":").map((item) => item.trim());
-					return key === selectedProperty ? `${key}: ${newValue}` : prop;
-				})
-				.join("; ")};`;
-		}
+		const newStyle = `${styleProperties
+			.map((prop) => {
+				const [key] = prop.split(":").map((item) => item.trim());
+				return key === selectedProperty ? `${key}: ${newValue}` : prop;
+			})
+			.join("; ")};`;
 
+		console.log("newStyle", newStyle); // debugging
 		targetMap.set(fullPath, newStyle);
 		applyStyles();
 		global.variable.style = newStyle;
+	});
+
+	global.id.updateStateProperty.addEventListener("click", () => {
+		console.log("updateStateProperty clicked"); // debugging
+		const statePropertySelect = global.id.statePropertySelect;
+		const statePropertyInput = global.id.statePropertyInput;
+		console.log("statePropertyInput.value", statePropertyInput.value); // debugging
+		const fullPath = global.id.elementStateSelect.value;
+		const selectedProperty = statePropertySelect.value;
+		const newValue = statePropertyInput.value;
+		const currentStyle = cssMap.get(fullPath) || "";
+		const styleProperties = currentStyle
+			.split(";")
+			.filter(Boolean)
+			.map((prop) => prop.trim());
+		let newStyle = styleProperties;
+		console.log("newStyle", newStyle); // debugging
+		const propertyExists = styleProperties.some((prop) =>
+			prop.startsWith(selectedProperty),
+		);
+		if (propertyExists) {
+			console.log("Property exists"); // debugging
+			newStyle = newStyle.map((prop) => {
+				const [key] = prop.split(":").map((item) => item.trim());
+				console.log("prop", prop); // debugging
+				console.log("key", key); // debugging
+				console.log("selectedProperty", selectedProperty); // debugging
+				console.log("newValue", newValue); // debugging
+				console.log("key === selectedProperty", key === selectedProperty); // debugging
+				console.log("`${key}: ${newValue}`", `${key}: ${newValue}`); // debugging
+				return key === selectedProperty ? `${key}: ${newValue}` : prop;
+			});
+		} else {
+			console.log("Property does not exist"); // debugging
+			newStyle.push(`${selectedProperty}: ${newValue}`);
+		}
+		console.log("newStyle", newStyle); // debugging
+		cssMap.set(fullPath, newStyle.join("; ").concat(";"));
+		applyStyles();
+		global.variable.style = newStyle.join("; ").concat(";");
 	});
 
 	global.id.updateAttribute.addEventListener("click", () => {
@@ -735,7 +847,33 @@ export const eventHandlers = () => {
 		cssMap.set(fullPath, newStyle);
 		applyStyles(rootMap, cssMap, mediaQueriesMap);
 		styleSpan = newStyle;
-		updatePropertySelectOptions(cssMap);
+		updatePropertySelectOptions();
+	});
+
+	global.id.removeStateProperty.addEventListener("click", () => {
+		console.log("removeStateProperty clicked"); // debugging
+		const fullPath = global.id.elementStateSelect.value;
+		const statePropertySelect = global.id.statePropertySelect;
+		const selectedProperty = statePropertySelect.value;
+		const currentStyle = cssMap.get(fullPath) || "";
+		const styleProperties = currentStyle
+			.split(";")
+			.map((prop) => prop.trim())
+			.filter(Boolean);
+		const newStyle = styleProperties;
+		const propertyExists = styleProperties.some((prop) =>
+			prop.startsWith(selectedProperty),
+		);
+		if (propertyExists) {
+			console.log("Property exists"); // debugging
+			const newStyle = styleProperties.filter(
+				(prop) => !prop.startsWith(selectedProperty),
+			);
+			cssMap.set(fullPath, newStyle.join("; ").concat(";"));
+			applyStyles();
+			global.variable.style = newStyle.join("; ").concat(";");
+			updatePropertySelectOptions();
+		}
 	});
 };
 

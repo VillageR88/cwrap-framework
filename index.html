@@ -7,8 +7,6 @@
   <title>CWrap</title>
   <link rel="stylesheet" href="builder.css" />
   <link rel="icon" href="./static/favicon/favicon.ico" type="image/x-icon" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/awesomplete/1.1.5/awesomplete.min.css" />
-
 </head>
 
 <body style="display: none;" class="horizontal">
@@ -57,40 +55,6 @@
             </div>
           </div>
         </nav>
-        <div id="mainBody">
-          <div id="elementStateDiv">
-            <span id="stateRow">State of <span id="stateOf"></span></span>
-            <div id="stateHeaderDiv">
-              <label for="elementStateSelect">Select Pseudo-class</label>
-              <div id="stateAddRemoveDiv">
-                <button class="smallButtons back" id="closeState" title="return to select element"></button>
-                <div class="separatorVertical"></div>
-                <button class="smallButtons add" id="openAddState" title="add state"></button>
-                <button class="smallButtons remove" id="removeState" title="remove state"></button>
-              </div>
-            </div>
-            <select id="elementStateSelect"></select>
-          </div>
-          <div id="elementDiv">
-            <div id="styleRow">Style <span id="style">none</span></div>
-          </div>
-          <div id="stateSelectAllDiv">
-            <div>
-              <div>
-                <button class="smallButtons back" id="closeAddState" title="return to select state"></button>
-                <div class="separatorVertical"></div>
-                <button class="smallButtons add" id="addState" title="add state"></button>
-              </div>
-            </div>
-            <select id="stateSelectAll"></select>
-          </div>
-          <div id="contextSelectAllDiv">
-            <select id="selectContext"></select>
-          </div>
-          <div id="stateOfContextSelectAllDiv">
-            <select id="selectStateOfContext"></select>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -122,6 +86,32 @@
           <select id="propertySelectAll" class="mediumButtons"></select>
           <button id="addProperty" class="mediumButtons add" title="add property"></button>
         </div>
+        <div id="mainStateStyleAdd">
+          <button id="mainStateStyleAddBack" class="mediumButtons back" title="back to property selector"></button>
+          <select id="statePropertySelectAll" class="mediumButtons"></select>
+          <button id="addStateProperty" class="mediumButtons add" title="add property"></button>
+        </div>
+        <div id="mainStateSelector">
+          <button id="mainStateSelectorBack" class="mediumButtons back" title="back to element selector"></button>
+          <button id="openAddState" class="mediumButtons add" title="add state"></button>
+          <select id="elementStateSelect"></select>
+          <button id="editStateStyle" class="mediumButtons editStyle" title="edit state style"></button>
+          <button id="removeState" class="mediumButtons remove" title="remove state"></button>
+        </div>
+        <div id="mainStateStyleSelector">
+          <button id="mainStateStyleSelectorBack" class="mediumButtons back"
+            title="back to element state selector"></button>
+          <button id="openAddStateProperty" class="mediumButtons add" title="open add state property"></button>
+          <select id="statePropertySelect" class="mediumButtons"></select>
+          <button id="removeStateProperty" class="mediumButtons remove" title="remove state property"></button>
+        </div>
+        <div id="mainStateAdd">
+          <button class="mediumButtons back" id="closeAddState" title="return to select state"></button>
+          <select id="stateSelectAll"></select>
+          <select id="selectContext"></select>
+          <select id="selectStateOfContext"></select>
+          <button class="mediumButtons add" id="addState" title="add state"></button>
+        </div>
         <div id="mainTextEditor">
           <button id="mainTextEditorBack" class="mediumButtons back" title="back to element selector"></button>
           <button id="updateText" class="mediumButtons update" title="update text content"></button>
@@ -149,12 +139,16 @@
       </div>
       <textarea id="mainTextEditor2" aria-label="edit text content"></textarea>
       <div id="mainAttributeSelector2">
-        <input aria-label="attribute input" type="text" id="attributeInput" class="awesomplete" />
+        <input aria-label="attribute input" type="text" id="attributeInput" />
         <button class="mediumButtons update" id="updateAttribute" title="update attribute value"></button>
       </div>
       <div id="mainStyleSelector2">
-        <input aria-label="property input" type="text" id="propertyInput" class="awesomplete" />
+        <input aria-label="property input" type="text" id="propertyInput" />
         <button class="mediumButtons update" id="updateProperty" title="update property value"></button>
+      </div>
+      <div id="mainStateStyleSelector2">
+        <input aria-label="state property input" type="text" id="statePropertyInput" />
+        <button class="mediumButtons update" id="updateStateProperty" title="update state property value"></button>
       </div>
     </div>
     <div class="mediumButtons" id="nameHelper">nameHelper</div>
@@ -192,7 +186,6 @@
     </div>
   </main>
   <script src="http://localhost:35729/livereload.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/awesomplete/1.1.5/awesomplete.min.js"></script>
   <script src="scripts/localStorage.js"></script>
   <script src="scripts/_globals.js"></script>
   <script type="module" src="scripts/main.js"></script>

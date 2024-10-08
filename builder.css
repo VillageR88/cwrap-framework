@@ -688,14 +688,24 @@ a {
 
 #selectedElementLabelContainer > div > div > #mainElementAdd,
 #selectedElementLabelContainer > div > div > #mainStyleSelector,
+#selectedElementLabelContainer > div > div > #mainStateSelector,
+#selectedElementLabelContainer > div > div > #mainStateStyleSelector,
+#selectedElementLabelContainer > div > div > #mainStateAdd,
 #selectedElementLabelContainer > div > div > #mainTextEditor,
 #selectedElementLabelContainer > div > div > #mainAttributeSelector,
 #selectedElementLabelContainer > div > div > #mainStyleAdd,
+#selectedElementLabelContainer > div > div > #mainStateStyleAdd,
 #selectedElementLabelContainer > div > div > #mainAttributeAdd {
   display: none;
 }
 
+#selectedElementLabelContainer > div > div > #mainTextEditor {
+  width: 100%;
+  justify-content: space-between;
+}
+
 #selectedElementLabelContainer > div > #mainStyleSelector2,
+#selectedElementLabelContainer > div > #mainStateStyleSelector2,
 #selectedElementLabelContainer > div > #mainAttributeSelector2,
 #selectedElementLabelContainer > div > #mainTextEditor2 {
   display: none;
@@ -770,10 +780,7 @@ a {
 
 #screenSelectAllDiv,
 #elementStateDiv,
-#stateSelectAllDiv,
 #contextSelectAllDiv,
-#stateOfContextSelectAllDiv,
-#elementSelectAllDiv,
 #propertySelectAllDiv {
   display: none;
   flex-direction: column;
@@ -782,8 +789,6 @@ a {
 
 #propertySelectAllDiv > div:nth-of-type(1),
 #elementStateDiv > div:nth-of-type(1),
-#elementSelectAllDiv > div:nth-of-type(1),
-#stateSelectAllDiv > div:nth-of-type(1),
 #screenSelectAllDiv > div:nth-of-type(1),
 #rootSelectDiv > div:nth-of-type(1),
 #headSelectDiv > div:nth-of-type(1),
@@ -797,8 +802,6 @@ a {
   gap: 12px;
 }
 
-#elementSelectAllDiv > div:nth-of-type(1) > div:nth-of-type(1),
-#stateSelectAllDiv > div:nth-of-type(1) > div:nth-of-type(1),
 #screenSelectAllDiv > div:nth-of-type(1) > div:nth-of-type(1) {
   display: flex;
   flex-direction: row;

@@ -1,12 +1,11 @@
 import loadSkeletonSource from "./loadSkeletonSource.js";
-import { skeletonSourceSkeletonBody } from "./_const.js";
 import loadRoot from "./loadRoot.js";
 import loadHead from "./loadHead.js";
 import loadFont from "./loadFont.js";
 import loadPreview from "./loadPreview.js";
 
 export default function initialLoader() {
-	loadSkeletonSource(skeletonSourceSkeletonBody)
+	loadSkeletonSource()
 		.then((jsonObj) => {
 			if (typeof jsonObj !== "object" || jsonObj === null) {
 				throw new Error("jsonObj is not an object");

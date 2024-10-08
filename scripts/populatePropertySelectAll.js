@@ -1,5 +1,5 @@
 /**
- * Populates the property select element with all available CSS properties
+ * Populates the state property or property select element with all available CSS properties
  * that are not currently applied to the element specified by the full path.
  *
  * @param {string} fullPath - The full path of the element.
@@ -16,14 +16,23 @@ export default function populatePropertySelectAll(cssProperties) {
 		.map((prop) => prop.split(":")[0].trim());
 
 	const propertySelectAll = global.id.propertySelectAll;
-	propertySelectAll.innerHTML = "";
+	const statePropertySelectAll = global.id.statePropertySelectAll;
+	if (global.id.mainStyleAdd.style.display === "flex") {
+		propertySelectAll.innerHTML = "";
+	} else {
+		statePropertySelectAll.innerHTML = "";
+	}
 
 	for (const property of cssProperties) {
 		if (!appliedProperties.includes(property)) {
 			const option = document.createElement("option");
 			option.value = property;
 			option.textContent = property;
-			propertySelectAll.appendChild(option);
+			if (global.id.mainStyleAdd.style.display === "flex") {
+				propertySelectAll.appendChild(option);
+			} else {
+				statePropertySelectAll.appendChild(option);
+			}
 		}
 	}
 }

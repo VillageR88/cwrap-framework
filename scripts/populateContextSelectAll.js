@@ -1,4 +1,5 @@
 export default function populateContextSelectAll(mapContextual) {
+	console.log("mapContextual", mapContextual);
 	const selectContext = global.id.selectContext;
 	selectContext.innerHTML = "";
 	for (const [key, value] of mapContextual) {

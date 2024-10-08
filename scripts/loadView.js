@@ -7,11 +7,9 @@ export function loadHeadView() {
 	global.id.navBodyAdditional.style.display = "none";
 	global.id.navDevice.style.display = "none";
 	global.id.navPreview.style.display = "none";
-	global.id.mainBody.style.display = "none"; //todo: remove after debug
 	global.id.preview.style.display = "none";
 	global.id.previewTree.style.display = "none";
 	global.id.noPreview.style.display = "none";
-	global.id.styleRow.style.display = "flex";
 	global.id.wizardDiv.style.display = "flex";
 	global.id.wizardTitle.textContent = "Head creator";
 	global.id.wizardHeadDiv.style.display = "flex";
@@ -27,11 +25,9 @@ export function loadFontsView() {
 	global.id.navBodyAdditional.style.display = "none";
 	global.id.navDevice.style.display = "none";
 	global.id.navPreview.style.display = "none";
-	global.id.mainBody.style.display = "none"; //todo: remove after debug
 	global.id.preview.style.display = "none";
 	global.id.previewTree.style.display = "none";
 	global.id.noPreview.style.display = "none";
-	global.id.styleRow.style.display = "flex";
 	global.id.wizardDiv.style.display = "flex";
 	global.id.wizardTitle.textContent = "Fonts creator";
 	global.id.wizardHeadDiv.style.display = "none";
@@ -47,11 +43,9 @@ export function loadRootView() {
 	global.id.navBodyAdditional.style.display = "none";
 	global.id.navDevice.style.display = "none";
 	global.id.navPreview.style.display = "none";
-	global.id.mainBody.style.display = "none"; //todo: remove after debug
 	global.id.preview.style.display = "none";
 	global.id.previewTree.style.display = "none";
 	global.id.noPreview.style.display = "none";
-	global.id.styleRow.style.display = "flex";
 	global.id.wizardDiv.style.display = "flex";
 	global.id.wizardTitle.textContent = "Root creator";
 	global.id.wizardHeadDiv.style.display = "none";
@@ -64,14 +58,12 @@ export function loadRootView() {
 export function loadBodyView() {
 	// global.id.leftSidebarAddition.style.display = "flex";
 	global.id.selectedElementLabelContainer.style.display = "flex";
-	global.id.mainBody.style.display = "none"; //todo: remove after debug
 	global.id.navBodyAdditional.style.display = "flex";
 	global.id.navDevice.style.display = "none";
 	global.id.navPreview.style.display = "none";
 	global.id.preview.style.display = "flex";
 	global.id.previewTree.style.display = "none";
 	global.id.noPreview.style.display = "none";
-	global.id.styleRow.style.display = "none";
 	global.id.wizardDiv.style.display = "none";
 	// global.id.leftSidebar.classList.remove(global.class.smaller); //debug
 	centralBarCleanup();

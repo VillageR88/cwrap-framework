@@ -62,5 +62,5 @@ export default function getElementPath(element) {
 
   // Join the path array into a string with ' > ' as the separator and return it
   // console.log("path.join",path.join(" > "));
-  return path.join(" > ");
+  return path.join(" > ").replace(".glowing", "");
 }
