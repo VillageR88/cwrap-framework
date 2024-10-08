@@ -1,13 +1,12 @@
 .vscode
-web.exe
 node_modules
 build
-web.cpp
 web.js
-nlohmann/
 updateManualVersion.js
 static/fonts/
 static/images/
 .env
 cwrap-0.1.0-alpha.20241008.tgz
-routes/
+/routes/
+!/demo/routes/
+.gitignore

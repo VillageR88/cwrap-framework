@@ -1,6 +1,6 @@
 {
   "head": {
-    "title": "Blog preview card",
+    "title": "CWrap Demo",
     "meta": [
       {
         "name": "viewport",
@@ -11,11 +11,11 @@
       },
       {
         "name": "description",
-        "content": "A preview card for a blog post."
+        "content": "CWrap Demo"
       },
       {
         "name": "keywords",
-        "content": "blog, preview, card, HTML, CSS"
+        "content": "CWrap Demo"
       }
     ]
   },
@@ -54,7 +54,11 @@
       "style": "width: 450; height: fit-content; background-color: white; border: 1px solid black; border-radius: 20px; display: flex; justify-content: start; padding: 24px; box-sizing: border-box; flex-direction: column; gap: 24px; box-shadow: 8px 8px black; transition: 300ms;",
       "extend": [
         {
-          "extension": ":has(div:nth-of-type(1) > h2:nth-of-type(1):hover)",
+          "extension": ":has(div:nth-of-type(1) > a:nth-of-type(1):hover)",
+          "style": "box-shadow: 16px 16px black;"
+        },
+        {
+          "extension": ":has(div:nth-of-type(2) > a:nth-of-type(1):hover)",
           "style": "box-shadow: 16px 16px black;"
         }
       ],
@@ -80,19 +84,22 @@
             },
             {
               "element": "p",
-              "style": "color: #7F7F7F; margin: 0px; line-height: 150%;",
-              "text": "CWrap is a microframework for web developers and those learning web development. Its key features include:\n"
+              "style": "color: #7F7F7F; margin: 0px; line-height: 150%; white-space: pre-line;",
+              "text": "CWrap is a microframework for web developers and those learning web development. Its key features include:\n👶 Low entry level, making it accessible for beginners\n✨ Automatic CSS generation\n🔍 Autocompletion for faster coding\n👀 Preview-based manipulation for real-time feedback"
             }
           ]
         },
         {
           "element": "div",
-          "style": "display: flex; align-items: center; gap: 12px;",
+          "style": "display: flex; align-items: center; gap: 12px; justify-content: end;",
           "children": [
             {
-              "element": "span",
+              "element": "a",
+              "attributes": {
+                "href": "/route1"
+              },
               "style": "font-weight: 800; font-size: 14px;",
-              "text": "Karol Piecuch"
+              "text": "next route"
             }
           ]
         }

@@ -38,6 +38,7 @@ import getElementFromPath from "./getElementFromPath.js";
  * @param {Array} cssProperties - The array containing CSS properties.
  */
 export const eventHandlers = () => {
+
 	const cssProperties = getCssProperties();
 
 	function getCssProperties() {

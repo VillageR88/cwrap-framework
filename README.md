@@ -11,6 +11,10 @@ CWrap is a microframework for web developers and those learning web development.
 
 `npx https://github.com/VillageR88/cwrap`
 
+## Running
+
+`npm start`
+
 ## Note
 
 CWrap is in very early alpha development, and some features are still in progress. It is intended for familiarizing yourself with the framework and providing feedback.

@@ -19,8 +19,8 @@ import applyStyles from "./applyStyles.js";
 export default function loadPreview(jsonObj) {
 	// document.body.innerHTML = "";
 	const doc = global.id.doc;
-	doc.open();
-	doc.close();
+	// doc.open();
+	// doc.close();
 	if (typeof jsonObj !== "object" || jsonObj === null) {
 		throw new Error("jsonObj is not an object");
 	}

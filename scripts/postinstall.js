@@ -45,6 +45,26 @@ function removeLockFile() {
 	fs.unlinkSync(lockFilePath);
 }
 
+// Function to copy a folder recursively
+function copyFolderSync(src, dest) {
+	if (!fs.existsSync(dest)) {
+		fs.mkdirSync(dest, { recursive: true });
+	}
+
+	const entries = fs.readdirSync(src, { withFileTypes: true });
+
+	for (const entry of entries) {
+		const srcPath = path.join(src, entry.name);
+		const destPath = path.join(dest, entry.name);
+
+		if (entry.isDirectory()) {
+			copyFolderSync(srcPath, destPath);
+		} else {
+			fs.copyFileSync(srcPath, destPath);
+		}
+	}
+}
+
 // Check if the script is already running
 if (isScriptRunning()) {
 	logMessage("Script is already running. Exiting.");
@@ -84,7 +104,7 @@ if (!fs.existsSync(projectPackageJsonPath)) {
 }
 
 // Create the routes folder in the root directory of the project
-const routesPath = path.join(rootPath, "routes");
+const routesPath = path.join(rootPath);
 if (!fs.existsSync(routesPath)) {
 	fs.mkdirSync(routesPath);
 	logMessage("Created routes folder in the root directory of the project");
@@ -94,20 +114,28 @@ if (!fs.existsSync(routesPath)) {
 	);
 }
 
-// Copy skeleton.json from templates folder of cwrap to routes folder if it does not exist
-const skeletonSrcPath = path.join(cwrapPath, "templates", "skeleton.json");
-const skeletonDestPath = path.join(routesPath, "skeleton.json");
-if (!fs.existsSync(skeletonDestPath)) {
+// Copy the contents of the demo folder from templates to routes if it does not exist
+const demoSrcPath = path.join(cwrapPath, "templates", "demo");
+if (fs.existsSync(demoSrcPath)) {
 	try {
-		fs.copyFileSync(skeletonSrcPath, skeletonDestPath);
-		logMessage("Copied skeleton.json to routes folder");
+		const demoEntries = fs.readdirSync(demoSrcPath, { withFileTypes: true });
+		for (const entry of demoEntries) {
+			const srcPath = path.join(demoSrcPath, entry.name);
+			const destPath = path.join(routesPath, entry.name);
+			if (entry.isDirectory()) {
+				copyFolderSync(srcPath, destPath);
+			} else {
+				fs.copyFileSync(srcPath, destPath);
+			}
+		}
+		logMessage("Copied contents of demo folder to routes folder");
 	} catch (error) {
-		logMessage("Error copying skeleton.json:", error.message);
+		logMessage("Error copying contents of demo folder:", error.message);
 		removeLockFile();
 		process.exit(1);
 	}
 } else {
-	logMessage("skeleton.json already exists in the routes folder");
+	logMessage("demo folder does not exist in the templates folder");
 }
 
 // Move server.js from cwrap to root folder if it does not exist

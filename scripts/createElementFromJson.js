@@ -20,9 +20,6 @@ export default function createElementFromJson(jsonObj) {
 	// Set the element's ID if specified in the JSON object
 	if (jsonObj.id) element.id = jsonObj.id;
 
-	// // Set the element's class if specified in the JSON object // redefining class approach
-	// if (jsonObj.class) element.className = jsonObj.class;
-
 	// Set the element's text content if specified in the JSON object
 	if (jsonObj.text) element.textContent = jsonObj.text;
 
@@ -35,15 +32,21 @@ export default function createElementFromJson(jsonObj) {
 
 	// Add a click event listener to the element
 	element.addEventListener("click", (event) => {
+		console.log("Clicked on an element:", element); // Log the click event
+
 		if (
 			global.id.mainStateSelector.style.display === "flex" ||
 			global.id.mainStateAdd.style.display === "flex"
 		)
 			return; // Do nothing if some elements are displayed like state
 		event.stopPropagation();
-		// Get the full path of the element
+		event.preventDefault();
+		if (event.target.tagName === "A") {
+			console.log("a element");
+			window.location.href = event.target.href;
+		}
+
 		const fullPath = getElementPath(element);
-		// Update the element information based on the full path
 		updateElementInfo(fullPath, element);
 		validateParentElement();
 		validateRemoveElement();
