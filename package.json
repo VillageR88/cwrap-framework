@@ -1,7 +1,7 @@
 {
   "name": "cwrap-framework",
-  "version": "0.1.0-alpha.20241008",
-  "description": "CWrap is open microframework for web developers and those learning web development.",
+  "version": "0.1.0-alpha.20241011",
+  "description": "CWrap is an open microframework for web developers and those learning web development.",
   "main": "scripts/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -23,7 +23,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/VillageR88/cwrap.git"
+    "url": "git+https://github.com/VillageR88/cwrap-framework.git"
   },
   "bin": {
     "create-cwrap": "./cli.js"

@@ -11,7 +11,7 @@ const HTTP_PORT = 36969;
 const ROOT_DIR = path.resolve(__dirname);
 const CWRAP_DIR = process.env.DEV
 	? path.resolve(__dirname)
-	: path.resolve("node_modules", "cwrap");
+	: path.resolve("node_modules", "cwrap-framework");
 
 // Create and configure the livereload server
 const liveReloadServer = livereload.createServer({

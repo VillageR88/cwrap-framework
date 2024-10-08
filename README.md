@@ -9,10 +9,11 @@ CWrap is a microframework for web developers and those learning web development.
 
 ## Installation
 
-`npx https://github.com/VillageR88/cwrap`
+`npx cwrap-framework`
 
 ## Running
 
+`cd your-project-directory`
 `npm start`
 
 ## Note

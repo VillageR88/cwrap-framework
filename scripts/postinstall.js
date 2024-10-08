@@ -16,7 +16,7 @@ const cwrapPath = path.join(
 	"..",
 	"..",
 	"node_modules",
-	"cwrap",
+	"cwrap-framework",
 );
 const rootPath = path.join(__dirname, "..", "..", "..");
 const logFilePath = path.join(rootPath, "installation.log");
@@ -75,6 +75,8 @@ if (isScriptRunning()) {
 createLockFile();
 
 // Log the projectPackageJsonPath
+logMessage("test:");
+
 logMessage("projectPackageJsonPath:", projectPackageJsonPath);
 
 // Check if the project's package.json exists
@@ -91,10 +93,6 @@ if (!fs.existsSync(projectPackageJsonPath)) {
 		keywords: [],
 		author: "",
 		license: "ISC",
-		dependencies: {
-			cwrap: "github:VillageR88/cwrap",
-		},
-		devDependencies: {},
 	};
 	fs.writeFileSync(
 		projectPackageJsonPath,
