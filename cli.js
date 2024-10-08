@@ -28,10 +28,10 @@ rl.question("Enter project name (default: my-new-cwrap-project): ", (input) => {
 		version: "1.0.0",
 		main: "index.js",
 		scripts: {
-			start: "start http://localhost:36969/index.html && node server.js",
+			start: "start http://localhost:36969 && node server.js",
 		},
 		devDependencies: {
-			cwrap: "file:../../cw_blog_preview_card/cwrap-0.1.0-alpha.20241002.tgz", // Adjust the path to your tarball
+			"cwrap": "https://github.com/VillageR88/cwrap",
 			"body-parser": "^1.20.2",
 			connect: "^3.7.0",
 			"connect-livereload": "^0.6.1",

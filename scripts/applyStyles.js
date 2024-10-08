@@ -9,9 +9,7 @@ export default function applyStyles() {
 	const fontMap = global.map.fontMap;
 	const cssMap = global.map.cssMap;
 	const mediaQueriesMap = global.map.mediaQueriesMap;
-	const preview = document.getElementById("preview");
-	const previewDocument =
-		preview.contentDocument || preview.contentWindow.document;
+
 	let customStyles = "";
 	if (fontMap) {
 		for (const [_, fonts] of fontMap.entries()) {
@@ -46,7 +44,7 @@ export default function applyStyles() {
 			customStyles += "}\n";
 		});
 
-	previewDocument.getElementById("custom-styles").textContent = customStyles;
+	global.id.doc.getElementById("custom-styles").textContent = customStyles;
 }
 
 function addCustomClasses(customStyles) {

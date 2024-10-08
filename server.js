@@ -68,7 +68,7 @@ app.use((req, res, next) => {
 		!req.url.startsWith("/api") &&
 		!req.url.startsWith("/save-skeleton")
 	) {
-		const indexPath = path.join(ROOT_DIR, "index.html");
+		const indexPath = path.join(CWRAP_DIR, "index.html");
 		fs.readFile(indexPath, (err, data) => {
 			if (err) {
 				console.error("Error reading index.html:", err);

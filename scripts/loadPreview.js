@@ -17,6 +17,7 @@ import applyStyles from "./applyStyles.js";
  * @returns {void}
  */
 export default function loadPreview(jsonObj) {
+	// document.body.innerHTML = "";
 	const doc = global.id.doc;
 	doc.open();
 	doc.close();

@@ -9,4 +9,5 @@ updateManualVersion.js
 static/fonts/
 static/images/
 .env
-cwrap-0.1.0-alpha.20241002.tgz
+cwrap-0.1.0-alpha.20241008.tgz
+routes/

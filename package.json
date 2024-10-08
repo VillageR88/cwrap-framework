@@ -1,7 +1,7 @@
 {
   "name": "cwrap",
-  "version": "0.1.0-alpha.20241002",
-  "description": "CWrap is a microframework for web designers.",
+  "version": "0.1.0-alpha.20241008",
+  "description": "CWrap is open microframework for web developers and those learning web development.",
   "main": "scripts/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
