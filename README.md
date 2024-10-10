@@ -9,7 +9,7 @@ CWrap is a microframework for web developers and those learning web development.
 
 ## Installation
 
-`npx cwrap-framework`
+`npx cwrap-framework@latest`
 
 ## Running
 
