@@ -5,6 +5,15 @@ const path = require("node:path");
 const { execSync } = require("node:child_process");
 const readline = require("node:readline");
 
+// Path to the package.json file
+const packageJsonPath = path.join(__dirname, "package.json");
+
+// Read and parse the package.json file
+const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
+
+// Extract the version of cwrap-framework
+const cwrapFrameworkVersion = packageJson.devDependencies["cwrap-framework"];
+
 const rl = readline.createInterface({
 	input: process.stdin,
 	output: process.stdout,
@@ -23,7 +32,7 @@ rl.question("Enter project name (default: my-new-cwrap-project): ", (input) => {
 	fs.mkdirSync(projectPath, { recursive: true });
 	console.log(`Creating a new project in ${projectPath}`);
 
-	const packageJson = {
+	const newPackageJson = {
 		name: projectName,
 		version: "1.0.0",
 		main: "index.js",
@@ -31,7 +40,7 @@ rl.question("Enter project name (default: my-new-cwrap-project): ", (input) => {
 			start: "start http://localhost:36969 && node server.js",
 		},
 		devDependencies: {
-			"cwrap-framework": "^0.1.0-alpha.20241012",
+			"cwrap-framework": cwrapFrameworkVersion,
 			"body-parser": "^1.20.2",
 			connect: "^3.7.0",
 			"connect-livereload": "^0.6.1",
@@ -44,7 +53,7 @@ rl.question("Enter project name (default: my-new-cwrap-project): ", (input) => {
 
 	fs.writeFileSync(
 		path.join(projectPath, "package.json"),
-		JSON.stringify(packageJson, null, 2),
+		JSON.stringify(newPackageJson, null, 2),
 	);
 
 	console.log("Installing packages. This might take a couple of minutes.");
