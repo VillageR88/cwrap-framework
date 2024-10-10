@@ -9,4 +9,5 @@ static/images/
 cwrap-0.1.0-alpha.20241008.tgz
 /routes/
 !/demo/routes/
+bcp/
 .gitignore
