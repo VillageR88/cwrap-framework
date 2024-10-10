@@ -214,14 +214,20 @@ export const eventHandlers = () => {
 		nameHelper.style.display = "flex";
 	});
 
-	global.id.selectedElementHighlight.addEventListener("mouseup", () => {
+	const handleEventStopGlowing = () => {
 		const nameHelper = global.id.nameHelper;
 		const element = getElementFromPath();
 		if (element) {
 			element.classList.remove("glowing");
 		}
 		nameHelper.style.display = "none";
-	});
+	};
+
+	global.id.selectedElementHighlight.addEventListener(
+		"mouseleave",
+		handleEventStopGlowing,
+	);
+	global.id.selectedElementHighlight.addEventListener("mouseup", handleEventStopGlowing);
 
 	global.id.selectedElementLabelContainerSwitchSide.addEventListener(
 		"click",
