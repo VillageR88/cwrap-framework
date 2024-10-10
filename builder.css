@@ -395,6 +395,12 @@ h6 {
   background-position: center;
 }
 
+.static {
+  background-repeat: no-repeat;
+  background-image: url("./lib/icons/mouse_lock_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg");
+  background-position: center;
+}
+
 .previewOff {
   background-repeat: no-repeat;
   background-image: url("./lib/icons/preview_off_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg");

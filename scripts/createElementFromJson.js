@@ -41,7 +41,7 @@ export default function createElementFromJson(jsonObj) {
 			return; // Do nothing if some elements are displayed like state
 		event.stopPropagation();
 		event.preventDefault();
-		if (event.target.tagName === "A") {
+		if (event.target.tagName === "A" && !global.id.navSelectPreview.classList.contains("static")) {
 			console.log("a element");
 			window.location.href = event.target.href;
 		}

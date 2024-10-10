@@ -38,7 +38,6 @@ import getElementFromPath from "./getElementFromPath.js";
  * @param {Array} cssProperties - The array containing CSS properties.
  */
 export const eventHandlers = () => {
-
 	const cssProperties = getCssProperties();
 
 	function getCssProperties() {
@@ -141,7 +140,7 @@ export const eventHandlers = () => {
 		tempUpdateFunction();
 	});
 	global.id.navPreviewNormal.addEventListener("click", () => {
-		global.id.navSelectPreview.classList.remove("preview", "tree");
+		global.id.navSelectPreview.classList.remove("preview", "static", "tree");
 		global.id.navSelectPreview.classList.add("preview");
 		global.id.preview.style.display = "flex";
 		global.id.previewTree.style.display = "none";
@@ -149,8 +148,17 @@ export const eventHandlers = () => {
 		global.id.mainInitialSelector.style.display = "flex";
 		global.id.selectedElementHighlight.style.display = "flex";
 	});
-	global.id.navPreviewTree.addEventListener("click", () => {
+	global.id.navPreviewStatic.addEventListener("click", () => {
 		global.id.navSelectPreview.classList.remove("preview", "tree");
+		global.id.navSelectPreview.classList.add("static");
+		global.id.preview.style.display = "flex";
+		global.id.previewTree.style.display = "none";
+		global.id.navAdditionalScreen.style.display = "flex";
+		global.id.mainInitialSelector.style.display = "flex";
+		global.id.selectedElementHighlight.style.display = "flex";
+	});
+	global.id.navPreviewTree.addEventListener("click", () => {
+		global.id.navSelectPreview.classList.remove("preview", "static", "tree");
 		global.id.navSelectPreview.classList.add("tree");
 		global.id.preview.style.display = "none";
 		global.id.previewTree.style.display = "flex";

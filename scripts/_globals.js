@@ -81,6 +81,7 @@ const global = {
 		navHead: document.getElementById("navHead"),
 		navPreview: document.getElementById("navPreview"),
 		navPreviewNormal: document.getElementById("navPreviewNormal"),
+		navPreviewStatic: document.getElementById("navPreviewStatic"),
 		navPreviewTree: document.getElementById("navPreviewTree"),
 		navRoot: document.getElementById("navRoot"),
 		navScreenDesktop: document.getElementById("navScreenDesktop"),
