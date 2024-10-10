@@ -1,7 +1,6 @@
 .vscode
 node_modules
 build
-web.js
 updateManualVersion.js
 static/fonts/
 static/images/
