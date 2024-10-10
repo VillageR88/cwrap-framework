@@ -146,7 +146,7 @@ export const eventHandlers = () => {
 		global.id.preview.style.display = "flex";
 		global.id.previewTree.style.display = "none";
 		global.id.navAdditionalScreen.style.display = "flex";
-		global.id.mainInitialSelector.style.display = "flex";
+		// global.id.mainInitialSelector.style.display = "flex";
 		global.id.selectedElementHighlight.style.display = "flex";
 	});
 	global.id.navPreviewStatic.addEventListener("click", () => {
@@ -155,7 +155,7 @@ export const eventHandlers = () => {
 		global.id.preview.style.display = "flex";
 		global.id.previewTree.style.display = "none";
 		global.id.navAdditionalScreen.style.display = "flex";
-		global.id.mainInitialSelector.style.display = "flex";
+		// global.id.mainInitialSelector.style.display = "flex";
 		global.id.selectedElementHighlight.style.display = "flex";
 	});
 	global.id.navPreviewTree.addEventListener("click", () => {
@@ -227,7 +227,10 @@ export const eventHandlers = () => {
 		"mouseleave",
 		handleEventStopGlowing,
 	);
-	global.id.selectedElementHighlight.addEventListener("mouseup", handleEventStopGlowing);
+	global.id.selectedElementHighlight.addEventListener(
+		"mouseup",
+		handleEventStopGlowing,
+	);
 
 	global.id.selectedElementLabelContainerSwitchSide.addEventListener(
 		"click",
