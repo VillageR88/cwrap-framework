@@ -12,7 +12,7 @@ const packageJsonPath = path.join(__dirname, "package.json");
 const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
 
 // Extract the version of cwrap-framework
-const cwrapFrameworkVersion = packageJson.devDependencies["cwrap-framework"];
+const cwrapFrameworkVersion = packageJson.version;
 
 const rl = readline.createInterface({
 	input: process.stdin,
@@ -38,6 +38,7 @@ rl.question("Enter project name (default: my-new-cwrap-project): ", (input) => {
 		main: "index.js",
 		scripts: {
 			start: "start http://localhost:36969 && node server.js",
+			build: "node build.js",
 		},
 		devDependencies: {
 			"cwrap-framework": cwrapFrameworkVersion,
