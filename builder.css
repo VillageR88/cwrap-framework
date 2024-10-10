@@ -18,6 +18,11 @@
   --backgroundColorBasedOnInput1darker: #0d1117;
 }
 
+input[readonly] {
+  user-select: none; /* Disable text selection */
+  cursor: ew-resize; /* Change cursor to indicate drag */
+}
+
 label,
 .label {
   font-weight: bold;
@@ -712,6 +717,7 @@ a {
 
 #selectedElementLabelContainer > div > #mainStyleSelector2,
 #selectedElementLabelContainer > div > #mainStateStyleSelector2,
+#selectedElementLabelContainer > div > #mainStateStyleContextInfo,
 #selectedElementLabelContainer > div > #mainAttributeSelector2,
 #selectedElementLabelContainer > div > #mainTextEditor2 {
   display: none;

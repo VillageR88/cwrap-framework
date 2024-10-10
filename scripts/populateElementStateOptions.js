@@ -16,7 +16,7 @@ export default function populateElementStateOptions() {
 		// console.log("key", key);
 		// console.log("selectedElement", global.id.elementSelect.value);
 		// console.log(key.includes(`${global.id.elementSelect.value}:`));
-		console.log("key", key);
+		// console.log("key", key);
 		if (key.includes(`${global.id.elementSelect.value}:`)) {
 			console.log("includes key", key);
 			if (!firstKey) firstKey = key;

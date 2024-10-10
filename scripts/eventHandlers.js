@@ -31,6 +31,7 @@ import serializeElement from "./serializeElement.js";
 import populateTreeView from "./populateTreeView.js";
 import highlightSelectedElement from "./highlightSelectedElement.js";
 import getElementFromPath from "./getElementFromPath.js";
+import resolveElementStateSelect from "./resolveElementStateSelect.js";
 // import initializeAwesomplete from "./initializeAwesomplete.js";
 
 /**
@@ -521,12 +522,14 @@ export const eventHandlers = () => {
 		global.id.mainStyleSelector2.style.display = "none";
 		global.id.mainStateSelector.style.display = "flex";
 		populateElementStateOptions();
+		resolveElementStateSelect();
 	});
 
 	global.id.editStateStyle.addEventListener("click", () => {
 		global.id.mainStateSelector.style.display = "none";
 		global.id.mainStateStyleSelector.style.display = "flex";
 		global.id.mainStateStyleSelector2.style.display = "flex";
+		global.id.mainStateStyleContextInfo.style.display = "none";
 		populatePropertyValue(undefined, true);
 	});
 
@@ -535,12 +538,14 @@ export const eventHandlers = () => {
 		global.id.mainStateStyleAdd.style.display = "flex";
 		global.id.mainStateStyleSelector2.style.display = "none";
 		populatePropertySelectAll(cssProperties);
+		resolveElementStateSelect();
 	});
 
 	global.id.mainStateSelectorBack.addEventListener("click", () => {
 		global.id.mainStyleSelector.style.display = "flex";
 		global.id.mainStyleSelector2.style.display = "flex";
 		global.id.mainStateSelector.style.display = "none";
+		global.id.mainStateStyleContextInfo.style.display = "none";
 		global.id.elementSelect.value = global.variable.memoryElement;
 		global.id.nameHelper.textContent = global.variable.memoryElement;
 		populatePropertyValue(undefined, false);
@@ -554,12 +559,14 @@ export const eventHandlers = () => {
 		global.id.mainStateSelector.style.display = "flex";
 		global.id.mainStateStyleSelector.style.display = "none";
 		global.id.mainStateStyleSelector2.style.display = "none";
+		resolveElementStateSelect();
 	});
 
 	global.id.openAddState.addEventListener("click", () => {
 		populateStateSelectAllOptions();
 		global.id.mainStateSelector.style.display = "none";
 		global.id.mainStateAdd.style.display = "flex";
+		global.id.mainStateStyleContextInfo.style.display = "none";
 	});
 
 	global.id.addState.addEventListener("click", () => {
@@ -586,6 +593,7 @@ export const eventHandlers = () => {
 	global.id.closeAddState.addEventListener("click", () => {
 		global.id.mainStateSelector.style.display = "flex";
 		global.id.mainStateAdd.style.display = "none";
+		resolveElementStateSelect();
 	});
 
 	global.id.openAddElement.addEventListener("click", () => {
@@ -885,6 +893,32 @@ export const eventHandlers = () => {
 		}
 	});
 };
+
+global.id.elementStateSelect.addEventListener("change", () => {
+	resolveElementStateSelect();
+});
+
+const input = global.id.stateContextInfo;
+let isDragging = false;
+let startX;
+
+input.addEventListener("mousedown", (e) => {
+	isDragging = true;
+	startX = e.clientX; // Get the initial mouse position
+	e.preventDefault(); // Prevent default text selection behavior
+});
+
+document.addEventListener("mousemove", (e) => {
+	if (isDragging) {
+		const moveX = e.clientX - startX; // Calculate how much the mouse has moved
+		input.scrollLeft -= moveX; // Scroll the input text left or right
+		startX = e.clientX; // Update the start position
+	}
+});
+
+document.addEventListener("mouseup", () => {
+	isDragging = false; // Stop dragging when the mouse is released
+});
 
 loadBodyView();
 // global.id.sectionsVariables.value = "root";

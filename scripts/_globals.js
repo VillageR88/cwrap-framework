@@ -58,7 +58,9 @@ const global = {
 		mainStateStyleAdd: document.getElementById("mainStateStyleAdd"),
 		mainStateStyleSelector: document.getElementById("mainStateStyleSelector"),
 		mainStateStyleSelector2: document.getElementById("mainStateStyleSelector2"),
-		mainStateStyleSelectorBack: document.getElementById("mainStateStyleSelectorBack"),
+		mainStateStyleSelectorBack: document.getElementById(
+			"mainStateStyleSelectorBack",
+		),
 		mainStateStyleAddBack: document.getElementById("mainStateStyleAddBack"),
 		mainStyleAdd: document.getElementById("mainStyleAdd"),
 		mainStyleAddBack: document.getElementById("mainStyleAddBack"),
@@ -67,6 +69,9 @@ const global = {
 		mainStateSelector: document.getElementById("mainStateSelector"),
 		mainStateAdd: document.getElementById("mainStateAdd"),
 		mainStyleSelectorBack: document.getElementById("mainStyleSelectorBack"),
+		mainStateStyleContextInfo: document.getElementById(
+			"mainStateStyleContextInfo",
+		),
 		mainTextEditor: document.getElementById("mainTextEditor"),
 		mainTextEditor2: document.getElementById("mainTextEditor2"),
 		mainTextEditorBack: document.getElementById("mainTextEditorBack"),
@@ -123,6 +128,7 @@ const global = {
 		selectedElementLabelContainerSwitchSide: document.getElementById(
 			"selectedElementLabelContainerSwitchSide",
 		),
+		stateContextInfo: document.getElementById("stateContextInfo"),
 		statePropertyInput: document.getElementById("statePropertyInput"),
 		statePropertySelect: document.getElementById("statePropertySelect"),
 		statePropertySelectAll: document.getElementById("statePropertySelectAll"),
