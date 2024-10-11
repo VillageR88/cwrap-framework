@@ -148,7 +148,7 @@ function generateHeadHtml(head) {
 	}
 
 	// Add additional tags like link
-	headHtml += '    <link rel="stylesheet" href="/static/styles.css">\n';
+	headHtml += '    <link rel="stylesheet" href="styles.css">\n';
 
 	headHtml += "</head>";
 	return headHtml;
