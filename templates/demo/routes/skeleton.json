@@ -96,7 +96,7 @@
             {
               "element": "a",
               "attributes": {
-                "href": "/route1"
+                "href": "route1"
               },
               "style": "font-weight: 800; font-size: 14px;",
               "text": "next route"

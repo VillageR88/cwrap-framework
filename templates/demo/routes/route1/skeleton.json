@@ -100,7 +100,7 @@
             {
               "element": "a",
               "attributes": {
-                "href": "/"
+                "href": ""
               },
               "style": "font-weight: 800; font-size: 14px;",
               "text": "previous route"
@@ -108,7 +108,7 @@
             {
               "element": "a",
               "attributes": {
-                "href": "/route2"
+                "href": "route2"
               },
               "style": "font-weight: 800; font-size: 14px;",
               "text": "next route"
