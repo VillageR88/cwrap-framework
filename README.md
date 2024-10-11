@@ -1,6 +1,6 @@
-# CWrap
+# Candy Wrapper
 
-CWrap is a microframework for web developers and those learning web development. Its key features include:
+Candy Wrapper (CWrap) is a microframework for web developers and those learning web development. Its key features include:
 
 - 👶 Low entry level, making it accessible for beginners
 - ✨ Automatic CSS generation
