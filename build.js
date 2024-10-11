@@ -88,12 +88,9 @@ function generateHtmlFromJson(jsonObj) {
 }
 
 function copyFile(source, destination) {
-	console.log(`Copying file from ${source} to ${destination}`);
 	fs.copyFile(source, destination, (err) => {
 		if (err) {
 			console.error(`Error: Could not copy file ${source} to ${destination}`);
-		} else {
-			console.log(`Successfully copied file from ${source} to ${destination}`);
 		}
 	});
 }
@@ -131,10 +128,34 @@ function copyDirectory(source, destination) {
 	});
 }
 
+function generateHeadHtml(head) {
+	let headHtml = "<head>\n";
+
+	// Add title
+	if (head.title) {
+		headHtml += `    <title>${head.title}</title>\n`;
+	}
+
+	// Add meta tags
+	if (head.meta && Array.isArray(head.meta)) {
+		for (const meta of head.meta) {
+			headHtml += "    <meta";
+			for (const [key, value] of Object.entries(meta)) {
+				headHtml += ` ${key}="${value}"`;
+			}
+			headHtml += ">\n";
+		}
+	}
+
+	// Add additional tags like link
+	headHtml += '    <link rel="stylesheet" href="/static/styles.css">\n';
+
+	headHtml += "</head>";
+	return headHtml;
+}
+
 function processRouteDirectory(routeDir, buildDir) {
-	console.log(`Processing route directory ${routeDir}`);
 	const jsonFile = path.join(routeDir, "skeleton.json");
-	console.log(`Looking for skeleton.json at ${jsonFile}`);
 	if (!fs.existsSync(jsonFile)) {
 		console.error(`Error: Could not open ${jsonFile} file!`);
 		return;
@@ -145,22 +166,23 @@ function processRouteDirectory(routeDir, buildDir) {
 	// Generate CSS selectors and extract styles
 	generateCssSelector(jsonObj, "");
 
+	// Generate head content
+	let headContent = "";
+	if (Object.prototype.hasOwnProperty.call(jsonObj, "head")) {
+		headContent = generateHeadHtml(jsonObj.head);
+	}
+
 	// Generate HTML content from JSON
 	const bodyContent = generateHtmlFromJson(jsonObj);
 
 	// Create the content for index.html
 	const prefix = process.env.PAGE_URL;
-	console.log("prefix", prefix);
+	if (prefix) console.log("prefix", prefix);
 	const webContent = `
 <!DOCTYPE html>
 <html lang="en">
-  <base href="${prefix}">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CWrap-framework</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
+  ${prefix ? `<base href="${prefix}">` : ""}
+${headContent}
 <body>
 ${bodyContent}
 </body>
@@ -200,15 +222,6 @@ ${bodyContent}
 	});
 	fs.writeFileSync(cssFile, cssContent, "utf8");
 	console.log(`Generated ${cssFile} successfully!`);
-
-	// Copy the static folder to the build directory if it exists
-	const staticDir = path.join("static");
-	console.log(`Looking for static directory at ${staticDir}`);
-	if (fs.existsSync(staticDir)) {
-		copyDirectory(staticDir, path.join(buildDir, "static"));
-	} else {
-		console.warn(`Warning: Static directory ${staticDir} does not exist.`);
-	}
 }
 
 function processAllRoutes(sourceDir, buildDir) {
@@ -222,8 +235,6 @@ function processAllRoutes(sourceDir, buildDir) {
 		for (const file of files) {
 			const sourcePath = path.join(sourceDir, file);
 			const destinationPath = path.join(buildDir, file);
-
-			console.log(`Processing file or directory: ${sourcePath}`);
 
 			fs.stat(sourcePath, (err, stats) => {
 				if (err) {
@@ -245,8 +256,6 @@ function main() {
 	const buildDir = path.resolve("build");
 
 	console.log("Starting build process...");
-	console.log(`Routes directory: ${routesDir}`);
-	console.log(`Build directory: ${buildDir}`);
 
 	// Ensure the build directory exists
 	if (!fs.existsSync(buildDir)) {
@@ -254,13 +263,19 @@ function main() {
 		console.log(`Created build directory ${buildDir}`);
 	}
 
+	// Copy the static folder to the build directory if it exists
+	const staticDir = path.join("static");
+	if (fs.existsSync(staticDir)) {
+		copyDirectory(staticDir, path.join(buildDir, "static"));
+	} else {
+		console.warn(`Warning: Static directory ${staticDir} does not exist.`);
+	}
+
 	// Process the home directory
 	processRouteDirectory(routesDir, buildDir);
 
 	// Process all routes
 	processAllRoutes(routesDir, buildDir);
-
-	console.log("Build process completed!");
 }
 
 main();
