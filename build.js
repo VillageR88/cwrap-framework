@@ -88,16 +88,21 @@ function generateHtmlFromJson(jsonObj) {
 }
 
 function copyFile(source, destination) {
+	console.log(`Copying file from ${source} to ${destination}`);
 	fs.copyFile(source, destination, (err) => {
 		if (err) {
 			console.error(`Error: Could not copy file ${source} to ${destination}`);
+		} else {
+			console.log(`Successfully copied file from ${source} to ${destination}`);
 		}
 	});
 }
 
 function copyDirectory(source, destination) {
+	console.log(`Copying directory from ${source} to ${destination}`);
 	if (!fs.existsSync(destination)) {
 		mkdirp.sync(destination);
+		console.log(`Created directory ${destination}`);
 	}
 
 	fs.readdir(source, (err, files) => {
@@ -127,7 +132,9 @@ function copyDirectory(source, destination) {
 }
 
 function processRouteDirectory(routeDir, buildDir) {
+	console.log(`Processing route directory ${routeDir}`);
 	const jsonFile = path.join(routeDir, "skeleton.json");
+	console.log(`Looking for skeleton.json at ${jsonFile}`);
 	if (!fs.existsSync(jsonFile)) {
 		console.error(`Error: Could not open ${jsonFile} file!`);
 		return;
@@ -142,13 +149,16 @@ function processRouteDirectory(routeDir, buildDir) {
 	const bodyContent = generateHtmlFromJson(jsonObj);
 
 	// Create the content for index.html
+	const prefix = process.env.PAGE_URL;
+	console.log("prefix", prefix);
 	const webContent = `
 <!DOCTYPE html>
 <html lang="en">
+  <base href="${prefix}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Title Placeholder</title>
+    <title>CWrap-framework</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -160,11 +170,13 @@ ${bodyContent}
 	// Ensure the build directory exists
 	if (!fs.existsSync(buildDir)) {
 		mkdirp.sync(buildDir);
+		console.log(`Created build directory ${buildDir}`);
 	}
 
 	// Write the content to build/index.html
 	const webFile = path.join(buildDir, "index.html");
 	fs.writeFileSync(webFile, webContent, "utf8");
+	console.log(`Generated ${webFile} successfully!`);
 
 	// Write the CSS content to build/styles.css
 	const cssFile = path.join(buildDir, "styles.css");
@@ -187,19 +199,20 @@ ${bodyContent}
 		cssContent += `${key} {${value}}\n`;
 	});
 	fs.writeFileSync(cssFile, cssContent, "utf8");
+	console.log(`Generated ${cssFile} successfully!`);
 
 	// Copy the static folder to the build directory if it exists
 	const staticDir = path.join("static");
+	console.log(`Looking for static directory at ${staticDir}`);
 	if (fs.existsSync(staticDir)) {
 		copyDirectory(staticDir, path.join(buildDir, "static"));
 	} else {
 		console.warn(`Warning: Static directory ${staticDir} does not exist.`);
 	}
-
-	console.log(`Generated ${webFile} and ${cssFile} successfully!`);
 }
 
 function processAllRoutes(sourceDir, buildDir) {
+	console.log(`Processing all routes in ${sourceDir}`);
 	fs.readdir(sourceDir, (err, files) => {
 		if (err) {
 			console.error(`Error: Could not open directory ${sourceDir}`);
@@ -209,6 +222,8 @@ function processAllRoutes(sourceDir, buildDir) {
 		for (const file of files) {
 			const sourcePath = path.join(sourceDir, file);
 			const destinationPath = path.join(buildDir, file);
+
+			console.log(`Processing file or directory: ${sourcePath}`);
 
 			fs.stat(sourcePath, (err, stats) => {
 				if (err) {
@@ -226,12 +241,17 @@ function processAllRoutes(sourceDir, buildDir) {
 }
 
 function main() {
-	const routesDir = "routes";
-	const buildDir = "build";
+	const routesDir = path.resolve("routes");
+	const buildDir = path.resolve("build");
+
+	console.log("Starting build process...");
+	console.log(`Routes directory: ${routesDir}`);
+	console.log(`Build directory: ${buildDir}`);
 
 	// Ensure the build directory exists
 	if (!fs.existsSync(buildDir)) {
 		mkdirp.sync(buildDir);
+		console.log(`Created build directory ${buildDir}`);
 	}
 
 	// Process the home directory
@@ -239,6 +259,8 @@ function main() {
 
 	// Process all routes
 	processAllRoutes(routesDir, buildDir);
+
+	console.log("Build process completed!");
 }
 
 main();
