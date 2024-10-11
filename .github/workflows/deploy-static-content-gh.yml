@@ -1,0 +1,55 @@
+name: Deploy static content to Pages
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+
+      - name: Delete package.json and package-lock.json
+        run: rm -f package.json package-lock.json
+
+      - name: Install mkdirp without dependencies
+        run: npm install mkdirp --no-save --no-package-lock
+
+      - name: Set base URL
+        id: set_base_url
+        run: echo "BASE_URL=/$(echo $GITHUB_REPOSITORY | cut -d'/' -f2)/" >> $GITHUB_ENV
+
+      - name: Build project
+        run: node build.js
+        env:
+          PAGE_URL: ${{ env.BASE_URL }}
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "build"
+          name: "github-pages" # Ensure the artifact name matches
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
