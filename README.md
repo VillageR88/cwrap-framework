@@ -16,11 +16,17 @@ CWrap is a microframework for web developers and those learning web development.
 `cd your-project-directory`
 `npm start`
 
-## Build
+## Building
 
 To build the project, run the following command:
 
 `npm run build`
+
+## Deploying
+
+To deploy static content to GitHub Pages, go to the Actions tab in your GitHub repository and run the "Deploying static content to GH Pages" workflow.
+
+Example build: [https://villager88.github.io/cwrap-framework/](https://villager88.github.io/cwrap-framework/)
 
 ## Note
 

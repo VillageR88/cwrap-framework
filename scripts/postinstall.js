@@ -168,6 +168,21 @@ if (!fs.existsSync(buildDestPath)) {
 	logMessage("build.js already exists in the root folder");
 }
 
+// Move .github folder from cwrap to root folder if it does not exist
+const githubSrcPath = path.join(cwrapPath, ".github");
+const githubDestPath = path.join(rootPath, ".github");
+if (!fs.existsSync(githubDestPath)) {
+	try {
+		copyFolderSync(githubSrcPath, githubDestPath);
+		logMessage("Moved .github folder to root folder");
+	} catch (error) {
+		logMessage("Error moving .github folder:", error.message);
+		process.exit(1);
+	}
+} else {
+	logMessage(".github folder already exists in the root folder");
+}
+
 // Remove the lock file
 removeLockFile();
 
