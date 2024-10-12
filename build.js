@@ -128,17 +128,29 @@ function copyDirectory(source, destination) {
 	});
 }
 
+function copyFaviconToRoot(buildDir) {
+	const faviconSource = path.join("static", "favicon", "favicon.ico");
+	const faviconDestination = path.join(buildDir, "favicon.ico");
+
+	if (fs.existsSync(faviconSource)) {
+		copyFile(faviconSource, faviconDestination);
+		console.log(`Copied favicon.ico to ${faviconDestination}`);
+	} else {
+		console.warn(`Warning: Favicon file ${faviconSource} does not exist.`);
+	}
+}
+
 function generateHeadHtml(head, buildDir) {
 	let headHtml = "<head>\n";
 	const prefix = process.env.PAGE_URL;
 	if (prefix) {
 		console.log("Prefix: ", prefix);
 	} else {
-		const packageJsonPath = path.join(__dirname, "package.json");
-		const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
-		const routeName = packageJson.name;
-		const route = buildDir.split(routeName).pop();
-		headHtml += `<base href="${route.replaceAll("\\", "/")}/">\n`;
+		// const packageJsonPath = path.join(__dirname, "package.json");
+		// const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
+		// const routeName = packageJson.name;
+		// const route = buildDir.split(routeName).pop();
+		// headHtml += `<base href="${route.replaceAll("\\", "/")}/">\n`;
 	}
 
 	// Add title
@@ -147,6 +159,15 @@ function generateHeadHtml(head, buildDir) {
 	}
 
 	// Add meta tags
+	if (head.link && Array.isArray(head.link)) {
+		for (const link of head.link) {
+			headHtml += "    <link";
+			for (const [key, value] of Object.entries(link)) {
+				headHtml += ` ${key}="${value}"`;
+			}
+			headHtml += ">\n";
+		}
+	}
 	if (head.meta && Array.isArray(head.meta)) {
 		for (const meta of head.meta) {
 			headHtml += "    <meta";
@@ -278,6 +299,9 @@ function main() {
 	} else {
 		console.warn(`Warning: Static directory ${staticDir} does not exist.`);
 	}
+
+	// Copy favicon.ico to the root of the build directory
+	copyFaviconToRoot(buildDir);
 
 	// Process the home directory
 	processRouteDirectory(routesDir, buildDir);

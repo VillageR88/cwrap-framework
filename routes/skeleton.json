@@ -1,6 +1,13 @@
 {
   "head": {
     "title": "Candy Wrapper",
+    "link": [
+      {
+        "rel": "shortcut icon",
+        "href": "favicon.ico",
+        "type": "image/x-icon"
+      }
+    ],
     "meta": [
       {
         "name": "viewport",
@@ -22,12 +29,12 @@
   "fonts": [
     {
       "font-family": "Figtree",
-      "src": "url('static/fonts/Figtree-VariableFont_wght.ttf') format('truetype')",
+      "src": "url('./static/fonts/Figtree-VariableFont_wght.ttf') format('truetype')",
       "font-display": "swap"
     },
     {
       "font-family": "FigtreeExtraBold",
-      "src": "url('static/fonts/Figtree-ExtraBold.ttf') format('truetype')",
+      "src": "url('./static/fonts/Figtree-ExtraBold.ttf') format('truetype')",
       "font-display": "swap"
     }
   ],
@@ -37,7 +44,7 @@
     "--color-cadmium-yellow": "#ffef00"
   },
   "element": "body",
-  "style": "background-color: #f4d04e; display: flex; align-items: center; justify-content: center; font-family: 'Figtree', sans-serif; min-height: 100dvh; margin: 0px; padding: 0px; box-sizing: border-box;",
+  "style": "background-color: #f4d04e; display: flex; align-items: center; justify-content: center; font-family: 'Figtree', sans-serif; min-height: 100dvh; margin: 0px; padding: 24px; box-sizing: border-box;",
   "mediaQueries": [
     {
       "query": "max-width: 768px",
