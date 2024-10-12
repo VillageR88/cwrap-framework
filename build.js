@@ -181,7 +181,7 @@ function processRouteDirectory(routeDir, buildDir) {
 	const webContent = `
 <!DOCTYPE html>
 <html lang="en">
-  ${prefix ? `<base href="${prefix}">` : ""}
+  ${prefix ? `<base href="${prefix}">` : `<base href="/build/">`}
 ${headContent}
 <body>
 ${bodyContent}
