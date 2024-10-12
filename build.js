@@ -128,12 +128,22 @@ function copyDirectory(source, destination) {
 	});
 }
 
-function generateHeadHtml(head) {
+function generateHeadHtml(head, buildDir) {
 	let headHtml = "<head>\n";
+	const prefix = process.env.PAGE_URL || "/build/";
+	// route different method than reading env
+	const packageJsonPath = path.join(__dirname, "package.json");
+	// Read and parse the package.json file
+	const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
+	// Extract the version of cwrap-framework
+	const routeName = packageJson.name;
+	console.log(`Using cwrap-framework version: ${routeName}`);
+	const route = buildDir.split(routeName).pop();
+	headHtml += `<base href="${route.replaceAll("\\", "/")}/">\n`;
 
 	// Add title
 	if (head.title) {
-		headHtml += `    <title>${head.title}</title>\n`;
+		headHtml += `<title>${head.title}</title>\n`;
 	}
 
 	// Add meta tags
@@ -169,19 +179,15 @@ function processRouteDirectory(routeDir, buildDir) {
 	// Generate head content
 	let headContent = "";
 	if (Object.prototype.hasOwnProperty.call(jsonObj, "head")) {
-		headContent = generateHeadHtml(jsonObj.head);
+		headContent = generateHeadHtml(jsonObj.head, buildDir);
 	}
 
 	// Generate HTML content from JSON
 	const bodyContent = generateHtmlFromJson(jsonObj);
 
-	// Create the content for index.html
-	const prefix = process.env.PAGE_URL;
-	if (prefix) console.log("prefix", prefix);
 	const webContent = `
 <!DOCTYPE html>
 <html lang="en">
-  ${prefix ? `<base href="${prefix}">` : `<base href="/build/">`}
 ${headContent}
 <body>
 ${bodyContent}
@@ -221,6 +227,7 @@ ${bodyContent}
 		cssContent += `${key} {${value}}\n`;
 	});
 	fs.writeFileSync(cssFile, cssContent, "utf8");
+	cssMap.clear();
 	console.log(`Generated ${cssFile} successfully!`);
 }
 
