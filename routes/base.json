@@ -1,0 +1,39 @@
+{
+  "head": {
+    "title": "Base blog preview card",
+    "meta": [
+      {
+        "name": "viewport",
+        "content": "width=device-width, initial-scale=1.0"
+      },
+      {
+        "charset": "UTF-8"
+      },
+      {
+        "name": "description",
+        "content": "A preview card for a blog post."
+      },
+      {
+        "name": "keywords",
+        "content": "blog, preview, card, HTML, CSS"
+      }
+    ]
+  },
+  "fonts": [
+    {
+      "font-family": "Figtree",
+      "src": "url('static/fonts/Figtree-VariableFont_wght.ttf') format('truetype')",
+      "font-display": "swap"
+    },
+    {
+      "font-family": "FigtreeExtraBold",
+      "src": "url('static/fonts/Figtree-ExtraBold.ttf') format('truetype')",
+      "font-display": "swap"
+    }
+  ],
+  "root": {
+    "--color-titanium-white": "#ffffff",
+    "--color-midnight-black": "#000000",
+    "--color-cadmium-yellow": "#ffef00"
+  }
+}
