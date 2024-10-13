@@ -152,6 +152,20 @@ if (!fs.existsSync(serverDestPath)) {
 	logMessage("server.js already exists in the root folder");
 }
 
+//Move start.js from cwrap to root folder if it does not exist
+const startSrcPath = path.join(cwrapPath, "/scripts/start.js");
+const startDestPath = path.join(rootPath, "start.js");
+if (!fs.existsSync(startDestPath)) {
+	try {
+		fs.copyFileSync(startSrcPath, startDestPath);
+		logMessage("Moved start.js to root folder");
+	} catch (error) {
+		logMessage("Error moving start.js:", error.message);
+		removeLockFile();
+		process.exit(1);
+	}
+}
+
 // Move build.js from cwrap to root folder if it does not exist
 const buildSrcPath = path.join(cwrapPath, "build.js");
 const buildDestPath = path.join(rootPath, "build.js");
