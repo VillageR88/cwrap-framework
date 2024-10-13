@@ -1,15 +1,10 @@
 :root {
-  /* --primary-color: #4ccf6f;
-  --secondary-color: #042018;
-  --background-color: #121212;
-  --text-color: white; */
-  --text-color1: #fbfcfb;
-  --text-color2: #8b949e;
-  --border-color1: #2e3339b3;
-  --border-color2: #3d444d;
-  --background-color2: #010409;
-  --background-color3: #10151c;
-  --background-color4: #151b23;
+  --text-primary: #fbfcfb;
+  --text-placeholder: #8b949e;
+  --border-darker: #2e3339b3;
+  --border-lighter: #3d444d;
+  --background-darker: #10151c;
+  --background-lighter: #151b23;
   --color-shadow1: #0c0f13;
   --color-input1: #151e2a;
   --backgroundColorBasedOnInput1: #151e2a;
@@ -19,8 +14,8 @@
 }
 
 input[readonly] {
-  user-select: none; /* Disable text selection */
-  cursor: ew-resize; /* Change cursor to indicate drag */
+  user-select: none;
+  cursor: ew-resize;
 }
 
 label,
@@ -68,15 +63,15 @@ body > #leftSide > div#leftSidebarCanvas {
   transition: transform 0.5s;
 }
 body > #leftSide > div#leftSidebarCanvas > div#leftSidebar {
-  background-color: var(--background-color4);
+  background-color: var(--background-lighter);
   padding-block: 12px;
   padding-inline: 16px;
   display: flex;
   flex-direction: column;
   gap: 20px;
   max-width: 500px;
-  border-top: 2px solid var(--border-color2);
-  border-left: 2px solid var(--border-color2);
+  border-top: 2px solid var(--border-lighter);
+  border-left: 2px solid var(--border-lighter);
   border-right: 2px solid var(--color-shadow1);
   border-bottom: 2px solid var(--color-shadow1);
   border-radius: 10px 10px 10px 10px;
@@ -133,18 +128,6 @@ body > #leftSide > div#leftSidebarCanvas > div#leftSidebar > nav > div > div {
   gap: 12px;
 }
 
-body > #leftSide > #leftSidebarAddition {
-  display: flex;
-  align-items: center;
-  background-color: var(--background-color3);
-  width: 300px;
-  padding-block: 12px;
-  padding-inline: 16px;
-  border-block: 2px solid var(--border-color1);
-  border-right: 2px solid var(--border-color1);
-  border-radius: 0 10px 10px 0;
-}
-
 @keyframes handOnLogo {
   0% {
     left: 90px;
@@ -178,9 +161,9 @@ body > #leftSide > #leftSidebarAddition {
   right: 0;
   border-radius: 10px 0 0 10px;
   border-right: none;
-  border-left: 2px solid var(--border-color2);
+  border-left: 2px solid var(--border-lighter);
   border-bottom: 2px solid var(--color-shadow1);
-  border-top: 2px solid var(--border-color2);
+  border-top: 2px solid var(--border-lighter);
 }
 
 body > main {
@@ -202,12 +185,12 @@ body > main > div#previewTree {
   width: 100%;
   max-width: 1000px;
   height: 100%;
-  border-top: 2px solid var(--border-color2);
-  border-left: 2px solid var(--border-color2);
+  border-top: 2px solid var(--border-lighter);
+  border-left: 2px solid var(--border-lighter);
   border-right: 2px solid var(--color-shadow1);
   border-bottom: 2px solid var(--color-shadow1);
   border-radius: 10px;
-  background-color: var(--background-color3);
+  background-color: var(--background-darker);
   box-sizing: border-box;
 }
 
@@ -222,15 +205,14 @@ body > main > div#previewTree button {
 
 body > main > div#previewTree button.cwrapHighlight {
   background-color: #e8eaed;
-  border-left: 2px solid var(--border-color2);
-  border-top: 2px solid var(--border-color2);
+  border-left: 2px solid var(--border-lighter);
+  border-top: 2px solid var(--border-lighter);
   border-right: 2px solid var(--color-shadow1);
   border-bottom: 2px solid var(--color-shadow1);
   color: black;
 }
 
 body > div {
-  background-color: var(--background-color3);
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -254,7 +236,6 @@ h6 {
 
 #preview,
 #noPreview {
-  background-color: var(--background-color2);
   align-items: center;
   justify-content: center;
   width: 100%;
@@ -267,7 +248,7 @@ h6 {
 }
 
 ::placeholder {
-  color: var(--text-color2);
+  color: var(--text-placeholder);
 }
 :disabled {
   opacity: 0.5;
@@ -484,7 +465,7 @@ h6 {
 }
 
 .separatorVertical {
-  border-left: 2px solid var(--border-color1);
+  border-left: 2px solid var(--border-darker);
   min-height: 100%;
 }
 
@@ -495,11 +476,10 @@ h6 {
 }
 
 #wizardDiv .separatorVertical {
-  border-left: 2px solid var(--border-color2);
+  border-left: 2px solid var(--border-lighter);
   min-height: 100%;
 }
 #wizardDiv {
-  background-color: var(--background-color2);
   align-items: center;
   margin: 0;
   margin-block: 12px;
@@ -510,21 +490,21 @@ h6 {
 }
 
 #wizardDiv > form.shaded {
-  background-color: var(--background-color3);
-  border-top-color: var(--border-color1);
-  border-left-color: var(--border-color1);
+  background-color: var(--background-darker);
+  border-top-color: var(--border-darker);
+  border-left-color: var(--border-darker);
 }
 #wizardDiv > form {
   box-sizing: border-box;
-  background-color: var(--background-color4);
+  background-color: var(--background-lighter);
   border-radius: 10px;
   padding: 24px;
   gap: 12px;
   display: flex;
   flex-direction: column;
   width: 800px;
-  border-top: 2px solid var(--border-color2);
-  border-left: 2px solid var(--border-color2);
+  border-top: 2px solid var(--border-lighter);
+  border-left: 2px solid var(--border-lighter);
   border-right: 2px solid var(--color-shadow1);
   border-bottom: 2px solid var(--color-shadow1);
 }
@@ -543,7 +523,7 @@ h6 {
 }
 
 #wizardDiv > form > div > div {
-  background-color: var(--background-color4);
+  background-color: var(--background-lighter);
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -577,8 +557,8 @@ h6 {
   display: flex;
   flex-direction: column;
   gap: 18px;
-  border-top: 2px solid var(--border-color2);
-  border-left: 2px solid var(--border-color2);
+  border-top: 2px solid var(--border-lighter);
+  border-left: 2px solid var(--border-lighter);
   border-right: 2px solid var(--color-shadow1);
   border-bottom: 2px solid var(--color-shadow1);
   border-radius: 10px;
@@ -590,9 +570,9 @@ a {
   padding: 10px 20px;
   border: none;
   border-radius: 10px;
-  background-color: var(--background-color4);
-  border: 2px solid var(--border-color2);
-  color: var(--text-color1);
+  background-color: var(--background-lighter);
+  border: 2px solid var(--border-lighter);
+  color: var(--text-primary);
   cursor: pointer;
   font-size: medium;
   box-sizing: border-box;
@@ -649,12 +629,12 @@ a {
   flex-direction: column;
   align-items: start;
   gap: 12px;
-  background-color: var(--background-color4);
+  background-color: var(--background-lighter);
   padding-inline: 12px;
   padding-block: 12px;
   border-radius: 10px;
-  border-top: 2px solid var(--border-color2);
-  border-left: 2px solid var(--border-color2);
+  border-top: 2px solid var(--border-lighter);
+  border-left: 2px solid var(--border-lighter);
   border-right: 2px solid var(--color-shadow1);
   border-bottom: 2px solid var(--color-shadow1);
 }
@@ -760,8 +740,8 @@ a {
 .mediumButtons:active:not(:disabled) {
   border-left: 2px solid var(--color-shadow1);
   border-top: 2px solid var(--color-shadow1);
-  border-right: 2px solid var(--border-color2);
-  border-bottom: 2px solid var(--border-color2);
+  border-right: 2px solid var(--border-lighter);
+  border-bottom: 2px solid var(--border-lighter);
 }
 
 .mediumButtons:hover {
@@ -769,9 +749,9 @@ a {
 }
 .mediumButtons {
   outline: none;
-  background-color: var(--background-color4);
-  border-left: 2px solid var(--border-color2);
-  border-top: 2px solid var(--border-color2);
+  background-color: var(--background-lighter);
+  border-left: 2px solid var(--border-lighter);
+  border-top: 2px solid var(--border-lighter);
   border-right: 2px solid var(--color-shadow1);
   border-bottom: 2px solid var(--color-shadow1);
   border-radius: 6px;
@@ -833,14 +813,14 @@ select,
 input,
 textarea {
   padding: 10px;
-  border-right: 2px solid var(--border-color2);
-  border-bottom: 2px solid var(--border-color2);
+  border-right: 2px solid var(--border-lighter);
+  border-bottom: 2px solid var(--border-lighter);
   border-left: 2px solid var(--color-shadow1);
   border-top: 2px solid var(--color-shadow1);
   outline: none;
   border-radius: 10px;
   background-color: var(--color-input1);
-  color: var(--text-color1);
+  color: var(--text-primary);
   font-size: medium;
   box-sizing: border-box;
   width: 100%;
@@ -857,8 +837,8 @@ input {
 }
 
 .awesomplete ul {
-  background-color: var(--background-color4);
-  border: 2px solid var(--border-color1);
+  background-color: var(--background-lighter);
+  border: 2px solid var(--border-darker);
   max-height: 200px; /* Maximum height for the suggestion list */
   overflow-y: auto; /* Scrollable if the list is too long */
   padding: 0;
@@ -868,7 +848,7 @@ input {
 }
 
 .awesomplete li {
-  background-color: var(--background-color4);
+  background-color: var(--background-lighter);
   padding: 5px 10px; /* Padding for each suggestion */
   cursor: pointer; /* Pointer cursor for suggestions */
 }

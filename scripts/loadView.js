@@ -16,6 +16,7 @@ export function loadHeadView() {
 	global.id.wizardFontsDiv.style.display = "none";
 	global.id.wizardRootDiv.style.display = "none";
 	global.id.wizard.classList.remove(global.class.shaded);
+	leftSidebarCleanup();
 	centralBarCleanup();
 }
 
@@ -34,6 +35,7 @@ export function loadFontsView() {
 	global.id.wizardFontsDiv.style.display = "flex";
 	global.id.wizardRootDiv.style.display = "none";
 	global.id.wizard.classList.add(global.class.shaded);
+	leftSidebarCleanup();
 	centralBarCleanup();
 }
 
@@ -52,12 +54,14 @@ export function loadRootView() {
 	global.id.wizardFontsDiv.style.display = "none";
 	global.id.wizardRootDiv.style.display = "flex";
 	global.id.wizard.classList.add(global.class.shaded);
+	leftSidebarCleanup();
 	centralBarCleanup();
 }
 
 export function loadBodyView() {
 	// global.id.leftSidebarAddition.style.display = "flex";
 	global.id.selectedElementLabelContainer.style.display = "flex";
+	global.id.navAdditionalScreen.style.display = "flex";
 	global.id.navBodyAdditional.style.display = "flex";
 	global.id.navDevice.style.display = "none";
 	global.id.navPreview.style.display = "none";
@@ -66,12 +70,16 @@ export function loadBodyView() {
 	global.id.noPreview.style.display = "none";
 	global.id.wizardDiv.style.display = "none";
 	// global.id.leftSidebar.classList.remove(global.class.smaller); //debug
+	leftSidebarCleanup();
 	centralBarCleanup();
 }
 
-function centralBarCleanup() {
-	global.id.navSelectPreview.classList.remove("preview", "tree");
+function leftSidebarCleanup() {
+	global.id.navSelectPreview.classList.remove("tree", "static");
 	global.id.navSelectPreview.classList.add("preview");
+}
+
+function centralBarCleanup() {
 	global.id.mainInitialSelector.style.display = "flex";
 	global.id.selectedElementHighlight.style.display = "flex";
 	global.id.mainElementAdd.style.display = "none";
