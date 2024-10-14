@@ -9,7 +9,6 @@ export function loadHeadView() {
 	global.id.navPreview.style.display = "none";
 	global.id.preview.style.display = "none";
 	global.id.previewTree.style.display = "none";
-	global.id.noPreview.style.display = "none";
 	global.id.wizardDiv.style.display = "flex";
 	global.id.wizardTitle.textContent = "Head creator";
 	global.id.wizardHeadDiv.style.display = "flex";
@@ -28,7 +27,6 @@ export function loadFontsView() {
 	global.id.navPreview.style.display = "none";
 	global.id.preview.style.display = "none";
 	global.id.previewTree.style.display = "none";
-	global.id.noPreview.style.display = "none";
 	global.id.wizardDiv.style.display = "flex";
 	global.id.wizardTitle.textContent = "Fonts creator";
 	global.id.wizardHeadDiv.style.display = "none";
@@ -47,7 +45,6 @@ export function loadRootView() {
 	global.id.navPreview.style.display = "none";
 	global.id.preview.style.display = "none";
 	global.id.previewTree.style.display = "none";
-	global.id.noPreview.style.display = "none";
 	global.id.wizardDiv.style.display = "flex";
 	global.id.wizardTitle.textContent = "Root creator";
 	global.id.wizardHeadDiv.style.display = "none";
@@ -60,6 +57,8 @@ export function loadRootView() {
 
 export function loadBodyView() {
 	// global.id.leftSidebarAddition.style.display = "flex";
+	global.id.navLvlMenu.style.display = "none";
+	global.id.navLvlRoute.style.display = "flex";
 	global.id.selectedElementLabelContainer.style.display = "flex";
 	global.id.navAdditionalScreen.style.display = "flex";
 	global.id.navBodyAdditional.style.display = "flex";
@@ -67,11 +66,16 @@ export function loadBodyView() {
 	global.id.navPreview.style.display = "none";
 	global.id.preview.style.display = "flex";
 	global.id.previewTree.style.display = "none";
-	global.id.noPreview.style.display = "none";
 	global.id.wizardDiv.style.display = "none";
 	// global.id.leftSidebar.classList.remove(global.class.smaller); //debug
 	leftSidebarCleanup();
 	centralBarCleanup();
+}
+
+export function loadMenuLevelView() {
+	global.id.navLvlMenu.style.display = "flex";
+	global.id.navSelection.style.display = "flex";
+	
 }
 
 function leftSidebarCleanup() {

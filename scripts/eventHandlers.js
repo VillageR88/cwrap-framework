@@ -23,6 +23,7 @@ import {
 	loadFontsView,
 	loadRootView,
 	loadBodyView,
+	loadMenuLevelView,
 } from "./loadView.js";
 import populateAttributeSelectAll from "./populateAttributeSelectAll.js";
 import populatePropertyValue from "./populatePropertyValue.js";
@@ -63,8 +64,6 @@ export const eventHandlers = () => {
 	function camelCaseToKebabCase(camelCase) {
 		return camelCase.replace(/[A-Z]/g, (match) => `-${match.toLowerCase()}`);
 	}
-	//initializeAwesomplete(cssProperties);
-
 	const headMap = global.map.headMap;
 	const rootMap = global.map.rootMap;
 	const fontMap = global.map.fontMap;
@@ -929,7 +928,8 @@ document.addEventListener("mouseup", () => {
 	isDragging = false; // Stop dragging when the mouse is released
 });
 
-loadBodyView();
+loadMenuLevelView();
+// loadBodyView();
 // global.id.sectionsVariables.value = "root";
 localStorage.setItem("hideArrow", "true");
 document.body.style.display = "flex";

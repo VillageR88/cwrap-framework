@@ -3,8 +3,11 @@
  */
 import eventHandlers from "./eventHandlers.js";
 import initialLoader from "./initialLoader.js";
-const storedPathname = localStorage.getItem("storedPathname");
+import loadTheme from "./loadTheme.js";
+import menuLoader from "./menuLoader.js";
 
+loadTheme();
+menuLoader();
 initialLoader();
 document.addEventListener("DOMContentLoaded", async () => {
 	eventHandlers();

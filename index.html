@@ -9,36 +9,106 @@
   <link rel="icon" href="./static/favicon/favicon.ico" type="image/x-icon" />
 </head>
 
-<body style="display: none;" class="horizontal">
+<body style="display: none;">
   <div id="leftSide">
     <div id="leftSidebarCanvas">
       <div id="leftSidebar" class="smaller">
-        <header>
-          <!-- <img height="24" width="24" src="static/favicon/favicon.ico" alt="Website favicon" /> -->
-          <span class="label">Navigation</span>
-           <div>
-           <button class="mediumButtons logo" title="cwrap menu"></button>
-          <div id="menuDiv">
-            <button class="mediumButtons save" title="save project" id="menuSave"></button>
-            <button class="mediumButtons restart" title="reload project" id="menuReload"></button>
-          </div>            
-          <button class="mediumButtons switchRight" id="leftSidebarSwitchSide" title="switch sidebar side"></button>
-        </div>
-        </header>
         <nav>
           <div>
+            <span class="label">Navigation</span>
+            <div>
+              <div id="navLvlMenu">
+                <button class="mediumButtons" title="options">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
+                    <path
+                      d="m370-80-16-128q-13-5-24.5-12T307-235l-119 50L78-375l103-78q-1-7-1-13.5v-27q0-6.5 1-13.5L78-585l110-190 119 50q11-8 23-15t24-12l16-128h220l16 128q13 5 24.5 12t22.5 15l119-50 110 190-103 78q1 7 1 13.5v27q0 6.5-2 13.5l103 78-110 190-118-50q-11 8-23 15t-24 12L590-80H370Zm70-80h79l14-106q31-8 57.5-23.5T639-327l99 41 39-68-86-65q5-14 7-29.5t2-31.5q0-16-2-31.5t-7-29.5l86-65-39-68-99 42q-22-23-48.5-38.5T533-694l-13-106h-79l-14 106q-31 8-57.5 23.5T321-633l-99-41-39 68 86 64q-5 15-7 30t-2 32q0 16 2 31t7 30l-86 65 39 68 99-42q22 23 48.5 38.5T427-266l13 106Zm42-180q58 0 99-41t41-99q0-58-41-99t-99-41q-59 0-99.5 41T342-480q0 58 40.5 99t99.5 41Zm-2-140Z" />
+                  </svg>
+                </button>
+                <button class="mediumButtons" title="save" id="">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+                    <use href="#save"></use>
+                  </svg>
+                </button>
+                <button class="mediumButtons" title="reload" id="">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+                    <use href="#reload"></use>
+                  </svg>
+                </button>
+
+              </div>
+              <div id="navLvlRoute">
+                <button class="mediumButtons" title="back to main menu">
+                  <svg id="back" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
+                    <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" />
+                  </svg>
+                </button>
+                <button class="mediumButtons" title="save project" id="menuSave">
+                  <svg id="save" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
+                    <path
+                      d="M840-680v480q0 33-23.5 56.5T760-120H200q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h480l160 160Zm-80 34L646-760H200v560h560v-446ZM480-240q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35ZM240-560h360v-160H240v160Zm-40-86v446-560 114Z" />
+                  </svg>
+                </button>
+                <button class="mediumButtons" title="reload project" id="menuReload">
+                  <svg id="reload" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
+                    width="24px">
+                    <path
+                      d="M440-122q-121-15-200.5-105.5T160-440q0-66 26-126.5T260-672l57 57q-38 34-57.5 79T240-440q0 88 56 155.5T440-202v80Zm80 0v-80q87-16 143.5-83T720-440q0-100-70-170t-170-70h-3l44 44-56 56-140-140 140-140 56 56-44 44h3q134 0 227 93t93 227q0 121-79.5 211.5T520-122Z" />
+                  </svg>
+                </button>
+              </div>
+              <button class="mediumButtons switchRight" id="leftSidebarSwitchSide" title="switch sidebar side">
+                <svg id="switch" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
+                  <path d="M400-200 120-480l280-280v560Zm-60-145v-270L205-480l135 135Zm220 145v-560l280 280-280 280Z" />
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div id="navSelection">
+            <span class="label">Selection</span>
+            <div>
+              <button id="" class="mediumButtons" title="routes">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
+                  <path
+                    d="M320-360h80v-120h140v100l140-140-140-140v100H360q-17 0-28.5 11.5T320-520v160ZM480-80q-15 0-29.5-6T424-104L104-424q-12-12-18-26.5T80-480q0-15 6-29.5t18-26.5l320-320q12-12 26.5-18t29.5-6q15 0 29.5 6t26.5 18l320 320q12 12 18 26.5t6 29.5q0 15-6 29.5T856-424L536-104q-12 12-26.5 18T480-80ZM320-320l160 160 320-320-320-320-320 320 160 160Zm160-160Z" />
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div id="navSections">
             <span class="label">Sections</span>
             <div>
-              <button id="navHead" class="mediumButtons head" title="Head"></button>
-              <button id="navFonts" class="mediumButtons fonts" title="Fonts"></button>
-              <button id="navRoot" class="mediumButtons root" title="Root"></button>
-              <button id="navBody" class="mediumButtons body" title="Body"></button>
+              <button id="navHead" class="mediumButtons" title="Head">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
+                  <path
+                    d="M360-390q-21 0-35.5-14.5T310-440q0-21 14.5-35.5T360-490q21 0 35.5 14.5T410-440q0 21-14.5 35.5T360-390Zm240 0q-21 0-35.5-14.5T550-440q0-21 14.5-35.5T600-490q21 0 35.5 14.5T650-440q0 21-14.5 35.5T600-390ZM480-160q134 0 227-93t93-227q0-24-3-46.5T786-570q-21 5-42 7.5t-44 2.5q-91 0-172-39T390-708q-32 78-91.5 135.5T160-486v6q0 134 93 227t227 93Zm0 80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm-54-715q42 70 114 112.5T700-640q14 0 27-1.5t27-3.5q-42-70-114-112.5T480-800q-14 0-27 1.5t-27 3.5ZM177-581q51-29 89-75t57-103q-51 29-89 75t-57 103Zm249-214Zm-103 36Z" />
+                </svg>
+              </button>
+              <button id="navFonts" class="mediumButtons" title="Fonts">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
+                  <path
+                    d="M186-80q-54 0-80-22t-26-66q0-58 49-74t116-16h21v-56q0-34-1-55.5t-6-35.5q-5-14-11.5-19.5T230-430q-9 0-16.5 3t-12.5 8q-4 5-5 10.5t1 11.5q6 11 14 21.5t8 24.5q0 25-17.5 42.5T159-291q-25 0-42.5-17.5T99-351q0-27 12-44t32.5-27q20.5-10 47.5-14t58-4q85 0 118 30.5T400-302v147q0 19 4.5 28t15.5 9q12 0 19.5-18t9.5-56h11q-3 62-23.5 87T368-80q-43 0-67.5-13.5T269-134q-10 29-29.5 41.5T186-80Zm373 0q-20 0-32.5-16.5T522-132l102-269q7-17 22-28t34-11q19 0 34 11t22 28l102 269q8 19-4.5 35.5T801-80q-12 0-22-7t-15-19l-20-58H616l-20 58q-4 11-14 18.5T559-80Zm-324-29q13 0 22-20.5t9-49.5v-67q-26 0-38 15.5T216-180v11q0 36 4 48t15 12Zm407-125h77l-39-114-38 114Zm-37-285q-48 0-76.5-33.5T500-643q0-104 66-170.5T735-880q42 0 68 9.5t26 24.5q0 6-2 12t-7 11q-5 7-12.5 10t-15.5 1q-14-4-32-7t-33-3q-71 0-114 48t-43 127q0 22 8 46t36 24q11 0 21.5-5t18.5-14q17-18 31.5-60T712-758q2-13 10.5-18.5T746-782q18 0 27.5 9.5T779-749q-12 43-17.5 75t-5.5 58q0 20 5.5 29t16.5 9q11 0 21.5-8t29.5-30q2-3 15-7 8 0 12 6t4 17q0 28-32 54t-67 26q-26 0-44.5-14T691-574q-15 26-37 40.5T605-519Zm-485-1v-220q0-58 41-99t99-41q58 0 99 41t41 99v220h-80v-80H200v80h-80Zm80-160h120v-60q0-25-17.5-42.5T260-800q-25 0-42.5 17.5T200-740v60Z" />
+                </svg>
+              </button>
+              <button id="navRoot" class="mediumButtons" title="Root">
+                <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+                  class="icon line-color">
+                  <path d="M3,12H4.31a1,1,0,0,1,.93.65L8,20,10.85,4.82a1,1,0,0,1,1-.82H21" fill="none"
+                    stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                  </path>
+                </svg>
+              </button>
+              <button id="navBody" class="mediumButtons" title="Body">
+                <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px">
+                  <path
+                    d="M480-660q-29 0-49.5-20.5T410-730q0-29 20.5-49.5T480-800q29 0 49.5 20.5T550-730q0 29-20.5 49.5T480-660Zm-80 500v-200h-40v-180q0-33 23.5-56.5T440-620h80q33 0 56.5 23.5T600-540v180h-40v200H400Z" />
+                </svg>
+              </button>
             </div>
           </div>
           <div id="navBodyAdditional">
             <span class="label">Toolset</span>
             <div>
-              <button id="navAdditionalScreen" class="mediumButtons device screenDesktop" title="select device"></button>
+              <button id="navAdditionalScreen" class="mediumButtons screenDesktop" title="select "></button>
               <button id="navSelectPreview" class="mediumButtons preview" title="select preview"></button>
             </div>
           </div>
@@ -66,78 +136,213 @@
     <div>
       <div>
         <div id="mainInitialSelector">
-          <button id="openAddElement" type="button" class="add mediumButtons" title="add element"></button>
-          <select class="mediumButtons" id="elementSelect" title="select element"></select>
-          <button id="editText" class="mediumButtons text" title="edit text content"></button>
-          <button id="editAttributes" class="mediumButtons editAttributes2" title="edit attributes"></button>
-          <button id="editStyle" class="mediumButtons editStyle" title="edit style"></button>
-          <button class="mediumButtons remove" id="removeElement" title="remove element"></button>
+          <button id="openAddElement" type="button" class=" mediumButtons" title=" element">
+            <svg id="add" xmlns="http://www.w3.org/2000/svg" height="24px" width="24px" viewBox="0 -960 960 960">
+              <path
+                d="M440-280h80v-160h160v-80H520v-160h-80v160H280v80h160v160Zm40 200q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z" />
+            </svg>
+          </button>
+          <select st class="mediumButtons" id="elementSelect" title="select element"></select>
+          <button id="editText" class="mediumButtons" title="edit text content">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
+              <path d="M280-160v-520H80v-120h520v120H400v520H280Zm360 0v-320H520v-120h360v120H760v320H640Z" />
+            </svg>
+          </button>
+          <button id="editAttributes" class="mediumButtons" title="edit attributes"><svg
+              xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
+              <path
+                d="M160-400v-80h280v80H160Zm0-160v-80h440v80H160Zm0-160v-80h440v80H160Zm360 560v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q8 9 12.5 20t4.5 22q0 11-4 22.5T863-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
+            </svg>
+          </button>
+          <button id="editStyle" class="mediumButtons" title="edit style">
+            <svg id="style" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
+              <path
+                d="M440-80q-33 0-56.5-23.5T360-160v-160H240q-33 0-56.5-23.5T160-400v-280q0-66 47-113t113-47h480v440q0 33-23.5 56.5T720-320H600v160q0 33-23.5 56.5T520-80h-80ZM240-560h480v-200h-40v160h-80v-160h-40v80h-80v-80H320q-33 0-56.5 23.5T240-680v120Zm0 160h480v-80H240v80Zm0 0v-80 80Z" />
+            </svg>
+          </button>
+          <button class="mediumButtons" id="removeElement" title="remove element">
+            <svg id="remove" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
+              <path
+                d="m376-300 104-104 104 104 56-56-104-104 104-104-56-56-104 104-104-104-56 56 104 104-104 104 56 56Zm-96 180q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520Zm-400 0v520-520Z" />
+            </svg>
+          </button>
         </div>
         <div id="mainElementAdd">
-          <button class="mediumButtons back" id="closeAddElement" title="return to select element"></button>
+          <button class="mediumButtons" id="closeAddElement" title="return to select element">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#back"></use>
+            </svg>
+          </button>
           <select class="mediumButtons" id="elementSelectAll"></select>
-          <button class="mediumButtons add" id="addElement" title="add element"></button>
+          <button class="mediumButtons add" id="addElement" title="element">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#add"></use>
+            </svg>
+          </button>
         </div>
         <div id="mainStyleSelector">
-          <button id="mainStyleSelectorBack" class="mediumButtons back" title="back to element selector"></button>
-          <button class="mediumButtons state" id="openState" title="manage state"></button>
-          <button class="mediumButtons add" id="openAddProperty" title="open add property"></button>
+          <button id="mainStyleSelectorBack" class="mediumButtons" title="back to element selector">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#back"></use>
+            </svg>
+          </button>
+          <button class="mediumButtons" id="openState" title="manage state">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
+              <path
+                d="M320-240h60v-200h100l40 80h200v-240H600l-40-80H320v440Zm237-180-40-80H380v-120h143l40 80h97v120H557ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z" />
+            </svg>
+          </button>
+          <button class="mediumButtons" id="openAddProperty" title="open  property">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#add"></use>
+            </svg>
+          </button>
           <select class="mediumButtons" id="propertySelect"></select>
-          <button class="mediumButtons remove" id="removeProperty" title="remove property"></button>
+          <button class="mediumButtons" id="removeProperty" title="remove property">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#remove"></use>
+            </svg>
+          </button>
         </div>
         <div id="mainStyleAdd">
-          <button id="mainStyleAddBack" class="mediumButtons back" title="back to property selector"></button>
+          <button id="mainStyleAddBack" class="mediumButtons" title="back to property selector">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#back"></use>
+            </svg>
+          </button>
           <select id="propertySelectAll" class="mediumButtons"></select>
-          <button id="addProperty" class="mediumButtons add" title="add property"></button>
+          <button id="addProperty" class="mediumButtons" title="add property">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#add"></use>
+            </svg>
+          </button>
         </div>
         <div id="mainStateStyleAdd">
-          <button id="mainStateStyleAddBack" class="mediumButtons back" title="back to property selector"></button>
+          <button id="mainStateStyleAddBack" class="mediumButtons" title="back to property selector">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#back"></use>
+            </svg>
+          </button>
           <select id="statePropertySelectAll" class="mediumButtons"></select>
-          <button id="addStateProperty" class="mediumButtons add" title="add property"></button>
+          <button id="addStateProperty" class="mediumButtons" title="add property">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#add"></use>
+            </svg>
+          </button>
         </div>
         <div id="mainStateSelector">
-          <button id="mainStateSelectorBack" class="mediumButtons back" title="back to element selector"></button>
-          <button id="openAddState" class="mediumButtons add" title="add state"></button>
+          <button id="mainStateSelectorBack" class="mediumButtons" title="back to element selector">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#back"></use>
+            </svg>
+          </button>
+          <button id="openAddState" class="mediumButtons" title="add state">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#add"></use>
+            </svg>
+          </button>
           <select id="elementStateSelect"></select>
-          <button id="editStateStyle" class="mediumButtons editStyle" title="edit state style"></button>
-          <button id="removeState" class="mediumButtons remove" title="remove state"></button>
+          <button id="editStateStyle" class="mediumButtons" title="edit state style">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#style"></use>
+            </svg>
+          </button>
+          <button id="removeState" class="mediumButtons" title="remove state">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#remove"></use>
+            </svg>
+          </button>
         </div>
         <div id="mainStateStyleSelector">
-          <button id="mainStateStyleSelectorBack" class="mediumButtons back"
-            title="back to element state selector"></button>
-          <button id="openAddStateProperty" class="mediumButtons add" title="open add state property"></button>
+          <button id="mainStateStyleSelectorBack" class="mediumButtons" title="back to element state selector">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#back"></use>
+            </svg>
+          </button>
+          <button id="openAddStateProperty" class="mediumButtons" title="open add state property">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#add"></use>
+            </svg>
+          </button>
           <select id="statePropertySelect" class="mediumButtons"></select>
-          <button id="removeStateProperty" class="mediumButtons remove" title="remove state property"></button>
+          <button id="removeStateProperty" class="mediumButtons" title="remove state property">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#remove"></use>
+            </svg>
+          </button>
         </div>
         <div id="mainStateAdd">
-          <button class="mediumButtons back" id="closeAddState" title="return to select state"></button>
+          <button class="mediumButtons" id="closeAddState" title="return to select state">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#back"></use>
+            </svg>
+          </button>
           <select id="stateSelectAll"></select>
           <select id="selectContext"></select>
           <select id="selectStateOfContext"></select>
-          <button class="mediumButtons add" id="addState" title="add state"></button>
+          <button class="mediumButtons" id="addState" title="add state">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#add"></use>
+            </svg>
+          </button>
         </div>
         <div id="mainTextEditor">
-          <button id="mainTextEditorBack" class="mediumButtons back" title="back to element selector"></button>
-          <button id="updateText" class="mediumButtons update" title="update text content"></button>
+          <button id="mainTextEditorBack" class="mediumButtons" title="back to element selector">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#back"></use>
+            </svg>
+          </button>
+          <button id="updateText" class="mediumButtons" title="update text content">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
+              <path
+                d="M480-120q-75 0-140.5-28.5t-114-77q-48.5-48.5-77-114T120-480q0-75 28.5-140.5t77-114q48.5-48.5 114-77T480-840q82 0 155.5 35T760-706v-94h80v240H600v-80h110q-41-56-101-88t-129-32q-117 0-198.5 81.5T200-480q0 117 81.5 198.5T480-200q105 0 183.5-68T756-440h82q-15 137-117.5 228.5T480-120Zm112-192L440-464v-216h80v184l128 128-56 56Z" />
+            </svg>
+          </button>
         </div>
         <div id="mainAttributeSelector">
-          <button id="mainAttributeSelectorBack" class="mediumButtons back" title="back to element selector"></button>
-          <button class="mediumButtons add" id="openAddAttribute" title="open add attribute"></button>
+          <button id="mainAttributeSelectorBack" class="mediumButtons" title="back to element selector">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#back"></use>
+            </svg>
+          </button>
+          <button class="mediumButtons" id="openAddAttribute" title="open add attribute">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#add"></use>
+            </svg>
+          </button>
           <select class="mediumButtons" id="attributeSelect"></select>
-          <button class="mediumButtons remove" id="removeAttribute" title="remove attribute"></button>
+          <button class="mediumButtons" id="removeAttribute" title="remove attribute">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#remove"></use>
+            </svg>
+          </button>
         </div>
         <div id="mainAttributeAdd">
-          <button id="mainAttributeAddBack" class="mediumButtons back" title="back to attribute selector"></button>
+          <button id="mainAttributeAddBack" class="mediumButtons" title="back to attribute selector">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#back"></use>
+            </svg>
+          </button>
           <select id="attributeSelectAll" class="mediumButtons"></select>
-          <button id="addAttribute" class="mediumButtons add" title="add attribute"></button>
+          <button id="addAttribute" class="mediumButtons" title="add attribute">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#add"></use>
+            </svg>
+          </button>
         </div>
         <div>
           <div class="separatorVertical"></div>
-          <button id="selectedElementHighlight" class="mediumButtons highlight"
-            title="highlight selected element"></button>
+          <button id="selectedElementHighlight" class="mediumButtons" title="highlight selected element">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
+              <path
+                d="m226-640-86-84 56-58 86 86-56 56Zm214-120v-120h80v120h-80Zm296 120-58-56 86-84 56 56-84 84ZM360-80v-200L240-400v-200h480v200L600-280v200H360Zm80-80h80v-153l120-120v-87H320v87l120 120v153Zm40-180Z" />
+            </svg>
+          </button>
           <button class="removeAttribute switch mediumButtons" title="switch side"
             id="selectedElementLabelContainerSwitchSide">
-            <img src="/lib/icons/switch_left_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg" alt="" />
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#switch"></use>
+            </svg>
           </button>
         </div>
       </div>
@@ -154,7 +359,7 @@
         <input aria-label="state property input" type="text" id="statePropertyInput" />
         <button class="mediumButtons update" id="updateStateProperty" title="update state property value"></button>
       </div>
-      <div id="mainStateStyleContextInfo">       
+      <div id="mainStateStyleContextInfo">
         <input readonly aria-label="state property context info" type="text" id="stateContextInfo" />
       </div>
     </div>
@@ -163,12 +368,16 @@
   <main>
     <iframe id="preview" title="Preview"></iframe>
     <div id="previewTree"></div>
-    <div id="noPreview"><span>NO PREVIEW</span></div>
     <div id="wizardDiv">
       <form id="wizard">
         <div>
           <h3 id="wizardTitle">Wizard Title</h3>
-          <button id="creatorExtend" type="button" class="mediumButtons extend" title="extend"></button>
+          <button id="creatorExtend" type="button" class="mediumButtons" title="extend">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
+              <path
+                d="M352-120H200q-33 0-56.5-23.5T120-200v-152q48 0 84-30.5t36-77.5q0-47-36-77.5T120-568v-152q0-33 23.5-56.5T200-800h160q0-42 29-71t71-29q42 0 71 29t29 71h160q33 0 56.5 23.5T800-720v160q42 0 71 29t29 71q0 42-29 71t-71 29v160q0 33-23.5 56.5T720-120H568q0-50-31.5-85T460-240q-45 0-76.5 35T352-120Zm-152-80h85q24-66 77-93t98-27q45 0 98 27t77 93h85v-240h80q8 0 14-6t6-14q0-8-6-14t-14-6h-80v-240H480v-80q0-8-6-14t-14-6q-8 0-14 6t-6 14v80H200v88q54 20 87 67t33 105q0 57-33 104t-87 68v88Zm260-260Z" />
+            </svg>
+          </button>
         </div>
         <div id="wizardHeadDiv">
           <div>
