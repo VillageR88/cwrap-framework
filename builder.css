@@ -68,7 +68,7 @@ body > #leftSide > div#leftSidebarCanvas > div#leftSidebar {
   padding-inline: 16px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 14px;
   max-width: 500px;
   border-top: 2px solid var(--border-lighter);
   border-left: 2px solid var(--border-lighter);
@@ -89,7 +89,7 @@ body > #leftSide > div#leftSidebarCanvas > div#leftSidebar .switchRight {
   background-position: center;
 }
 
-body > #leftSide > div#leftSidebarCanvas > div#leftSidebar.right .switchRight {
+body > #leftSide.right > div#leftSidebarCanvas > div#leftSidebar .switchRight {
   background-image: url("./lib/icons/switch_right_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg");
 }
 
@@ -99,13 +99,31 @@ body > #leftSide.right {
 
 body > #leftSide > div#leftSidebarCanvas > div#leftSidebar > header {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   width: 100%;
-  height: fit-content;
-  justify-content: space-between;
+  gap: 10px;
 }
 
 body > #leftSide > div#leftSidebarCanvas > div#leftSidebar > header > div {
+  display: flex;
+  gap: 12px;
+}
+
+body
+  > #leftSide.right
+  > div#leftSidebarCanvas
+  > div#leftSidebar
+  > header
+  > div {
+  flex-direction: row-reverse;
+}
+body
+  > #leftSide
+  > div#leftSidebarCanvas
+  > div#leftSidebar
+  > header
+  > div
+  > div {
   display: flex;
   gap: 12px;
 }
@@ -278,6 +296,13 @@ h6 {
   background-image: url("./lib/icons/boy_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg");
   background-position: center;
   background-size: 75%;
+}
+
+.logo {
+  background-repeat: no-repeat;
+  background-image: url("static/favicon/favicon.ico");
+  background-position: center;
+  background-size: 50%;
 }
 
 .state {
