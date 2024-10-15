@@ -34,6 +34,7 @@ import populateTreeView from "./populateTreeView.js";
 import highlightSelectedElement from "./highlightSelectedElement.js";
 import getElementFromPath from "./getElementFromPath.js";
 import resolveElementStateSelect from "./resolveElementStateSelect.js";
+import populateRoutesView from "./populateRoutesView.js";
 
 /**
  * Sets up the event handlers.
@@ -902,6 +903,13 @@ export const eventHandlers = () => {
 	});
 };
 
+global.id.navLvlRouteBack.addEventListener("click", () => {
+	window.history.replaceState(null, "", "/");
+	loadMenuLevelView();
+	loadRoutesView();
+	populateRoutesView();
+});
+
 global.id.elementStateSelect.addEventListener("change", () => {
 	resolveElementStateSelect();
 });
@@ -927,12 +935,12 @@ document.addEventListener("mousemove", (e) => {
 document.addEventListener("mouseup", () => {
 	isDragging = false; // Stop dragging when the mouse is released
 });
-
-loadMenuLevelView();
-loadRoutesView();
-// loadBodyView();
+// populateRoutesView();
+// loadMenuLevelView();
+// loadRoutesView();
+loadBodyView();
 // global.id.sectionsVariables.value = "root";
-localStorage.setItem("hideArrow", "true");
+// localStorage.setItem("hideArrow", "true");
 document.body.style.display = "flex";
 
 export default eventHandlers;

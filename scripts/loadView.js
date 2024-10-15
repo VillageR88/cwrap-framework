@@ -77,6 +77,11 @@ export function loadRoutesView() {
 }
 
 export function loadMenuLevelView() {
+	global.id.navLvlRoute.style.display = "none";
+	global.id.selectedElementLabelContainer.style.display = "none";
+	global.id.navBodyAdditional.style.display = "none";
+	global.id.preview.style.display = "none";
+	global.id.navSections.style.display = "none";
 	global.id.navLvlMenu.style.display = "flex";
 	global.id.navSelection.style.display = "flex";
 }

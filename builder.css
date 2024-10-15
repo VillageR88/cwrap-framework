@@ -160,9 +160,24 @@ body
 }
 /* any line TODO */
 body > div#leftSide > div#leftSidebarCanvas > div#leftSidebar > nav > div {
-  display: none;
   flex-direction: column;
   gap: 10px;
+}
+body
+  > div#leftSide
+  > div#leftSidebarCanvas
+  > div#leftSidebar
+  > nav
+  > div#navSelection {
+  display: none;
+}
+body
+  > div#leftSide
+  > div#leftSidebarCanvas
+  > div#leftSidebar
+  > nav
+  > div#navSections {
+  display: flex;
 }
 body
   > div#leftSide
