@@ -72,10 +72,13 @@ export function loadBodyView() {
 	centralBarCleanup();
 }
 
+export function loadRoutesView() {
+	global.id.routesTree.style.display = "flex";
+}
+
 export function loadMenuLevelView() {
 	global.id.navLvlMenu.style.display = "flex";
 	global.id.navSelection.style.display = "flex";
-	
 }
 
 function leftSidebarCleanup() {

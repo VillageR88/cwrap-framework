@@ -24,6 +24,7 @@ import {
 	loadRootView,
 	loadBodyView,
 	loadMenuLevelView,
+	loadRoutesView,
 } from "./loadView.js";
 import populateAttributeSelectAll from "./populateAttributeSelectAll.js";
 import populatePropertyValue from "./populatePropertyValue.js";
@@ -33,7 +34,6 @@ import populateTreeView from "./populateTreeView.js";
 import highlightSelectedElement from "./highlightSelectedElement.js";
 import getElementFromPath from "./getElementFromPath.js";
 import resolveElementStateSelect from "./resolveElementStateSelect.js";
-// import initializeAwesomplete from "./initializeAwesomplete.js";
 
 /**
  * Sets up the event handlers.
@@ -929,6 +929,7 @@ document.addEventListener("mouseup", () => {
 });
 
 loadMenuLevelView();
+loadRoutesView();
 // loadBodyView();
 // global.id.sectionsVariables.value = "root";
 localStorage.setItem("hideArrow", "true");

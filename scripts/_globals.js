@@ -117,6 +117,7 @@ const global = {
 		removeStateProperty: document.getElementById("removeStateProperty"),
 		rootInput: document.getElementById("rootInput"),
 		rootSelectVariable: document.getElementById("rootSelectVariable"),
+		routesTree: document.getElementById("routesTree"),
 		sectionsVariables: document.getElementById("sectionsVariables"),
 		selectContext: document.getElementById("selectContext"),
 		selectStateOfContext: document.getElementById("selectStateOfContext"),

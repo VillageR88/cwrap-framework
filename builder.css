@@ -190,7 +190,13 @@ body > main:has(#previewTree[style="display: flex;"]) {
   padding-bottom: 24px;
 }
 
-body > main > div#previewTree {
+body > main:has(#routesTree[style="display: flex;"]) {
+  padding-top: 12px;
+  padding-bottom: 24px;
+}
+
+body > main > div#previewTree,
+body > main > div#routesTree {
   display: none;
   width: 100%;
   max-width: 1000px;
