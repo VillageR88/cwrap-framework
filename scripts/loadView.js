@@ -84,6 +84,8 @@ export function loadMenuLevelView() {
 	global.id.navSections.style.display = "none";
 	global.id.navLvlMenu.style.display = "flex";
 	global.id.navSelection.style.display = "flex";
+	global.id.previewTree.style.display = "none";
+	global.id.wizardDiv.style.display = "none";
 }
 
 function leftSidebarCleanup() {

@@ -543,6 +543,7 @@ body > div#selectedElementLabelContainer {
 
 body > div#selectedElementLabelContainer.bottom {
   bottom: 0;
+  flex-direction: column-reverse;
 }
 body > div#selectedElementLabelContainer > div {
   width: fit-content;
@@ -561,7 +562,7 @@ body > div#selectedElementLabelContainer > div {
   border-bottom: 2px solid var(--colorShadow-regular);
 }
 
-body > #selectedElementLabelContainer > #nameHelper {
+body > #selectedElementLabelContainer > div#nameHelper {
   display: none;
 }
 

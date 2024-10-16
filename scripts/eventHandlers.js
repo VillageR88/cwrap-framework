@@ -914,6 +914,15 @@ global.id.elementStateSelect.addEventListener("change", () => {
 	resolveElementStateSelect();
 });
 
+global.id.navSelectionStatic.addEventListener("click", () => {
+	console.log("navSelectionStatic clicked"); // debugging
+	try {
+		fetch("/api/open-folder/static");
+	} catch (error) {
+		console.error("Error fetching static data:", error);
+	}
+});
+
 const input = global.id.stateContextInfo;
 let isDragging = false;
 let startX;

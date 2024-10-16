@@ -70,13 +70,12 @@ export default async function populateRoutesView() {
 	const folderButton = document.createElement("button");
 	folderButton.innerHTML = svgImage;
 	folderButton.addEventListener("click", () => {
-		const folderPath =
-			"C:\\Users\\Karol\\Documents\\GitHub\\cwrap-framework\\routes"; // Replace with the actual folder path
-		exec(`explorer "${folderPath}"`, (err) => {
-			if (err) {
-				console.error("Error opening folder:", err);
-			}
-		});
+		try {
+			fetch("/api/open-folder/routes");
+		} catch (error) {
+			console.error("Error opening folder:", error);
+			return; // Stop the function if an error occurs
+		}
 	});
 
 	folderButton.classList.add("mediumButtons");

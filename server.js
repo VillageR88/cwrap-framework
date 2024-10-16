@@ -108,7 +108,39 @@ app.use("/api/all-routes", (req, res) => {
 	}
 });
 
-//API endpoint to open a folder in the file explorer
+// API endpoint to open a routes folder in the file explorer
+app.use("/api/open-folder/routes", (req, res) => {
+	const routesPath = path.join(ROOT_DIR, "routes");
+
+	// Use cmd to start the folder maximized
+	exec(`cmd /c start /MAX explorer.exe "${routesPath}"`, (err) => {
+		if (err) {
+			console.error("Error opening folder:", err);
+			res.writeHead(500, { "Content-Type": "application/json" });
+			res.end(JSON.stringify({ success: false, error: err.message }));
+		} else {
+			res.writeHead(200, { "Content-Type": "application/json" });
+			res.end(JSON.stringify({ success: true }));
+		}
+	});
+});
+
+//API endpoint to open a static folder in the file explorer
+app.use("/api/open-folder/static", (req, res) => {
+	const staticPath = path.join(ROOT_DIR, "static");
+
+	// Use cmd to start the folder maximized
+	exec(`cmd /c start /MAX explorer.exe "${staticPath}"`, (err) => {
+		if (err) {
+			console.error("Error opening folder:", err);
+			res.writeHead(500, { "Content-Type": "application/json" });
+			res.end(JSON.stringify({ success: false, error: err.message }));
+		} else {
+			res.writeHead(200, { "Content-Type": "application/json" });
+			res.end(JSON.stringify({ success: true }));
+		}
+	});
+});
 
 // Middleware to serve index.html for any other route
 app.use((req, res, next) => {
