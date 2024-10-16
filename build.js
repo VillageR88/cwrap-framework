@@ -1,6 +1,6 @@
+const mkdirp = require("mkdirp");
 const fs = require("node:fs");
 const path = require("node:path");
-const mkdirp = require("mkdirp");
 
 const cssMap = new Map();
 let divCount = 0;

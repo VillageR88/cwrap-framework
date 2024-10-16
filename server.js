@@ -1,9 +1,9 @@
-const connect = require("connect");
-const serveStatic = require("serve-static");
-const livereload = require("livereload");
-const connectLivereload = require("connect-livereload");
-const { exec } = require("node:child_process");
 const bodyParser = require("body-parser");
+const connect = require("connect");
+const connectLivereload = require("connect-livereload");
+const livereload = require("livereload");
+const serveStatic = require("serve-static");
+const { exec } = require("node:child_process");
 const fs = require("node:fs");
 const path = require("node:path");
 
@@ -62,51 +62,53 @@ app.use("/api/skeleton", (req, res) => {
 });
 
 // Helper function to recursively read directories and build route paths
-function getRoutes(dir, basePath = '') {
-    const entries = fs.readdirSync(dir, { withFileTypes: true });
-    let routes = [];
+function getRoutes(dir, basePath = "") {
+	const entries = fs.readdirSync(dir, { withFileTypes: true });
+	let routes = [];
 
-    for (const entry of entries) {
-        if (entry.isDirectory()) {
-            const fullPath = path.join(basePath, entry.name);
-            routes.push(fullPath);
-            routes = routes.concat(getRoutes(path.join(dir, entry.name), fullPath));
-        }
-    }
+	for (const entry of entries) {
+		if (entry.isDirectory()) {
+			const fullPath = path.join(basePath, entry.name);
+			routes.push(fullPath);
+			routes = routes.concat(getRoutes(path.join(dir, entry.name), fullPath));
+		}
+	}
 
-    return routes;
+	return routes;
 }
 
 // API endpoint to fetch all routes
 app.use("/api/all-routes", (req, res) => {
-    // Define the path to the routes directory
-    const routesPath = path.join(ROOT_DIR, "routes");
+	// Define the path to the routes directory
+	const routesPath = path.join(ROOT_DIR, "routes");
 
-    // Check if the routes directory exists
-    if (!fs.existsSync(routesPath)) {
-        // Send a 404 Not Found response if the routes directory does not exist
-        res.writeHead(404, { "Content-Type": "application/json" });
-        res.end(
-            JSON.stringify({ success: false, message: "Routes directory not found" }),
-        );
-        return;
-    }
+	// Check if the routes directory exists
+	if (!fs.existsSync(routesPath)) {
+		// Send a 404 Not Found response if the routes directory does not exist
+		res.writeHead(404, { "Content-Type": "application/json" });
+		res.end(
+			JSON.stringify({ success: false, message: "Routes directory not found" }),
+		);
+		return;
+	}
 
-    try {
-        // Get all routes recursively
-        const routes = getRoutes(routesPath);
+	try {
+		// Get all routes recursively
+		const routes = getRoutes(routesPath);
 
-        // Send a 200 OK response with the list of route names in JSON format
-        res.writeHead(200, { "Content-Type": "application/json" });
-        res.end(JSON.stringify(routes));
-    } catch (err) {
-        // Log the error to the console
-        console.error("Error reading routes directory:", err);
-        // Send a 500 Internal Server Error response with the error message
-        res.writeHead(500, { "Content-Type": "application/json" });
-        res.end(JSON.stringify({ success: false, error: err.message }));
-    }
+		// Send a 200 OK response with the list of route names in JSON format
+		res.writeHead(200, { "Content-Type": "application/json" });
+		res.end(JSON.stringify(routes));
+	} catch (err) {
+		// Log the error to the console
+		console.error("Error reading routes directory:", err);
+		// Send a 500 Internal Server Error response with the error message
+		res.writeHead(500, { "Content-Type": "application/json" });
+		res.end(JSON.stringify({ success: false, error: err.message }));
+	}
 });
+
+//API endpoint to open a folder in the file explorer
 
 // Middleware to serve index.html for any other route
 app.use((req, res, next) => {

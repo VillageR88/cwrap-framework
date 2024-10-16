@@ -170,6 +170,7 @@ body
   > nav
   > div#navSelection {
   display: none;
+  flex-direction: column;
 }
 body
   > div#leftSide
@@ -178,6 +179,7 @@ body
   > nav
   > div#navSections {
   display: flex;
+  flex-direction: column;
 }
 body
   > div#leftSide
@@ -186,8 +188,8 @@ body
   > nav
   > div
   > div {
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 12px;
 }
 
@@ -225,9 +227,22 @@ body > main > div#routesTree {
   box-sizing: border-box;
 }
 
+body > main > div#routesTree {
+  justify-content: space-between;
+  padding-right: 24px;
+  padding-top: 24px;
+}
+
+body > main > div#routesTree button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  height: fit-content;
+}
+
 body > main > div#previewTree ul,
 body > main > div#previewTree li {
-  margin-block: 12px;
   color: var(--colorText-primary);
 }
 

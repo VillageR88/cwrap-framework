@@ -11,6 +11,7 @@ export default async function populateRoutesView() {
 		return; // Stop the function if routesTree is not defined
 	}
 	routesTree.innerHTML = ""; //clear routes view div
+
 	let routes = [];
 	try {
 		routes = await fetch("/api/all-routes").then((response) => response.json());
@@ -29,7 +30,6 @@ export default async function populateRoutesView() {
 			button.classList.add("mediumButtons");
 			button.textContent = path.name;
 			button.addEventListener("click", () => {
-	
 				if (path.name !== "home") window.location.href = path.name;
 				else window.location.href = "/";
 			});
@@ -63,6 +63,24 @@ export default async function populateRoutesView() {
 
 	const nestedRoutes = buildNestedRoutes(routes);
 	createTree(nestedRoutes, routesTree);
+	const svgImage = `
+		<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
+			<path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h240l80 80h320q33 0 56.5 23.5T880-640H447l-80-80H160v480l96-320h684L837-217q-8 26-29.5 41.5T760-160H160Zm84-80h516l72-240H316l-72 240Zm0 0 72-240-72 240Zm-84-400v-80 80Z" />
+		</svg>`;
+	const folderButton = document.createElement("button");
+	folderButton.innerHTML = svgImage;
+	folderButton.addEventListener("click", () => {
+		const folderPath =
+			"C:\\Users\\Karol\\Documents\\GitHub\\cwrap-framework\\routes"; // Replace with the actual folder path
+		exec(`explorer "${folderPath}"`, (err) => {
+			if (err) {
+				console.error("Error opening folder:", err);
+			}
+		});
+	});
+
+	folderButton.classList.add("mediumButtons");
+	routesTree.appendChild(folderButton);
 }
 
 /*
