@@ -142,6 +142,34 @@ app.use("/api/open-folder/static", (req, res) => {
 	});
 });
 
+// API endpoint to create build from build.js file
+app.use("/api/build", (req, res) => {
+	const buildFilePath = path.join(ROOT_DIR, "build.js");
+
+	// Check if the build.js file exists
+	if (!fs.existsSync(buildFilePath)) {
+		// Send a 404 Not Found response if the build.js file does not exist
+		res.writeHead(404, { "Content-Type": "application/json" });
+		res.end(
+			JSON.stringify({ success: false, message: "build.js file not found" }),
+		);
+		return;
+	}
+
+	// Execute the build.js file
+	exec(`node "${buildFilePath}"`, (err, stdout, stderr) => {
+		if (err) {
+			console.error("Error executing build.js:", err);
+			res.writeHead(500, { "Content-Type": "application/json" });
+			res.end(JSON.stringify({ success: false, error: err.message }));
+		} else {
+			console.log("build.js executed successfully!");
+			res.writeHead(200, { "Content-Type": "application/json" });
+			res.end(JSON.stringify({ success: true, output: stdout, error: stderr }));
+		}
+	});
+});
+
 // Middleware to serve index.html for any other route
 app.use((req, res, next) => {
 	if (

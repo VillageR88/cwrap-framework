@@ -923,6 +923,15 @@ global.id.navSelectionStatic.addEventListener("click", () => {
 	}
 });
 
+global.id.navSelectionBuild.addEventListener("click", () => {
+	console.log("navSelectionBuilder clicked"); // debugging
+	try {
+		fetch("/api/build");
+	} catch (error) {
+		console.error("Error fetching builder data:", error);
+	}
+});
+
 const input = global.id.stateContextInfo;
 let isDragging = false;
 let startX;
