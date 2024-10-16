@@ -2,9 +2,9 @@ const express = require("express");
 const livereload = require("livereload");
 const connectLivereload = require("connect-livereload");
 const bodyParser = require("body-parser");
-const path = require("path");
-const fs = require("fs");
-const { exec } = require("child_process");
+const path = require("node:path");
+const fs = require("node:fs");
+const { exec } = require("node:child_process");
 
 const HTTP_PORT = 36969;
 const ROOT_DIR = path.resolve(__dirname);
@@ -28,10 +28,13 @@ app.use(express.static(ROOT_DIR)); // Serve static files from ROOT_DIR
 app.use(bodyParser.json()); // Middleware to parse JSON bodies
 
 // Endpoint to save skeleton.json
-app.post("/save-skeleton", (req, res) => {
+app.post("/save-skeleton/:subPath?", (req, res) => {
 	const skeletonJson = req.body;
-	const jsonFilePath = path.join(ROOT_DIR, "routes", "skeleton.json");
+	const subPath = req.params.subPath || "";
 
+	const jsonFilePath = subPath
+		? path.join(ROOT_DIR, "routes", subPath, "skeleton.json")
+		: path.join(ROOT_DIR, "routes", "skeleton.json");
 	fs.writeFile(jsonFilePath, JSON.stringify(skeletonJson, null, 2), (err) => {
 		if (err) {
 			console.error("Error saving skeletonBody.json:", err);
@@ -149,10 +152,9 @@ app.get("/api/build", (req, res) => {
 });
 
 // Middleware to serve index.html for any other route
-// Middleware to serve index.html for any other route
 app.get("*", (req, res) => {
 	const indexPath = path.join(CWRAP_DIR, "index.html");
-	res.sendFile(indexPath); // Express will automatically set the correct Content-Type
+	res.sendFile(indexPath);
 });
 
 // Start the server

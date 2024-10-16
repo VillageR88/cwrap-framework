@@ -309,7 +309,7 @@ export const eventHandlers = () => {
 		}
 
 		console.log(bodyJson); //debugging
-		fetch("/save-skeleton", {
+		fetch(`/save-skeleton${window.location.pathname}`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
