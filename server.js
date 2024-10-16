@@ -1,11 +1,10 @@
-const bodyParser = require("body-parser");
-const connect = require("connect");
-const connectLivereload = require("connect-livereload");
+const express = require("express");
 const livereload = require("livereload");
-const serveStatic = require("serve-static");
-const { exec } = require("node:child_process");
-const fs = require("node:fs");
-const path = require("node:path");
+const connectLivereload = require("connect-livereload");
+const bodyParser = require("body-parser");
+const path = require("path");
+const fs = require("fs");
+const { exec } = require("child_process");
 
 const HTTP_PORT = 36969;
 const ROOT_DIR = path.resolve(__dirname);
@@ -19,44 +18,42 @@ const liveReloadServer = livereload.createServer({
 });
 liveReloadServer.watch(CWRAP_DIR);
 
-// Create and configure the connect server
-const app = connect();
+// Create the Express app
+const app = express();
+
+// Middleware
 app.use(connectLivereload());
-app.use(serveStatic(CWRAP_DIR)); // Serve static files from CWRAP_DIR
-app.use(serveStatic(ROOT_DIR)); // Serve static files from ROOT_DIR
+app.use(express.static(CWRAP_DIR)); // Serve static files from CWRAP_DIR
+app.use(express.static(ROOT_DIR)); // Serve static files from ROOT_DIR
 app.use(bodyParser.json()); // Middleware to parse JSON bodies
 
 // Endpoint to save skeleton.json
-app.use("/save-skeleton", (req, res) => {
+app.post("/save-skeleton", (req, res) => {
 	const skeletonJson = req.body;
 	const jsonFilePath = path.join(ROOT_DIR, "routes", "skeleton.json");
 
 	fs.writeFile(jsonFilePath, JSON.stringify(skeletonJson, null, 2), (err) => {
 		if (err) {
 			console.error("Error saving skeletonBody.json:", err);
-			res.writeHead(500, { "Content-Type": "application/json" });
-			res.end(JSON.stringify({ success: false, error: err.message }));
+			res.status(500).json({ success: false, error: err.message });
 		} else {
 			console.log("skeletonBody.json saved successfully!");
-			res.writeHead(200, { "Content-Type": "application/json" });
-			res.end(JSON.stringify({ success: true }));
+			res.status(200).json({ success: true });
 		}
 	});
 });
 
 // API endpoint to fetch skeleton.json
-app.use("/api/skeleton", (req, res) => {
+app.get("/api/skeleton", (req, res) => {
 	console.log("fetching skeleton.json");
 	const jsonFilePath = path.join(ROOT_DIR, "routes", "skeleton.json");
 
 	fs.readFile(jsonFilePath, "utf8", (err, data) => {
 		if (err) {
 			console.error("Error reading skeletonBody.json:", err);
-			res.writeHead(500, { "Content-Type": "application/json" });
-			res.end(JSON.stringify({ success: false, error: err.message }));
+			res.status(500).json({ success: false, error: err.message });
 		} else {
-			res.writeHead(200, { "Content-Type": "application/json" });
-			res.end(data);
+			res.status(200).json(JSON.parse(data));
 		}
 	});
 });
@@ -78,124 +75,84 @@ function getRoutes(dir, basePath = "") {
 }
 
 // API endpoint to fetch all routes
-app.use("/api/all-routes", (req, res) => {
-	// Define the path to the routes directory
+app.get("/api/all-routes", (req, res) => {
 	const routesPath = path.join(ROOT_DIR, "routes");
 
-	// Check if the routes directory exists
 	if (!fs.existsSync(routesPath)) {
-		// Send a 404 Not Found response if the routes directory does not exist
-		res.writeHead(404, { "Content-Type": "application/json" });
-		res.end(
-			JSON.stringify({ success: false, message: "Routes directory not found" }),
-		);
+		res
+			.status(404)
+			.json({ success: false, message: "Routes directory not found" });
 		return;
 	}
 
 	try {
-		// Get all routes recursively
 		const routes = getRoutes(routesPath);
-
-		// Send a 200 OK response with the list of route names in JSON format
-		res.writeHead(200, { "Content-Type": "application/json" });
-		res.end(JSON.stringify(routes));
+		res.status(200).json(routes);
 	} catch (err) {
-		// Log the error to the console
 		console.error("Error reading routes directory:", err);
-		// Send a 500 Internal Server Error response with the error message
-		res.writeHead(500, { "Content-Type": "application/json" });
-		res.end(JSON.stringify({ success: false, error: err.message }));
+		res.status(500).json({ success: false, error: err.message });
 	}
 });
 
 // API endpoint to open a routes folder in the file explorer
-app.use("/api/open-folder/routes", (req, res) => {
+app.get("/api/open-folder/routes", (req, res) => {
 	const routesPath = path.join(ROOT_DIR, "routes");
 
-	// Use cmd to start the folder maximized
 	exec(`cmd /c start /MAX explorer.exe "${routesPath}"`, (err) => {
 		if (err) {
 			console.error("Error opening folder:", err);
-			res.writeHead(500, { "Content-Type": "application/json" });
-			res.end(JSON.stringify({ success: false, error: err.message }));
+			res.status(500).json({ success: false, error: err.message });
 		} else {
-			res.writeHead(200, { "Content-Type": "application/json" });
-			res.end(JSON.stringify({ success: true }));
+			res.status(200).json({ success: true });
 		}
 	});
 });
 
 // API endpoint to open a static folder in the file explorer
-app.use("/api/open-folder/static", (req, res) => {
+app.get("/api/open-folder/static", (req, res) => {
 	const staticPath = path.join(ROOT_DIR, "static");
 
-	// Check if the static folder exists, and create it if it does not
 	if (!fs.existsSync(staticPath)) {
 		fs.mkdirSync(staticPath);
 	}
 
-	// Use cmd to start the folder maximized
 	exec(`cmd /c start /MAX explorer.exe "${staticPath}"`, (err) => {
 		if (err) {
 			console.error("Error opening folder:", err);
-			res.writeHead(500, { "Content-Type": "application/json" });
-			res.end(JSON.stringify({ success: false, error: err.message }));
+			res.status(500).json({ success: false, error: err.message });
 		} else {
-			res.writeHead(200, { "Content-Type": "application/json" });
-			res.end(JSON.stringify({ success: true }));
+			res.status(200).json({ success: true });
 		}
 	});
 });
 
-// API endpoint to create build from build.js file
-app.use("/api/build", (req, res) => {
+// API endpoint to create a build from build.js file
+app.get("/api/build", (req, res) => {
 	const buildFilePath = path.join(ROOT_DIR, "build.js");
 
-	// Check if the build.js file exists
 	if (!fs.existsSync(buildFilePath)) {
-		// Send a 404 Not Found response if the build.js file does not exist
-		res.writeHead(404, { "Content-Type": "application/json" });
-		res.end(
-			JSON.stringify({ success: false, message: "build.js file not found" }),
-		);
+		res
+			.status(404)
+			.json({ success: false, message: "build.js file not found" });
 		return;
 	}
 
-	// Execute the build.js file
 	exec(`node "${buildFilePath}"`, (err, stdout, stderr) => {
 		if (err) {
 			console.error("Error executing build.js:", err);
-			res.writeHead(500, { "Content-Type": "application/json" });
-			res.end(JSON.stringify({ success: false, error: err.message }));
+			res.status(500).json({ success: false, error: err.message });
 		} else {
 			console.log("build.js executed successfully!");
-			res.writeHead(200, { "Content-Type": "application/json" });
-			res.end(JSON.stringify({ success: true, output: stdout, error: stderr }));
+			res.status(200).json({ success: true, output: stdout, error: stderr });
 		}
 	});
 });
 
 // Middleware to serve index.html for any other route
-app.use((req, res, next) => {
-	if (
-		req.method === "GET" &&
-		!req.url.startsWith("/api") &&
-		!req.url.startsWith("/save-skeleton")
-	) {
-		const indexPath = path.join(CWRAP_DIR, "index.html");
-		fs.readFile(indexPath, (err, data) => {
-			if (err) {
-				console.error("Error reading index.html:", err);
-				res.writeHead(500, { "Content-Type": "text/html" });
-				res.end("Internal Server Error");
-			} else {
-				res.writeHead(200, { "Content-Type": "text/html" });
-				res.end(data);
-			}
-		});
-	} else {
-		next();
-	}
+// Middleware to serve index.html for any other route
+app.get("*", (req, res) => {
+	const indexPath = path.join(CWRAP_DIR, "index.html");
+	res.sendFile(indexPath); // Express will automatically set the correct Content-Type
 });
 
 // Start the server
