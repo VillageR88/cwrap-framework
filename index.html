@@ -78,8 +78,8 @@
                     d="M480-120q-151 0-255.5-46.5T120-280v-400q0-66 105.5-113T480-840q149 0 254.5 47T840-680v400q0 67-104.5 113.5T480-120Zm0-479q89 0 179-25.5T760-679q-11-29-100.5-55T480-760q-91 0-178.5 25.5T200-679q14 30 101.5 55T480-599Zm0 199q42 0 81-4t74.5-11.5q35.5-7.5 67-18.5t57.5-25v-120q-26 14-57.5 25t-67 18.5Q600-528 561-524t-81 4q-42 0-82-4t-75.5-11.5Q287-543 256-554t-56-25v120q25 14 56 25t66.5 18.5Q358-408 398-404t82 4Zm0 200q46 0 93.5-7t87.5-18.5q40-11.5 67-26t32-29.5v-98q-26 14-57.5 25t-67 18.5Q600-328 561-324t-81 4q-42 0-82-4t-75.5-11.5Q287-343 256-354t-56-25v99q5 15 31.5 29t66.5 25.5q40 11.5 88 18.5t94 7Z" />
                 </svg>
               </button>
-              <button id="navSelectionStatic" class="mediumButtons" title="static data"><svg xmlns="http://www.w3.org/2000/svg"
-                  height="24px" viewBox="0 -960 960 960" width="24px">
+              <button id="navSelectionStatic" class="mediumButtons" title="static data"><svg
+                  xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
                   <path
                     d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h240l80 80h320q33 0 56.5 23.5T880-640v400q0 33-23.5 56.5T800-160H160Zm0-80h640v-400H447l-80-80H160v480Zm0 0v-480 480Z" />
                 </svg>
@@ -317,7 +317,7 @@
             </svg>
           </button>
           <button id="updateText" class="mediumButtons" title="update text content">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
+            <svg id="update" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
               <path
                 d="M480-120q-75 0-140.5-28.5t-114-77q-48.5-48.5-77-114T120-480q0-75 28.5-140.5t77-114q48.5-48.5 114-77T480-840q82 0 155.5 35T760-706v-94h80v240H600v-80h110q-41-56-101-88t-129-32q-117 0-198.5 81.5T200-480q0 117 81.5 198.5T480-200q105 0 183.5-68T756-440h82q-15 137-117.5 228.5T480-120Zm112-192L440-464v-216h80v184l128 128-56 56Z" />
             </svg>
@@ -377,11 +377,19 @@
       </div>
       <div id="mainStyleSelector2">
         <input aria-label="property input" type="text" id="propertyInput" />
-        <button class="mediumButtons update" id="updateProperty" title="update property value"></button>
+        <button class="mediumButtons" id="updateProperty" title="update property value">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+            <use href="#update"></use>
+          </svg>
+        </button>
       </div>
       <div id="mainStateStyleSelector2">
         <input aria-label="state property input" type="text" id="statePropertyInput" />
-        <button class="mediumButtons update" id="updateStateProperty" title="update state property value"></button>
+        <button class="mediumButtons" id="updateStateProperty" title="update state property value">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+            <use href="#update"></use>
+          </svg>
+        </button>
       </div>
       <div id="mainStateStyleContextInfo">
         <input readonly aria-label="state property context info" type="text" id="stateContextInfo" />
