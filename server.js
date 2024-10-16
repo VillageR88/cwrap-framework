@@ -125,9 +125,14 @@ app.use("/api/open-folder/routes", (req, res) => {
 	});
 });
 
-//API endpoint to open a static folder in the file explorer
+// API endpoint to open a static folder in the file explorer
 app.use("/api/open-folder/static", (req, res) => {
 	const staticPath = path.join(ROOT_DIR, "static");
+
+	// Check if the static folder exists, and create it if it does not
+	if (!fs.existsSync(staticPath)) {
+		fs.mkdirSync(staticPath);
+	}
 
 	// Use cmd to start the folder maximized
 	exec(`cmd /c start /MAX explorer.exe "${staticPath}"`, (err) => {
