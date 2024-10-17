@@ -22,6 +22,7 @@ const global = {
 		closeState: document.getElementById("closeState"),
 		contextSelectAllDiv: document.getElementById("contextSelectAllDiv"),
 		creatorSave: document.getElementById("creatorSave"),
+		creatorExtend: document.getElementById("creatorExtend"),
 		/** @type {Document} */
 		doc:
 			document.getElementById("preview").contentDocument ||
