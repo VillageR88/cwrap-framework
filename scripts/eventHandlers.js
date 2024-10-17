@@ -627,6 +627,7 @@ export const eventHandlers = () => {
 	 * @todo Media queries should be also updated.
 	 */
 	global.id.addElement.addEventListener("click", () => {
+		/** @type {string} */
 		const selectedValue = global.id.elementSelectAll.value;
 		function countSibling(selectedValue) {
 			/** @type {Element} parentElement */
@@ -648,13 +649,17 @@ export const eventHandlers = () => {
 		}
 
 		const fullPath = global.id.elementSelect.value;
-		const newElement = `${fullPath} > ${selectedValue}:nth-of-type(${countSibling(selectedValue)})`; // this function replaces need of using generateCssSelector.js for total rebuild (possible refractor in the future)
+		let newElement;
+		if (selectedValue.matchAll("main", "header", "footer", "nav")) {
+			newElement = `${fullPath} > ${selectedValue}`;
+		} else {
+			newElement = `${fullPath} > ${selectedValue}:nth-of-type(${countSibling(selectedValue)})`; // this function replaces need of using generateCssSelector.js for total rebuild (possible refractor in the future)
+		}
 		global.id.elementSelect.options[global.id.elementSelect.options.length] =
 			new Option(newElement, newElement);
 		cssMap.set(newElement, "");
 		global.id.elementSelect.value = newElement;
 		updateElementInfo(newElement, null);
-		console.log("fullPath", fullPath); // debugging
 		const parentElement = getElementFromPath(fullPath);
 		const newElementNode = document.createElement(selectedValue);
 		parentElement.appendChild(newElementNode);

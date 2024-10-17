@@ -8,9 +8,6 @@ export default async function loadSkeletonSource() {
 	try {
 		const response = await fetch(url);
 		const jsonObj = await response.json();
-
-		console.log("Skeleton source loaded successfully!");
-
 		return jsonObj;
 	} catch (error) {
 		console.warn("Skeleton source not found, loading empty template instead.");
