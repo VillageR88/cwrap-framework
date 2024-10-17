@@ -18,10 +18,11 @@ export default function loadFont(jsonObj) {
 			global.map.fontMap.get("fonts").push(value);
 		}
 	}
-	onLoadPopulateFontsCreator(global.map.fontMap);
+	onLoadPopulateFontsCreator();
 }
 
-function onLoadPopulateFontsCreator() {
+export function onLoadPopulateFontsCreator() {
+	global.id.wizardFontsDiv.innerHTML = "";
 	for (const [key, value] of global.map.fontMap) {
 		for (const [subKey, subValue] of Object.entries(value)) {
 			const fontDiv = document.createElement("div");
@@ -42,6 +43,10 @@ function onLoadPopulateFontsCreator() {
 					removeButton.innerHTML = removeSvg;
 					removeButton.classList.add("mediumButtons");
 					removeButton.type = "button";
+					removeButton.addEventListener("click", () => {
+						global.map.fontMap.get("fonts").splice(Number(subKey), 1);
+						onLoadPopulateFontsCreator();
+					});
 					labelDiv.appendChild(removeButton);
 					fontDiv.appendChild(labelDiv);
 				} else wrapperDiv.appendChild(FontTitle);

@@ -34,14 +34,13 @@ export default function createElementFromJson(jsonObj) {
 	element.addEventListener("click", (event) => {
 		console.log("Clicked on an element:", element); // Log the click event
 
-		if (
-			global.id.mainStateSelector.style.display === "flex" ||
-			global.id.mainStateAdd.style.display === "flex"
-		)
-			return; // Do nothing if some elements are displayed like state
+		if (global.id.mainInitialSelector.style.display === "none") return; // Do nothing if some elements are displayed like state
 		event.stopPropagation();
 		event.preventDefault();
-		if (event.target.tagName === "A" && !global.id.navSelectPreview.classList.contains("static")) {
+		if (
+			event.target.tagName === "A" &&
+			!global.id.navSelectPreview.classList.contains("static")
+		) {
 			console.log("a element");
 			window.location.href = event.target.href;
 		}

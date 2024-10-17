@@ -35,6 +35,7 @@ import highlightSelectedElement from "./highlightSelectedElement.js";
 import getElementFromPath from "./getElementFromPath.js";
 import resolveElementStateSelect from "./resolveElementStateSelect.js";
 import populateRoutesView from "./populateRoutesView.js";
+import { onLoadPopulateFontsCreator } from "./loadFont.js";
 
 /**
  * Sets up the event handlers.
@@ -437,6 +438,7 @@ export const eventHandlers = () => {
 		// populatePropertyValue(global.variable.memoryElement);
 	});
 
+	//TODO Found problem with add property when for example adding property border when there is word like border-radius that contains border in it
 	global.id.addProperty.addEventListener("click", () => {
 		const propertySelectAll = global.id.propertySelectAll;
 		const fullPath = global.id.elementSelect.value;
@@ -448,8 +450,8 @@ export const eventHandlers = () => {
 			.map((prop) => prop.trim())
 			.filter(Boolean);
 		// Check if the property already exists
-		const propertyExists = styleProperties.some((prop) =>
-			prop.startsWith(selectedProperty),
+		const propertyExists = styleProperties.some(
+			(prop) => prop === selectedProperty,
 		);
 		// If the property exists, update it; otherwise, add it
 		const newStyle = propertyExists
@@ -650,7 +652,9 @@ export const eventHandlers = () => {
 
 		const fullPath = global.id.elementSelect.value;
 		let newElement;
-		if (selectedValue.matchAll("main", "header", "footer", "nav")) {
+		console.log("selectedValue", selectedValue); // debugging
+		if (["main", "header", "footer", "nav"].includes(selectedValue)) {
+			console.log("matchAll"); // debugging
 			newElement = `${fullPath} > ${selectedValue}`;
 		} else {
 			newElement = `${fullPath} > ${selectedValue}:nth-of-type(${countSibling(selectedValue)})`; // this function replaces need of using generateCssSelector.js for total rebuild (possible refractor in the future)
@@ -952,6 +956,24 @@ document.addEventListener("mousemove", (e) => {
 		const moveX = e.clientX - startX; // Calculate how much the mouse has moved
 		input.scrollLeft -= moveX; // Scroll the input text left or right
 		startX = e.clientX; // Update the start position
+	}
+});
+
+global.id.creatorExtend.addEventListener("click", () => {
+	const fontMap = global.map.fontMap;
+	const wizardTitle = global.id.wizardTitle.textContent.split(" ")[0]
+	if (wizardTitle === "Head") {
+		console.log("creatorExtend Head"); // debugging
+	}
+	else if (wizardTitle === "Fonts") {
+		fontMap.get("fonts").push({
+			"font-family": "",
+			src: "",
+			"font-display": "",
+		});
+		onLoadPopulateFontsCreator();
+	} else if (wizardTitle === "Root") {
+		console.log("creatorExtend Root"); // debugging
 	}
 });
 
