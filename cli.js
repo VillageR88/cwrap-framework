@@ -42,7 +42,7 @@ rl.question("Enter project name (default: my-new-cwrap-project): ", (input) => {
 		},
 		devDependencies: {
 			"cwrap-framework": cwrapFrameworkVersion,
-			// "cwrap-framework": "file:../cwrap-framework-0.1.0-alpha.202410162242.tgz",
+			// "cwrap-framework": "file:../cwrap-framework-0.1.0-alpha.202410170159.tgz",
 			"body-parser": "^1.20.2",
 			express: "^4.17.1",
 			"connect-livereload": "^0.6.1",
@@ -73,7 +73,8 @@ rl.question("Enter project name (default: my-new-cwrap-project): ", (input) => {
 		console.log("\nChoose the number of the template to install:");
 		console.log("1 (default): demo");
 		console.log("2: single-component");
-		rl.question("\nEnter your choice (1 or 2): ", (templateChoice) => {
+		console.log("0: empty");
+		rl.question("\nEnter your choice: ", (templateChoice) => {
 			let template;
 			switch (templateChoice.trim()) {
 				case "2":
@@ -83,8 +84,11 @@ rl.question("Enter project name (default: my-new-cwrap-project): ", (input) => {
 				case "":
 					template = "demo";
 					break;
+				case "0":
+					template = "empty";
+					break;
 				default:
-					console.log("Invalid choice. Please enter 1 or 2.");
+					console.log("Invalid choice.");
 					return promptTemplateChoice(); // Ask again
 			}
 			runAdditionalSetup(projectPath, template);

@@ -11,6 +11,36 @@ export default async function populateRoutesView() {
 		return; // Stop the function if routesTree is not defined
 	}
 	routesTree.innerHTML = ""; //clear routes view div
+	const svgImageFolder = `
+		<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
+			<path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h240l80 80h320q33 0 56.5 23.5T880-640H447l-80-80H160v480l96-320h684L837-217q-8 26-29.5 41.5T760-160H160Zm84-80h516l72-240H316l-72 240Zm0 0 72-240-72 240Zm-84-400v-80 80Z" />
+		</svg>`;
+	const folderButton = document.createElement("button");
+	folderButton.innerHTML = svgImageFolder;
+	folderButton.title = "open folder";
+	folderButton.addEventListener("click", () => {
+		try {
+			fetch("/api/open-folder/routes");
+		} catch (error) {
+			console.error("Error opening folder:", error);
+			return; // Stop the function if an error occurs
+		}
+	});
+	folderButton.classList.add("mediumButtons");
+
+	const syncButton = document.createElement("button");
+	const svgImageSync = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M160-160v-80h110l-16-14q-52-46-73-105t-21-119q0-111 66.5-197.5T400-790v84q-72 26-116 88.5T240-478q0 45 17 87.5t53 78.5l10 10v-98h80v240H160Zm400-10v-84q72-26 116-88.5T720-482q0-45-17-87.5T650-648l-10-10v98h-80v-240h240v80H690l16 14q49 49 71.5 106.5T800-482q0 111-66.5 197.5T560-170Z"/></svg>`;
+	syncButton.innerHTML = svgImageSync;
+	syncButton.title = "sync routes";
+	syncButton.addEventListener("click", async () => {
+		populateRoutesView();
+	});
+	syncButton.classList.add("mediumButtons");
+
+	const navButtonDiv = document.createElement("div");
+	navButtonDiv.appendChild(folderButton);
+	navButtonDiv.appendChild(syncButton);
+	routesTree.appendChild(navButtonDiv);
 
 	let routes = [];
 	try {
@@ -63,23 +93,6 @@ export default async function populateRoutesView() {
 
 	const nestedRoutes = buildNestedRoutes(routes);
 	createTree(nestedRoutes, routesTree);
-	const svgImage = `
-		<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
-			<path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h240l80 80h320q33 0 56.5 23.5T880-640H447l-80-80H160v480l96-320h684L837-217q-8 26-29.5 41.5T760-160H160Zm84-80h516l72-240H316l-72 240Zm0 0 72-240-72 240Zm-84-400v-80 80Z" />
-		</svg>`;
-	const folderButton = document.createElement("button");
-	folderButton.innerHTML = svgImage;
-	folderButton.addEventListener("click", () => {
-		try {
-			fetch("/api/open-folder/routes");
-		} catch (error) {
-			console.error("Error opening folder:", error);
-			return; // Stop the function if an error occurs
-		}
-	});
-
-	folderButton.classList.add("mediumButtons");
-	routesTree.appendChild(folderButton);
 }
 
 /*

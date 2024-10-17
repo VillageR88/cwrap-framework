@@ -229,9 +229,14 @@ body > main > div#routesTree {
 }
 
 body > main > div#routesTree {
+  flex-direction: column;
+  padding: 24px;
+}
+
+body > main > div#routesTree > div:nth-of-type(1) {
+  display: flex;
   justify-content: space-between;
-  padding-right: 24px;
-  padding-top: 24px;
+  width: 100%;
 }
 
 body > main > div#routesTree button {
