@@ -111,6 +111,7 @@ body
   > div:nth-of-type(1)
   > div {
   display: flex;
+  justify-content: space-between;
   gap: 12px;
 }
 
