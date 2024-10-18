@@ -12,8 +12,17 @@ export const eventListenerClickElement = (element) => {
 			event.target.tagName === "A" &&
 			!global.id.navSelectPreview.classList.contains("static")
 		) {
-			console.log("a element");
-			window.location.href = event.target.href;
+			global.id.mask.style.display = "flex";
+			global.id.popupConfirm.removeEventListener("click", handleConfirmClick);
+			global.id.popupReject.removeEventListener("click", handleRejectClick);
+			function handleConfirmClick() {
+				window.location.href = event.target.href;
+			}
+			function handleRejectClick() {
+				global.id.mask.style.display = "none";
+			}
+			global.id.popupConfirm.addEventListener("click", handleConfirmClick);
+			global.id.popupReject.addEventListener("click", handleRejectClick);
 		}
 		const fullPath = getElementPath(element);
 		updateElementInfo(fullPath, element);
@@ -35,4 +44,3 @@ export const eventListenerClickElement = (element) => {
 };
 
 export default eventListenerClickElement;
-
