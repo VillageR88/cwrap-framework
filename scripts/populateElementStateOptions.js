@@ -36,7 +36,7 @@ export default function populateElementStateOptions() {
 	}
 
 	if (firstKey) {
-		console.log("firstKey", firstKey);
+		// console.log("firstKey", firstKey);
 		updateElementInfo(firstKey, getElementFromPath(firstKey));
 		global.id.elementSelect.value = global.variable.memoryElement;
 		global.id.nameHelper.textContent = global.variable.memoryElement;

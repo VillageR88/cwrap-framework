@@ -420,8 +420,8 @@ export const eventHandlers = () => {
 			.map((prop) => prop.trim())
 			.filter(Boolean);
 		// Check if the property already exists
-		const propertyExists = styleProperties.some((prop) =>
-			prop.startsWith(selectedProperty),
+		const propertyExists = styleProperties.some(
+			(prop) => prop === selectedProperty,
 		);
 		// If the property exists, update it; otherwise, add it
 		const newStyle = propertyExists
@@ -437,7 +437,7 @@ export const eventHandlers = () => {
 		cssMap.set(fullPath, newStyle);
 		applyStyles();
 		global.variable.style = newStyle;
-		updatePropertySelectOptions();
+		updatePropertySelectOptions(true);
 		global.id.statePropertySelect.value = selectedProperty;
 		global.id.statePropertyInput.value = ""; // Clear the input field for now
 		global.id.mainStateStyleSelector2.style.display = "flex";
@@ -560,8 +560,8 @@ export const eventHandlers = () => {
 		global.id.mainStateStyleSelector.style.display = "none";
 		global.id.mainStateStyleAdd.style.display = "flex";
 		global.id.mainStateStyleSelector2.style.display = "none";
-		populatePropertySelectAll(cssProperties);
-		resolveElementStateSelect();
+		populatePropertySelectAll(cssProperties, true);
+		// resolveElementStateSelect();
 	});
 
 	global.id.mainStateSelectorBack.addEventListener("click", () => {
@@ -611,6 +611,7 @@ export const eventHandlers = () => {
 		global.id.mainStateSelector.style.display = "flex";
 		global.id.mainStateAdd.style.display = "none";
 		populateElementStateOptions();
+		resolveElementStateSelect();
 	});
 
 	global.id.closeAddState.addEventListener("click", () => {
@@ -943,7 +944,6 @@ global.id.popupBackendReject.addEventListener("click", () => {
 	global.id.mask.style.display = "none";
 	global.id.popupBackend.style.display = "none";
 });
-
 
 global.id.elementStateSelect.addEventListener("change", () => {
 	resolveElementStateSelect();
