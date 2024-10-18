@@ -37,6 +37,7 @@ import resolveElementStateSelect from "./resolveElementStateSelect.js";
 import populateRoutesView from "./populateRoutesView.js";
 import { onLoadPopulateFontsCreator } from "./loadFont.js";
 import eventListenerClickElement from "./eventListenerClickElement.js";
+import { onLoadPopulateRootCreator } from "./loadRoot.js";
 
 /**
  * Sets up the event handlers.
@@ -337,7 +338,16 @@ export const eventHandlers = () => {
 	 */
 	global.id.menuReload.addEventListener("click", () => {
 		// initialLoader();
-		window.location.reload();
+		const wizardTitle = global.id.wizardTitle.textContent.split(" ")[0];
+		let param = "";
+		if (wizardTitle === "Head") {
+			param = "?param=head";
+		} else if (wizardTitle === "Fonts") {
+			param = "?param=fonts";
+		} else if (wizardTitle === "Root") {
+			param = "?param=root";
+		}
+		window.location.href = `${window.location.pathname}${param}`;
 	});
 
 	global.id.editStyle.addEventListener("click", () => {
@@ -961,6 +971,7 @@ document.addEventListener("mousemove", (e) => {
 
 global.id.creatorExtend.addEventListener("click", () => {
 	const fontMap = global.map.fontMap;
+	const rootMap = global.map.rootMap;
 	const wizardTitle = global.id.wizardTitle.textContent.split(" ")[0];
 	if (wizardTitle === "Head") {
 		console.log("creatorExtend Head"); // debugging
@@ -972,7 +983,14 @@ global.id.creatorExtend.addEventListener("click", () => {
 		});
 		onLoadPopulateFontsCreator();
 	} else if (wizardTitle === "Root") {
-		console.log("creatorExtend Root"); // debugging
+		let variableName = "--newVariable";
+		let counter = 2;
+		while (rootMap.has(variableName)) {
+			variableName = `--newVariable${counter}`;
+			counter++;
+		}
+		rootMap.set(variableName, "");
+		onLoadPopulateRootCreator();
 	}
 });
 
@@ -982,7 +1000,23 @@ document.addEventListener("mouseup", () => {
 // populateRoutesView();
 // loadMenuLevelView();
 // loadRoutesView();
-loadBodyView();
+if (new URLSearchParams(window.location.search).has("param")) {
+	const param = new URLSearchParams(window.location.search).get("param");
+	//TODO Refractor code to not use LoadBodyView() before any view
+	if (param === "fonts") {
+		loadBodyView();
+		loadFontsView();
+	} else if (param === "head") {
+		loadBodyView();
+		loadHeadView();
+	} else if (param === "root") {
+		loadBodyView();
+		loadRootView();
+	}
+} else {
+	console.log(window.location.pathname);
+	loadBodyView();
+}
 // global.id.sectionsVariables.value = "root";
 // localStorage.setItem("hideArrow", "true");
 document.body.style.display = "flex";

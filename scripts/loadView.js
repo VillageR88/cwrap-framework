@@ -67,6 +67,8 @@ export function loadBodyView() {
 	global.id.preview.style.display = "flex";
 	global.id.previewTree.style.display = "none";
 	global.id.wizardDiv.style.display = "none";
+	global.id.wizardTitle.textContent = "Wizard title";
+
 	// global.id.leftSidebar.classList.remove(global.class.smaller); //debug
 	leftSidebarCleanup();
 	centralBarCleanup();

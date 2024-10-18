@@ -1,6 +1,6 @@
 {
   "head": {
-    "title": "Candy Wrapper",
+    "title": "New Candy Wrapper project",
     "link": [
       {
         "rel": "shortcut icon",
@@ -18,11 +18,11 @@
       },
       {
         "name": "description",
-        "content": "Candy Wrapper (CWrap) is an open microframework for web developers and those learning web development."
+        "content": "New Candy Wrapper project."
       },
       {
         "name": "keywords",
-        "content": "framework, ui, web, preview"
+        "content": ""
       }
     ]
   },

@@ -50,7 +50,6 @@ export default function populatePropertyValue(path, isState) {
 			.map((option) => option.value)
 			.includes(propertySelectMemory)
 	) {
-		console.log("propertySelectMemory", propertySelectMemory);
 		propertySelect.value = propertySelectMemory
 			? propertySelectMemory
 			: firstOption;

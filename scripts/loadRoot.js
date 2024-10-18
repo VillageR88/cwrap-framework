@@ -21,7 +21,8 @@ export default function loadRoot(jsonObj) {
  * Appends elements to the global wizardRootDiv.
  * @param {Map} rootMap - A map containing key-value pairs to populate the root div.
  */
-function onLoadPopulateRootCreator() {
+export function onLoadPopulateRootCreator() {
+	global.id.wizardRootDiv.innerHTML = "";
 	for (const [key, value] of global.map.rootMap) {
 		const rootDiv = document.createElement("div");
 		const nestedDiv1 = document.createElement("div");
@@ -40,8 +41,12 @@ function onLoadPopulateRootCreator() {
 		label1.textContent = "Variable name";
 		labelDiv.appendChild(label1);
 
-		removeButton.classList.add(global.class.mediumButtons, global.class.remove);
+		removeButton.classList.add(global.class.mediumButtons);
 		removeButton.type = "button";
+		removeButton.addEventListener("click", () => {
+			global.map.rootMap.delete(key);
+			onLoadPopulateRootCreator();
+		});
 		labelDiv.appendChild(removeButton);
 
 		nestedDiv1.appendChild(labelDiv);

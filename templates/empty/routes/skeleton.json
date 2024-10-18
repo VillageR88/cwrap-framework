@@ -1,6 +1,6 @@
 {
   "head": {
-    "title": "Title of the Page",
+    "title": "New Candy Wrapper project",
     "link": [
       {
         "rel": "shortcut icon",
@@ -18,7 +18,7 @@
       },
       {
         "name": "description",
-        "content": "This is a description of the page"
+        "content": "New Candy Wrapper project."
       },
       {
         "name": "keywords",

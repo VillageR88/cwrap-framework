@@ -1,6 +1,6 @@
 {
   "name": "cwrap-framework",
-  "version": "0.1.0-alpha.202410172357",
+  "version": "0.1.0-alpha.202410181332",
   "description": "Candy Wrapper (CWrap) is an open microframework for web developers and those learning web development.",
   "main": "scripts/main.js",
   "scripts": {
@@ -30,6 +30,6 @@
     "url": "git+https://github.com/VillageR88/cwrap-framework.git"
   },
   "bin": {
-    "create-cwrap": "./cli.js"
+    "create-cwrap": "cli.js"
   }
 }
