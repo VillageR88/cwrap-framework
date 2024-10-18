@@ -10,20 +10,37 @@
 </head>
 
 <body>
+
   <div id="mask">
-    <div>
-      <span>Do you want to follow the link? <br> If you haven't saved your work, all progress will be lost.</span>
+    <div id="popupLink">
+      <span>Follow the link? <br> (Unsaved progress will be lost)</span>
       <div>
-        <button id="popupConfirm" class="mediumButtons" title="confirm"><svg xmlns="http://www.w3.org/2000/svg"
-            height="24px" viewBox="0 -960 960 960" width="24px">
+        <button id="popupLinkConfirm" class="mediumButtons" title="confirm">
+          <svg id="confirm" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
             <path
               d="m424-296 282-282-56-56-226 226-114-114-56 56 170 170Zm56 216q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z" />
           </svg>
         </button>
-        <button id="popupReject" class="mediumButtons" title="reject"><svg xmlns="http://www.w3.org/2000/svg"
-            height="24px" viewBox="0 -960 960 960" width="24px">
+        <button id="popupLinkReject" class="mediumButtons" title="reject">
+          <svg id="reject" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
             <path
               d="m336-280 144-144 144 144 56-56-144-144 144-144-56-56-144 144-144-144-56 56 144 144-144 144 56 56ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div id="popupBackend">
+      <span>Switch to backend? <br> (Unsaved progress will be lost)</span>
+      <div>
+        <button id="popupBackendConfirm" class="mediumButtons" title="confirm">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+            <use href="#confirm" />
+          </svg>
+        </button>
+        <button id="popupBackendReject" class="mediumButtons" title="reject">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+            <use href="#reject" />
           </svg>
         </button>
       </div>

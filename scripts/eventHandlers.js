@@ -923,11 +923,27 @@ export const eventHandlers = () => {
 };
 
 global.id.navLvlRouteBack.addEventListener("click", () => {
+	global.id.mask.style.display = "flex";
+	global.id.popupBackend.style.display = "flex";
+	// window.history.replaceState(null, "", "/");
+	// loadMenuLevelView();
+	// loadRoutesView();
+	// populateRoutesView();
+});
+
+global.id.popupBackendConfirm.addEventListener("click", () => {
+	global.id.mask.style.display = "none";
 	window.history.replaceState(null, "", "/");
 	loadMenuLevelView();
 	loadRoutesView();
 	populateRoutesView();
 });
+
+global.id.popupBackendReject.addEventListener("click", () => {
+	global.id.mask.style.display = "none";
+	global.id.popupBackend.style.display = "none";
+});
+
 
 global.id.elementStateSelect.addEventListener("change", () => {
 	resolveElementStateSelect();
@@ -1014,7 +1030,6 @@ if (new URLSearchParams(window.location.search).has("param")) {
 		loadRootView();
 	}
 } else {
-	console.log(window.location.pathname);
 	loadBodyView();
 }
 // global.id.sectionsVariables.value = "root";

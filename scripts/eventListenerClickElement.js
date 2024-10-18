@@ -13,16 +13,24 @@ export const eventListenerClickElement = (element) => {
 			!global.id.navSelectPreview.classList.contains("static")
 		) {
 			global.id.mask.style.display = "flex";
-			global.id.popupConfirm.removeEventListener("click", handleConfirmClick);
-			global.id.popupReject.removeEventListener("click", handleRejectClick);
+			global.id.popupLink.style.display = "flex";
 			function handleConfirmClick() {
 				window.location.href = event.target.href;
 			}
 			function handleRejectClick() {
+				global.id.popupLinkConfirm.removeEventListener(
+					"click",
+					handleConfirmClick,
+				);
+				global.id.popupLinkReject.removeEventListener(
+					"click",
+					handleRejectClick,
+				);
 				global.id.mask.style.display = "none";
+				global.id.popupLink.style.display = "none";
 			}
-			global.id.popupConfirm.addEventListener("click", handleConfirmClick);
-			global.id.popupReject.addEventListener("click", handleRejectClick);
+			global.id.popupLinkConfirm.addEventListener("click", handleConfirmClick);
+			global.id.popupLinkReject.addEventListener("click", handleRejectClick);
 		}
 		const fullPath = getElementPath(element);
 		updateElementInfo(fullPath, element);
