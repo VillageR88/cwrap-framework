@@ -61,5 +61,5 @@ export default function loadPreview(jsonObj) {
 	const bodyPath = getElementPath(doc.body);
 	updateElementInfo(bodyPath, doc.body);
 	//populateAttributeOptions(doc);
-	populateStateOfContextSelectAllOptions();
+	populateStateOfContextSelectAllOptions(); //TODO rethink this
 }

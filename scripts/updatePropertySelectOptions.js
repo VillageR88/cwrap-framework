@@ -1,7 +1,5 @@
 export default function updatePropertySelectOptions(isState) {
-	console.log(
-		"updatePropertySelectOptions.js: updatePropertySelectOptions() called",
-	);
+	console.log("updatePropertySelectOptions() called");
 
 	const fullPath = isState
 		? global.id.elementStateSelect.value

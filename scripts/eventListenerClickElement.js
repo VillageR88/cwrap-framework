@@ -5,13 +5,15 @@ import validateRemoveElement from "./validateRemoveElement.js";
 
 export const eventListenerClickElement = (element) => {
 	element.addEventListener("click", (event) => {
-		if (global.id.mainInitialSelector.style.display === "none") return; // Do nothing if some elements are displayed like state
 		event.stopPropagation();
 		event.preventDefault();
+		if (global.id.mainInitialSelector.style.display === "none") return; // Do nothing if some elements are displayed like state
 		if (
 			event.target.tagName === "A" &&
+			!event.target.href?.match("#") &&
 			!global.id.navSelectPreview.classList.contains("static")
 		) {
+			console.log("clicked on a link");
 			global.id.mask.style.display = "flex";
 			global.id.popupLink.style.display = "flex";
 			function handleConfirmClick() {

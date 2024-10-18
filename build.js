@@ -3,9 +3,8 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const cssMap = new Map();
-let divCount = 0;
 
-function generateCssSelector(jsonObj, parentSelector) {
+function generateCssSelector(jsonObj, parentSelector, divCountStack = []) {
 	let selector = parentSelector;
 
 	if (Object.prototype.hasOwnProperty.call(jsonObj, "element")) {
@@ -15,8 +14,10 @@ function generateCssSelector(jsonObj, parentSelector) {
 			selector += (parentSelector ? " > " : "") + element;
 		} else {
 			if (element === "div") {
-				divCount++;
-				selector += ` > ${element}:nth-of-type(${divCount})`;
+				// Increment the div count for the current level
+				const currentLevel = divCountStack.length - 1;
+				divCountStack[currentLevel] = (divCountStack[currentLevel] || 0) + 1;
+				selector += ` > ${element}:nth-of-type(${divCountStack[currentLevel]})`;
 			} else {
 				selector += ` > ${element}`;
 			}
@@ -38,9 +39,13 @@ function generateCssSelector(jsonObj, parentSelector) {
 		}
 
 		if (Object.prototype.hasOwnProperty.call(jsonObj, "children")) {
+			// Push a new level to the div count stack
+			divCountStack.push(0);
 			for (const child of jsonObj.children) {
-				generateCssSelector(child, selector);
+				generateCssSelector(child, selector, divCountStack);
 			}
+			// Pop the current level from the div count stack
+			divCountStack.pop();
 		}
 	}
 
@@ -195,7 +200,6 @@ function processRouteDirectory(routeDir, buildDir) {
 	const jsonObj = JSON.parse(fs.readFileSync(jsonFile, "utf8"));
 
 	// Generate CSS selectors and extract styles
-	divCount = 0;
 	generateCssSelector(jsonObj, "");
 
 	// Generate head content
@@ -238,11 +242,21 @@ ${bodyContent}
 			cssContent += `
 @font-face {
     font-family: "${font["font-family"]}";
-    src: ${font.src};
+    src: "${font.src}";
     font-display: ${font["font-display"]};
 }
 `;
 		}
+	}
+
+	// Add root styles from JSON
+	if (Object.prototype.hasOwnProperty.call(jsonObj, "root")) {
+		let rootVariables = ":root {\n";
+		for (const [key, value] of Object.entries(jsonObj.root)) {
+			rootVariables += `${key}: ${value};\n`;
+		}
+		rootVariables += "}\n";
+		cssContent += rootVariables;
 	}
 
 	cssMap.forEach((value, key) => {

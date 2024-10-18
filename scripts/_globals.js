@@ -168,7 +168,7 @@ const global = {
 	},
 	map: {
 		cssMap: new Map(),
-		extendMap: new Map(),
+		extendMap: new Map(), //TODO: this map is probably not used
 		fontMap: new Map(),
 		headMap: new Map(),
 		mediaQueriesMap: new Map(),
