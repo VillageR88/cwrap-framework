@@ -12,10 +12,8 @@ export default function getElementFromPath(path) {
 		} else {
 			selectorLevels = path.split(">");
 		}
-		console.log("Selector levels:", selectorLevels);
 	} else {
 		selectorLevels = global.id.elementSelect.value.split(">");
-		console.log("Selector levels (universal):", selectorLevels);
 	}
 	// console.log("Selector levels:", selectorLevels);
 
@@ -86,6 +84,5 @@ export default function getElementFromPath(path) {
 	// console.log("Selector levels and position after removing body:", selectorLevelsAndPosition);
 
 	const finalElement = traverseDOM(currentElement, selectorLevelsAndPosition);
-	console.log("Final element:", finalElement);
 	return finalElement;
 }

@@ -29,7 +29,7 @@ export default function updateElementInfo(fullPath, element) {
 			selectedValue = "max-width: 768px";
 		else selectedValue = "max-width: 640px";
 		const mediaQueries = mediaQueriesMap.get(selectedValue);
-		const mediaQuery = mediaQueries.get(fullPath);
+		const mediaQuery = mediaQueries?.get(fullPath);
 		style = mediaQuery || "No media query style";
 		currentStyle = mediaQuery;
 	}

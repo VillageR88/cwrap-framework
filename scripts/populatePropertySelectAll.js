@@ -10,18 +10,38 @@
  */
 export default function populatePropertySelectAll(cssProperties, isState) {
 	const cssMap = global.map.cssMap;
+	const mediaQueriesMap = global.map.mediaQueriesMap;
 	const fullPath = global.id.elementSelect.value;
 	let currentStyle;
-	if (!isState) {
-		currentStyle = cssMap.get(fullPath) || "";
-	}
-	else {
-		//TODO This solution works at now but has to be changed along with that readonly input
-		console.log("cssMap", cssMap);
-		console.log("global.map.extendMap", global.map.extendMap);
-		console.log("Full path", fullPath);
-		console.log("stateContextInfo", global.id.stateContextInfo.title);
-		currentStyle = cssMap.get(global.id.stateContextInfo.title) || "";
+	if (global.id.navAdditionalScreen.classList.contains("screenDesktop")) {
+		if (!isState) {
+			currentStyle = cssMap?.get(fullPath) || "";
+		} else {
+			//TODO This solution works at now but has to be changed along with that readonly input
+			currentStyle = cssMap?.get(global.id.stateContextInfo.title) || "";
+		}
+	} else if (global.id.navAdditionalScreen.classList.contains("screenTablet")) {
+		if (!isState) {
+			currentStyle =
+				mediaQueriesMap.get("max-width: 768px")?.get(fullPath) || "";
+		} else {
+			//TODO This solution works at now but has to be changed along with that readonly input
+			currentStyle =
+				mediaQueriesMap
+					.get("max-width: 768px")
+					.get(global.id.stateContextInfo.title) || "";
+		}
+	} else if (global.id.navAdditionalScreen.classList.contains("screenMobile")) {
+		if (!isState) {
+			currentStyle =
+				mediaQueriesMap.get("max-width: 640px")?.get(fullPath) || "";
+		} else {
+			//TODO This solution works at now but has to be changed along with that readonly input
+			currentStyle =
+				mediaQueriesMap
+					.get("max-width: 640px")
+					.get(global.id.stateContextInfo.title) || "";
+		}
 	}
 	console.log("populatePropertySelectAll.js: currentStyle", currentStyle);
 	const appliedProperties = currentStyle

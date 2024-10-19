@@ -177,6 +177,9 @@ const global = {
 	variable: {
 		memoryElement: "",
 		parent: "",
-		style: "",
+		style: "", //this is probably not used
 	},
 };
+
+global.map.mediaQueriesMap.set("max-width: 640px", new Map());
+global.map.mediaQueriesMap.set("max-width: 768px", new Map());

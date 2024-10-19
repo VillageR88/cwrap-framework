@@ -105,10 +105,11 @@ export const eventHandlers = () => {
 		}
 	});
 
-	function tempUpdateFunction() {
-		const element = getElementFromPath();
-		updateElementInfo(global.id.elementSelect.value, element);
-	}
+	// function tempUpdateFunction() {
+	// 	const element = getElementFromPath();
+	// 	console
+	// 	updateElementInfo(global.id.elementSelect.value, element);
+	// }
 
 	global.id.navScreenDesktop.addEventListener("click", () => {
 		global.id.navAdditionalScreen.classList.remove(
@@ -119,7 +120,8 @@ export const eventHandlers = () => {
 		global.id.navAdditionalScreen.classList.add("screenDesktop");
 		const preview = global.id.preview;
 		preview.style.width = "100%";
-		tempUpdateFunction();
+		loadBodyView();
+		// tempUpdateFunction();
 	});
 	global.id.navScreenTablet.addEventListener("click", () => {
 		global.id.navAdditionalScreen.classList.remove(
@@ -130,7 +132,8 @@ export const eventHandlers = () => {
 		global.id.navAdditionalScreen.classList.add("screenTablet");
 		const preview = global.id.preview;
 		preview.style.width = "768px";
-		tempUpdateFunction();
+		loadBodyView();
+		// tempUpdateFunction();
 	});
 	global.id.navScreenMobile.addEventListener("click", () => {
 		global.id.navAdditionalScreen.classList.remove(
@@ -141,7 +144,8 @@ export const eventHandlers = () => {
 		global.id.navAdditionalScreen.classList.add("screenMobile");
 		const preview = global.id.preview;
 		preview.style.width = "375px";
-		tempUpdateFunction();
+		loadBodyView();
+		// tempUpdateFunction();
 	});
 	global.id.navPreviewNormal.addEventListener("click", () => {
 		global.id.navSelectPreview.classList.remove("preview", "static", "tree");
@@ -450,13 +454,26 @@ export const eventHandlers = () => {
 		// populatePropertyValue(global.variable.memoryElement);
 	});
 
-	//TODO Found problem with add property when for example adding property border when there is word like border-radius that contains border in it
+	//TODO This function need refactor badly
 	global.id.addProperty.addEventListener("click", () => {
 		const propertySelectAll = global.id.propertySelectAll;
 		const fullPath = global.id.elementSelect.value;
 		const selectedProperty = propertySelectAll.value;
 		const newValue = "";
-		const currentStyle = cssMap.get(fullPath) || "";
+		let currentStyle;
+		if (global.id.navAdditionalScreen.classList.contains("screenDesktop")) {
+			currentStyle = cssMap.get(fullPath) || "";
+		} else if (
+			global.id.navAdditionalScreen.classList.contains("screenTablet")
+		) {
+			currentStyle =
+				mediaQueriesMap.get("max-width: 768px")?.get(fullPath) || "";
+		} else if (
+			global.id.navAdditionalScreen.classList.contains("screenMobile")
+		) {
+			currentStyle =
+				mediaQueriesMap.get("max-width: 640px")?.get(fullPath) || "";
+		}
 		const styleProperties = currentStyle
 			.split(";")
 			.map((prop) => prop.trim())
@@ -476,7 +493,19 @@ export const eventHandlers = () => {
 			: [...styleProperties, `${selectedProperty}: ${newValue}`]
 					.join("; ")
 					.concat(";");
-		cssMap.set(fullPath, newStyle);
+		if (global.id.navAdditionalScreen.classList.contains("screenDesktop")) {
+			cssMap.set(fullPath, newStyle);
+		} else if (
+			global.id.navAdditionalScreen.classList.contains("screenTablet")
+		) {
+			const mediaQueries = mediaQueriesMap.get("max-width: 768px");
+			mediaQueries.set(fullPath, newStyle);
+		} else if (
+			global.id.navAdditionalScreen.classList.contains("screenMobile")
+		) {
+			const mediaQueries = mediaQueriesMap.get("max-width: 640px");
+			mediaQueries.set(fullPath, newStyle);
+		}
 		applyStyles();
 		global.variable.style = newStyle;
 		updatePropertySelectOptions(false);
@@ -776,35 +805,36 @@ export const eventHandlers = () => {
 	// });
 
 	global.id.updateProperty.addEventListener("click", () => {
-		const classList = Array.from(
-			global.id.navAdditionalScreen.classList,
-		).filter(
-			(className) => className !== "mediumButtons" && className !== "device",
-		);
-		const selectedValue = classList[0]; // Assuming the third class is the one you are always looking for
+		// const classList = Array.from(
+		// 	global.id.navAdditionalScreen.classList,
+		// ).filter(
+		// 	(className) => className !== "mediumButtons" && className !== "device",
+		// );
+		// const selectedScreen = classList[0]; // Assuming the third class is the one you are always looking for
 		const propertySelect = global.id.propertySelect;
 		const propertyInput = global.id.propertyInput;
 		const fullPath = global.id.elementSelect.value;
 		let currentStyle;
 		let targetMap;
-
+		let mediaQueries;
 		if (global.id.navAdditionalScreen.classList.contains("screenDesktop")) {
 			currentStyle = cssMap.get(fullPath);
 			targetMap = cssMap;
 		} else {
-			let styleSpan = global.variable.style;
-			if (global.id.navAdditionalScreen.classList.contains("screenTablet"))
-				currentStyle = mediaQueriesMap.get("max-width: 768px").get(fullPath);
-			else currentStyle = mediaQueriesMap.get("max-width: 640px").get(fullPath);
-			const mediaQueries = mediaQueriesMap.get(selectedValue);
-			const mediaQuery = mediaQueries.get(fullPath);
-			styleSpan = mediaQuery || "No media query style";
+			if (global.id.navAdditionalScreen.classList.contains("screenTablet")) {
+				currentStyle = mediaQueriesMap.get("max-width: 768px")?.get(fullPath);
+				mediaQueries = mediaQueriesMap.get("max-width: 768px");
+			} else {
+				currentStyle = mediaQueriesMap.get("max-width: 640px")?.get(fullPath);
+				mediaQueries = mediaQueriesMap.get("max-width: 640px");
+			}
+			const mediaQuery = mediaQueries?.get(fullPath);
 			currentStyle = mediaQuery;
 			targetMap = mediaQueries;
 		}
 
 		const styleProperties = currentStyle
-			.split(";")
+			?.split(";")
 			.filter(Boolean)
 			.map((prop) => prop.trim());
 
@@ -812,14 +842,15 @@ export const eventHandlers = () => {
 		const newValue = propertyInput.value;
 
 		const newStyle = `${styleProperties
-			.map((prop) => {
+			?.map((prop) => {
 				const [key] = prop.split(":").map((item) => item.trim());
 				return key === selectedProperty ? `${key}: ${newValue}` : prop;
 			})
 			.join("; ")};`;
 
 		console.log("newStyle", newStyle); // debugging
-		targetMap.set(fullPath, newStyle);
+		console.log("targetMap", targetMap); // debugging
+		if (targetMap) targetMap.set(fullPath, newStyle);
 		applyStyles();
 		global.variable.style = newStyle;
 	});
