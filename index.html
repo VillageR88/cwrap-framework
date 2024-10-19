@@ -293,6 +293,14 @@
             </svg>
           </button>
           <select id="elementStateSelect"></select>
+          <div id="mainStateStyleContextInfo">
+            <button id="stateContextInfo" class="mediumButtons" readonly aria-label="state property context info"
+              type="text">
+              <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+                <use href="#iconHighlight"></use>
+              </svg>
+            </button>
+          </div>
           <button id="editStateStyle" class="mediumButtons" title="edit state style">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#style"></use>
@@ -330,6 +338,11 @@
           </button>
           <select id="stateSelectAll"></select>
           <select id="selectContext"></select>
+          <button id="selectContextHighlight" class="mediumButtons">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#iconHighlight"></use>
+            </svg>
+          </button>
           <select id="selectStateOfContext"></select>
           <button class="mediumButtons" id="addState" title="add state">
             <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
@@ -384,7 +397,8 @@
         <div>
           <div class="separatorVertical"></div>
           <button id="selectedElementHighlight" class="mediumButtons" title="highlight selected element">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
+            <svg id="iconHighlight" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
+              width="24px">
               <path
                 d="m226-640-86-84 56-58 86 86-56 56Zm214-120v-120h80v120h-80Zm296 120-58-56 86-84 56 56-84 84ZM360-80v-200L240-400v-200h480v200L600-280v200H360Zm80-80h80v-153l120-120v-87H320v87l120 120v153Zm40-180Z" />
             </svg>
@@ -421,9 +435,6 @@
             <use href="#update"></use>
           </svg>
         </button>
-      </div>
-      <div id="mainStateStyleContextInfo">
-        <input readonly aria-label="state property context info" type="text" id="stateContextInfo" />
       </div>
     </div>
     <div class="mediumButtons" id="nameHelper">nameHelper</div>

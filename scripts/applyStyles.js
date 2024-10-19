@@ -49,7 +49,7 @@ export default function applyStyles() {
 
 function addCustomClasses(customStyles) {
 	let updatedStyles = customStyles;
-	updatedStyles += ".glowing {\n";
+	updatedStyles += ".cwrap-glowing {\n";
 	updatedStyles += "outline: 2px solid red;\n";
 	updatedStyles += "outline-offset: -2px;\n";
 	updatedStyles += "}\n";

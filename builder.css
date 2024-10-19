@@ -14,11 +14,6 @@ test {
   color: rgb(98, 19, 19);
 }
 
-input[readonly] {
-  user-select: none;
-  cursor: ew-resize;
-}
-
 label,
 .label {
   font-weight: bold;
@@ -675,13 +670,19 @@ body > #selectedElementLabelContainer > div > div > #mainTextEditor {
 
 body > #selectedElementLabelContainer > div > #mainStyleSelector2,
 body > #selectedElementLabelContainer > div > #mainStateStyleSelector2,
-body > #selectedElementLabelContainer > div > #mainStateStyleContextInfo,
 body > #selectedElementLabelContainer > div > #mainAttributeSelector2,
 body > #selectedElementLabelContainer > div > #mainTextEditor2 {
   display: none;
   align-items: center;
   justify-content: center;
   width: 100%;
+}
+
+body > #selectedElementLabelContainer > div > #mainStateStyleContextInfo {
+  display: none;
+  width: fit-content;
+  align-items: center;
+  justify-content: center;
 }
 
 body > #selectedElementLabelContainer > div > textarea#mainTextEditor2 {

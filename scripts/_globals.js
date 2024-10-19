@@ -132,6 +132,7 @@ const global = {
 		routesTree: document.getElementById("routesTree"),
 		sectionsVariables: document.getElementById("sectionsVariables"),
 		selectContext: document.getElementById("selectContext"),
+		selectContextHighlight: document.getElementById("selectContextHighlight"),
 		selectStateOfContext: document.getElementById("selectStateOfContext"),
 		selectedElementHighlight: document.getElementById(
 			"selectedElementHighlight",

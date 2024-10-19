@@ -37,9 +37,9 @@ export default function updateElementInfo(fullPath, element) {
 
 	//because sometimes you select something like something:hover and it will not be selected that is why we need to check if the element
 	if (element) {
-		element.classList.add("glowing");
+		element.classList.add("cwrap-glowing");
 		setTimeout(() => {
-			element.classList.remove("glowing");
+			element.classList.remove("cwrap-glowing");
 		}, 500);
 	}
 

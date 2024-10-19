@@ -35,7 +35,6 @@ export default function populateStateSelectAllOptions() {
 			keyInMapHasChildren.set(key, value);
 		}
 	}
-	console.log("keyInMapHasChildren", keyInMapHasChildren);
 	/**
 	 * @type {Map<string,string>} mapContextual
 	 */

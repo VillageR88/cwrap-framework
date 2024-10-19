@@ -216,28 +216,80 @@ export const eventHandlers = () => {
 		const nameHelper = global.id.nameHelper;
 		const element = getElementFromPath();
 		if (element) {
-			element.classList.add("glowing");
+			element.classList.add("cwrap-glowing");
 		}
 		nameHelper.style.display = "flex";
 	});
 
-	const handleEventStopGlowing = () => {
+	const handleEventStopGlowing = (path) => {
+		console.log("path", path); // debugging
 		const nameHelper = global.id.nameHelper;
-		const element = getElementFromPath();
+		const element = getElementFromPath(path);
 		if (element) {
-			element.classList.remove("glowing");
+			element.classList.remove("cwrap-glowing");
 		}
 		nameHelper.style.display = "none";
 	};
 
-	global.id.selectedElementHighlight.addEventListener(
-		"mouseleave",
-		handleEventStopGlowing,
+	global.id.selectedElementHighlight.addEventListener("mouseleave", () =>
+		handleEventStopGlowing(),
 	);
-	global.id.selectedElementHighlight.addEventListener(
-		"mouseup",
-		handleEventStopGlowing,
+	global.id.selectedElementHighlight.addEventListener("mouseup", () =>
+		handleEventStopGlowing(),
 	);
+
+	global.id.selectContextHighlight.addEventListener("mousedown", () => {
+		const element = getElementFromPath(
+			`${global.id.elementSelect.value} > ${global.id.selectContext.value}`,
+		);
+		console.log("element", element); // debugging
+		if (element) {
+			element.classList.add("cwrap-glowing");
+		}
+	});
+
+	global.id.selectContextHighlight.addEventListener("mouseleave", () => {
+		handleEventStopGlowing(
+			`${global.id.elementSelect.value} > ${global.id.selectContext.value}`,
+		);
+	});
+
+	global.id.selectContextHighlight.addEventListener("mouseup", () => {
+		handleEventStopGlowing(
+			`${global.id.elementSelect.value} > ${global.id.selectContext.value}`,
+		);
+	});
+
+	function transformStateTitleToPath(title) {
+		let transformedTitle = title.replace(/:has\(/g, " > ");
+		transformedTitle = transformedTitle.replace(/:\w+\)/g, "");
+		return transformedTitle;
+	}
+	global.id.stateContextInfo.addEventListener("mousedown", () => {
+		console.log(
+			"stateContextInfo mousedown event",
+			global.id.stateContextInfo.title,
+		); // debugging
+		const element = getElementFromPath(
+			transformStateTitleToPath(global.id.elementStateSelect.value),
+		);
+		console.log("element", element); // debugging
+		if (element) {
+			element.classList.add("cwrap-glowing");
+		}
+	});
+
+	global.id.stateContextInfo.addEventListener("mouseleave", () => {
+		handleEventStopGlowing(
+			transformStateTitleToPath(global.id.elementStateSelect.value),
+		);
+	});
+
+	global.id.stateContextInfo.addEventListener("mouseup", () => {
+		handleEventStopGlowing(
+			transformStateTitleToPath(global.id.elementStateSelect.value),
+		);
+	});
 
 	global.id.selectedElementLabelContainerSwitchSide.addEventListener(
 		"click",
@@ -998,24 +1050,6 @@ global.id.navSelectionBuild.addEventListener("click", () => {
 	}
 });
 
-const input = global.id.stateContextInfo;
-let isDragging = false;
-let startX;
-
-input.addEventListener("mousedown", (e) => {
-	isDragging = true;
-	startX = e.clientX; // Get the initial mouse position
-	e.preventDefault(); // Prevent default text selection behavior
-});
-
-document.addEventListener("mousemove", (e) => {
-	if (isDragging) {
-		const moveX = e.clientX - startX; // Calculate how much the mouse has moved
-		input.scrollLeft -= moveX; // Scroll the input text left or right
-		startX = e.clientX; // Update the start position
-	}
-});
-
 global.id.creatorExtend.addEventListener("click", () => {
 	const fontMap = global.map.fontMap;
 	const rootMap = global.map.rootMap;
@@ -1041,9 +1075,6 @@ global.id.creatorExtend.addEventListener("click", () => {
 	}
 });
 
-document.addEventListener("mouseup", () => {
-	isDragging = false; // Stop dragging when the mouse is released
-});
 // populateRoutesView();
 // loadMenuLevelView();
 // loadRoutesView();
@@ -1065,6 +1096,6 @@ if (new URLSearchParams(window.location.search).has("param")) {
 }
 // global.id.sectionsVariables.value = "root";
 // localStorage.setItem("hideArrow", "true");
-document.body.style.display = "flex";
+// document.body.style.display = "flex";
 
 export default eventHandlers;
