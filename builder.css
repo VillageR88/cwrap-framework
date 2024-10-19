@@ -809,6 +809,28 @@ textarea {
   font-size: 16px;
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px var(--colorBackground-textField) inset;
+  -webkit-text-fill-color: var(--colorText-primary);
+  border-right: 2px solid var(--colorBorder-lighter);
+  border-bottom: 2px solid var(--colorBorder-lighter);
+  border-left: 2px solid var(--colorShadow-regular);
+  border-top: 2px solid var(--colorShadow-regular);
+  border-radius: 10px;
+  background-clip: padding-box;
+}
+
+input::-webkit-autofill,
+input::-webkit-autofill:hover,
+input::-webkit-autofill:focus,
+input::-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px var(--colorBackground-textField) inset;
+  -webkit-text-fill-color: var(--colorText-primary);
+}
+
 input {
   font-family: "Courier New", Courier, monospace;
 }
