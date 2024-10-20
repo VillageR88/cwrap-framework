@@ -844,3 +844,9 @@ input::-webkit-autofill:active {
 input {
   font-family: "Courier New", Courier, monospace;
 }
+
+/* Base scrollbar styles */
+* {
+  scrollbar-color: var(--colorBorder-lighter) var(--colorBackground-darker);
+}
+
