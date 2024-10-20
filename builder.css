@@ -265,6 +265,8 @@ body > main > div#routesTree {
   border-radius: 10px;
   background-color: var(--colorBackground-darker);
   box-sizing: border-box;
+  overflow-y: auto;
+  overflow-x: auto;
 }
 
 body > main > div#routesTree {
