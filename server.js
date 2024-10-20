@@ -180,6 +180,29 @@ app.get("/api/initial-settings", (req, res) => {
 	});
 });
 
+//API endpoint to create initial settings
+app.post("/api/create-initial-settings", (req, res) => {
+	const initialSettingsPath = path.join(BASE_DIR, "settings.json");
+	const settings = req.body;
+
+	// Ensure the directory exists
+	fs.mkdirSync(BASE_DIR, { recursive: true });
+
+	fs.writeFile(
+		initialSettingsPath,
+		JSON.stringify(settings, null, 2),
+		(err) => {
+			if (err) {
+				console.error("Error saving settings.json:", err);
+				res.status(500).json({ success: false, error: err.message });
+			} else {
+				// console.log("settings.json saved successfully!");
+				res.status(200).json({ success: true });
+			}
+		},
+	);
+});
+
 // Middleware to serve index.html for any other route
 app.get("*", (req, res) => {
 	const indexPath = path.join(CWRAP_DIR, "index.html");

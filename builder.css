@@ -305,6 +305,10 @@ body > main > div#settingsTree {
   color: var(--colorText-secondary);
 }
 
+body > main > div#settingsTree > div#settingsTreeFirstTime {
+  display: none;
+}
+
 body > main > div#routesTree > div:nth-of-type(1) {
   display: flex;
   justify-content: space-between;

@@ -148,6 +148,10 @@ const global = {
 			"selectedElementLabelContainerSwitchSide",
 		),
 		settingsTree: document.getElementById("settingsTree"),
+		settingsTreeFirstTime: document.getElementById("settingsTreeFirstTime"),
+		settingsTreeFirstTimeCreateSettings: document.getElementById(
+			"settingsTreeFirstTimeCreateSettings",
+		),
 		stateContextInfo: document.getElementById("stateContextInfo"),
 		statePropertyInput: document.getElementById("statePropertyInput"),
 		statePropertySelect: document.getElementById("statePropertySelect"),
@@ -186,7 +190,7 @@ const global = {
 		style: "", //this is probably not used
 	},
 	themes: {
-		"_dark": {
+		_dark: {
 			"--colorText-primary": "#fbfcfb",
 			"--colorText-secondary": "#fbfcfb",
 			"--colorFill-regular": "#e8eaed",
@@ -201,7 +205,7 @@ const global = {
 			"--colorButton-regular": "#151b23",
 			"--colorButton-light": "#8b949e",
 		},
-		"_light": {
+		_light: {
 			"--colorText-primary": "black",
 			"--colorText-secondary": "black",
 			"--colorFill-regular": "#404040",
@@ -292,6 +296,7 @@ const global = {
 			"--colorButton-light": "#fafafa",
 		},
 	},
+	settings: { empty: true },
 };
 
 global.map.mediaQueriesMap.set("max-width: 640px", new Map());

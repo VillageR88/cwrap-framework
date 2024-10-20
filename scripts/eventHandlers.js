@@ -44,6 +44,7 @@ import populateThemeOptions from "./populateThemeOptions.js";
 import loadTheme from "./loadTheme.js";
 import resolveInitialSettings from "./resolveInitialSettings.js";
 import resolveNavSelectPreview from "./resolveNavSelectPreview.js";
+import createInitialSettings from "./createInitialSettings.js";
 
 /**
  * Sets up the event handlers.
@@ -1074,6 +1075,7 @@ global.id.navLvlMenuTheme.addEventListener("change", (option) => {
 	loadTheme(option.target.value);
 	populateThemeOptions();
 	populateRoutesView();
+	if (global.settings.empty !== true) createInitialSettings(global.settings);
 });
 
 global.id.creatorExtend.addEventListener("click", () => {
@@ -1099,6 +1101,10 @@ global.id.creatorExtend.addEventListener("click", () => {
 		rootMap.set(variableName, "");
 		onLoadPopulateRootCreator();
 	}
+});
+
+global.id.settingsTreeFirstTimeCreateSettings.addEventListener("click", () => {
+	createInitialSettings();
 });
 
 // populateRoutesView();
