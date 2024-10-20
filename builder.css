@@ -10,6 +10,20 @@
   --colorBackground-textField: #151e2a;
 } */
 
+/* TODO full path on these 2 select */
+select#navLvlMenuTheme {
+  width: 45px;
+  height: 40px;
+  border-radius: 6px;
+  color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+select#navLvlMenuTheme > option {
+  color: var(--colorFill-regular);
+}
+
 body:has(main > iframe#preview.cwrap-only) {
   overflow: hidden;
 }
@@ -21,10 +35,13 @@ body > main > iframe#preview.cwrap-only {
 test {
   color: rgb(98, 19, 19);
 }
-
+h3 {
+  color: var(--colorText-secondary);
+}
 label,
 .label {
   font-weight: bold;
+  color: var(--colorText-secondary);
   /* text-shadow: 2px 2px 2px #000; */
 }
 
@@ -77,6 +94,7 @@ body > div#mask > div {
 body > div#mask > div span {
   font-size: 18px;
   line-height: 32px;
+  color: var(--colorText-secondary);
 }
 
 body > div#mask > div > div {
@@ -255,19 +273,22 @@ body > main:has(#previewTree[style="display: flex;"]) {
   padding-bottom: 24px;
 }
 
-body > main:has(#routesTree[style="display: flex;"]) {
+body > main:has(#routesTree[style="display: flex;"]),
+body > main:has(#settingsTree[style="display: flex;"]),
+body > main:has(#themesTree[style="display: flex;"]) {
   padding-top: 12px;
   padding-bottom: 24px;
 }
 
 body > main > div#previewTree,
-body > main > div#routesTree {
+body > main > div#routesTree,
+body > main > div#settingsTree {
   display: none;
   width: 100%;
   max-width: 1000px;
   height: 100%;
-  border-top: 2px solid var(--colorBorder-lighter);
-  border-left: 2px solid var(--colorBorder-lighter);
+  border-top: 2px solid var(--colorBorder-darker);
+  border-left: 2px solid var(--colorBorder-darker);
   border-right: 2px solid var(--colorShadow-regular);
   border-bottom: 2px solid var(--colorShadow-regular);
   border-radius: 10px;
@@ -277,9 +298,11 @@ body > main > div#routesTree {
   overflow-x: auto;
 }
 
-body > main > div#routesTree {
+body > main > div#routesTree,
+body > main > div#settingsTree {
   flex-direction: column;
   padding: 24px;
+  color: var(--colorText-secondary);
 }
 
 body > main > div#routesTree > div:nth-of-type(1) {
@@ -296,13 +319,29 @@ body > main > div#routesTree button {
   height: fit-content;
 }
 
+body > main > div#settingsTree > div {
+  display: flex;
+  flex-direction: column;
+}
+
+body > main > div#settingsTree > div > p {
+  margin-top: 18px;
+  margin-bottom: 12px;
+}
+
+body > main > div#settingsTree button {
+  width: fit-content;
+  color: var(--colorFill-regular);
+  padding-inline: 12px;
+}
+
 body > main > div#previewTree ul,
 body > main > div#previewTree li {
-  color: var(--colorText-primary);
+  color: var(--colorText-secondary);
 }
 
 body > main > div#previewTree button {
-  color: var(--colorText-primary);
+  color: var(--colorFill-regular);
 }
 
 body > main > div#previewTree button.cwrapHighlight {
@@ -311,7 +350,6 @@ body > main > div#previewTree button.cwrapHighlight {
   border-top: 2px solid var(--colorBorder-lighter);
   border-right: 2px solid var(--colorShadow-regular);
   border-bottom: 2px solid var(--colorShadow-regular);
-  color: black;
 }
 
 h1,
@@ -657,7 +695,7 @@ body
   > div#mainStyleSelector2
   > select
   > option {
-  color: var(--colorText-primary);
+  color: var(--colorFill-regular);
 }
 
 body > #selectedElementLabelContainer > div > div > #mainElementAdd,
@@ -754,6 +792,8 @@ body > #selectedElementLabelContainer.bottom > div > div > div > .switch > svg {
   box-sizing: border-box;
   fill: var(--colorFill-regular);
   stroke: var(--colorFill-regular);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
 #removeElement:disabled:hover,
@@ -811,7 +851,7 @@ textarea {
   outline: none;
   border-radius: 10px;
   background-color: var(--colorBackground-textField);
-  color: var(--colorText-primary);
+  color: var(--colorFill-regular);
   font-size: medium;
   box-sizing: border-box;
   width: 100%;
@@ -849,4 +889,3 @@ input {
 * {
   scrollbar-color: var(--colorBorder-lighter) var(--colorBackground-darker);
 }
-

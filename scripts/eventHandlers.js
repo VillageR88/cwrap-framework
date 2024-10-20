@@ -25,6 +25,8 @@ import {
 	loadBodyView,
 	loadMenuLevelView,
 	loadRoutesView,
+	loadSettingsView,
+	loadThemesView,
 } from "./loadView.js";
 import populateAttributeSelectAll from "./populateAttributeSelectAll.js";
 import populatePropertyValue from "./populatePropertyValue.js";
@@ -38,6 +40,9 @@ import populateRoutesView from "./populateRoutesView.js";
 import { onLoadPopulateFontsCreator } from "./loadFont.js";
 import eventListenerClickElement from "./eventListenerClickElement.js";
 import { onLoadPopulateRootCreator } from "./loadRoot.js";
+import populateThemeOptions from "./populateThemeOptions.js";
+import loadTheme from "./loadTheme.js";
+import resolveInitialSettings from "./resolveInitialSettings.js";
 
 /**
  * Sets up the event handlers.
@@ -1020,6 +1025,7 @@ global.id.popupBackendConfirm.addEventListener("click", () => {
 	loadMenuLevelView();
 	loadRoutesView();
 	populateRoutesView();
+	populateThemeOptions();
 });
 
 global.id.popupBackendReject.addEventListener("click", () => {
@@ -1047,6 +1053,23 @@ global.id.navSelectionBuild.addEventListener("click", () => {
 	} catch (error) {
 		console.error("Error fetching builder data:", error);
 	}
+});
+
+global.id.navSelectionBuildRoutes.addEventListener("click", () => {
+	loadRoutesView();
+	populateRoutesView();
+});
+
+global.id.navLvlMenuSettings.addEventListener("click", () => {
+	resolveInitialSettings();
+	loadSettingsView();
+});
+
+global.id.navLvlMenuTheme.addEventListener("change", (option) => {
+	localStorage.setItem("theme", option.target.value);
+	loadTheme(option.target.value);
+	populateThemeOptions();
+	populateRoutesView();
 });
 
 global.id.creatorExtend.addEventListener("click", () => {

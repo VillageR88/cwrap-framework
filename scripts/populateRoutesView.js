@@ -5,6 +5,9 @@ import { loadBodyView } from "./loadView.js";
  * @type {import('./_globals.js')}
  */
 export default async function populateRoutesView() {
+	const colorFill = document.documentElement.style.getPropertyValue(
+		"--colorFill-regular",
+	);
 	const routesTree = global.id?.routesTree; //get routes view div
 	if (!routesTree) {
 		console.error("routesTree is not defined");
@@ -29,7 +32,7 @@ export default async function populateRoutesView() {
 	folderButton.classList.add("mediumButtons");
 
 	const syncButton = document.createElement("button");
-	const svgImageSync = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M160-160v-80h110l-16-14q-52-46-73-105t-21-119q0-111 66.5-197.5T400-790v84q-72 26-116 88.5T240-478q0 45 17 87.5t53 78.5l10 10v-98h80v240H160Zm400-10v-84q72-26 116-88.5T720-482q0-45-17-87.5T650-648l-10-10v98h-80v-240h240v80H690l16 14q49 49 71.5 106.5T800-482q0 111-66.5 197.5T560-170Z"/></svg>`;
+	const svgImageSync = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" ><path d="M160-160v-80h110l-16-14q-52-46-73-105t-21-119q0-111 66.5-197.5T400-790v84q-72 26-116 88.5T240-478q0 45 17 87.5t53 78.5l10 10v-98h80v240H160Zm400-10v-84q72-26 116-88.5T720-482q0-45-17-87.5T650-648l-10-10v98h-80v-240h240v80H690l16 14q49 49 71.5 106.5T800-482q0 111-66.5 197.5T560-170Z"/></svg>`;
 	syncButton.innerHTML = svgImageSync;
 	syncButton.title = "sync routes";
 	syncButton.addEventListener("click", async () => {
@@ -56,7 +59,7 @@ export default async function populateRoutesView() {
 		for (const path of paths) {
 			const li = document.createElement("li");
 			const button = document.createElement("button");
-			button.style.color = "white"; //Temporary TODO then remove
+			button.style.color = colorFill;
 			button.classList.add("mediumButtons");
 			button.textContent = path.name;
 			button.addEventListener("click", () => {
@@ -94,80 +97,3 @@ export default async function populateRoutesView() {
 	const nestedRoutes = buildNestedRoutes(routes);
 	createTree(nestedRoutes, routesTree);
 }
-
-/*
-
-import getElementPath from "./getElementPath.js";
-import highlightSelectedElement from "./highlightSelectedElement.js";
-import nestElementInElement from "./nestElementInElement.js";
-
-//TODO drag and drop
-export default function populateTreeView() {
-	const previewDocument =
-		global.id.preview.contentDocument ||
-		global.id.preview.contentWindow.document;
-	const treeView = global.id.previewTree;
-	treeView.innerHTML = "";
-	const bodyElement = previewDocument.body;
-	const tree = document.createElement("ul");
-
-	// Function to create tree structure recursively
-	function createTree(element, parentListItem) {
-		if (element.children.length > 0) {
-			const subList = document.createElement("ul");
-			for (const child of element.children) {
-				const subListItem = document.createElement("li");
-				const subText = document.createTextNode(child.tagName.toLowerCase());
-				const newButton = document.createElement("button");
-				newButton.classList.add("mediumButtons");
-				newButton.draggable = true;
-				newButton.addEventListener("click", () => {
-					global.id.elementSelect.value = getElementPath(child);
-					global.id.nameHelper.textContent = getElementPath(child);
-					highlightSelectedElement();
-				});
-				newButton.addEventListener("dragstart", (event) => {
-					event.dataTransfer.setData("text/plain", event.target.value);
-				});
-				newButton.addEventListener("dragover", (event) => {
-					event.preventDefault();
-				});
-				newButton.addEventListener("drop", (event) => {
-					event.preventDefault();
-					const draggedValue = event.dataTransfer.getData("text/plain");
-					nestElementInElement(draggedValue, event.target.value);
-				});
-				// Use the imported getElementPath function
-				newButton.value = getElementPath(child);
-				newButton.appendChild(subText);
-				subListItem.appendChild(newButton);
-				subList.appendChild(subListItem);
-				createTree(child, subListItem);
-			}
-			parentListItem.appendChild(subList);
-		}
-	}
-
-	// Create the root list item for the body element
-	const rootListItem = document.createElement("li");
-	const bodyText = document.createTextNode(bodyElement.tagName.toLowerCase());
-	const bodyButton = document.createElement("button");
-	bodyButton.classList.add("mediumButtons");
-	bodyButton.addEventListener("click", () => {
-		global.id.elementSelect.value = "body";
-		global.id.nameHelper.textContent = "body";
-		highlightSelectedElement();
-	});
-	bodyButton.appendChild(bodyText);
-	bodyButton.value = "body";
-
-	rootListItem.appendChild(bodyButton);
-	tree.appendChild(rootListItem);
-
-	// Start creating the tree from the children of the body element
-	createTree(bodyElement, rootListItem);
-
-	treeView.appendChild(tree);
-}
-
-*/

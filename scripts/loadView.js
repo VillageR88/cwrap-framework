@@ -76,7 +76,19 @@ export function loadBodyView() {
 
 export function loadRoutesView() {
 	global.id.routesTree.style.display = "flex";
+	global.id.settingsTree.style.display = "none";
 }
+
+export function loadSettingsView() {
+	global.id.routesTree.style.display = "none";
+	global.id.settingsTree.style.display = "flex";
+}
+
+export function loadThemesView() {
+	global.id.routesTree.style.display = "none";
+	global.id.settingsTree.style.display = "none";
+}
+
 
 export function loadMenuLevelView() {
 	global.id.navLvlRoute.style.display = "none";

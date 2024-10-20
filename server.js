@@ -4,9 +4,18 @@ const connectLivereload = require("connect-livereload");
 const bodyParser = require("body-parser");
 const path = require("node:path");
 const fs = require("node:fs");
+const os = require("node:os");
 const { exec } = require("node:child_process");
 
 const HTTP_PORT = 36969;
+let BASE_DIR;
+if (os.platform() === "win32") {
+	BASE_DIR = path.join(os.homedir(), ".cwrap");
+} else if (os.platform() === "darwin") {
+	BASE_DIR = path.join(os.homedir(), ".cwrap");
+} else {
+	BASE_DIR = path.join(os.homedir(), ".cwrap");
+}
 const ROOT_DIR = path.resolve(__dirname);
 const CWRAP_DIR = process.env.DEV
 	? path.resolve(__dirname)
@@ -147,6 +156,26 @@ app.get("/api/build", (req, res) => {
 		} else {
 			console.log("build.js executed successfully!");
 			res.status(200).json({ success: true, output: stdout, error: stderr });
+		}
+	});
+});
+
+//API endpoint to fetch initial settings
+app.get("/api/initial-settings", (req, res) => {
+	const initialSettingsPath = path.join(BASE_DIR, "settings.json");
+	if (!fs.existsSync(initialSettingsPath)) {
+		res
+			.status(404)
+			.json({ success: false, message: "settings.json file not found" });
+		return;
+	}
+
+	fs.readFile(initialSettingsPath, "utf8", (err, data) => {
+		if (err) {
+			console.error("Error reading settings.json:", err);
+			res.status(500).json({ success: false, error: err.message });
+		} else {
+			res.status(200).json(JSON.parse(data));
 		}
 	});
 });
