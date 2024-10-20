@@ -43,6 +43,7 @@ import { onLoadPopulateRootCreator } from "./loadRoot.js";
 import populateThemeOptions from "./populateThemeOptions.js";
 import loadTheme from "./loadTheme.js";
 import resolveInitialSettings from "./resolveInitialSettings.js";
+import resolveNavSelectPreview from "./resolveNavSelectPreview.js";
 
 /**
  * Sets up the event handlers.
@@ -160,6 +161,7 @@ export const eventHandlers = () => {
 		global.id.navAdditionalScreen.style.display = "flex";
 		// global.id.mainInitialSelector.style.display = "flex";
 		global.id.selectedElementHighlight.style.display = "flex";
+		resolveNavSelectPreview();
 	});
 	global.id.navPreviewStatic.addEventListener("click", () => {
 		global.id.navSelectPreview.classList.remove("preview", "tree");
@@ -169,6 +171,7 @@ export const eventHandlers = () => {
 		global.id.navAdditionalScreen.style.display = "flex";
 		// global.id.mainInitialSelector.style.display = "flex";
 		global.id.selectedElementHighlight.style.display = "flex";
+		resolveNavSelectPreview();
 	});
 	global.id.navPreviewTree.addEventListener("click", () => {
 		global.id.navSelectPreview.classList.remove("preview", "static", "tree");
@@ -180,6 +183,7 @@ export const eventHandlers = () => {
 		global.id.selectedElementHighlight.style.display = "none";
 		populateTreeView();
 		highlightSelectedElement();
+		resolveNavSelectPreview();
 	});
 
 	global.id.navDevice.addEventListener("mouseleave", () => {

@@ -1,3 +1,6 @@
+import resolveNavAdditionalScreenIcon from "./resolveNavAdditionalScreenIcon.js";
+import resolveNavSelectPreview from "./resolveNavSelectPreview.js";
+
 /**
  * @type {import("./_globals")}
  */
@@ -72,6 +75,8 @@ export function loadBodyView() {
 	// global.id.leftSidebar.classList.remove(global.class.smaller); //debug
 	leftSidebarCleanup();
 	centralBarCleanup();
+	resolveNavAdditionalScreenIcon();
+	resolveNavSelectPreview();
 }
 
 export function loadRoutesView() {
@@ -88,7 +93,6 @@ export function loadThemesView() {
 	global.id.routesTree.style.display = "none";
 	global.id.settingsTree.style.display = "none";
 }
-
 
 export function loadMenuLevelView() {
 	global.id.navLvlRoute.style.display = "none";

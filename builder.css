@@ -430,48 +430,7 @@ h6 {
   background-position: center;
 }
 
-.preview {
-  background-repeat: no-repeat;
-  background-image: url("./lib/icons/preview_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg");
-  background-position: center;
-}
-
-.tree {
-  background-repeat: no-repeat;
-  background-image: url("./lib/icons/nature_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg");
-  background-position: center;
-}
-
-.static {
-  background-repeat: no-repeat;
-  background-image: url("./lib/icons/mouse_lock_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg");
-  background-position: center;
-}
-
-.previewOff {
-  background-repeat: no-repeat;
-  background-image: url("./lib/icons/preview_off_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg");
-  background-position: center;
-}
-.screenDesktop {
-  background-repeat: no-repeat;
-  background-image: url("./lib/icons/monitor_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg");
-  background-position: center;
-}
-
-.screenTablet {
-  background-repeat: no-repeat;
-  background-image: url("./lib/icons/tablet_android_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg");
-  background-position: center;
-}
-
-.screenMobile {
-  background-repeat: no-repeat;
-  background-image: url("./lib/icons/smartphone_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg");
-  background-position: center;
-}
-
-.edit {
+*/ .edit {
   background-repeat: no-repeat;
   background-image: url("./lib/icons/edit_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg");
   background-position: center;
