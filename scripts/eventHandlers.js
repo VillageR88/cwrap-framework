@@ -1096,7 +1096,7 @@ if (new URLSearchParams(window.location.search).has("param")) {
 
 // event handler is ctrl + shift + h
 // Function to handle keydown events
-const iframe = document.querySelector("iframe");
+const iframe = global.id.preview;
 function handleKeydown(event) {
 	if (event.ctrlKey && event.shiftKey && event.key === "H") {
 		iframe.classList.toggle("cwrap-only");

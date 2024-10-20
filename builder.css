@@ -10,6 +10,10 @@
   --colorBackground-textField: #151e2a;
 } */
 
+body:has(main > iframe#preview.cwrap-only) {
+  overflow: hidden;
+}
+
 body > main > iframe#preview.cwrap-only {
   z-index: 0;
 }
