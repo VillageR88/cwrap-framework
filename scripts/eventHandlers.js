@@ -222,7 +222,6 @@ export const eventHandlers = () => {
 	});
 
 	const handleEventStopGlowing = (path) => {
-		console.log("path", path); // debugging
 		const nameHelper = global.id.nameHelper;
 		const element = getElementFromPath(path);
 		if (element) {
@@ -1093,6 +1092,23 @@ if (new URLSearchParams(window.location.search).has("param")) {
 	}
 } else {
 	loadBodyView();
+}
+
+// event handler is ctrl + shift + h
+// Function to handle keydown events
+const iframe = document.querySelector("iframe");
+function handleKeydown(event) {
+	if (event.ctrlKey && event.shiftKey && event.key === "H") {
+		iframe.classList.toggle("cwrap-only");
+	}
+}
+document.addEventListener("keydown", handleKeydown);
+if (iframe) {
+	try {
+		iframe.contentWindow.addEventListener("keydown", handleKeydown);
+	} catch (e) {
+		console.error("Cannot access iframe content: ", e);
+	}
 }
 // global.id.sectionsVariables.value = "root";
 // localStorage.setItem("hideArrow", "true");
