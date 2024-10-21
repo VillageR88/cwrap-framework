@@ -111,10 +111,13 @@ function getNthOfType(element) {
 
 function getAttributes(element) {
 	const attributes = element.attributes;
+	console.log("attributes", attributes);
 	const result = [];
 
 	for (const attribute of attributes) {
-		result.push(attribute);
+		console.log(attribute.name);
+		console.log("attribute", attribute.value);
+			result.push(attribute);
 	}
 
 	return result;

@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 		const data = await response.json();
 		loadTheme(data.theme);
 		global.settings = data;
-		console.log("response", global.settings); // debugging
+		// console.log("response", global.settings); // debugging
 	} catch (error) {
 		const localStorageTheme = localStorage.getItem("theme");
 		if (localStorageTheme) {

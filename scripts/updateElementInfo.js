@@ -13,6 +13,7 @@ import validateParentElement from "./validateParentElement.js";
  * @param {Map} mediaQueriesMap - The map of media queries.
  */
 export default function updateElementInfo(fullPath, element) {
+	console.log("updateElementInfo");
 	const cssMap = global.map.cssMap;
 	const mediaQueriesMap = global.map.mediaQueriesMap;
 	const nameHelper = global.id.nameHelper;
@@ -37,10 +38,22 @@ export default function updateElementInfo(fullPath, element) {
 
 	//because sometimes you select something like something:hover and it will not be selected that is why we need to check if the element
 	if (element) {
-		element.classList.add("cwrap-glowing");
-		setTimeout(() => {
-			element.classList.remove("cwrap-glowing");
-		}, 500);
+		// Define the keyframes for the combined glowing effect
+		const red = "rgba(255, 0, 0, 1)";
+		const keyframes = [
+			{ boxShadow: `0 0 10px ${red} inset, 0 0 10px ${red}` },
+			{ boxShadow: `0 0 20px ${red.replace("1", "0.5")} inset, 0 0 20px ${red.replace("1", "0.5")}` },
+			{ boxShadow: `0 0 10px ${red} inset, 0 0 10px ${red}` },
+		];
+	
+		// Define the timing options for the animation
+		const options = {
+			duration: 500, // Duration in milliseconds
+			iterations: 1, // Number of times the animation should repeat
+		};
+	
+		// Apply the combined animation to the element
+		element.animate(keyframes, options);
 	}
 
 	// Split the current style string into individual properties, filter out empty strings, and trim whitespace

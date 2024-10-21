@@ -5,9 +5,15 @@ import validateRemoveElement from "./validateRemoveElement.js";
 
 export const eventListenerClickElement = (element) => {
 	element.addEventListener("click", (event) => {
+		console.log("eventListenerClickElement");
+
 		event.stopPropagation();
 		event.preventDefault();
-		if (global.id.mainInitialSelector.style.display === "none" || global.id.preview.classList.contains("cwrap-only")) return; // Do nothing if some elements are displayed like state
+		if (
+			global.id.mainInitialSelector.style.display === "none" ||
+			global.id.preview.classList.contains("cwrap-only")
+		)
+			return; // Do nothing if some elements are displayed like state
 		if (
 			event.target.tagName === "A" &&
 			!event.target.href?.match("#") &&

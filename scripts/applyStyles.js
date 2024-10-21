@@ -33,7 +33,7 @@ export default function applyStyles() {
 		customStyles += `${key} {${value}}\n`;
 	});
 
-	customStyles = addCustomClasses(customStyles);
+	// customStyles = addCustomClasses(customStyles);
 
 	if (mediaQueriesMap)
 		mediaQueriesMap.forEach((styles, query) => {
