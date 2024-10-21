@@ -1127,14 +1127,29 @@ if (new URLSearchParams(window.location.search).has("param")) {
 	loadBodyView();
 }
 
-// event handler is ctrl + shift + h
 // Function to handle keydown events
 const iframe = global.id.preview;
 function handleKeydown(event) {
-	if (event.ctrlKey && event.shiftKey && event.key === "H") {
-		iframe.classList.toggle("cwrap-only");
-	}
+    const keyBinding = global.settings.keybindings["toggle cwrap control in preview"].split("+");
+    const keyMap = {
+        "ctrl": event.ctrlKey,
+        "shift": event.shiftKey,
+        "alt": event.altKey,
+        "meta": event.metaKey,
+    };
+
+    // Check if all buttons in keyBinding are pressed
+    const allKeysPressed = keyBinding.every((key) => keyMap[key] || event.key.toLowerCase() === key.toLowerCase());
+
+    if (allKeysPressed) {
+        const iframe = document.querySelector("iframe");
+        if (iframe) {
+            iframe.classList.toggle("cwrap-only");
+        }
+    }
 }
+
+// Add event listener to the document
 document.addEventListener("keydown", handleKeydown);
 if (iframe) {
 	try {
