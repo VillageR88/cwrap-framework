@@ -191,7 +191,7 @@ const global = {
 		style: "", //this is probably not used
 	},
 	themes: {
-		_dark: {
+		" dark": {
 			"--colorText-primary": "#fbfcfb",
 			"--colorText-secondary": "#fbfcfb",
 			"--colorFill-regular": "#e8eaed",
@@ -206,7 +206,7 @@ const global = {
 			"--colorButton-regular": "#151b23",
 			"--colorButton-light": "#8b949e",
 		},
-		_light: {
+		" light": {
 			"--colorText-primary": "black",
 			"--colorText-secondary": "black",
 			"--colorFill-regular": "#404040",
@@ -236,14 +236,14 @@ const global = {
 			"--colorButton-regular": "#6d4c41", //little bit lighter is
 			"--colorButton-light": "#6d4c11",
 		},
-		forest: {
-			"--colorText-primary": "#cfe8d1",
-			"--colorText-secondary": "#a8d5ba",
-			"--colorFill-regular": "#cfe8d1",
+		service: {
+			"--colorText-primary": "#f1f8e9", // lighter is #e8f5e9 and more lighter is #f1f8e9
+			"--colorText-secondary": "#9fce90", //  lighter is #cfe8d1 and more lighter is #9fce90 but more
+			"--colorFill-regular": "#cfe8df", // and darker is #cfe8d1 and more darker is #cfe8d1 and even more darker is #cfe8d1
 			"--colorText-placeholder": "#8fbf8f",
 			"--colorBorder-darker": "#4a7c59",
 			"--colorBorder-lighter": "#6fae75",
-			"--colorBackground-body": "#2e3d2f",
+			"--colorBackground-body": "#87ceeb", // this color bit greenier is #87ceeb and more greenier is #87ceeb
 			"--colorBackground-darker": "#3a4a3b",
 			"--colorBackground-lighter": "#4b5a4c",
 			"--colorShadow-regular": "#1e2a1f",
@@ -251,7 +251,22 @@ const global = {
 			"--colorButton-regular": "#4a5b4c",
 			"--colorButton-light": "#6fae75",
 		},
-		"retro-wave": {
+		reptile: {
+			"--colorText-primary": "#f1f8e9", // Light green //bit darker is #f1f8e9
+			"--colorText-secondary": "#4caf50", // Army green
+			"--colorFill-regular": "#f1f8e9", // Muted green
+			"--colorText-placeholder": "#81c784", // Light army green
+			"--colorBorder-darker": "#2e7d32", // Dark army green
+			"--colorBorder-lighter": "#66bb6a", // Light army green
+			"--colorBackground-body": "#2c3e50", // what is sand color? // Dark slate gray
+			"--colorBackground-darker": "#1b2a30", // Darker slate gray
+			"--colorBackground-lighter": "#34495e", // Lighter slate gray
+			"--colorShadow-regular": "#1c2833", // Dark shadow
+			"--colorBackground-textField": "#2e4053", // Dark slate gray 
+			"--colorButton-regular": "#388e3c", // Army green
+			"--colorButton-light": "#66bb6a", // Light army green
+		},
+		mnemonic: {
 			"--colorText-primary": "#ff6ec7",
 			"--colorText-secondary": "#b7a4e0",
 			"--colorFill-regular": "#ffcff3",
@@ -269,11 +284,11 @@ const global = {
 		nautical: {
 			"--colorText-primary": "yellow",
 			"--colorText-secondary": "#ffcc00",
-			"--colorFill-regular": "blue",
+			"--colorFill-regular": "#0000df", // bit darker is #0000ff and more darker is #0000ff
 			"--colorText-placeholder": "rgb(255, 204, 0)",
 			"--colorBorder-darker": "#ffb300",
 			"--colorBorder-lighter": "#ffeb3b",
-			"--colorBackground-body": "cornflowerblue",
+			"--colorBackground-body": "#87ceeb",
 			"--colorBackground-darker": "#0000cf",
 			"--colorBackground-lighter": "blue",
 			"--colorShadow-regular": "black",
@@ -295,6 +310,21 @@ const global = {
 			"--colorBackground-textField": "#ffffe0",
 			"--colorButton-regular": "#c0c0c0",
 			"--colorButton-light": "#fafafa",
+		},
+		"miami night": {
+			"--colorText-primary": "#fa00ff",
+			"--colorText-secondary": "#00ffff",
+			"--colorFill-regular": "#9900cc", //i am looking for best contrast for 00cccc and i am so far close is aa00bf// darker is #660099 and little bit lighter is #9900cc
+			"--colorText-placeholder": "#ff99ff",
+			"--colorBorder-darker": "#009999",
+			"--colorBorder-lighter": "#00ffff",
+			"--colorBackground-body": "#1a1a1a",
+			"--colorBackground-darker": "#333333",
+			"--colorBackground-lighter": "#444444",
+			"--colorShadow-regular": "#000000",
+			"--colorBackground-textField": "#0a0a0a",
+			"--colorButton-regular": "#00cccc", //little bit lighter is #00ffff
+			"--colorButton-light": "#00ffff",
 		},
 	},
 	settings: { empty: true },

@@ -1182,20 +1182,21 @@ if (new URLSearchParams(window.location.search).has("param")) {
 // Function to handle keydown events
 const iframe = global.id.preview;
 function handleKeydown(event) {
-	const keyBinding =
-		global.settings.keybindings["toggle cwrap control in preview"].split("+");
 	const keyMap = {
 		ctrl: event.ctrlKey,
 		shift: event.shiftKey,
 		alt: event.altKey,
 		meta: event.metaKey,
 	};
-
-	// Check if all buttons in keyBinding are pressed
-	const allKeysPressed = keyBinding.every(
-		(key) => keyMap[key] || event.key.toLowerCase() === key.toLowerCase(),
-	);
-
+	const allKeysPressed = (
+		global.settings.keybindings
+			? global.settings.keybindings["toggle cwrap control in preview"]
+			: "ctrl+shift+h"
+	)
+		.split("+")
+		.every(
+			(key) => keyMap[key] || event.key.toLowerCase() === key.toLowerCase(),
+		);
 	if (allKeysPressed) {
 		const iframe = document.querySelector("iframe");
 		if (iframe) {
@@ -1206,25 +1207,22 @@ function handleKeydown(event) {
 
 // Function to handle keydown events for changing selection color
 function handleChangeSelectionColor(event) {
-	//const keyBinding = ["ctrl", "shift", " "]; // Ctrl + Shift + Space
-	const keyBinding =
-		global.settings.keybindings["toggle highlight control in preview"].split(
-			"+",
-		);
 	const keyMap = {
 		ctrl: event.ctrlKey,
 		shift: event.shiftKey,
 		space: event.code === "Space",
 		" ": event.code === "Space",
 	};
-
-	// Check if all buttons in keyBinding are pressed
-	const allKeysPressed = keyBinding.every((key) => keyMap[key]);
+	const allKeysPressed = (
+		global.settings.keybindings
+			? global.settings.keybindings["toggle highlight control in preview"]
+			: "ctrl+shift+space"
+	)
+		.split("+")
+		.every((key) => keyMap[key]);
 
 	if (allKeysPressed) {
-		// Change the selection color
 		const iframe = document.querySelector("iframe");
-		//global.localSettings.selectionColor case red > green and so on
 		const selectedColor =
 			global.localSettings.selectionColor === "red"
 				? "green"

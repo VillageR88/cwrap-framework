@@ -93,6 +93,7 @@ body > div#mask > div {
 
 body > div#mask > div span {
   font-size: 18px;
+  font-weight: 500;
   line-height: 32px;
   color: var(--colorText-secondary);
 }
@@ -304,7 +305,6 @@ body > main > div#settingsTree {
   padding: 24px;
   color: var(--colorText-secondary);
 }
-
 
 body > main > div#settingsTree > div#settingsTreeFirstTime {
   display: none;
@@ -771,6 +771,8 @@ body > #selectedElementLabelContainer.bottom > div > div > div > .switch > svg {
   stroke: var(--colorFill-regular);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  line-height: 0;
+  font-weight: 500;
 }
 
 #removeElement:disabled:hover,
@@ -828,7 +830,7 @@ textarea {
   outline: none;
   border-radius: 10px;
   background-color: var(--colorBackground-textField);
-  color: var(--colorFill-regular);
+  color: var(--colorFill-primary);
   font-size: medium;
   box-sizing: border-box;
   width: 100%;

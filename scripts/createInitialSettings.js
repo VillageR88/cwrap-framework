@@ -4,7 +4,7 @@ export default async function createInitialSettings(settings) {
 	const body =
 		settings ||
 		JSON.stringify({
-			theme: localStorage.getItem("theme") || "_dark",
+			theme: localStorage.getItem("theme") || " dark",
 			keybindings: {
 				"toggle cwrap control in preview": "ctrl+shift+h",
 			},
@@ -18,7 +18,7 @@ export default async function createInitialSettings(settings) {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({
-				theme: localStorage.getItem("theme") || "_dark",
+				theme: localStorage.getItem("theme") || " dark",
 				keybindings: {
 					"toggle cwrap control in preview": "ctrl+shift+h",
 					"toggle highlight control in preview": "ctrl+shift+space",

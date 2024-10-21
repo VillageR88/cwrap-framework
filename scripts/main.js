@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 		if (localStorageTheme) {
 			loadTheme(localStorageTheme);
 		} else {
-			loadTheme("dark");
+			loadTheme(" dark");
 		}
 		console.warn("Failed to fetch initial settings");
 	}
