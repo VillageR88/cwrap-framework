@@ -45,6 +45,7 @@ import loadTheme from "./loadTheme.js";
 import resolveInitialSettings from "./resolveInitialSettings.js";
 import resolveNavSelectPreview from "./resolveNavSelectPreview.js";
 import createInitialSettings from "./createInitialSettings.js";
+import removeAttribute from "./removeAttribute.js";
 
 /**
  * Sets up the event handlers.
@@ -226,7 +227,18 @@ export const eventHandlers = () => {
 		const nameHelper = global.id.nameHelper;
 		const element = getElementFromPath();
 		if (element) {
-			element.classList.add("cwrap-glowing");
+			const selectionColor = {
+				red: "rgba(255, 0, 0, 1)",
+				green: "rgba(0, 255, 0, 1)",
+				blue: "rgba(0, 0, 255, 1)",
+			};
+			const selected = global.localSettings.selectionColor;
+			element.style.boxShadow = `0 0 10px ${selectionColor[selected]} inset, 0 0 10px ${selectionColor[selected]}`;
+			const removeGlow = () => {
+				element.style.boxShadow = "";
+				document.removeEventListener("mouseup", removeGlow);
+			};
+			document.addEventListener("mouseup", removeGlow);
 		}
 		nameHelper.style.display = "flex";
 	});
@@ -251,22 +263,40 @@ export const eventHandlers = () => {
 		const element = getElementFromPath(
 			`${global.id.elementSelect.value} > ${global.id.selectContext.value}`,
 		);
-		console.log("element", element); // debugging
+		console.log("element", element);
+
 		if (element) {
-			element.classList.add("cwrap-glowing");
+			const selectionColor = {
+				red: "rgba(255, 0, 0, 1)",
+				green: "rgba(0, 255, 0, 1)",
+				blue: "rgba(0, 0, 255, 1)",
+			};
+			const selected = global.localSettings.selectionColor;
+			element.style.boxShadow = `0 0 10px ${selectionColor[selected]} inset, 0 0 10px ${selectionColor[selected]}`;
+			const removeGlow = () => {
+				element.style.boxShadow = "";
+				document.removeEventListener("mouseup", removeGlow);
+			};
+			document.addEventListener("mouseup", removeGlow);
 		}
 	});
 
 	global.id.selectContextHighlight.addEventListener("mouseleave", () => {
-		handleEventStopGlowing(
+		const element = getElementFromPath(
 			`${global.id.elementSelect.value} > ${global.id.selectContext.value}`,
 		);
+		if (element) {
+			element.style.boxShadow = "";
+		}
 	});
 
 	global.id.selectContextHighlight.addEventListener("mouseup", () => {
-		handleEventStopGlowing(
+		const element = getElementFromPath(
 			`${global.id.elementSelect.value} > ${global.id.selectContext.value}`,
 		);
+		if (element) {
+			element.style.boxShadow = "";
+		}
 	});
 
 	function transformStateTitleToPath(title) {
@@ -278,26 +308,43 @@ export const eventHandlers = () => {
 		console.log(
 			"stateContextInfo mousedown event",
 			global.id.stateContextInfo.title,
-		); // debugging
+		);
 		const element = getElementFromPath(
 			transformStateTitleToPath(global.id.elementStateSelect.value),
 		);
-		console.log("element", element); // debugging
+		console.log("element", element);
 		if (element) {
-			element.classList.add("cwrap-glowing");
+			const selectionColor = {
+				red: "rgba(255, 0, 0, 1)",
+				green: "rgba(0, 255, 0, 1)",
+				blue: "rgba(0, 0, 255, 1)",
+			};
+			const selected = global.localSettings.selectionColor;
+			element.style.boxShadow = `0 0 10px ${selectionColor[selected]} inset, 0 0 10px ${selectionColor[selected]}`;
+			const removeGlow = () => {
+				element.style.boxShadow = "";
+				document.removeEventListener("mouseup", removeGlow);
+			};
+			document.addEventListener("mouseup", removeGlow);
 		}
 	});
 
 	global.id.stateContextInfo.addEventListener("mouseleave", () => {
-		handleEventStopGlowing(
+		const element = getElementFromPath(
 			transformStateTitleToPath(global.id.elementStateSelect.value),
 		);
+		if (element) {
+			element.style.boxShadow = "";
+		}
 	});
 
 	global.id.stateContextInfo.addEventListener("mouseup", () => {
-		handleEventStopGlowing(
+		const element = getElementFromPath(
 			transformStateTitleToPath(global.id.elementStateSelect.value),
 		);
+		if (element) {
+			element.style.boxShadow = "";
+		}
 	});
 
 	global.id.selectedElementLabelContainerSwitchSide.addEventListener(
@@ -456,6 +503,11 @@ export const eventHandlers = () => {
 		}
 		populateAttributeOptionsValue();
 		backToMainAttributeSelector();
+	});
+
+	global.id.removeAttribute.addEventListener("click", () => {
+		removeAttribute();
+		populateAttributeOptionsValue();
 	});
 
 	function backToMainStyleSelector() {
@@ -1130,23 +1182,58 @@ if (new URLSearchParams(window.location.search).has("param")) {
 // Function to handle keydown events
 const iframe = global.id.preview;
 function handleKeydown(event) {
-    const keyBinding = global.settings.keybindings["toggle cwrap control in preview"].split("+");
-    const keyMap = {
-        "ctrl": event.ctrlKey,
-        "shift": event.shiftKey,
-        "alt": event.altKey,
-        "meta": event.metaKey,
-    };
+	const keyBinding =
+		global.settings.keybindings["toggle cwrap control in preview"].split("+");
+	const keyMap = {
+		ctrl: event.ctrlKey,
+		shift: event.shiftKey,
+		alt: event.altKey,
+		meta: event.metaKey,
+	};
 
-    // Check if all buttons in keyBinding are pressed
-    const allKeysPressed = keyBinding.every((key) => keyMap[key] || event.key.toLowerCase() === key.toLowerCase());
+	// Check if all buttons in keyBinding are pressed
+	const allKeysPressed = keyBinding.every(
+		(key) => keyMap[key] || event.key.toLowerCase() === key.toLowerCase(),
+	);
 
-    if (allKeysPressed) {
-        const iframe = document.querySelector("iframe");
-        if (iframe) {
-            iframe.classList.toggle("cwrap-only");
-        }
-    }
+	if (allKeysPressed) {
+		const iframe = document.querySelector("iframe");
+		if (iframe) {
+			iframe.classList.toggle("cwrap-only");
+		}
+	}
+}
+
+// Function to handle keydown events for changing selection color
+function handleChangeSelectionColor(event) {
+	//const keyBinding = ["ctrl", "shift", " "]; // Ctrl + Shift + Space
+	const keyBinding =
+		global.settings.keybindings["toggle highlight control in preview"].split(
+			"+",
+		);
+	const keyMap = {
+		ctrl: event.ctrlKey,
+		shift: event.shiftKey,
+		space: event.code === "Space",
+		" ": event.code === "Space",
+	};
+
+	// Check if all buttons in keyBinding are pressed
+	const allKeysPressed = keyBinding.every((key) => keyMap[key]);
+
+	if (allKeysPressed) {
+		// Change the selection color
+		const iframe = document.querySelector("iframe");
+		//global.localSettings.selectionColor case red > green and so on
+		const selectedColor =
+			global.localSettings.selectionColor === "red"
+				? "green"
+				: global.localSettings.selectionColor === "green"
+					? "blue"
+					: "red";
+		global.localSettings.selectionColor = selectedColor;
+		localStorage.setItem("selectionColor", global.localSettings.selectionColor);
+	}
 }
 
 // Add event listener to the document
@@ -1154,6 +1241,10 @@ document.addEventListener("keydown", handleKeydown);
 if (iframe) {
 	try {
 		iframe.contentWindow.addEventListener("keydown", handleKeydown);
+		iframe.contentWindow.addEventListener(
+			"keydown",
+			handleChangeSelectionColor,
+		);
 	} catch (e) {
 		console.error("Cannot access iframe content: ", e);
 	}

@@ -5,8 +5,6 @@ import validateRemoveElement from "./validateRemoveElement.js";
 
 export const eventListenerClickElement = (element) => {
 	element.addEventListener("click", (event) => {
-		console.log("eventListenerClickElement");
-
 		event.stopPropagation();
 		event.preventDefault();
 		if (

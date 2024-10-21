@@ -127,6 +127,7 @@ const global = {
 		propertySelect: document.getElementById("propertySelect"),
 		propertySelectAll: document.getElementById("propertySelectAll"),
 		propertySelectAllDiv: document.getElementById("propertySelectAllDiv"),
+		removeAttribute: document.getElementById("removeAttribute"),
 		removeElement: document.getElementById("removeElement"),
 		removeProperty: document.getElementById("removeProperty"),
 		removeStateProperty: document.getElementById("removeStateProperty"),
@@ -297,6 +298,9 @@ const global = {
 		},
 	},
 	settings: { empty: true },
+	localSettings: {
+		selectionColor: localStorage.getItem("selectionColor") || "red",
+	},
 };
 
 global.map.mediaQueriesMap.set("max-width: 640px", new Map());

@@ -21,6 +21,7 @@ export default async function createInitialSettings(settings) {
 				theme: localStorage.getItem("theme") || "_dark",
 				keybindings: {
 					"toggle cwrap control in preview": "ctrl+shift+h",
+					"toggle highlight control in preview": "ctrl+shift+space",
 				},
 			}),
 		});

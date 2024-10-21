@@ -8,7 +8,6 @@
 export default function populateAttributeOptions() {
 	const preview = global.id.preview;
 	const doc = preview.contentDocument || preview.contentWindow.document;
-	console.log("populateAttributeOptions");
 	const selectorMap = new Map();
 	const elements = [doc.body, ...doc.body.querySelectorAll("*")];
 
@@ -111,13 +110,10 @@ function getNthOfType(element) {
 
 function getAttributes(element) {
 	const attributes = element.attributes;
-	console.log("attributes", attributes);
 	const result = [];
 
 	for (const attribute of attributes) {
-		console.log(attribute.name);
-		console.log("attribute", attribute.value);
-			result.push(attribute);
+		result.push(attribute);
 	}
 
 	return result;
