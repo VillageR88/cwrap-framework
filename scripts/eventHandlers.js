@@ -559,12 +559,18 @@ export const eventHandlers = () => {
 		updatePropertySelectOptions(true);
 		global.id.statePropertySelect.value = selectedProperty;
 		global.id.statePropertyInput.value = ""; // Clear the input field for now
-		global.id.mainStateStyleSelector2.style.display = "flex";
+		// global.id.mainStateStyleSelector2.style.display = "flex";
 		console.log("Add state property clicked"); // debugging
+
+		global.id.mainStateStyleSelector.style.display = "flex";
+		global.id.mainStateStyleSelector2.style.display = "flex";
+
+		global.id.mainStateStyleAdd.style.display = "none";
 	});
 
 	global.id.mainStateStyleAddBack.addEventListener("click", () => {
 		global.id.mainStateStyleSelector.style.display = "flex";
+		global.id.mainStateStyleSelector2.style.display = "flex";
 		global.id.mainStateStyleAdd.style.display = "none";
 		// populatePropertyValue(global.variable.memoryElement);
 	});
@@ -752,7 +758,8 @@ export const eventHandlers = () => {
 		} else if (
 			global.id.navAdditionalScreen.classList.contains("screenMobile")
 		) {
-			currentMap = mediaQueriesMap.get("max-width: 640px");}
+			currentMap = mediaQueriesMap.get("max-width: 640px");
+		}
 		let fullPath;
 		if (stateSelectAll.value === "has") {
 			console.log("has"); // debugging

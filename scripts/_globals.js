@@ -239,13 +239,13 @@ const global = {
 			"--colorButton-light": "#6d4c11",
 		},
 		service: {
-			"--colorText-primary": "#f1f8e9", // lighter is #e8f5e9 and more lighter is #f1f8e9
-			"--colorText-secondary": "#9fce90", //  lighter is #cfe8d1 and more lighter is #9fce90 but more
+			"--colorText-primary": "white", // lighter is #e8f5e9 and more lighter is #f1f8e9
+			"--colorText-secondary": "#9dde90", //  lighter is #cfe8d1 and more lighter is #9fce90 but more
 			"--colorFill-regular": "#cfe8df", // and darker is #cfe8d1 and more darker is #cfe8d1 and even more darker is #cfe8d1
 			"--colorText-placeholder": "#acacac", // bit lighter is  #9a9b9c and more lighter is #9a9b9c
 			"--colorBorder-darker": "#4a7c59",
 			"--colorBorder-lighter": "#6f8e75",
-			"--colorBackground-body": "#87ceeb", // this color bit greenier is #87ceeb and more greenier is #87ceeb
+			"--colorBackground-body": "#6a7a6f", // this color bit greenier is #87ceeb and more greenier is #87ceeb
 			"--colorBackground-darker": "#3a4a3b",
 			"--colorBackground-lighter": "#4b5a4c",
 			"--colorShadow-regular": "#1e2a1f",
@@ -255,8 +255,8 @@ const global = {
 			"--colorButton-light": "#6fae75",
 		},
 		reptile: {
-			"--colorText-primary": "#f1f8e9",
-			"--colorText-secondary": "#4caf50",
+			"--colorText-primary": "white",
+			"--colorText-secondary": "#4cef50",
 			"--colorFill-regular": "#f1f8e9",
 			"--colorText-placeholder": "#81c784",
 			"--colorBorder-darker": "#1a4a32", // bit darker is #2e7d32 and more darker is #2e7d32
@@ -287,15 +287,15 @@ const global = {
 			"--colorButton-light": "#ff6ec7",
 		},
 		nautical: {
-			"--colorText-primary": "yellow",
-			"--colorText-secondary": "#ffcc00",
+			"--colorText-primary": "yellow", //honeysuckle is #ffcc00 and more yellow is #ffcc00
+			"--colorText-secondary": "#ffee00",
 			"--colorFill-regular": "#0000df", // bit darker is #0000ff and more darker is #0000ff
 			"--colorText-placeholder": "rgb(255, 204, 0)",
-			"--colorBorder-darker": "#ffb300",
-			"--colorBorder-lighter": "#ffeb3b",
-			"--colorBackground-body": "#87ceeb",
-			"--colorBackground-darker": "#0000cf",
-			"--colorBackground-lighter": "blue",
+			"--colorBorder-darker": "#4f7e6b",
+			"--colorBorder-lighter": "#4f7e7b", // more blue is #8a7b7b and more more blue is #8a7b7b
+			"--colorBackground-body": "#0000dd",
+			"--colorBackground-darker": "#0000ee",
+			"--colorBackground-lighter": "#1030ff",
 			"--colorShadow-regular": "black",
 			"--colorBackground-textField": "#003fff", //blue  hex is #0000ff
 			"--colorButton-regular": "#f4cc55",
@@ -319,10 +319,10 @@ const global = {
 			"--colorButton-light": "#fafafa",
 		},
 		"miami night": {
-			"--colorText-primary": "#fa00ff",
+			"--colorText-primary": "#f020cc",
 			"--colorText-secondary": "#00ffff",
 			"--colorFill-regular": "#9900cc", //i am looking for best contrast for 00cccc and i am so far close is aa00bf// darker is #660099 and little bit lighter is #9900cc
-			"--colorText-placeholder": "#ff99ff",
+			"--colorText-placeholder": "#760066", //dark is #660066 and more dark is #660066
 			"--colorBorder-darker": "#006666",
 			"--colorBorder-lighter": "#009999",
 			"--colorBackground-body": "#1a1a1a",

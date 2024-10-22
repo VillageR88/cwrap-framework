@@ -836,6 +836,7 @@ textarea {
   width: 100%;
   resize: none;
   font-size: 16px;
+  font-family: "Courier New", Courier, monospace;
 }
 
 input:-webkit-autofill,
@@ -858,10 +859,6 @@ input::-webkit-autofill:focus,
 input::-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 30px var(--colorBackground-textField) inset;
   -webkit-text-fill-color: var(--colorText-primary);
-}
-
-input {
-  font-family: "Courier New", Courier, monospace;
 }
 
 /* Base scrollbar styles */
