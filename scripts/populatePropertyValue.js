@@ -63,6 +63,8 @@ export default function populatePropertyValue(path, isState) {
 			.map((option) => option.value)
 			.includes(propertySelectMemory)
 	) {
+		console.log("propertySelectMemory", propertySelectMemory); // debugging
+		console.log("firstOption", firstOption); // debugging
 		propertySelect.value = propertySelectMemory
 			? propertySelectMemory
 			: firstOption;
@@ -76,7 +78,14 @@ export default function populatePropertyValue(path, isState) {
 			firstValue = mediaQueriesMap.get("max-width: 768px")?.get(fullPath);
 		else if (global.id.navAdditionalScreen.classList.contains("screenMobile"))
 			firstValue = mediaQueriesMap.get("max-width: 640px")?.get(fullPath);
-		else firstValue = cssMap.get(fullPath);
+		else firstValue = cssMap.get(fullPath)
+		firstValue = firstValue
+			?.split(";")
+			.map((prop) => prop.trim())
+			.filter(Boolean)
+			.find((prop) => prop.startsWith(propertySelect.value))
+			?.split(":")[1]
+			.trim();
 		console.log("firstValue", firstValue); // debugging
 		propertyInput.value = firstValue ? firstValue : "";
 	}

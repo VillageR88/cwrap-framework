@@ -1086,7 +1086,8 @@ export const eventHandlers = () => {
 			cssMap.set(fullPath, newStyle.join("; ").concat(";"));
 			applyStyles();
 			global.variable.style = newStyle.join("; ").concat(";");
-			updatePropertySelectOptions();
+			updatePropertySelectOptions(true);
+			populatePropertyValue(undefined, true);
 		}
 	});
 };
