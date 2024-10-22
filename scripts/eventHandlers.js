@@ -185,7 +185,7 @@ export const eventHandlers = () => {
 		global.id.selectedElementHighlight.style.display = "none";
 		populateTreeView();
 		highlightSelectedElement();
-		resolveNavSelectPreview();
+		resolveNavSelectPreview(); //TODO: estimate is it needed
 	});
 
 	global.id.navDevice.addEventListener("mouseleave", () => {
@@ -855,6 +855,10 @@ export const eventHandlers = () => {
 		populateSelectOptions();
 		applyStyles();
 		validateRemoveElement();
+		if (global.id.navSelectPreview.classList.contains("tree") ){
+			populateTreeView();
+			highlightSelectedElement();
+		}
 	});
 
 	// global.id.openAddScreen.addEventListener("click", () => {

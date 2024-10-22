@@ -4,15 +4,13 @@
 import getElementPath from "./getElementPath.js";
 import highlightSelectedElement from "./highlightSelectedElement.js";
 import nestElementInElement from "./nestElementInElement.js";
+import validateParentElement from "./validateParentElement.js";
+import validateRemoveElement from "./validateRemoveElement.js";
 
-//TODO drag and drop
 export default function populateTreeView() {
-	const previewDocument =
-		global.id.preview.contentDocument ||
-		global.id.preview.contentWindow.document;
 	const treeView = global.id.previewTree;
 	treeView.innerHTML = "";
-	const bodyElement = previewDocument.body;
+	const bodyElement = global.id.doc.body;
 	const tree = document.createElement("ul");
 
 	// Function to create tree structure recursively
@@ -29,6 +27,8 @@ export default function populateTreeView() {
 					global.id.elementSelect.value = getElementPath(child);
 					global.id.nameHelper.textContent = getElementPath(child);
 					highlightSelectedElement();
+					validateParentElement();
+					validateRemoveElement();
 				});
 				newButton.addEventListener("dragstart", (event) => {
 					event.dataTransfer.setData("text/plain", event.target.value);
@@ -61,6 +61,8 @@ export default function populateTreeView() {
 		global.id.elementSelect.value = "body";
 		global.id.nameHelper.textContent = "body";
 		highlightSelectedElement();
+		validateParentElement();
+		validateRemoveElement();
 	});
 	bodyButton.appendChild(bodyText);
 	bodyButton.value = "body";

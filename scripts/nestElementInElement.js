@@ -24,16 +24,17 @@ const headMap = global.map.headMap;
 
 // Function to nest an element in another element
 export default function nestElementInElement(draggedValue, targetValue) {
-	//console.log("Nesting element...");
-	//console.log("Dragged Value:", draggedValue);
-	//console.log("Target Value:", targetValue);
+	//TODO: nesting element in current parent but end position is not correct
+	console.log("Nesting element...");
+	console.log("Dragged Value:", draggedValue);
+	console.log("Target Value:", targetValue);
 
 	remapStyles(draggedValue, targetValue);
 	const targetElement = getElementFromPath(targetValue);
 	const draggedElement = getElementFromPath(draggedValue);
 
-	//console.log("Target Element:", targetElement);
-	//console.log("Dragged Element:", draggedElement);
+	console.log("Target Element:", targetElement);
+	console.log("Dragged Element:", draggedElement);
 
 	targetElement.appendChild(draggedElement);
 	update();
@@ -46,17 +47,17 @@ export default function nestElementInElement(draggedValue, targetValue) {
 
 function remapStyles(draggedSelector, targetSelector) {
 	const cssMap = global.map.cssMap;
-	//console.log("Remapping styles...");
-	//console.log("CSS Map:", cssMap);
+	console.log("Remapping styles...");
+	console.log("CSS Map:", cssMap);
 
-	//console.log("Dragged Selector:", draggedSelector);
-	//console.log("Target Selector:", targetSelector);
+	console.log("Dragged Selector:", draggedSelector);
+	console.log("Target Selector:", targetSelector);
 
 	const draggedStyle = cssMap.get(draggedSelector);
-	//console.log("Dragged Style:", draggedStyle);
+	console.log("Dragged Style:", draggedStyle);
 
 	const targetStyle = cssMap.get(targetSelector);
-	//console.log("Target Style:", targetStyle);
+	console.log("Target Style:", targetStyle);
 
 	if (draggedStyle) {
 		// Update the dragged element's selector to reflect its new position
@@ -65,11 +66,14 @@ function remapStyles(draggedSelector, targetSelector) {
 			draggedElement,
 			targetSelector,
 		);
-		//console.log(`Updating style for ${newDraggedSelector} to`, draggedStyle);
-		cssMap.set(newDraggedSelector, draggedStyle);
-
-		//console.log(`Deleting style for ${draggedSelector}`);
+		const tempStyle = draggedStyle;
+		console.log("Temp Style:", tempStyle);
+		console.log(`Deleting style for ${draggedSelector}`);
 		cssMap.delete(draggedSelector);
+
+		console.log(`Updating style for ${newDraggedSelector} to`, tempStyle);
+		cssMap.set(newDraggedSelector, tempStyle);
+		// console.log("Temp Style:", tempStyle);
 
 		// Recursively update styles for all child elements
 		updateChildStyles(draggedElement, newDraggedSelector);
@@ -85,28 +89,28 @@ function updateChildStyles(element, parentSelector) {
 	const cssMap = global.map.cssMap;
 	const children = element.children;
 
-	//console.log("Updating child styles...");
-	//console.log("Parent Element:", element);
-	//console.log("Parent Selector:", parentSelector);
-	//console.log("Children:", children);
+	console.log("Updating child styles...");
+	console.log("Parent Element:", element);
+	console.log("Parent Selector:", parentSelector);
+	console.log("Children:", children);
 
 	for (let i = 0; i < children.length; i++) {
 		const child = children[i];
 		const oldChildSelector = generateElementCssSelector(child);
 		const newChildSelector = `${parentSelector} > ${child.tagName.toLowerCase()}:nth-of-type(${i})`;
 
-		//console.log("Child Element:", child);
-		//console.log("Old Child Selector:", oldChildSelector);
-		//console.log("New Child Selector:", newChildSelector);
+		console.log("Child Element:", child);
+		console.log("Old Child Selector:", oldChildSelector);
+		console.log("New Child Selector:", newChildSelector);
 
 		const childStyle = cssMap.get(oldChildSelector);
 		if (childStyle) {
-			//console.log(`Updating style for ${newChildSelector} to`, childStyle);
+			console.log(`Updating style for ${newChildSelector} to`, childStyle);
 			cssMap.set(newChildSelector, childStyle);
-			//console.log(`Deleting style for ${oldChildSelector}`);
+			console.log(`Deleting style for ${oldChildSelector}`);
 			cssMap.delete(oldChildSelector);
 		} else {
-			//console.log(`No style found for ${oldChildSelector}`);
+			console.log(`No style found for ${oldChildSelector}`);
 		}
 
 		// Recursively update styles for the child's children
@@ -115,34 +119,44 @@ function updateChildStyles(element, parentSelector) {
 }
 
 function generateNewSelector(element, targetSelector) {
-	//console.log("Generating new selector...");
-	//console.log("Element:", element);
-	//console.log("Target Selector:", targetSelector);
+	console.log("Generating new selector...");
+	console.log("Element:", element);
+	console.log("Target Selector:", targetSelector);
+
+	const draggedSelectorPath = getElementPath(element);
+	const draggedSelectorParent = draggedSelectorPath
+		.split(" > ")
+		.slice(0, -1)
+		.join(" > ");
+	const isSameOrigin = targetSelector === draggedSelectorParent;
+	console.log("Is Same Origin:", isSameOrigin);
 
 	const tagName = element.tagName.toLowerCase();
-	//console.log("Tag Name:", tagName);
+	console.log("Tag Name:", tagName);
 
 	const siblings = Array.from(
 		getElementFromPath(targetSelector).children,
 	).filter((sibling) => sibling.tagName.toLowerCase() === tagName);
-	//console.log("Siblings with the same tag name:", siblings);
+	console.log("Siblings with the same tag name:", siblings);
 
-	const index = siblings.length + 1;
-	//console.log("Index of the element among siblings:", index);
+	const index = siblings.length + (isSameOrigin ? 0 : 1);
+	console.log("Index of the element among siblings:", index);
 
 	const newSelector = `${targetSelector} > ${tagName}:nth-of-type(${index})`;
-	//console.log("New Selector:", newSelector);
+	console.log("New Selector:", newSelector);
 
 	return newSelector;
 }
 
 function generateElementCssSelector(element) {
+	console.log("Generating element CSS selector...");
+	console.log("Element:", element);
 	if (!element) return null;
 	const parts = [];
 	let currentElement = element;
 	while (currentElement.parentElement) {
 		const tagName = currentElement.tagName.toLowerCase();
-		//console.log("Tag Name:", tagName);
+		console.log("Tag Name:", tagName);
 		const siblings = Array.from(currentElement.parentElement.children).filter(
 			(sibling) => sibling.tagName.toLowerCase() === tagName,
 		);
@@ -156,9 +170,9 @@ function generateElementCssSelector(element) {
 }
 
 function update() {
-	//console.log("Updating the document...");
+	console.log("Updating the document...");
 	const jsonObj = updateJsonObj(); // Update jsonObj before using it
-	//console.log("Updated JSON Object:", jsonObj);
+	console.log("Updated JSON Object:", jsonObj);
 	const doc = global.id.doc;
 	global.map.cssMap.clear();
 	generateCssSelector(jsonObj, "", new Map());
@@ -171,7 +185,7 @@ function update() {
 }
 
 function updateJsonObj() {
-	//console.log("Updating JSON object...");
+	console.log("Updating JSON object...");
 	/**
 	 * @type {JsonObject} bodyJson
 	 */
@@ -201,6 +215,6 @@ function updateJsonObj() {
 		bodyJson = { head, ...bodyJson };
 	}
 
-	//console.log("Updated JSON Object:", bodyJson);
+	console.log("Updated JSON Object:", bodyJson);
 	return bodyJson;
 }
