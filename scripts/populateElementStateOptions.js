@@ -8,11 +8,19 @@ import getElementFromPath from "./getElementFromPath.js";
 export default function populateElementStateOptions() {
 	const cssMap = global.map.cssMap;
 	const mediaQueriesMap = global.map.mediaQueriesMap;
+	let currentMap;
+	if (navAdditionalScreen.classList.contains("screenDesktop")) {
+		currentMap = cssMap;
+	} else if (navAdditionalScreen.classList.contains("screenTablet")) {
+		currentMap = mediaQueriesMap.get("max-width: 768px");
+	} else if (navAdditionalScreen.classList.contains("screenMobile")) {
+		currentMap = mediaQueriesMap.get("max-width: 640px");
+	}
 
 	const elementStateSelect = global.id.elementStateSelect;
 	const optionsMap = new Map();
 	let firstKey;
-	for (const [key, value] of cssMap) {
+	for (const [key, value] of currentMap) {
 		// console.log("key", key);
 		// console.log("selectedElement", global.id.elementSelect.value);
 		// console.log(key.includes(`${global.id.elementSelect.value}:`));

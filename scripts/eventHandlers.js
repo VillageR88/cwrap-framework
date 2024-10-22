@@ -742,6 +742,17 @@ export const eventHandlers = () => {
 		const elementSelect = global.id.elementSelect;
 		const selectedState = stateSelectAll.value;
 		const selectedElement = elementSelect.value;
+		let currentMap;
+		if (global.id.navAdditionalScreen.classList.contains("screenDesktop")) {
+			currentMap = cssMap;
+		} else if (
+			global.id.navAdditionalScreen.classList.contains("screenTablet")
+		) {
+			currentMap = mediaQueriesMap.get("max-width: 768px");
+		} else if (
+			global.id.navAdditionalScreen.classList.contains("screenMobile")
+		) {
+			currentMap = mediaQueriesMap.get("max-width: 640px");}
 		let fullPath;
 		if (stateSelectAll.value === "has") {
 			console.log("has"); // debugging
@@ -751,7 +762,7 @@ export const eventHandlers = () => {
 			fullPath = `${selectedElement}:${selectedState}`;
 		}
 		console.log("fullPath", fullPath); // debugging
-		cssMap.set(fullPath, "");
+		currentMap.set(fullPath, "");
 		global.id.mainStateSelector.style.display = "flex";
 		global.id.mainStateAdd.style.display = "none";
 		populateElementStateOptions();
@@ -857,7 +868,7 @@ export const eventHandlers = () => {
 		populateSelectOptions();
 		applyStyles();
 		validateRemoveElement();
-		if (global.id.navSelectPreview.classList.contains("tree") ){
+		if (global.id.navSelectPreview.classList.contains("tree")) {
 			populateTreeView();
 			highlightSelectedElement();
 		}
