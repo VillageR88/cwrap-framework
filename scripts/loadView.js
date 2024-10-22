@@ -123,4 +123,8 @@ function centralBarCleanup() {
 	global.id.mainStyleAdd.style.display = "none";
 	global.id.mainStyleSelector.style.display = "none";
 	global.id.mainStyleSelector2.style.display = "none";
+	global.id.mainStateSelector.style.display = "none";
+	global.id.mainStateAdd.style.display = "none";
+	global.id.mainStateStyleSelector.style.display = "none";
+	global.id.mainStateStyleSelector2.style.display = "none";
 }

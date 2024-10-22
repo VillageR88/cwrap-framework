@@ -14,9 +14,11 @@ export default function populatePropertyValue(path, isState) {
 		: global.id.propertySelect;
 	let selectedValue = "";
 	const fullPath =
-		path || isState
+		path ||
+		(isState
 			? global.id.elementStateSelect.value
-			: global.id.elementSelect.value;
+			: global.id.elementSelect.value);
+		console.log("fullPath", fullPath); // debugging
 	let currentStyle;
 	if (global.id.navAdditionalScreen.classList.contains("screenDesktop")) {
 		currentStyle = cssMap.get(fullPath);
@@ -39,6 +41,7 @@ export default function populatePropertyValue(path, isState) {
 						.trim()
 				: "";
 	const propertySelectMemory = propertySelect.value;
+	console.log("propertySelectMemory", propertySelectMemory); // debugging
 	propertySelect.innerHTML = "";
 	let firstOption;
 	for (const prop of styleProperties) {
@@ -74,6 +77,7 @@ export default function populatePropertyValue(path, isState) {
 		else if (global.id.navAdditionalScreen.classList.contains("screenMobile"))
 			firstValue = mediaQueriesMap.get("max-width: 640px")?.get(fullPath);
 		else firstValue = cssMap.get(fullPath);
+		console.log("firstValue", firstValue); // debugging
 		propertyInput.value = firstValue ? firstValue : "";
 	}
 }

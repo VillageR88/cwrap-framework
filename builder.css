@@ -819,24 +819,41 @@ body > #selectedElementLabelContainer.bottom > div > div > div > .switch > svg {
   gap: 12px;
 }
 
+select {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  line-height: 0;
+  font-weight: 500;
+  border-radius: 6px;
+  background-color: var(--colorBackground-lighter);
+}
+
 select,
 input,
 textarea {
   padding: 10px;
-  border-right: 2px solid var(--colorBorder-lighter);
-  border-bottom: 2px solid var(--colorBorder-lighter);
-  border-left: 2px solid var(--colorShadow-regular);
-  border-top: 2px solid var(--colorShadow-regular);
+  border-right: 2px solid var(--colorShadow-regular);
+  border-bottom: 2px solid var(--colorShadow-regular);
+  border-left: 2px solid var(--colorBorder-lighter);
+  border-top: 2px solid var(--colorBorder-lighter);
   outline: none;
-  border-radius: 10px;
-  background-color: var(--colorBackground-textField);
   color: var(--colorFill-primary);
   font-size: medium;
   box-sizing: border-box;
   width: 100%;
   resize: none;
   font-size: 16px;
+}
+
+input,
+textarea {
   font-family: "Courier New", Courier, monospace;
+  border-right: 2px solid var(--colorBorder-lighter);
+  border-bottom: 2px solid var(--colorBorder-lighter);
+  border-left: 2px solid var(--colorShadow-regular);
+  border-top: 2px solid var(--colorShadow-regular);
+  border-radius: 10px;
+  background-color: var(--colorBackground-textField);
 }
 
 input:-webkit-autofill,
