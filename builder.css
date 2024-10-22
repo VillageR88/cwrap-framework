@@ -744,8 +744,8 @@ body > #selectedElementLabelContainer.bottom > div > div > div > .switch > svg {
 .mediumButtons:active:not(:disabled) {
   border-left: 2px solid var(--colorShadow-regular);
   border-top: 2px solid var(--colorShadow-regular);
-  border-right: 2px solid var(--colorBorder-lighter);
-  border-bottom: 2px solid var(--colorBorder-lighter);
+  border-right: 2px solid var(--colorButtonBorder-regular);
+  border-bottom: 2px solid var(--colorButtonBorder-regular);
 }
 
 .mediumButtons:hover {
@@ -754,8 +754,8 @@ body > #selectedElementLabelContainer.bottom > div > div > div > .switch > svg {
 .mediumButtons {
   outline: none;
   background-color: var(--colorButton-regular);
-  border-left: 2px solid var(--colorBorder-lighter);
-  border-top: 2px solid var(--colorBorder-lighter);
+  border-left: 2px solid var(--colorButtonBorder-regular);
+  border-top: 2px solid var(--colorButtonBorder-regular);
   border-right: 2px solid var(--colorShadow-regular);
   border-bottom: 2px solid var(--colorShadow-regular);
   border-radius: 6px;

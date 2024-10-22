@@ -179,7 +179,6 @@ const global = {
 	},
 	map: {
 		cssMap: new Map(),
-		extendMap: new Map(), //TODO: this map is probably not used
 		fontMap: new Map(),
 		headMap: new Map(),
 		mediaQueriesMap: new Map(),
@@ -204,6 +203,7 @@ const global = {
 			"--colorShadow-regular": "#0c0f13",
 			"--colorBackground-textField": "#151e2a",
 			"--colorButton-regular": "#151b23",
+			"--colorButtonBorder-regular": "#3d444d",
 			"--colorButton-light": "#8b949e",
 		},
 		" light": {
@@ -211,7 +211,7 @@ const global = {
 			"--colorText-secondary": "black",
 			"--colorFill-regular": "#404040",
 			"--colorText-placeholder": "#6c757d",
-			"--colorBorder-darker": "#f0f0ff",
+			"--colorBorder-darker": "#fbfbff",
 			"--colorBorder-lighter": "white",
 			"--colorBackground-body": "#fafafa",
 			"--colorBackground-darker": "#f0f1f1",
@@ -219,6 +219,7 @@ const global = {
 			"--colorShadow-regular": "#adb5bd",
 			"--colorBackground-textField": "#ffffff",
 			"--colorButton-regular": "#faffff",
+			"--colorButtonBorder-regular": "#fdffff",
 			"--colorButton-light": "#e8eaed",
 		},
 		dunes: {
@@ -233,38 +234,41 @@ const global = {
 			"--colorBackground-lighter": "#5d4037",
 			"--colorShadow-regular": "#2e1c1b",
 			"--colorBackground-textField": "#795548",
-			"--colorButton-regular": "#6d4c41", //little bit lighter is
+			"--colorButton-regular": "#6d4c41",
+			"--colorButtonBorder-regular": "#cd854f",
 			"--colorButton-light": "#6d4c11",
 		},
 		service: {
 			"--colorText-primary": "#f1f8e9", // lighter is #e8f5e9 and more lighter is #f1f8e9
 			"--colorText-secondary": "#9fce90", //  lighter is #cfe8d1 and more lighter is #9fce90 but more
 			"--colorFill-regular": "#cfe8df", // and darker is #cfe8d1 and more darker is #cfe8d1 and even more darker is #cfe8d1
-			"--colorText-placeholder": "#8fbf8f",
+			"--colorText-placeholder": "#acacac", // bit lighter is  #9a9b9c and more lighter is #9a9b9c
 			"--colorBorder-darker": "#4a7c59",
-			"--colorBorder-lighter": "#6fae75",
+			"--colorBorder-lighter": "#6f8e75",
 			"--colorBackground-body": "#87ceeb", // this color bit greenier is #87ceeb and more greenier is #87ceeb
 			"--colorBackground-darker": "#3a4a3b",
 			"--colorBackground-lighter": "#4b5a4c",
 			"--colorShadow-regular": "#1e2a1f",
 			"--colorBackground-textField": "#5a6b5c",
 			"--colorButton-regular": "#4a5b4c",
+			"--colorButtonBorder-regular": "#6f8e75", // little lighter is #6fae75 and more lighter is #6fae75
 			"--colorButton-light": "#6fae75",
 		},
 		reptile: {
-			"--colorText-primary": "#f1f8e9", // Light green //bit darker is #f1f8e9
-			"--colorText-secondary": "#4caf50", // Army green
-			"--colorFill-regular": "#f1f8e9", // Muted green
-			"--colorText-placeholder": "#81c784", // Light army green
-			"--colorBorder-darker": "#2e7d32", // Dark army green
-			"--colorBorder-lighter": "#66bb6a", // Light army green
-			"--colorBackground-body": "#2c3e50", // what is sand color? // Dark slate gray
-			"--colorBackground-darker": "#1b2a30", // Darker slate gray
-			"--colorBackground-lighter": "#34495e", // Lighter slate gray
-			"--colorShadow-regular": "#1c2833", // Dark shadow
-			"--colorBackground-textField": "#2e4053", // Dark slate gray 
-			"--colorButton-regular": "#388e3c", // Army green
-			"--colorButton-light": "#66bb6a", // Light army green
+			"--colorText-primary": "#f1f8e9",
+			"--colorText-secondary": "#4caf50",
+			"--colorFill-regular": "#f1f8e9",
+			"--colorText-placeholder": "#81c784",
+			"--colorBorder-darker": "#1a4a32", // bit darker is #2e7d32 and more darker is #2e7d32
+			"--colorBorder-lighter": "#3c5d6f", //more white is #37595f and more more white is #37595f
+			"--colorBackground-body": "#2c3e50",
+			"--colorBackground-darker": "#1b2a30",
+			"--colorBackground-lighter": "#34495e",
+			"--colorShadow-regular": "#1c2833",
+			"--colorBackground-textField": "#2e4053",
+			"--colorButton-regular": "#388e3c",
+			"--colorButtonBorder-regular": "#66bb6a",
+			"--colorButton-light": "#66bb6a",
 		},
 		mnemonic: {
 			"--colorText-primary": "#ff6ec7",
@@ -279,6 +283,7 @@ const global = {
 			"--colorShadow-regular": "#53354a",
 			"--colorBackground-textField": "#1b1b2f",
 			"--colorButton-regular": "#b33771",
+			"--colorButtonBorder-regular": "#ff6ec7",
 			"--colorButton-light": "#ff6ec7",
 		},
 		nautical: {
@@ -294,6 +299,7 @@ const global = {
 			"--colorShadow-regular": "black",
 			"--colorBackground-textField": "#003fff", //blue  hex is #0000ff
 			"--colorButton-regular": "#f4cc55",
+			"--colorButtonBorder-regular": "#ffeb3b",
 			"--colorButton-light": "#f4fc55",
 		},
 		vibe95: {
@@ -307,8 +313,9 @@ const global = {
 			"--colorBackground-darker": "#007070",
 			"--colorBackground-lighter": "#008080 ",
 			"--colorShadow-regular": "#000000",
-			"--colorBackground-textField": "#ffffe0",
+			"--colorBackground-textField": "#ffffef", 
 			"--colorButton-regular": "#c0c0c0",
+			"--colorButtonBorder-regular": "lightgray",
 			"--colorButton-light": "#fafafa",
 		},
 		"miami night": {
@@ -316,14 +323,15 @@ const global = {
 			"--colorText-secondary": "#00ffff",
 			"--colorFill-regular": "#9900cc", //i am looking for best contrast for 00cccc and i am so far close is aa00bf// darker is #660099 and little bit lighter is #9900cc
 			"--colorText-placeholder": "#ff99ff",
-			"--colorBorder-darker": "#009999",
-			"--colorBorder-lighter": "#00ffff",
+			"--colorBorder-darker": "#006666",
+			"--colorBorder-lighter": "#009999",
 			"--colorBackground-body": "#1a1a1a",
 			"--colorBackground-darker": "#333333",
 			"--colorBackground-lighter": "#444444",
 			"--colorShadow-regular": "#000000",
 			"--colorBackground-textField": "#0a0a0a",
-			"--colorButton-regular": "#00cccc", //little bit lighter is #00ffff
+			"--colorButton-regular": "#00cccc",
+			"--colorButtonBorder-regular": "#00ffff",
 			"--colorButton-light": "#00ffff",
 		},
 	},

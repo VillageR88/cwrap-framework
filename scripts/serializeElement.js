@@ -45,11 +45,43 @@ export default function serializeElement(element) {
 		obj.style = cssMap.get(selector);
 	}
 
-	if (global.map.extendMap.has(selector)) {
-		const newSelector = selector + global.map.extendMap.get(selector);
+	// for (const [key, _] of cssMap) {
+	// 	if (key.includes(":has")) {
+	// 		const newKey = key.split(":has")[0];
+	// 		const newValue = `:has${key.split(":has")[1]}`;
+	// 		extendMap.set(newKey, newValue);
+	// 	} else if (key.includes(":hover")) {
+	// 		const newKey = key.split(":hover")[0];
+	// 		const newValue = `:hover${key.split(":hover")[1]}`;
+	// 		extendMap.set(newKey, newValue);
+	// 	}
+	// }
+	// commented to confirm extende
+	// if (global.map.extendMap.has(selector)) {
+	// 	const newSelector = selector + global.map.extendMap.get(selector);
+	// 	const newStyle = cssMap.get(newSelector);
+	// 	obj.extend = [
+	// 		{ extension: global.map.extendMap.get(selector), style: newStyle },
+	// 	];
+	// }
+	// it turns out the extendMap was used but it is not the way to create extended map if all data is in cssMap so we gonna use same as we had extendedMap but we just gonna use cssMap
+	const extendMap = new Map();
+	for (const [key, _] of cssMap) {
+		if (key.includes(":has")) {
+			const newKey = key.split(":has")[0];
+			const newValue = `:has${key.split(":has")[1]}`;
+			extendMap.set(newKey, newValue);
+		} else if (key.includes(":hover")) {
+			const newKey = key.split(":hover")[0];
+			const newValue = `:hover${key.split(":hover")[1]}`;
+			extendMap.set(newKey, newValue);
+		}
+	}
+	if (extendMap.has(selector)) {
+		const newSelector = selector + extendMap.get(selector);
 		const newStyle = cssMap.get(newSelector);
 		obj.extend = [
-			{ extension: global.map.extendMap.get(selector), style: newStyle },
+			{ extension: extendMap.get(selector), style: newStyle },
 		];
 	}
 

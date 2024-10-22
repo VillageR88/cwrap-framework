@@ -381,17 +381,19 @@ export const eventHandlers = () => {
 	global.id.menuSave.addEventListener("click", () => {
 		creatorSave();
 		console.log("Save clicked"); //debugging
-		for (const [key, _] of cssMap) {
-			if (key.includes(":has")) {
-				const newKey = key.split(":has")[0];
-				const newValue = `:has${key.split(":has")[1]}`;
-				extendMap.set(newKey, newValue);
-			} else if (key.includes(":hover")) {
-				const newKey = key.split(":hover")[0];
-				const newValue = `:hover${key.split(":hover")[1]}`;
-				extendMap.set(newKey, newValue);
-			}
-		}
+		// console.log(global.map.extendMap); //debugging // commented out to confirm extendedMap is not used
+		// for (const [key, _] of cssMap) {
+		// 	if (key.includes(":has")) {
+		// 		const newKey = key.split(":has")[0];
+		// 		const newValue = `:has${key.split(":has")[1]}`;
+		// 		extendMap.set(newKey, newValue);
+		// 	} else if (key.includes(":hover")) {
+		// 		const newKey = key.split(":hover")[0];
+		// 		const newValue = `:hover${key.split(":hover")[1]}`;
+		// 		extendMap.set(newKey, newValue);
+		// 	}
+		// }
+		// console.log(global.map.extendMap); //debugging
 
 		/**
 		 * @type {JsonObject} bodyJson
