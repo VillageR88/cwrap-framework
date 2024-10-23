@@ -3,6 +3,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const cssMap = new Map();
+const mediaQueriesMap = new Map();
 
 function generateCssSelector(jsonObj, parentSelector, divCountStack = []) {
 	let selector = parentSelector;
@@ -35,6 +36,16 @@ function generateCssSelector(jsonObj, parentSelector, divCountStack = []) {
 			for (const extension of jsonObj.extend) {
 				const extendedSelector = `${selector}${extension.extension}`;
 				cssMap.set(extendedSelector, extension.style);
+			}
+		}
+
+		if (Object.prototype.hasOwnProperty.call(jsonObj, "mediaQueries")) {
+			for (const mediaQuery of jsonObj.mediaQueries) {
+				if (!mediaQueriesMap.has(mediaQuery.query)) {
+					mediaQueriesMap.set(mediaQuery.query, new Map());
+				}
+				const queryMap = mediaQueriesMap.get(mediaQuery.query);
+				queryMap.set(selector, mediaQuery.style);
 			}
 		}
 
@@ -262,8 +273,19 @@ ${bodyContent}
 	cssMap.forEach((value, key) => {
 		cssContent += `${key} {${value}}\n`;
 	});
+
+	// Add media queries to CSS content
+	mediaQueriesMap.forEach((elementsMap, query) => {
+		cssContent += `@media (${query}) {\n`;
+		elementsMap.forEach((style, selector) => {
+			cssContent += `  ${selector} {${style}}\n`;
+		});
+		cssContent += "}\n";
+	});
+
 	fs.writeFileSync(cssFile, cssContent, "utf8");
 	cssMap.clear();
+	mediaQueriesMap.clear();
 	console.log(`Generated ${cssFile} successfully!`);
 }
 
