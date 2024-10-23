@@ -1184,6 +1184,10 @@ global.id.settingsTreeFirstTimeCreateSettings.addEventListener("click", () => {
 	createInitialSettings();
 });
 
+global.id.navClassroom.addEventListener("click", () => {
+	console.log("navClassroom clicked"); // debugging
+});
+
 // populateRoutesView();
 // loadMenuLevelView();
 // loadRoutesView();
