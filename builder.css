@@ -882,3 +882,16 @@ input::-webkit-autofill:active {
 * {
   scrollbar-color: var(--colorBorder-lighter) var(--colorBackground-darker);
 }
+
+select::-webkit-scrollbar {
+  background-color: var(--colorBackground-darker);
+}
+
+/* Thumb handle color for scrollbars */
+*::-webkit-scrollbar-thumb {
+  background-color: var(--colorBorder-lighter);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: var(--colorBorder-lighter);
+}
