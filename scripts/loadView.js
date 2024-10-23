@@ -7,6 +7,7 @@ import resolveNavSelectPreview from "./resolveNavSelectPreview.js";
 export function loadHeadView() {
 	// global.id.leftSidebarAddition.style.display = "none";
 	global.id.selectedElementLabelContainer.style.display = "none";
+	global.id.navBodyToolset.style.display = "none";
 	global.id.navBodyAdditional.style.display = "none";
 	global.id.navDevice.style.display = "none";
 	global.id.navPreview.style.display = "none";
@@ -17,7 +18,8 @@ export function loadHeadView() {
 	global.id.wizardHeadDiv.style.display = "flex";
 	global.id.wizardFontsDiv.style.display = "none";
 	global.id.wizardRootDiv.style.display = "none";
-	global.id.wizard.classList.remove(global.class.shaded);
+	//global.id.wizard.classList.remove(global.class.shaded);
+	global.id.wizard.classList.add(global.class.shaded);
 	leftSidebarCleanup();
 	centralBarCleanup();
 }
@@ -25,6 +27,7 @@ export function loadHeadView() {
 export function loadFontsView() {
 	// global.id.leftSidebarAddition.style.display = "none";
 	global.id.selectedElementLabelContainer.style.display = "none";
+	global.id.navBodyToolset.style.display = "none";
 	global.id.navBodyAdditional.style.display = "none";
 	global.id.navDevice.style.display = "none";
 	global.id.navPreview.style.display = "none";
@@ -43,6 +46,7 @@ export function loadFontsView() {
 export function loadRootView() {
 	// global.id.leftSidebarAddition.style.display = "none";
 	global.id.selectedElementLabelContainer.style.display = "none";
+	global.id.navBodyToolset.style.display = "none";
 	global.id.navBodyAdditional.style.display = "none";
 	global.id.navDevice.style.display = "none";
 	global.id.navPreview.style.display = "none";
@@ -64,6 +68,7 @@ export function loadBodyView() {
 	global.id.navLvlRoute.style.display = "flex";
 	global.id.selectedElementLabelContainer.style.display = "flex";
 	global.id.navAdditionalScreen.style.display = "flex";
+	global.id.navBodyToolset.style.display = "flex";
 	global.id.navBodyAdditional.style.display = "flex";
 	global.id.navDevice.style.display = "none";
 	global.id.navPreview.style.display = "none";
@@ -97,6 +102,7 @@ export function loadThemesView() {
 export function loadMenuLevelView() {
 	global.id.navLvlRoute.style.display = "none";
 	global.id.selectedElementLabelContainer.style.display = "none";
+	global.id.navBodyToolset.style.display = "none";
 	global.id.navBodyAdditional.style.display = "none";
 	global.id.preview.style.display = "none";
 	global.id.navSections.style.display = "none";

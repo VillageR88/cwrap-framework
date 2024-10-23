@@ -83,6 +83,7 @@ const global = {
 		navAdditionalScreen: document.getElementById("navAdditionalScreen"),
 		navBody: document.getElementById("navBody"),
 		navBodyAdditional: document.getElementById("navBodyAdditional"),
+		navBodyToolset: document.getElementById("navBodyToolset"),
 		navDevice: document.getElementById("navDevice"),
 		navFonts: document.getElementById("navFonts"),
 		navHead: document.getElementById("navHead"),

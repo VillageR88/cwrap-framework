@@ -35,9 +35,7 @@ body > main > iframe#preview.cwrap-only {
 test {
   color: rgb(98, 19, 19);
 }
-h3 {
-  color: var(--colorText-secondary);
-}
+
 label,
 .label {
   font-weight: bold;
@@ -380,6 +378,17 @@ h6 {
   /* text-shadow: 2px 2px 2px #000; */
 }
 
+h3 {
+  font-size: 22px;
+}
+h4 {
+  font-size: 18px;
+}
+
+h3 {
+  color: var(--colorText-secondary);
+}
+
 #preview {
   align-items: center;
   justify-content: center;
@@ -520,7 +529,9 @@ h6 {
   gap: 12px;
 }
 
-#wizardDiv > form > #wizardHeadDiv {
+#wizardDiv > form > #wizardHeadDiv,
+#wizardDiv > form > #wizardFontsDiv,
+#wizardDiv > form > #wizardRootDiv {
   gap: 20px;
 }
 
@@ -532,10 +543,7 @@ h6 {
   align-items: baseline;
   gap: 12px;
 }
-#wizardDiv > form > #wizardFontsDiv,
-#wizardDiv > form > #wizardRootDiv {
-  gap: 20px;
-}
+
 #wizardDiv > form > #wizardFontsDiv > div > div,
 #wizardDiv > form > #wizardRootDiv > div > div {
   display: flex;
@@ -543,6 +551,7 @@ h6 {
   gap: 12px;
 }
 
+#wizardDiv > form > #wizardHeadDiv > div,
 #wizardDiv > form > #wizardFontsDiv > div,
 #wizardDiv > form > #wizardRootDiv > div {
   display: flex;
@@ -748,7 +757,7 @@ body > #selectedElementLabelContainer.bottom > div > div > div > .switch > svg {
   border-bottom: 2px solid var(--colorButtonBorder-regular);
 }
 
-.mediumButtons:hover {
+.mediumButtons:hover:not(:disabled) {
   cursor: pointer;
 }
 .mediumButtons {
