@@ -117,7 +117,7 @@ function leftSidebarCleanup() {
 	global.id.navSelectPreview.classList.add("preview");
 }
 
-function centralBarCleanup() {
+export function centralBarCleanup() {
 	global.id.mainInitialSelector.style.display = "flex";
 	global.id.selectedElementHighlight.style.display = "flex";
 	global.id.mainElementAdd.style.display = "none";

@@ -27,6 +27,7 @@ import {
 	loadRoutesView,
 	loadSettingsView,
 	loadThemesView,
+	centralBarCleanup
 } from "./loadView.js";
 import populateAttributeSelectAll from "./populateAttributeSelectAll.js";
 import populatePropertyValue from "./populatePropertyValue.js";
@@ -1202,6 +1203,12 @@ global.id.navClassroom.addEventListener("click", () => {
 });
 global.id.mainClassroomSelectorSelectType.addEventListener("change", () => {
 	populateClassroomSelectName();
+});
+
+global.id.navJavascript.addEventListener("click", () => {
+	centralBarCleanup();
+	global.id.mainInitialSelector.style.display = "none";
+	global.id.selectedElementHighlight.style.display = "none";
 });
 
 // populateRoutesView();

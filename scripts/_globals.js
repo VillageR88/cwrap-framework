@@ -91,6 +91,7 @@ const global = {
 		navDevice: document.getElementById("navDevice"),
 		navFonts: document.getElementById("navFonts"),
 		navHead: document.getElementById("navHead"),
+		navJavascript: document.getElementById("navJavascript"),
 		navLvlMenu: document.getElementById("navLvlMenu"),
 		navLvlMenuTheme: document.getElementById("navLvlMenuTheme"),
 		navLvlMenuSettings: document.getElementById("navLvlMenuSettings"),

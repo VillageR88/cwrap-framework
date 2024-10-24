@@ -11,6 +11,10 @@
 } */
 
 /* TODO full path on these 2 select */
+
+svg#iconJavascript {
+  scale: 1.8;
+}
 select#navLvlMenuTheme {
   width: 45px;
   height: 40px;
@@ -414,59 +418,6 @@ h3 {
   background-image: url("static/favicon/favicon.ico");
   background-position: center;
   background-size: 50%;
-}
-
-.check {
-  background-repeat: no-repeat;
-  background-image: url("./lib/icons/check_circle_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg");
-  background-position: center;
-}
-
-.return {
-  background-repeat: no-repeat;
-  background-image: url("./lib/icons/keyboard_return_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg");
-  background-position: center;
-}
-
-.wizard {
-  background-repeat: no-repeat;
-  background-image: url("./lib/icons/star_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg");
-  background-position: center;
-}
-
-/* .simplify {
-  background-repeat: no-repeat;
-  background-image: url("./lib/icons/sentiment_satisfied_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg");
-  background-position: center;
-} */
-
-.upgrade {
-  background-repeat: no-repeat;
-  background-image: url("./lib/icons/upgrade_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg");
-  background-position: center;
-}
-
-.run {
-  background-repeat: no-repeat;
-  background-image: url("./lib/icons/play_circle_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg");
-}
-
-.resize {
-  background-repeat: no-repeat;
-  background-image: url("./lib/icons/aspect_ratio_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg");
-  background-position: center;
-}
-
-*/ .edit {
-  background-repeat: no-repeat;
-  background-image: url("./lib/icons/edit_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg");
-  background-position: center;
-}
-
-.editFunction {
-  background-repeat: no-repeat;
-  background-image: url("./lib/icons/function_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg");
-  background-position: center;
 }
 
 .separatorVertical {
