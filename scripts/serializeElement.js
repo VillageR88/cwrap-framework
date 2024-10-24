@@ -19,15 +19,18 @@ export default function serializeElement(element) {
 	if (element.attributes) {
 		obj.attributes = [];
 		for (let i = 0; i < element.attributes.length; i++) {
-			if (
-				element.attributes[i].name !== "class" &&
-				element.attributes[i].name !== "style"
-			) {
+			// if (
+				
+			// 	// element.attributes[i].name !== "class"
+			// 	// &&
+			// 	// element.attributes[i].name !== "style"
+			// ) 
+			// {
 				obj.attributes.push({
 					name: element.attributes[i].name,
 					value: element.attributes[i].value,
 				});
-			}
+			// }
 		}
 		if (obj.attributes.length === 0) {
 			obj.attributes = undefined;
