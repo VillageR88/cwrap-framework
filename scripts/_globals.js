@@ -54,6 +54,7 @@ const global = {
 			"mainAttributeSelectorBack",
 		),
 		mainBody: document.getElementById("mainBody"),
+		mainClassroomSelector: document.getElementById("mainClassroomSelector"),
 		mainElementAdd: document.getElementById("mainElementAdd"),
 		mainInitialSelector: document.getElementById("mainInitialSelector"),
 		mainStateStyleAdd: document.getElementById("mainStateStyleAdd"),

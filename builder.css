@@ -684,6 +684,7 @@ body
   color: var(--colorFill-regular);
 }
 
+body > #selectedElementLabelContainer > div > div > #mainClassroomSelector,
 body > #selectedElementLabelContainer > div > div > #mainElementAdd,
 body > #selectedElementLabelContainer > div > div > #mainStyleSelector,
 body > #selectedElementLabelContainer > div > div > #mainStateSelector,

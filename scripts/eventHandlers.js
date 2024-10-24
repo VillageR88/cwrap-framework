@@ -1195,6 +1195,7 @@ global.id.navClassroom.addEventListener("click", () => {
 	console.log("navClassroom clicked"); // debugging
 	global.id.mainInitialSelector.style.display = "none";
 	global.id.selectedElementHighlight.style.display = "none";
+	global.id.mainClassroomSelector.style.display = "flex";
 });
 
 // populateRoutesView();

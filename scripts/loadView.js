@@ -133,4 +133,5 @@ function centralBarCleanup() {
 	global.id.mainStateAdd.style.display = "none";
 	global.id.mainStateStyleSelector.style.display = "none";
 	global.id.mainStateStyleSelector2.style.display = "none";
+	global.id.mainClassroomSelector.style.display = "none";
 }
