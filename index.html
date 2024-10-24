@@ -161,7 +161,7 @@
                     d="M400-240v-80h62l105-120-105-120h-66l-64 344q-8 45-37 70.5T221-120q-45 0-73-24t-28-64q0-32 17-51.5t43-19.5q25 0 42.5 17t17.5 41q0 5-.5 9t-1.5 9q5-1 8.5-5.5T252-221l62-339H200v-80h129l21-114q7-38 37.5-62t72.5-24q44 0 72 26t28 65q0 30-17 49.5T500-680q-25 0-42.5-17T440-739q0-5 .5-9t1.5-9q-6 2-9 6t-5 12l-17 99h189v80h-32l52 59 52-59h-32v-80h200v80h-62L673-440l105 120h62v80H640v-80h32l-52-60-52 60h32v80H400Z" />
                 </svg>
               </button>
-              <button id="navClassroom" class="mediumButtons" title="classroom (NOT AVAILABLE YET)">
+              <button id="navClassroom" class="mediumButtons" title="classroom">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
                   <path
                     d="M480-120 200-272v-240L40-600l440-240 440 240v320h-80v-276l-80 44v240L480-120Zm0-332 274-148-274-148-274 148 274 148Zm0 241 200-108v-151L480-360 280-470v151l200 108Zm0-241Zm0 90Zm0 0Z" />
@@ -287,7 +287,23 @@
           </button>
         </div>
         <div id="mainClassroomSelector">
-          <select st class="mediumButtons" id="" title="select element"></select>
+          <button id="mainClassroomSelectorAdd" class="mediumButtons" title="add tag">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#add"></use>
+            </svg>
+          </button>
+          <select id="mainClassroomSelectorSelectType" class="mediumButtons" title="select type"></select>
+          <select id="mainClassroomSelectorSelectName" class="mediumButtons" title="select name"></select>
+          <button id="mainClassroomSelectorEditStyle" class="mediumButtons">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#style"></use>
+            </svg>
+          </button>
+          <button id="mainClassroomSelectorDelete" class="mediumButtons">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#remove"></use>
+            </svg>
+          </button>
         </div>
         <div id="mainElementAdd">
           <button class="mediumButtons" id="closeAddElement" title="return to select element">

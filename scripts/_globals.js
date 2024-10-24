@@ -55,6 +55,8 @@ const global = {
 		),
 		mainBody: document.getElementById("mainBody"),
 		mainClassroomSelector: document.getElementById("mainClassroomSelector"),
+		mainClassroomSelectorSelectName: document.getElementById("mainClassroomSelectorSelectName"),
+		mainClassroomSelectorSelectType: document.getElementById("mainClassroomSelectorSelectType"),
 		mainElementAdd: document.getElementById("mainElementAdd"),
 		mainInitialSelector: document.getElementById("mainInitialSelector"),
 		mainStateStyleAdd: document.getElementById("mainStateStyleAdd"),

@@ -46,6 +46,8 @@ import resolveInitialSettings from "./resolveInitialSettings.js";
 import resolveNavSelectPreview from "./resolveNavSelectPreview.js";
 import createInitialSettings from "./createInitialSettings.js";
 import removeAttribute from "./removeAttribute.js";
+import populateClassroomSelectName from "./populateClassroomSelectName.js";
+import populateClassroomSelectType from "./populateClassroomSelectType.js";
 
 /**
  * Sets up the event handlers.
@@ -1192,10 +1194,14 @@ global.id.settingsTreeFirstTimeCreateSettings.addEventListener("click", () => {
 });
 
 global.id.navClassroom.addEventListener("click", () => {
-	console.log("navClassroom clicked"); // debugging
 	global.id.mainInitialSelector.style.display = "none";
 	global.id.selectedElementHighlight.style.display = "none";
 	global.id.mainClassroomSelector.style.display = "flex";
+	populateClassroomSelectType();
+	populateClassroomSelectName();
+});
+global.id.mainClassroomSelectorSelectType.addEventListener("change", () => {
+	populateClassroomSelectName();
 });
 
 // populateRoutesView();

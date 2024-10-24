@@ -655,6 +655,7 @@ body > #selectedElementLabelContainer > div > div {
 
 body > #selectedElementLabelContainer select {
   padding-block: 0;
+  width: fit-content;
 }
 
 body
