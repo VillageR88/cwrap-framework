@@ -18,10 +18,10 @@ export default function getElementPath(element) {
     // Get the tag name of the element in lowercase
     let tagName = currentElement.tagName.toLowerCase();
 
-    // If the element has an ID, append it to the tag name
-    if (currentElement.id) {
-      tagName += `#${currentElement.id}`;
-    } else {
+    // // If the element has an ID, append it to the tag name
+    // if (currentElement.id) {
+    //   tagName += `#${currentElement.id}`;
+    // } else {
       // If the element is not a special tag like 'main', 'footer', or 'body'
       if (!["main", "footer", "body"].includes(tagName)) {
         // Initialize sibling index to 1
@@ -48,7 +48,7 @@ export default function getElementPath(element) {
       // if (currentElement.className) {
       //   tagName += `.${currentElement.className.split(" ").join(".")}`;
       // }
-    }
+    // }
     // Add the tag name to the beginning of the path array
     path.unshift(tagName);
     // Move to the parent element

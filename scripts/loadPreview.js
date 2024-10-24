@@ -80,6 +80,9 @@ export default function loadPreview(jsonObj) {
 	generateCssSelector(jsonObj, "", new Map());
 	const element = createElementFromJson(jsonObj);
 	doc.body.replaceWith(element);
+	const script = doc.createElement("script");
+	script.src = "/javascript/main.js";
+	doc.body.appendChild(script);
 	applyStyles();
 	populateSelectOptions();
 	const bodyPath = getElementPath(doc.body);
