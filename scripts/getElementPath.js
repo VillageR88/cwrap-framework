@@ -44,10 +44,10 @@ export default function getElementPath(element) {
         tagName += `:nth-of-type(${siblingIndex})`;
       }
 
-      // If the element has a class, append it to the tag name
-      if (currentElement.className) {
-        tagName += `.${currentElement.className.split(" ").join(".")}`;
-      }
+      // If the element has a class, append it to the tag name //Commented out until found better approach
+      // if (currentElement.className) {
+      //   tagName += `.${currentElement.className.split(" ").join(".")}`;
+      // }
     }
     // Add the tag name to the beginning of the path array
     path.unshift(tagName);

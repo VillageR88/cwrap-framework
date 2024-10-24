@@ -2,8 +2,8 @@
  * @typedef {import('./types.js').JsonObject} JsonObject
  */
 /**
- * Generates a CSS selector string based on the provided JSON object.
- * Example output: "body > main> div:nth-of-type(1)"
+ * Creates cssMap and mediaQueriesMap.
+ * Generates a CSS selector string based on the provided JSON object with example outcome: "body > main> div:nth-of-type(1)"
  * @param {JsonObject} jsonObj - The JSON object representing the element.
  * @param {string} [parentSelector=""] - The CSS selector of the parent element.
  * @param {Map} [siblingCountMap=new Map()] - A Map to keep track of sibling elements count.
