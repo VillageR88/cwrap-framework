@@ -7,11 +7,24 @@ export const eventListenerClickElement = (element) => {
 	element.addEventListener("click", (event) => {
 		event.stopPropagation();
 		// event.preventDefault(); // Commented out to test behavior without it
+		if (event.target.tagName === "BUTTON") {
+			const isPartOfForm = event.target.closest("form") !== null;
+			if (isPartOfForm) {
+				event.preventDefault();
+				if (
+					global.id.mainInitialSelector.style.display === "none" ||
+					global.id.preview.classList.contains("cwrap-only")
+				)
+					return;
+				alert("TODO: Form submission");
+			}
+		}
 		if (
 			global.id.mainInitialSelector.style.display === "none" ||
 			global.id.preview.classList.contains("cwrap-only")
-		)
+		) {
 			return; // Do nothing if some elements are displayed like state
+		}
 		if (
 			event.target.tagName === "A" &&
 			!event.target.href?.match("#") &&
@@ -38,6 +51,7 @@ export const eventListenerClickElement = (element) => {
 			global.id.popupLinkConfirm.addEventListener("click", handleConfirmClick);
 			global.id.popupLinkReject.addEventListener("click", handleRejectClick);
 		}
+
 		const fullPath = getElementPath(element);
 		updateElementInfo(fullPath, element);
 		validateParentElement();
