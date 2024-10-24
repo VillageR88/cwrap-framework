@@ -1186,6 +1186,8 @@ global.id.settingsTreeFirstTimeCreateSettings.addEventListener("click", () => {
 
 global.id.navClassroom.addEventListener("click", () => {
 	console.log("navClassroom clicked"); // debugging
+	global.id.mainInitialSelector.style.display = "none";
+	global.id.selectedElementHighlight.style.display = "none";
 });
 
 // populateRoutesView();

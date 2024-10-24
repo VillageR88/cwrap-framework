@@ -3,6 +3,7 @@
  *
  * @param {HTMLElement} element - The DOM element to serialize.
  * @returns {Object} The serialized element.
+ * @todo Commented you all classnames logic until solution found.
  */
 export default function serializeElement(element) {
 	const cssMap = global.map.cssMap;
@@ -11,9 +12,9 @@ export default function serializeElement(element) {
 		element: element.tagName.toLowerCase(),
 	};
 
-	if (element.className) {
-		obj.class = element.className;
-	}
+	// if (element.className) {
+	// 	obj.class = element.className;
+	// }
 
 	if (element.attributes) {
 		obj.attributes = [];
@@ -80,9 +81,7 @@ export default function serializeElement(element) {
 	if (extendMap.has(selector)) {
 		const newSelector = selector + extendMap.get(selector);
 		const newStyle = cssMap.get(newSelector);
-		obj.extend = [
-			{ extension: extendMap.get(selector), style: newStyle },
-		];
+		obj.extend = [{ extension: extendMap.get(selector), style: newStyle }];
 	}
 
 	// Append media queries if they exist in the mediaQueriesMap
@@ -136,9 +135,10 @@ function generateCssSelectorForElement(element) {
 		}
 	}
 
-	if (element.className) {
-		selector += `.${element.className.split(" ").join(".")}`;
-	}
+	// if (element.className) {
+	// 	console.log("className", element.className);
+	// 	selector += `.${element.className.split(" ").join(".")}`;
+	// }
 
 	// Traverse up the DOM tree to build the full selector path
 	let parent = element.parentElement;
@@ -159,9 +159,11 @@ function generateCssSelectorForElement(element) {
 			}
 		}
 
-		if (parent.className) {
-			parentSelector += `.${parent.className.split(" ").join(".")}`;
-		}
+		// if (parent.className) {
+		// 	console.log("className", parent.className);
+
+		// 	parentSelector += `.${parent.className.split(" ").join(".")}`;
+		// }
 
 		selector = `${parentSelector} > ${selector}`;
 		parent = parent.parentElement;
