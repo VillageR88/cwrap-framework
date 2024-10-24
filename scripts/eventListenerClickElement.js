@@ -6,7 +6,7 @@ import validateRemoveElement from "./validateRemoveElement.js";
 export const eventListenerClickElement = (element) => {
 	element.addEventListener("click", (event) => {
 		event.stopPropagation();
-		event.preventDefault();
+		// event.preventDefault(); // Commented out to test behavior without it
 		if (
 			global.id.mainInitialSelector.style.display === "none" ||
 			global.id.preview.classList.contains("cwrap-only")
