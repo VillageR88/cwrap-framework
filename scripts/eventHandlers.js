@@ -1232,6 +1232,11 @@ if (new URLSearchParams(window.location.search).has("param")) {
 	loadBodyView();
 }
 
+if (new URLSearchParams(window.location.search).has("stage")) {
+	const stage = new URLSearchParams(window.location.search).get("stage");
+	console.log("stage", stage); // debugging
+}
+
 // Function to handle keydown events
 const iframe = global.id.preview;
 function handleKeydown(event) {

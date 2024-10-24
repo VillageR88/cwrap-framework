@@ -9,6 +9,7 @@ export const eventListenerClickElement = (element) => {
 		// event.preventDefault(); // Commented out to test behavior without it
 		if (event.target.tagName === "BUTTON") {
 			const isPartOfForm = event.target.closest("form") !== null;
+			const isTypeSubmit = event.target.type !== "button";
 			if (isPartOfForm) {
 				event.preventDefault();
 				if (
@@ -16,7 +17,7 @@ export const eventListenerClickElement = (element) => {
 					global.id.preview.classList.contains("cwrap-only")
 				)
 					return;
-				alert("TODO: Form submission");
+				if (isTypeSubmit) alert("TODO: Form submission");
 			}
 		}
 		if (
