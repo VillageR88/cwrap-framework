@@ -79,6 +79,7 @@ export const eventHandlers = () => {
 	const headMap = global.map.headMap;
 	const rootMap = global.map.rootMap;
 	const fontMap = global.map.fontMap;
+	const classroomMap = global.map.classroomMap;
 	const cssMap = global.map.cssMap;
 	const mediaQueriesMap = global.map.mediaQueriesMap;
 
@@ -377,7 +378,6 @@ export const eventHandlers = () => {
 	 * Event handler for the save button.
 	 * When the button is clicked, the data from the iframe is saved to skeletonBody.json.
 	 */
-	const extendMap = global.map.extendMap;
 	global.id.menuSave.addEventListener("click", () => {
 		creatorSave();
 		console.log("Save clicked"); //debugging
@@ -399,6 +399,13 @@ export const eventHandlers = () => {
 		 * @type {JsonObject} bodyJson
 		 */
 		let bodyJson = serializeElement(global.id.doc.body);
+		if (classroomMap.size > 0) {
+			const classroom = [];
+			for (const [key, value] of classroomMap.entries()) {
+				classroom.push(value);
+			}
+			bodyJson = { classroom, ...bodyJson };
+		}
 
 		if (rootMap.size > 0) {
 			const root = {};

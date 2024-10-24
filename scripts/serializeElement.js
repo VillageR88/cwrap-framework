@@ -6,6 +6,7 @@
  * @todo Commented you all classnames logic until solution found.
  */
 export default function serializeElement(element) {
+	const classroomMap = global.map.classroomMap; // TODO (Initial)
 	const cssMap = global.map.cssMap;
 	const mediaQueriesMap = global.map.mediaQueriesMap;
 	const obj = {
@@ -20,16 +21,16 @@ export default function serializeElement(element) {
 		obj.attributes = [];
 		for (let i = 0; i < element.attributes.length; i++) {
 			// if (
-				
+
 			// 	// element.attributes[i].name !== "class"
 			// 	// &&
 			// 	// element.attributes[i].name !== "style"
-			// ) 
+			// )
 			// {
-				obj.attributes.push({
-					name: element.attributes[i].name,
-					value: element.attributes[i].value,
-				});
+			obj.attributes.push({
+				name: element.attributes[i].name,
+				value: element.attributes[i].value,
+			});
 			// }
 		}
 		if (obj.attributes.length === 0) {

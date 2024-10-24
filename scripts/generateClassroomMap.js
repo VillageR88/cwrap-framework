@@ -11,5 +11,4 @@ export default function generateClassroomMap(jsonObj) {
 	for (const [key, value] of Object.entries(jsonObj.classroom)) {
         classroomMap.set(key, value);
 	}
-    // console.log(classroomMap);
 }

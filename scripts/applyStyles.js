@@ -7,10 +7,20 @@
 export default function applyStyles() {
 	const rootMap = global.map.rootMap;
 	const fontMap = global.map.fontMap;
+	const classroomMap = global.map.classroomMap;
 	const cssMap = global.map.cssMap;
 	const mediaQueriesMap = global.map.mediaQueriesMap;
 
 	let customStyles = "";
+	if (classroomMap) {
+		classroomMap.forEach((value, key) => {
+			let hashtag;
+			if (value.type === "class") {
+				hashtag = ".";
+			}
+			customStyles += `${hashtag}${value.name} {${value.style}}\n`;
+		});
+	}
 	if (fontMap) {
 		for (const [_, fonts] of fontMap.entries()) {
 			for (const font of fonts) {
@@ -28,7 +38,8 @@ export default function applyStyles() {
 			customStyles += `${key}: ${value};\n`;
 		});
 		customStyles += "}\n";
-	}
+	} 
+
 	cssMap.forEach((value, key) => {
 		customStyles += `${key} {${value}}\n`;
 	});
