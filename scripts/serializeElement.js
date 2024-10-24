@@ -2,10 +2,14 @@
  * Serialize the DOM element to JSON. In other words convert the DOM element to a JSON object with styles appended and others like class, attributes.
  *
  * @param {HTMLElement} element - The DOM element to serialize.
- * @returns {Object} The serialized element.
+ * @returns {Object|null} The serialized element or null if the element does not have the customTag property set to cwrapTemp.
  */
 export default function serializeElement(element) {
-    //const classroomMap = global.map.classroomMap; // TODO (Initial) // Took much different approach than doing through map
+    // Check if the element has the customTag property set to cwrapTemp
+    if (element.customTag !== "cwrapTemp") {
+        return null;
+    }
+
     const cssMap = global.map.cssMap;
     const mediaQueriesMap = global.map.mediaQueriesMap;
     const obj = {
@@ -77,7 +81,10 @@ export default function serializeElement(element) {
     if (element.children.length > 0) {
         obj.children = [];
         for (const child of element.children) {
-            obj.children.push(serializeElement(child));
+            const serializedChild = serializeElement(child);
+            if (serializedChild) {
+                obj.children.push(serializedChild);
+            }
         }
     } else if (element.textContent) {
         obj.text = element.textContent;

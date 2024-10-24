@@ -27,7 +27,7 @@ import {
 	loadRoutesView,
 	loadSettingsView,
 	loadThemesView,
-	centralBarCleanup
+	centralBarCleanup,
 } from "./loadView.js";
 import populateAttributeSelectAll from "./populateAttributeSelectAll.js";
 import populatePropertyValue from "./populatePropertyValue.js";
@@ -848,6 +848,7 @@ export const eventHandlers = () => {
 		global.id.elementSelect.value = newElement;
 		const newElementNode = document.createElement(selectedValue);
 		const parentElement = getElementFromPath(fullPath);
+		newElementNode.customTag = "cwrapTemp";
 		parentElement.appendChild(newElementNode);
 		eventListenerClickElement(newElementNode);
 		updateElementInfo(newElement, null);

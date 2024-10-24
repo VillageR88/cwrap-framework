@@ -78,11 +78,11 @@ export default function loadPreview(jsonObj) {
 	html.appendChild(body);
 	generateClassroomMap(jsonObj);
 	generateCssSelector(jsonObj, "", new Map());
-	const element = createElementFromJson(jsonObj);
+	const element = createElementFromJson(jsonObj, true);
 	doc.body.replaceWith(element);
-	const script = doc.createElement("script");
-	script.src = "/javascript/main.js";
-	doc.body.appendChild(script);
+	const mainScript = doc.createElement("script");
+	mainScript.src = "/javascript/main.js";
+	doc.body.appendChild(mainScript);
 	applyStyles();
 	populateSelectOptions();
 	const bodyPath = getElementPath(doc.body);
