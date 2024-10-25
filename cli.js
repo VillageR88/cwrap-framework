@@ -192,8 +192,8 @@ function runAdditionalSetup(projectPath, template) {
 		);
 	}
 
-	// Copy the contents of the chosen template folder from templates to routes if it does not exist
-	const templateSrcPath = path.join(cwrapPath, "templates", template);
+	// Copy the contents of the chosen template folder from lib/templates to routes if it does not exist
+	const templateSrcPath = path.join(cwrapPath, "lib", "templates", template);
 	if (fs.existsSync(templateSrcPath)) {
 		try {
 			const templateEntries = fs.readdirSync(templateSrcPath, {
@@ -218,7 +218,7 @@ function runAdditionalSetup(projectPath, template) {
 			process.exit(1);
 		}
 	} else {
-		logMessage(`${template} folder does not exist in the templates folder`);
+		logMessage(`${template} folder does not exist in the lib/templates folder`);
 	}
 
 	// Move server.js from cwrap to root folder if it does not exist
