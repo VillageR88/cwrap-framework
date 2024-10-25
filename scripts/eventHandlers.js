@@ -83,6 +83,7 @@ export const eventHandlers = () => {
 	const rootMap = global.map.rootMap;
 	const fontMap = global.map.fontMap;
 	const classroomMap = global.map.classroomMap;
+	const stageMap = global.map.stageMap;
 	const cssMap = global.map.cssMap;
 	const mediaQueriesMap = global.map.mediaQueriesMap;
 
@@ -402,6 +403,15 @@ export const eventHandlers = () => {
 		 * @type {JsonObject} bodyJson
 		 */
 		let bodyJson = serializeElement(global.id.doc.body);
+
+		if (stageMap.size > 0) {
+			const stage = {};
+			for (const [key, value] of stageMap.entries()) {
+				stage[key] = value;
+			}
+			bodyJson = { ...bodyJson, stage };
+		}
+
 		if (classroomMap.size > 0) {
 			const classroom = [];
 			for (const [key, value] of classroomMap.entries()) {
@@ -435,7 +445,6 @@ export const eventHandlers = () => {
 			bodyJson = { head, ...bodyJson };
 		}
 
-		console.log(bodyJson); //debugging
 		fetch(`/save-skeleton${window.location.pathname}`, {
 			method: "POST",
 			headers: {

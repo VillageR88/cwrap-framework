@@ -5,6 +5,7 @@ import populateAttributeOptions from "./populateAttributeOptions.js";
 import populateStateOfContextSelectAllOptions from "./populateStateOfContextSelectAllOptions.js";
 import createElementFromJson from "./createElementFromJson.js";
 import generateClassroomMap from "./generateClassroomMap.js";
+import generateStageMap from "./generateStageMap.js";
 import generateCssSelector from "./generateCssSelector.js";
 import applyStyles from "./applyStyles.js";
 
@@ -77,6 +78,7 @@ export default function loadPreview(jsonObj) {
 	html.appendChild(head);
 	html.appendChild(body);
 	generateClassroomMap(jsonObj);
+	generateStageMap(jsonObj);
 	generateCssSelector(jsonObj, "", new Map());
 	const element = createElementFromJson(jsonObj, true);
 	doc.body.replaceWith(element);
