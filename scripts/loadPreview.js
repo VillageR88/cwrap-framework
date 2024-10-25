@@ -82,6 +82,7 @@ export default function loadPreview(jsonObj) {
 	doc.body.replaceWith(element);
 	const mainScript = doc.createElement("script");
 	mainScript.src = "/javascript/main.js";
+	mainScript.type = "module";
 	doc.body.appendChild(mainScript);
 	applyStyles();
 	populateSelectOptions();
