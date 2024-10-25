@@ -226,9 +226,7 @@ function processRouteDirectory(routeDir, buildDir) {
 <!DOCTYPE html>
 <html lang="en">
 ${headContent}
-<body>
 ${bodyContent}
-</body>
 </html>
 `;
 
