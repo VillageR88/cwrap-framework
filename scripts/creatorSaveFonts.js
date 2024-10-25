@@ -26,5 +26,4 @@ export default function creatorSaveFonts() {
 		fontsArray.push(fontData);
 	}
 	fontMap.set("fonts", fontsArray);
-    console.log(fontMap);
 }

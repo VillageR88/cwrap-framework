@@ -2,7 +2,7 @@ import resolveNavAdditionalScreenIcon from "./resolveNavAdditionalScreenIcon.js"
 import resolveNavSelectPreview from "./resolveNavSelectPreview.js";
 
 /**
- * @type {import("./_globals")}
+ * @type {import("./_globals.js")}
  */
 export function loadHeadView() {
 	// global.id.leftSidebarAddition.style.display = "none";

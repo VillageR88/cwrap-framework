@@ -23,5 +23,4 @@ export default function creatorSaveRoot() {
 		// Update the rootMap with the new key and value
 		rootMap.set(key, value);
 	}
-	console.log(rootMap);
 }

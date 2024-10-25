@@ -10,5 +10,4 @@ export default function creatorSaveHead() {
 			value.content = global.id.wizardHeadMetaKeywords.value;
 		}
 	}
-	console.log(headMap);
 }

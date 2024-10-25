@@ -403,47 +403,54 @@ export const eventHandlers = () => {
 		 * @type {JsonObject} bodyJson
 		 */
 		let bodyJson = serializeElement(global.id.doc.body);
+		let bodyJsonTemp = serializeElement(global.id.doc.body, true);
 
-		if (stageMap.size > 0) {
-			const stage = {};
-			for (const [key, value] of stageMap.entries()) {
-				stage[key] = value;
+		function encapsulateJson(jsonObj) {
+			let newJsonObj = JSON.parse(JSON.stringify(jsonObj));
+			if (stageMap.size > 0) {
+				const stage = {};
+				for (const [key, value] of stageMap.entries()) {
+					stage[key] = value;
+				}
+				newJsonObj = { ...newJsonObj, stage };
 			}
-			bodyJson = { ...bodyJson, stage };
-		}
 
-		if (classroomMap.size > 0) {
-			const classroom = [];
-			for (const [key, value] of classroomMap.entries()) {
-				classroom.push(value);
+			if (classroomMap.size > 0) {
+				const classroom = [];
+				for (const [key, value] of classroomMap.entries()) {
+					classroom.push(value);
+				}
+				newJsonObj = { classroom, ...newJsonObj };
 			}
-			bodyJson = { classroom, ...bodyJson };
-		}
 
-		if (rootMap.size > 0) {
-			const root = {};
-			for (const [key, value] of rootMap.entries()) {
-				root[key] = value;
+			if (rootMap.size > 0) {
+				const root = {};
+				for (const [key, value] of rootMap.entries()) {
+					root[key] = value;
+				}
+				newJsonObj = { root, ...newJsonObj };
 			}
-			bodyJson = { root, ...bodyJson };
-		}
 
-		if (fontMap.size > 0) {
-			let fonts = {};
-			for (const [key, value] of fontMap.entries()) {
-				fonts[key] = value;
+			if (fontMap.size > 0) {
+				let fonts = {};
+				for (const [key, value] of fontMap.entries()) {
+					fonts[key] = value;
+				}
+				fonts = fonts.fonts;
+				newJsonObj = { fonts, ...newJsonObj };
 			}
-			fonts = fonts.fonts;
-			bodyJson = { fonts, ...bodyJson };
-		}
 
-		if (headMap.size > 0) {
-			const head = {};
-			for (const [key, value] of headMap.entries()) {
-				head[key] = value;
+			if (headMap.size > 0) {
+				const head = {};
+				for (const [key, value] of headMap.entries()) {
+					head[key] = value;
+				}
+				newJsonObj = { head, ...newJsonObj };
 			}
-			bodyJson = { head, ...bodyJson };
+			return newJsonObj;
 		}
+		bodyJson = encapsulateJson(bodyJson);
+		bodyJsonTemp = encapsulateJson(bodyJsonTemp);
 
 		fetch(`/save-skeleton${window.location.pathname}`, {
 			method: "POST",
@@ -456,6 +463,24 @@ export const eventHandlers = () => {
 			.then((data) => {
 				if (data.success) {
 					console.log("skeletonBody.json saved successfully!");
+				} else {
+					console.error("Error saving skeletonBody.json:", data.error);
+				}
+			})
+			.catch((error) => {
+				console.error("Error saving skeletonBody.json:", error);
+			});
+		fetch(`/save-skeleton-temp${window.location.pathname}`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(bodyJsonTemp),
+		})
+			.then((response) => response.json())
+			.then((data) => {
+				if (data.success) {
+					console.log("skeletonBody.json saved successfully to dist!");
 				} else {
 					console.error("Error saving skeletonBody.json:", data.error);
 				}
