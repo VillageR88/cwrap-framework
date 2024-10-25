@@ -3,7 +3,7 @@
  */
 /**
  *
- * @param {Document} doc
+ * @param {Document} doc``
  */
 export default function populateAttributeOptions() {
 	const preview = global.id.preview;
@@ -86,7 +86,8 @@ function getSelector(element) {
 		? `.${element.className.replace(/\s+/g, ".")}`
 		: "";
 
-	return `${tagName}${id}${nthOfType}${classes}`;
+	// return `${tagName}${id}${nthOfType}${classes}`;
+	return `${tagName}${nthOfType}`;
 }
 
 function getNthOfType(element) {

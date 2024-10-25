@@ -4,7 +4,6 @@ import getElementFromPath from "./getElementFromPath.js";
  * @todo change name of this function to something more descriptive
  */
 export default function populateAttributeOptionsValue() {
-	const body = global.id.preview.contentWindow.document.body;
 	const selector = global.id.elementSelect;
 	const attributeSelect = global.id.attributeSelect.value;
 	const attributeInput = global.id.attributeInput;

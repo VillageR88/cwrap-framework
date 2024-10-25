@@ -11,8 +11,8 @@ export default function createElementFromJson(jsonObj, isInitialLoad) {
     // Create the element
     const element = document.createElement(jsonObj.element);
 
-    // Set the element's ID if specified in the JSON object
-    if (jsonObj.id) element.id = jsonObj.id;
+    // // Set the element's ID if specified in the JSON object
+    // if (jsonObj.id) element.id = jsonObj.id;
 
     // Set the element's text content if specified in the JSON object
     if (jsonObj.text) element.textContent = jsonObj.text;
