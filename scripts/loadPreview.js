@@ -85,6 +85,7 @@ export default function loadPreview(jsonObj) {
 	const mainScript = doc.createElement("script");
 	mainScript.src = "/javascript/main.js";
 	mainScript.type = "module";
+	mainScript.customTag = "cwrapTempScript";
 	doc.body.appendChild(mainScript);
 	applyStyles();
 	populateSelectOptions();

@@ -6,7 +6,7 @@
  * @returns {Object|null} The serialized element or null if the element does not have the customTag property set to cwrapTemp.
  */
 export default function serializeElement(element, isForBuild) {
-	if (element.customTag !== "cwrapTemp" && !isForBuild) {
+	if ((element.customTag !== "cwrapTemp" && !isForBuild) || element.customTag ==="cwrapTempScript") {
 		return null;
 	}
 

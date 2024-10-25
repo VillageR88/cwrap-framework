@@ -14,7 +14,7 @@ export default function applyStyles() {
 	let customStyles = "";
 	if (classroomMap) {
 		classroomMap.forEach((value, key) => {
-			let hashtag;
+			let hashtag = "";
 			if (value.type === "class") {
 				hashtag = ".";
 			}
@@ -38,7 +38,7 @@ export default function applyStyles() {
 			customStyles += `${key}: ${value};\n`;
 		});
 		customStyles += "}\n";
-	} 
+	}
 
 	cssMap.forEach((value, key) => {
 		customStyles += `${key} {${value}}\n`;
