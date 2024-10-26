@@ -15,6 +15,7 @@ export default function populateTreeView() {
 
 	// Function to create tree structure recursively
 	function createTree(element, parentListItem) {
+		if (element.customTag === "cwrapBlueprintContainer") return null;
 		if (element.children.length > 0) {
 			const subList = document.createElement("ul");
 			for (const child of element.children) {
