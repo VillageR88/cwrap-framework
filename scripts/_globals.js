@@ -28,6 +28,7 @@ const global = {
 			document.getElementById("preview").contentDocument ||
 			document.getElementById("preview").contentWindow.document,
 		editAttributes: document.getElementById("editAttributes"),
+		editBlueprint: document.getElementById("editBlueprint"),
 		editStateStyle: document.getElementById("editStateStyle"),
 		editStyle: document.getElementById("editStyle"),
 		editText: document.getElementById("editText"),

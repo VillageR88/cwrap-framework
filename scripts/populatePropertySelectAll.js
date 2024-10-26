@@ -43,7 +43,6 @@ export default function populatePropertySelectAll(cssProperties, isState) {
 					.get(global.id.stateContextInfo.title) || "";
 		}
 	}
-	console.log("populatePropertySelectAll.js: currentStyle", currentStyle);
 	const appliedProperties = currentStyle
 		.split(";")
 		.filter(Boolean)

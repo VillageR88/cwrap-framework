@@ -626,6 +626,14 @@ body
   /* padding-block: 0; */
 }
 
+body
+  > #selectedElementLabelContainer
+  > div
+  > div
+  > div#mainInitialSelector > button#editBlueprint {
+    display: none;
+  }
+
 body > #selectedElementLabelContainer > div > div > div > select > option,
 body
   > #selectedElementLabelContainer
