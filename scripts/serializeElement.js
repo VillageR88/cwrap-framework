@@ -6,7 +6,10 @@
  * @returns {Object|null} The serialized element or null if the element does not have the customTag property set to cwrapTemp.
  */
 export default function serializeElement(element, isForBuild) {
-	if ((element.customTag !== "cwrapTemp" && !isForBuild) || element.customTag ==="cwrapTempScript") {
+	if (
+		element.customTag === "cwrapTempScript" ||
+		element.customTag === "cwrapBlueprint"
+	) {
 		return null;
 	}
 
@@ -86,8 +89,17 @@ export default function serializeElement(element, isForBuild) {
 				obj.children.push(serializedChild);
 			}
 		}
-	} else if (element.textContent) {
-		obj.text = element.textContent;
+	}
+
+	// Serialize text content if it exists and is not part of a child element
+	const textNodes = Array.from(element.childNodes).filter(
+		(node) => node.nodeType === Node.TEXT_NODE,
+	);
+	if (textNodes.length > 0) {
+		obj.text = textNodes
+			.map((node) => node.textContent.trim())
+			.join(" ")
+			.trim();
 	}
 
 	return obj;

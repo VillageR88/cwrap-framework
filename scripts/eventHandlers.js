@@ -403,7 +403,7 @@ export const eventHandlers = () => {
 		 * @type {JsonObject} bodyJson
 		 */
 		let bodyJson = serializeElement(global.id.doc.body);
-		let bodyJsonTemp = serializeElement(global.id.doc.body, true);
+		// let bodyJsonTemp = serializeElement(global.id.doc.body, true);
 
 		function encapsulateJson(jsonObj) {
 			let newJsonObj = JSON.parse(JSON.stringify(jsonObj));
@@ -450,7 +450,7 @@ export const eventHandlers = () => {
 			return newJsonObj;
 		}
 		bodyJson = encapsulateJson(bodyJson);
-		bodyJsonTemp = encapsulateJson(bodyJsonTemp);
+		// bodyJsonTemp = encapsulateJson(bodyJsonTemp);
 
 		fetch(`/save-skeleton${window.location.pathname}`, {
 			method: "POST",
@@ -470,24 +470,24 @@ export const eventHandlers = () => {
 			.catch((error) => {
 				console.error("Error saving skeletonBody.json:", error);
 			});
-		fetch(`/save-skeleton-temp${window.location.pathname}`, {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(bodyJsonTemp),
-		})
-			.then((response) => response.json())
-			.then((data) => {
-				if (data.success) {
-					console.log("skeletonBody.json saved successfully to dist!");
-				} else {
-					console.error("Error saving skeletonBody.json:", data.error);
-				}
-			})
-			.catch((error) => {
-				console.error("Error saving skeletonBody.json:", error);
-			});
+		// fetch(`/save-skeleton-temp${window.location.pathname}`, {
+		// 	method: "POST",
+		// 	headers: {
+		// 		"Content-Type": "application/json",
+		// 	},
+		// 	body: JSON.stringify(bodyJsonTemp),
+		// })
+		// 	.then((response) => response.json())
+		// 	.then((data) => {
+		// 		if (data.success) {
+		// 			console.log("skeletonBody.json saved successfully to dist!");
+		// 		} else {
+		// 			console.error("Error saving skeletonBody.json:", data.error);
+		// 		}
+		// 	})
+		// 	.catch((error) => {
+		// 		console.error("Error saving skeletonBody.json:", error);
+		// 	});
 	});
 
 	/**

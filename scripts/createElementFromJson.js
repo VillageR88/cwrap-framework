@@ -50,7 +50,7 @@ export default function createElementFromJson(jsonObj, isInitialLoad) {
 	}
 
 	// Add a custom property if it is the initial load
-	if (isInitialLoad) {
+	if (isInitialLoad && !jsonObj.blueprint) {
 		element.customTag = "cwrapTemp";
 	}
 
@@ -68,8 +68,8 @@ export default function createElementFromJson(jsonObj, isInitialLoad) {
 				blueprintJson,
 				isInitialLoad,
 			);
-			blueprintElement.customTag = "cwrapBlueprint";
 			const clonedElement = blueprintElement.cloneNode(true);
+			clonedElement.customTag = "cwrapBlueprint";
 			element.appendChild(clonedElement);
 		}
 	}
