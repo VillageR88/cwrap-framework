@@ -8,7 +8,8 @@
  */
 export function createListItems(id, count, element) {
 	for (let i = 0; i < count; i++) {
-		const elementClone = element(i).cloneNode(true);
+		const liElement = document.createElement("li");
+		const elementClone = element(liElement, i).cloneNode(true);
 		document.getElementById(id).appendChild(elementClone);
 	}
 }

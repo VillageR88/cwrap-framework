@@ -1241,9 +1241,10 @@ global.id.mainClassroomSelectorSelectType.addEventListener("change", () => {
 });
 
 global.id.navJavascript.addEventListener("click", () => {
-	centralBarCleanup();
-	global.id.mainInitialSelector.style.display = "none";
-	global.id.selectedElementHighlight.style.display = "none";
+	//debugging (commented out)
+	//centralBarCleanup();
+	//global.id.mainInitialSelector.style.display = "none";
+	//global.id.selectedElementHighlight.style.display = "none";
 });
 
 // populateRoutesView();

@@ -82,11 +82,11 @@ export default function loadPreview(jsonObj) {
 	generateCssSelector(jsonObj, "", new Map());
 	const element = createElementFromJson(jsonObj, true);
 	doc.body.replaceWith(element);
-	const mainScript = doc.createElement("script");
-	mainScript.src = "/javascript/main.js";
-	mainScript.type = "module";
-	mainScript.customTag = "cwrapTempScript";
-	doc.body.appendChild(mainScript);
+	// const mainScript = doc.createElement("script");
+	// mainScript.src = "/javascript/builder.js";
+	// mainScript.type = "module";
+	// mainScript.customTag = "cwrapTempScript";
+	// doc.body.appendChild(mainScript);
 	applyStyles();
 	populateSelectOptions();
 	const bodyPath = getElementPath(doc.body);
