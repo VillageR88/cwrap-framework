@@ -12,7 +12,7 @@ export default function replaceJsonPlaceholders(json) {
 	const jsonString = JSON.stringify(json);
 
 	const convertedJson = jsonString.replace(
-		/cwrapGetParam\[(.*?)\]/g,
+		/cwrapGetParams\[(.*?)\]/g,
 		(_, param) => {
 			return urlParams[param] || "";
 		},

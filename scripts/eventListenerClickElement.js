@@ -20,6 +20,13 @@ export const eventListenerClickElement = (element) => {
                 } else {
                     if (event.target.form) {
                         const form = event.target.form;
+
+                        // Check form validity
+                        if (!form.reportValidity()) {
+                            event.preventDefault();
+                            return;
+                        }
+
                         const formData = new FormData(form);
                         const params = new URLSearchParams(formData).toString();
                         const actionUrl = new URL(form.action);
