@@ -6,10 +6,7 @@
  * @returns {Object|null} The serialized element or null if the element does not have the customTag property set to cwrapTemp.
  */
 export default function serializeElement(element, isForBuild) {
-	if (
-		element.customTag === "cwrapTempScript" ||
-		element.customTag === "cwrapBlueprint"
-	) {
+	if (element.customTag === "cwrapTempScript") {
 		return null;
 	}
 
@@ -79,6 +76,12 @@ export default function serializeElement(element, isForBuild) {
 	if (mediaQueries.length > 0) {
 		obj.mediaQueries = mediaQueries;
 	}
+
+	if (element.customTag === "cwrapBlueprintContainer") {
+		obj.blueprintMap = global.map.blueprintMap.get(element.timeStamp);
+		return obj;
+	}
+
 
 	// Serialize child elements
 	if (element.children.length > 0) {

@@ -184,6 +184,7 @@ const global = {
 		wizardTitle: document.getElementById("wizardTitle"),
 	},
 	map: {
+		blueprintMap: new Map(),
 		classroomMap: new Map(),
 		cssMap: new Map(),
 		fontMap: new Map(),

@@ -56,9 +56,12 @@ export default function createElementFromJson(jsonObj, isInitialLoad) {
 
 	// Handle blueprint property
 	if (jsonObj.blueprint) {
+		element.customTag = "cwrapBlueprintContainer";
+		const timeStamp = new Date().getTime();
+		element.timeStamp = timeStamp;
+		global.map.blueprintMap.set(timeStamp, jsonObj.blueprint);
 		const count = jsonObj.blueprint.count;
 		for (let i = 0; i < count; i++) {
-			console.log("blueprint");
 			const blueprintJson = replacePlaceholders(
 				jsonObj.blueprint,
 				"cwrapIndex",
