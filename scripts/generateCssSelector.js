@@ -43,10 +43,11 @@ export default function generateCssSelector(
 				element,
 			)})`;
 		}
-
 		// Store the style in the cssMap if present in the JSON object
 		if (jsonObj.style && jsonObj.customTag !== "cwrapBlueprintCSS") {
 			cssMap.set(selector, jsonObj.style);
+		} else {
+			cssMap.set(selector, "");
 		}
 
 		// Handle extensions if present in the JSON object
@@ -92,6 +93,7 @@ export default function generateCssSelector(
 				const blueprintChild = JSON.parse(JSON.stringify(blueprint));
 				blueprintChild.element = blueprint.element;
 				blueprintChild.children = blueprint.children;
+				blueprintChild.customTag = "cwrapBlueprintCSS";
 				generateCssSelector(blueprintChild, selector, siblingCountMap);
 			}
 		}

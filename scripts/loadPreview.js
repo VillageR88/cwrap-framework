@@ -88,7 +88,7 @@ export default function loadPreview(jsonObj) {
 	// mainScript.customTag = "cwrapTempScript";
 	// doc.body.appendChild(mainScript);
 	applyStyles();
-	populateSelectOptions();
+	populateSelectOptions(jsonObj);
 	const bodyPath = getElementPath(doc.body);
 	updateElementInfo(bodyPath, doc.body);
 	populateStateOfContextSelectAllOptions(); //TODO rethink this

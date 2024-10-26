@@ -2,7 +2,7 @@
  * Populates the select options with the generated CSS selectors.
  * @todo problem is probably related to cssMap
  */
-export default function populateSelectOptions() {
+export default function populateSelectOptions(jsonObj) {
 	const cssMap = global.map.cssMap;
 	const selectElement = global.id.elementSelect;
 	selectElement.innerHTML = "";
@@ -25,6 +25,7 @@ export default function populateSelectOptions() {
 
 	for (const [key, value] of cssMap) {
 		if (key.includes(":has") || key.includes(":hover")) continue;
+		if (/(^|\s)li:nth-of-type\(\d+\)(\s|$)/.test(key)) continue;
 		const option = document.createElement("option");
 		option.value = key;
 		option.textContent = key;
