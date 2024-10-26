@@ -326,7 +326,7 @@ function processAllRoutes(sourceDir, buildDir) {
 }
 
 function main() {
-    const routesDir = path.resolve("dist");
+    const routesDir = path.resolve("routes");
     const buildDir = path.resolve("build");
 
     console.log("Starting build process...");

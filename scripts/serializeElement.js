@@ -77,21 +77,21 @@ export default function serializeElement(element, isForBuild) {
 		obj.mediaQueries = mediaQueries;
 	}
 
-	if (element.customTag === "cwrapBlueprintContainer") {
-		obj.blueprintMap = global.map.blueprintMap.get(element.timeStamp);
-		return obj;
-	}
-
-
 	// Serialize child elements
 	if (element.children.length > 0) {
 		obj.children = [];
 		for (const child of element.children) {
+			if (child.customTag === "cwrapBlueprint") continue;
 			const serializedChild = serializeElement(child, isForBuild);
 			if (serializedChild) {
 				obj.children.push(serializedChild);
 			}
 		}
+	}
+
+	if (element.customTag === "cwrapBlueprintContainer") {
+		obj.blueprint = global.map.blueprintMap.get(element.timeStamp);
+		return obj;
 	}
 
 	// Serialize text content if it exists and is not part of a child element
