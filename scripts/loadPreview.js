@@ -8,6 +8,7 @@ import generateClassroomMap from "./generateClassroomMap.js";
 import generateStageMap from "./generateStageMap.js";
 import generateCssSelector from "./generateCssSelector.js";
 import applyStyles from "./applyStyles.js";
+import replaceJsonPlaceholders from "./replaceJsonPlaceholders.js";
 
 /**
  * @typedef {import('./types.js').JsonObject} JsonObject
@@ -80,7 +81,8 @@ export default function loadPreview(jsonObj) {
 	generateClassroomMap(jsonObj);
 	generateStageMap(jsonObj);
 	generateCssSelector(jsonObj, "", new Map());
-	const element = createElementFromJson(jsonObj, true);
+	const jsonObjReplacedPlaceholders = replaceJsonPlaceholders(jsonObj);
+	const element = createElementFromJson(jsonObjReplacedPlaceholders, true);
 	doc.body.replaceWith(element);
 	// const mainScript = doc.createElement("script");
 	// mainScript.src = "/javascript/builder.js";

@@ -10,14 +10,16 @@ export const eventListenerClickElement = (element) => {
 		if (event.target.tagName === "BUTTON") {
 			const isPartOfForm = event.target.closest("form") !== null;
 			const isTypeSubmit = event.target.type !== "button";
-			if (isPartOfForm) {
-				event.preventDefault();
+			if (isPartOfForm && isTypeSubmit) {
 				if (
 					global.id.mainInitialSelector.style.display === "none" ||
-					global.id.preview.classList.contains("cwrap-only")
+					global.id.preview.classList.contains("cwrap-only") ||
+					global.id.navSelectPreview.classList.contains("static")
 				)
-					return;
-				if (isTypeSubmit) alert("TODO: Form submission");
+					event.preventDefault();
+				else {
+					null;
+				}
 			}
 		}
 		if (

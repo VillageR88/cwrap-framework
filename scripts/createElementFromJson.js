@@ -8,6 +8,7 @@ import eventListenerClickElement from "./eventListenerClickElement.js";
  * @param {number} index - The index to replace the placeholder with.
  * @returns {Object} - The processed JSON object with placeholders replaced.
  */
+
 function replacePlaceholders(jsonObj, placeholder, index) {
 	const jsonString = JSON.stringify(jsonObj);
 	const replacedString = jsonString.replace(

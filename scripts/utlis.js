@@ -13,3 +13,14 @@ export function createListItems(id, count, element) {
 		document.getElementById(id).appendChild(elementClone);
 	}
 }
+
+export function getQueryParams() {
+	const params = {};
+	const queryString = window.location.search.substring(1);
+	const queryArray = queryString.split("&");
+	for (const param of queryArray) {
+		const [key, value] = param.split("=");
+		params[key] = decodeURIComponent(value);
+	}
+	return params;
+}
