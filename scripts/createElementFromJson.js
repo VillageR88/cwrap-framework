@@ -44,10 +44,10 @@ export default function createElementFromJson(jsonObj, isInitialLoad) {
 		}
 	}
 
-	// Set the element's style if specified in the JSON object
-	if (jsonObj.style) {
-		element.style.cssText = jsonObj.style;
-	}
+	// // Set the element's style if specified in the JSON object
+	// if (jsonObj.style) {
+	// 	element.style.cssText = jsonObj.style;
+	// }
 
 	// Add a custom property if it is the initial load
 	if (isInitialLoad && !jsonObj.blueprint) {
