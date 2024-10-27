@@ -1247,6 +1247,11 @@ global.id.navJavascript.addEventListener("click", () => {
 	//global.id.selectedElementHighlight.style.display = "none";
 });
 
+global.id.editBlueprint.addEventListener("click", () => {
+	global.id.mainInitialSelector.style.display = "none";
+	global.id.mainBlueprintSelector.style.display = "flex";
+});
+
 // populateRoutesView();
 // loadMenuLevelView();
 // loadRoutesView();

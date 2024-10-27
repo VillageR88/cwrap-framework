@@ -15,6 +15,10 @@
 svg#iconJavascript {
   scale: 1.8;
 }
+
+svg#iconEnum {
+  scale: 1.5;
+}
 select#navLvlMenuTheme {
   width: 45px;
   height: 40px;
@@ -630,9 +634,10 @@ body
   > #selectedElementLabelContainer
   > div
   > div
-  > div#mainInitialSelector > button#editBlueprint {
-    display: none;
-  }
+  > div#mainInitialSelector
+  > button#editBlueprint {
+  display: none;
+}
 
 body > #selectedElementLabelContainer > div > div > div > select > option,
 body
@@ -644,6 +649,7 @@ body
   color: var(--colorFill-regular);
 }
 
+body > #selectedElementLabelContainer > div > div > #mainBlueprintSelector,
 body > #selectedElementLabelContainer > div > div > #mainClassroomSelector,
 body > #selectedElementLabelContainer > div > div > #mainElementAdd,
 body > #selectedElementLabelContainer > div > div > #mainStyleSelector,
