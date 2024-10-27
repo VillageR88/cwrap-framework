@@ -1275,6 +1275,11 @@ global.id.mainBlueprintSelectorBack.addEventListener("click", () => {
 	global.id.mainBlueprintSelector.style.display = "none";
 });
 
+global.id.blueprintSelect.addEventListener("change", () => {
+	validateRemoveElement(true);
+	validateParentElement
+});
+
 /**
  * Event handler for the blueprint counter update button.
  * @todo This function needs some serious refactoring in the near future.

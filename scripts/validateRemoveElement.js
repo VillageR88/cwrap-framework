@@ -1,14 +1,29 @@
 /**
  * Validates the remove element button based on the selected element.
- * If the selected element is the body element, the button is disabled.
+ * If the selected element is the searched element (default is body), the button is disabled.
+ * @param {boolean} validationForBlueprint - Check if first element is Ul element and prevent removing it.
  */
-export default function validateRemoveElement() {
-	const removeElement = global.id.removeElement;
-	if (global.id.elementSelect.value !== "body") {
+export default function validateRemoveElement(validationForBlueprint = false) {
+	const selectedElementValue = validationForBlueprint
+		? global.id.blueprintSelect.value
+		: global.id.elementSelect.value;
+	console.log(selectedElementValue);
+	const removeElement = validationForBlueprint
+		? global.id.mainBlueprintSelectorDelete
+		: global.id.removeElement;
+	console.log(removeElement);
+	console.log(selectedElementValue);
+
+	if (selectedElementValue !== (validationForBlueprint ? " > li" : "body")) {
 		removeElement.removeAttribute("disabled");
-		removeElement.removeAttribute("title");
+		removeElement.setAttribute("title", "remove selected element");
 	} else {
 		removeElement.setAttribute("disabled", true);
-		removeElement.setAttribute("title", "Cannot remove the body element");
+		removeElement.setAttribute(
+			"title",
+			validationForBlueprint
+				? "Cannot remove the ul element"
+				: "Cannot remove the body element",
+		);
 	}
 }

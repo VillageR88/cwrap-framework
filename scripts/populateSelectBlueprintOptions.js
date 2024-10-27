@@ -1,4 +1,5 @@
 import getElementFromPath from "./getElementFromPath.js";
+import validateRemoveElement from "./validateRemoveElement.js";
 
 export default function populateSelectBlueprintOptions() {
 	const blueprintMap = global.map.blueprintMap;
@@ -61,7 +62,7 @@ export default function populateSelectBlueprintOptions() {
 	}
 
 	processMap(currentMap);
-
+	validateRemoveElement(true);
 	// for (const option of selectBlueprintElement.options) {
 	//     console.log(option.value);
 	// }
