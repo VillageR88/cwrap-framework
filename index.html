@@ -284,12 +284,13 @@
             </svg>
           </button>
           <button id="editText" class="mediumButtons" title="edit text content">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
+            <svg id="iconText" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
               <path d="M280-160v-520H80v-120h520v120H400v520H280Zm360 0v-320H520v-120h360v120H760v320H640Z" />
             </svg>
           </button>
-          <button id="editAttributes" class="mediumButtons" title="edit attributes"><svg
-              xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
+          <button id="editAttributes" class="mediumButtons" title="edit attributes">
+            <svg id="iconAttributes" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
+              width="24px">
               <path
                 d="M160-400v-80h280v80H160Zm0-160v-80h440v80H160Zm0-160v-80h440v80H160Zm360 560v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q8 9 12.5 20t4.5 22q0 11-4 22.5T863-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
             </svg>
@@ -320,18 +321,35 @@
               <use href="#back"></use>
             </svg>
           </button>
-          <select id="blueprintSelect" class="mediumButtons" title="select element"></select>
+          <button id="mainBlueprintSelectorAdd" class="mediumButtons" title="add new blueprint element">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#add"></use>
+            </svg>
+          </button>
+          <select id="blueprintSelect" class="mediumButtons" title="select blueprint element"></select>
           <button id="mainBlueprintSelectorCounter" class="mediumButtons" title="number of elements">
-            <!-- <svg id="iconEnum" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
-              <path
-                d="M220-360v-180h-60v-60h120v240h-60Zm140 0v-100q0-17 11.5-28.5T400-500h80v-40H360v-60h140q17 0 28.5 11.5T540-560v60q0 17-11.5 28.5T500-460h-80v40h120v60H360Zm240 0v-60h120v-40h-80v-40h80v-40H600v-60h140q17 0 28.5 11.5T780-560v160q0 17-11.5 28.5T740-360H600Z" />
-            </svg> -->
-            <!-- <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
-              <path
-                d="m240-160 40-160H120l20-80h160l40-160H180l20-80h160l40-160h80l-40 160h160l40-160h80l-40 160h160l-20 80H660l-40 160h160l-20 80H600l-40 160h-80l40-160H360l-40 160h-80Zm140-240h160l40-160H420l-40 160Z" />
-            </svg> -->
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
               <path d="M240-160v-80l260-240-260-240v-80h480v120H431l215 200-215 200h289v120H240Z" />
+            </svg>
+          </button>
+          <button id="mainBlueprintSelectorEditText" class="mediumButtons" title="edit blueprint element text">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#iconText"></use>
+            </svg>
+          </button>
+          <button id="mainBlueprintSelectorAttributes" class="mediumButtons" title="edit blueprint attributes">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#iconAttributes"></use>
+            </svg>
+          </button>
+          <button id="mainBlueprintSelectorEditStyle" class="mediumButtons" title="edit blueprint style">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#style"></use>
+            </svg>
+          </button>
+          <button id="mainBlueprintSelectorDelete" class="mediumButtons" title="delete blueprint element">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#remove"></use>
             </svg>
           </button>
         </div>
@@ -521,7 +539,7 @@
               <use href="#back"></use>
             </svg>
           </button>
-          <button class="mediumButtons" id="openAddAttribute" title="open add attribute">
+          <button id="openAddAttribute" class="mediumButtons" title="open add attribute">
             <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#add"></use>
             </svg>
