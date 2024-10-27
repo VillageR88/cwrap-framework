@@ -135,4 +135,5 @@ export function centralBarCleanup() {
 	global.id.mainStateStyleSelector2.style.display = "none";
 	global.id.mainClassroomSelector.style.display = "none";
 	global.id.mainBlueprintSelector.style.display = "none";
+	global.id.mainBlueprintCounter.style.display = "none";
 }

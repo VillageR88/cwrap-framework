@@ -1252,6 +1252,19 @@ global.id.editBlueprint.addEventListener("click", () => {
 	global.id.mainBlueprintSelector.style.display = "flex";
 });
 
+global.id.mainBlueprintSelectorCounter.addEventListener("click", () => {
+	global.id.mainBlueprintSelector.style.display = "none";
+	global.id.mainBlueprintCounter.style.display = "flex";
+
+	function populateCounter() {
+		const blueprintMap = global.map.blueprintMap;
+		const selector = getElementFromPath().timeStamp;
+		const currentMap = blueprintMap.get(selector);
+		global.id.mainBlueprintCounterInput.value = currentMap.count;
+	}
+	populateCounter();
+});
+
 // populateRoutesView();
 // loadMenuLevelView();
 // loadRoutesView();

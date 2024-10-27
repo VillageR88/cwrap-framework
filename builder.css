@@ -12,13 +12,24 @@
 
 /* TODO full path on these 2 select */
 
+/* Hide the arrows in number input fields */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
 svg#iconJavascript {
   scale: 1.8;
 }
 
-svg#iconEnum {
+/* svg#iconEnum {
   scale: 1.5;
-}
+} */
 select#navLvlMenuTheme {
   width: 45px;
   height: 40px;
@@ -650,6 +661,7 @@ body
 }
 
 body > #selectedElementLabelContainer > div > div > #mainBlueprintSelector,
+body > #selectedElementLabelContainer > div > div > #mainBlueprintCounter,
 body > #selectedElementLabelContainer > div > div > #mainClassroomSelector,
 body > #selectedElementLabelContainer > div > div > #mainElementAdd,
 body > #selectedElementLabelContainer > div > div > #mainStyleSelector,

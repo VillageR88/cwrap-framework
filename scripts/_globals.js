@@ -54,7 +54,10 @@ const global = {
 		mainAttributeSelectorBack: document.getElementById(
 			"mainAttributeSelectorBack",
 		),
+		mainBlueprintCounter: document.getElementById("mainBlueprintCounter"),
+		mainBlueprintCounterInput: document.getElementById("mainBlueprintCounterInput"),
 		mainBlueprintSelector: document.getElementById("mainBlueprintSelector"),
+		mainBlueprintSelectorCounter: document.getElementById("mainBlueprintSelectorCounter"),
 		mainBody: document.getElementById("mainBody"),
 		mainClassroomSelector: document.getElementById("mainClassroomSelector"),
 		mainClassroomSelectorSelectName: document.getElementById("mainClassroomSelectorSelectName"),
