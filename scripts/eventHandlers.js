@@ -52,6 +52,7 @@ import populateClassroomSelectType from "./populateClassroomSelectType.js";
 import createElementFromJson from "./createElementFromJson.js";
 import replaceBlueprintJsonPlaceholders from "./replaceBlueprintJsonPlaceholders.js";
 import getElementPath from "./getElementPath.js";
+import populateSelectBlueprintOptions from "./populateSelectBlueprintOptions.js";
 
 /**
  * Sets up the event handlers.
@@ -1253,6 +1254,7 @@ global.id.navJavascript.addEventListener("click", () => {
 global.id.editBlueprint.addEventListener("click", () => {
 	global.id.mainInitialSelector.style.display = "none";
 	global.id.mainBlueprintSelector.style.display = "flex";
+	populateSelectBlueprintOptions();
 });
 
 global.id.mainBlueprintSelectorCounter.addEventListener("click", () => {
@@ -1266,6 +1268,11 @@ global.id.mainBlueprintSelectorCounter.addEventListener("click", () => {
 		global.id.mainBlueprintCounterInput.value = currentMap.count;
 	}
 	populateCounter();
+});
+
+global.id.mainBlueprintSelectorBack.addEventListener("click", () => {
+	global.id.mainInitialSelector.style.display = "flex";
+	global.id.mainBlueprintSelector.style.display = "none";
 });
 
 /**
@@ -1424,6 +1431,11 @@ global.id.mainBlueprintCounterUpdate.addEventListener("click", () => {
 	}
 	applyStyles();
 	console.log("cssMap", global.map.cssMap); // debugging
+});
+
+global.id.mainBlueprintCounterBack.addEventListener("click", () => {
+	global.id.mainBlueprintCounter.style.display = "none";
+	global.id.mainBlueprintSelector.style.display = "flex";
 });
 
 // populateRoutesView();

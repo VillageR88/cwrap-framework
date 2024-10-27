@@ -629,6 +629,12 @@ body
   > div
   > div
   > div#mainInitialSelector
+  > select,
+body
+  > #selectedElementLabelContainer
+  > div
+  > div
+  > div#mainBlueprintSelector
   > select {
   width: 45px;
   height: 40px;

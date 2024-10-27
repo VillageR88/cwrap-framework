@@ -299,24 +299,37 @@
         </div>
 
         <div id="mainBlueprintSelector">
-          <button id="mainBlueprintSelectorCounter" class="mediumButtons" title="counter">
+          <button id="mainBlueprintSelectorBack" class="mediumButtons" title="return to select element">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#back"></use>
+            </svg>
+          </button>
+          <button id="mainBlueprintSelectorCounter" class="mediumButtons" title="number of elements">
             <!-- <svg id="iconEnum" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
               <path
                 d="M220-360v-180h-60v-60h120v240h-60Zm140 0v-100q0-17 11.5-28.5T400-500h80v-40H360v-60h140q17 0 28.5 11.5T540-560v60q0 17-11.5 28.5T500-460h-80v40h120v60H360Zm240 0v-60h120v-40h-80v-40h80v-40H600v-60h140q17 0 28.5 11.5T780-560v160q0 17-11.5 28.5T740-360H600Z" />
             </svg> -->
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
+            <!-- <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
               <path
                 d="m240-160 40-160H120l20-80h160l40-160H180l20-80h160l40-160h80l-40 160h160l40-160h80l-40 160h160l-20 80H660l-40 160h160l-20 80H600l-40 160h-80l40-160H360l-40 160h-80Zm140-240h160l40-160H420l-40 160Z" />
+            </svg> -->
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
+              <path d="M240-160v-80l260-240-260-240v-80h480v120H431l215 200-215 200h289v120H240Z" />
             </svg>
           </button>
+          <select id="blueprintSelect" class="mediumButtons"  title="select element"></select>
         </div>
         <div id="mainBlueprintCounter">
+          <button id="mainBlueprintCounterBack" class="mediumButtons" title="return to select blueprint">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#back"></use>
+            </svg>
+          </button>
           <input aria-label="blueprint counter" id="mainBlueprintCounterInput" type="number">
           <button id="mainBlueprintCounterUpdate" class="mediumButtons" title="update counter">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#update"></use>
             </svg>
-
           </button>
         </div>
         <!-- <div id="mainJavascriptSelector">
