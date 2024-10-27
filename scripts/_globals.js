@@ -56,6 +56,7 @@ const global = {
 		),
 		mainBlueprintCounter: document.getElementById("mainBlueprintCounter"),
 		mainBlueprintCounterInput: document.getElementById("mainBlueprintCounterInput"),
+		mainBlueprintCounterUpdate: document.getElementById("mainBlueprintCounterUpdate"),
 		mainBlueprintSelector: document.getElementById("mainBlueprintSelector"),
 		mainBlueprintSelectorCounter: document.getElementById("mainBlueprintSelectorCounter"),
 		mainBody: document.getElementById("mainBody"),

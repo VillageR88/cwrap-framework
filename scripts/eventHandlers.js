@@ -49,6 +49,8 @@ import createInitialSettings from "./createInitialSettings.js";
 import removeAttribute from "./removeAttribute.js";
 import populateClassroomSelectName from "./populateClassroomSelectName.js";
 import populateClassroomSelectType from "./populateClassroomSelectType.js";
+import createElementFromJson from "./createElementFromJson.js";
+import replaceBlueprintJsonPlaceholders from "./replaceBlueprintJsonPlaceholders.js";
 
 /**
  * Sets up the event handlers.
@@ -1263,6 +1265,36 @@ global.id.mainBlueprintSelectorCounter.addEventListener("click", () => {
 		global.id.mainBlueprintCounterInput.value = currentMap.count;
 	}
 	populateCounter();
+});
+
+global.id.mainBlueprintCounterUpdate.addEventListener("click", () => {
+	const blueprintMap = global.map.blueprintMap;
+	const selector = getElementFromPath().timeStamp;
+	const currentMap = blueprintMap.get(selector);
+	currentMap.count = global.id.mainBlueprintCounterInput.value;
+	const currentElementChildrenBlueprintReplacement =
+		createElementFromJson(currentMap);
+	const currentElement = getElementFromPath();
+	currentElement.innerHTML = "";
+	for (let i = 0; i < currentMap.count; i++) {
+		const placeholder = "cwrapIndex";
+		const regex = new RegExp(`${placeholder}(\\+\\d+)?`, "g");
+		const index = i;
+
+		const updatedElement =
+			currentElementChildrenBlueprintReplacement.cloneNode(true);
+		updatedElement.innerHTML = updatedElement.innerHTML.replace(
+			regex,
+			(match) => {
+				if (match === placeholder) {
+					return index;
+				}
+				const offset = Number.parseInt(match.replace(placeholder, ""), 10);
+				return index + offset;
+			},
+		);
+		currentElement.appendChild(updatedElement);
+	}
 });
 
 // populateRoutesView();

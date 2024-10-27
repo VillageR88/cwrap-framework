@@ -1,4 +1,5 @@
 import eventListenerClickElement from "./eventListenerClickElement.js";
+import replaceBlueprintJsonPlaceholders from "./replaceBlueprintJsonPlaceholders.js";
 
 /**
  * Replaces placeholders in the JSON object with the specified value.
@@ -8,21 +9,6 @@ import eventListenerClickElement from "./eventListenerClickElement.js";
  * @param {number} index - The index to replace the placeholder with.
  * @returns {Object} - The processed JSON object with placeholders replaced.
  */
-
-function replacePlaceholders(jsonObj, placeholder, index) {
-	const jsonString = JSON.stringify(jsonObj);
-	const replacedString = jsonString.replace(
-		new RegExp(`${placeholder}(\\+\\d+)?`, "g"),
-		(match) => {
-			if (match === placeholder) {
-				return index;
-			}
-			const offset = Number.parseInt(match.replace(placeholder, ""), 10);
-			return index + offset;
-		},
-	);
-	return JSON.parse(replacedString);
-}
 
 /**
  * Creates a DOM element from the provided JSON object and adds it to the preview document (iframe).
@@ -63,7 +49,7 @@ export default function createElementFromJson(jsonObj, isInitialLoad) {
 		global.map.blueprintMap.set(timeStamp, jsonObj.blueprint);
 		const count = jsonObj.blueprint.count;
 		for (let i = 0; i < count; i++) {
-			const blueprintJson = replacePlaceholders(
+			const blueprintJson = replaceBlueprintJsonPlaceholders(
 				jsonObj.blueprint,
 				"cwrapIndex",
 				i,
