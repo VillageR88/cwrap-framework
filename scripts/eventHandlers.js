@@ -1319,8 +1319,6 @@ global.id.mainBlueprintCounterUpdate.addEventListener("click", () => {
 		const currentElement = getElementFromPath();
 		const selector = currentElement.timeStamp;
 		const currentMap = blueprintMap.get(selector);
-		console.log("currentMap", currentMap); // debugging
-		console;
 		if (currentMap) {
 			/**
 			 * @typedef {import('./types.js').JsonObject} JsonObject
