@@ -30,6 +30,22 @@
       </div>
     </div>
 
+    <div id="popupSubmit">
+      <span>Submit form? <br> (Unsaved progress will be lost)</span>
+      <div>
+        <button id="popupSubmitConfirm" class="mediumButtons" title="confirm">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+            <use href="#confirm" />
+          </svg>
+        </button>
+        <button id="popupSubmitReject" class="mediumButtons" title="reject">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+            <use href="#reject" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
     <div id="popupBackend">
       <span>Switch to backend? <br> (Unsaved progress will be lost)</span>
       <div>
@@ -317,7 +333,7 @@
               <path d="M240-160v-80l260-240-260-240v-80h480v120H431l215 200-215 200h289v120H240Z" />
             </svg>
           </button>
-          <select id="blueprintSelect" class="mediumButtons"  title="select element"></select>
+          <select id="blueprintSelect" class="mediumButtons" title="select element"></select>
         </div>
         <div id="mainBlueprintCounter">
           <button id="mainBlueprintCounterBack" class="mediumButtons" title="return to select blueprint">
