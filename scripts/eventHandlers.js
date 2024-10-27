@@ -913,7 +913,7 @@ export const eventHandlers = () => {
 			for (let i = options.length - 1; i >= 0; i--) {
 				if (options[i].value.includes(selectedValue)) {
 					// console.log(`Option ${options[i].value} removed from selector.`);
-					removeStyle(cssMap, mediaQueriesMap, options[i].value);
+					removeStyle(options[i].value);
 					options[i].remove();
 				}
 			}
@@ -1294,6 +1294,19 @@ global.id.mainBlueprintCounterUpdate.addEventListener("click", () => {
 			},
 		);
 		currentElement.appendChild(updatedElement);
+		const selectedValue = global.id.elementSelect.value;
+		/** @type {HTMLOptionsCollection} options */
+		const options = global.id.elementSelect.options;
+		console.log("cssMap", global.map.cssMap); // debugging
+		for (let i = options.length - 1; i >= 0; i--) {
+			if (options[i].value.includes(selectedValue)) {
+				console.log("removeStyle", options[i].value); // debugging
+				removeStyle(options[i].value);
+			}
+		}
+		//here should be rebuildCssSelector or something similar
+		applyStyles();
+		console.log("cssMap", global.map.cssMap); // debugging
 	}
 });
 

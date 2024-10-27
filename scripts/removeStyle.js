@@ -1,16 +1,25 @@
 /**
  * Removes the CSS style from the map.
  *
- * @param {Map} cssMap - The map of CSS styles.
- * @param {Map} mediaQueriesMap - The map of media queries.
- * @param {string} removedCSS - The list of selectors for removed elements.
+ * @todo Implement media queries removal.
+ * @param {string} removedCSS - The prefix of selectors for removed elements.
  * @returns {void}
  */
-export default function removeStyle(cssMap, mediaQueriesMap, removedCSS) {
+export default function removeStyle(removedCSS) {
+	const cssMap = global.map.cssMap;
+	const mediaQueriesMap = global.map.mediaQueriesMap; //TODO: Implement media queries removal
+
+	// Escape special characters in the removedCSS string
+	const escapedRemovedCSS = removedCSS.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+	const regex = new RegExp(`^${escapedRemovedCSS}`);
+
 	for (const key of cssMap.keys()) {
-		if (removedCSS === key) {
+		console.log(`Key: ${key}`);
+		console.log(`Regex: ${regex}`);
+		console.log(`Regex Test: ${regex.test(key)}`);
+		if (regex.test(key)) {
+			console.log(`Deleting key: ${key}`);
 			cssMap.delete(key);
-			break;
 		}
 	}
 }
