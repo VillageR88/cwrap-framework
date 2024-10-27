@@ -17,24 +17,50 @@ export default function populateSelectBlueprintOptions() {
     selectBlueprintElement.style.backgroundSize = "24px 24px"; // Adjust size as needed
     selectBlueprintElement.style.backgroundRepeat = "no-repeat";
 
-    function processMap(map) {
-        for (const [key, value] of Object.entries(map)) {
-            if (key === "element") {
-                const option = document.createElement("option");
-                option.value = value;
-                option.textContent = value;
-                selectBlueprintElement.appendChild(option);
-            } else if (key === "children") {
-                if (Array.isArray(value)) {
-                    for (const child of value) {
-                        processMap(child);
+    function processMap(map, parentRoute = "", siblingCountMap = new Map()) {
+        if (map.element) {
+            const element = map.element;
+
+            if (!siblingCountMap.has(parentRoute)) {
+                siblingCountMap.set(parentRoute, new Map());
+            }
+            const parentSiblingCount = siblingCountMap.get(parentRoute);
+
+            let route = parentRoute;
+
+            if (element === "body" || element === "main" || element === "footer") {
+                route += (parentRoute ? " > " : "") + element;
+            } else if (element === "li" && !parentSiblingCount.has(element)) {
+                route += ` > ${element}`;
+                parentSiblingCount.set(element, 1); // Initialize to 1 to skip nth-of-type for the first li
+            } else {
+                if (!parentSiblingCount.has(element)) {
+                    parentSiblingCount.set(element, 0);
+                }
+                parentSiblingCount.set(element, parentSiblingCount.get(element) + 1);
+                route += ` > ${element}:nth-of-type(${parentSiblingCount.get(element)})`;
+            }
+
+            const option = document.createElement("option");
+            option.value = route;
+            option.textContent = route;
+            selectBlueprintElement.appendChild(option);
+
+            if (map.children) {
+                if (Array.isArray(map.children)) {
+                    for (const child of map.children) {
+                        processMap(child, route, siblingCountMap);
                     }
                 } else {
-                    processMap(value);
+                    processMap(map.children, route, siblingCountMap);
                 }
             }
         }
     }
 
     processMap(currentMap);
+
+    for (const option of selectBlueprintElement.options) {
+        console.log(option.value);
+    }
 }
