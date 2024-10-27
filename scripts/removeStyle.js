@@ -12,13 +12,9 @@ export default function removeStyle(removedCSS) {
 	// Escape special characters in the removedCSS string
 	const escapedRemovedCSS = removedCSS.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 	const regex = new RegExp(`^${escapedRemovedCSS}`);
-
 	for (const key of cssMap.keys()) {
-		console.log(`Key: ${key}`);
-		console.log(`Regex: ${regex}`);
-		console.log(`Regex Test: ${regex.test(key)}`);
+
 		if (regex.test(key)) {
-			console.log(`Deleting key: ${key}`);
 			cssMap.delete(key);
 		}
 	}

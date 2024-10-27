@@ -51,6 +51,7 @@ import populateClassroomSelectName from "./populateClassroomSelectName.js";
 import populateClassroomSelectType from "./populateClassroomSelectType.js";
 import createElementFromJson from "./createElementFromJson.js";
 import replaceBlueprintJsonPlaceholders from "./replaceBlueprintJsonPlaceholders.js";
+import getElementPath from "./getElementPath.js";
 
 /**
  * Sets up the event handlers.
@@ -1267,6 +1268,10 @@ global.id.mainBlueprintSelectorCounter.addEventListener("click", () => {
 	populateCounter();
 });
 
+/**
+ * Event handler for the blueprint counter update button.
+ * @todo This function needs some serious refactoring in the near future.
+ */
 global.id.mainBlueprintCounterUpdate.addEventListener("click", () => {
 	const blueprintMap = global.map.blueprintMap;
 	const selector = getElementFromPath().timeStamp;
@@ -1294,20 +1299,131 @@ global.id.mainBlueprintCounterUpdate.addEventListener("click", () => {
 			},
 		);
 		currentElement.appendChild(updatedElement);
-		const selectedValue = global.id.elementSelect.value;
-		/** @type {HTMLOptionsCollection} options */
-		const options = global.id.elementSelect.options;
-		console.log("cssMap", global.map.cssMap); // debugging
-		for (let i = options.length - 1; i >= 0; i--) {
-			if (options[i].value.includes(selectedValue)) {
-				console.log("removeStyle", options[i].value); // debugging
-				removeStyle(options[i].value);
-			}
-		}
-		//here should be rebuildCssSelector or something similar
-		applyStyles();
-		console.log("cssMap", global.map.cssMap); // debugging
+
+		// }
 	}
+	const selectedValue = global.id.elementSelect.value;
+	const firstChildrenTag =
+		getElementFromPath(selectedValue).childNodes[0].tagName.toLowerCase();
+	removeStyle(`${selectedValue} > ${firstChildrenTag}`);
+	rebuildStyleFromBlueprint();
+	function rebuildStyleFromBlueprint() {
+		const blueprintMap = global.map.blueprintMap;
+		const currentElement = getElementFromPath();
+		const selector = currentElement.timeStamp;
+		const currentMap = blueprintMap.get(selector);
+		console.log("currentMap", currentMap); // debugging
+		console;
+		if (currentMap) {
+			/**
+			 * @typedef {import('./types.js').JsonObject} JsonObject
+			 */
+			/**
+			 * Creates cssMap and mediaQueriesMap.
+			 * Generates a CSS selector string based on the provided JSON object with example outcome: "body > main> div:nth-of-type(1)"
+			 * @param {JsonObject} jsonObj - The JSON object representing the element.
+			 * @param {string} [parentSelector=""] - The CSS selector of the parent element.
+			 * @param {Map} [siblingCountMap=new Map()] - A Map to keep track of sibling elements count.
+			 */
+			function generateCssSelectorFromBlueprint(
+				jsonObj,
+				parentSelector = "",
+				siblingCountMap = new Map(),
+			) {
+				const cssMap = global.map.cssMap;
+				const mediaQueriesMap = global.map.mediaQueriesMap;
+				let selector = parentSelector;
+				if (jsonObj.element) {
+					const element = jsonObj.element;
+					if (!siblingCountMap.has(parentSelector)) {
+						siblingCountMap.set(parentSelector, new Map());
+					}
+					const parentSiblingCount = siblingCountMap.get(parentSelector);
+					if (
+						element === "body" ||
+						element === "main" ||
+						element === "footer"
+					) {
+						selector += (parentSelector ? " > " : "") + element;
+					} else {
+						if (!parentSiblingCount.has(element)) {
+							parentSiblingCount.set(element, 0);
+						}
+						parentSiblingCount.set(
+							element,
+							parentSiblingCount.get(element) + 1,
+						);
+						selector += ` > ${element}:nth-of-type(${parentSiblingCount.get(element)})`;
+					}
+					if (jsonObj.style && jsonObj.customTag !== "cwrapBlueprintCSS") {
+						cssMap.set(selector, jsonObj.style);
+					} else {
+						cssMap.set(selector, "");
+					}
+					if (Array.isArray(jsonObj.extend)) {
+						for (const extension of jsonObj.extend) {
+							const extendedSelector = `${selector}${extension.extension}`;
+							cssMap.set(extendedSelector, extension.style);
+						}
+					}
+					if (jsonObj.mediaQueries) {
+						for (const mediaQuery of jsonObj.mediaQueries) {
+							const mediaQuerySelector = `${selector}`;
+							if (!mediaQueriesMap.has(mediaQuery.query)) {
+								mediaQueriesMap.set(mediaQuery.query, new Map());
+							}
+							mediaQueriesMap
+								.get(mediaQuery.query)
+								.set(mediaQuerySelector, mediaQuery.style);
+						}
+					}
+					if (jsonObj.children) {
+						for (const child of jsonObj.children) {
+							generateCssSelectorFromBlueprint(
+								child,
+								selector,
+								siblingCountMap,
+							);
+						}
+					}
+					if (jsonObj.blueprint) {
+						jsonObj.customTag = "cwrapBlueprintCSS";
+						const blueprint = jsonObj.blueprint;
+						for (let i = 0; i < blueprint.count; i++) {
+							const blueprintChild = JSON.parse(JSON.stringify(blueprint));
+							blueprintChild.element = blueprint.element;
+							blueprintChild.children = blueprint.children;
+							blueprintChild.customTag = "cwrapBlueprintCSS";
+							generateCssSelectorFromBlueprint(
+								blueprintChild,
+								selector,
+								siblingCountMap,
+							);
+						}
+					}
+					if (jsonObj.count) {
+						for (let i = 0; i < Number.parseInt(jsonObj.count, 10); i++) {
+							const { count, ...clonedJsonObj } = JSON.parse(
+								JSON.stringify(jsonObj),
+							);
+							generateCssSelectorFromBlueprint(
+								clonedJsonObj,
+								parentSelector,
+								siblingCountMap,
+							);
+						}
+					}
+				}
+			}
+			generateCssSelectorFromBlueprint(
+				currentMap,
+				getElementPath(currentElement),
+				new Map(),
+			);
+		}
+	}
+	applyStyles();
+	console.log("cssMap", global.map.cssMap); // debugging
 });
 
 // populateRoutesView();
