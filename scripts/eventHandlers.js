@@ -803,7 +803,6 @@ export const eventHandlers = () => {
 			const textValue = textArray.find(
 				(item) => item.element === selectedBlueprintElementTrimmed,
 			)?.text;
-			console.log("textValue", textValue);
 			global.id.mainBlueprintTextEditor2.value = textValue || "";
 		}
 	});
@@ -1490,14 +1489,10 @@ function rebuildStyleFromBlueprint() {
 	}
 }
 
-/**
- * Updates the blueprint counter and rebuilds the element.
- */
-function updateBlueprintCounter() {
+function reloadBlueprint() {
 	const blueprintMap = global.map.blueprintMap;
 	const selector = getElementFromPath().timeStamp;
 	const currentMap = blueprintMap.get(selector);
-	currentMap.count = global.id.mainBlueprintCounterInput.value;
 	const currentElementChildrenBlueprintReplacement =
 		createElementFromJson(currentMap);
 	const currentElement = getElementFromPath();
@@ -1506,7 +1501,6 @@ function updateBlueprintCounter() {
 		const placeholder = "cwrapIndex";
 		const regex = new RegExp(`${placeholder}(\\+\\d+)?`, "g");
 		const index = i;
-
 		const updatedElement =
 			currentElementChildrenBlueprintReplacement.cloneNode(true);
 		updatedElement.innerHTML = updatedElement.innerHTML.replace(
@@ -1522,7 +1516,17 @@ function updateBlueprintCounter() {
 		updatedElement.customTag = "cwrapBlueprint"; // here was error in previous commit just gonna leave here this comment for a while
 		currentElement.appendChild(updatedElement);
 	}
+}
 
+/**
+ * Updates the blueprint counter and rebuilds the element.
+ */
+function updateBlueprintCounter() {
+	const blueprintMap = global.map.blueprintMap;
+	const selector = getElementFromPath().timeStamp;
+	const currentMap = blueprintMap.get(selector);
+	currentMap.count = global.id.mainBlueprintCounterInput.value;
+	reloadBlueprint();
 	const selectedValue = global.id.elementSelect.value;
 	const firstChildrenTag =
 		getElementFromPath(selectedValue).childNodes[0].tagName.toLowerCase();
@@ -1597,32 +1601,6 @@ global.id.mainBlueprintTextEditorUpdateBlueprintText.addEventListener(
 
 		updateTextInMap(currentMap, selectedBlueprintElementTrimmed, textValue);
 		reloadBlueprint();
-		function reloadBlueprint() {
-			const currentElementChildrenBlueprintReplacement =
-				createElementFromJson(currentMap);
-			const currentElement = getElementFromPath();
-			currentElement.innerHTML = "";
-			for (let i = 0; i < currentMap.count; i++) {
-				const placeholder = "cwrapIndex";
-				const regex = new RegExp(`${placeholder}(\\+\\d+)?`, "g");
-				const index = i;
-
-				const updatedElement =
-					currentElementChildrenBlueprintReplacement.cloneNode(true);
-				updatedElement.innerHTML = updatedElement.innerHTML.replace(
-					regex,
-					(match) => {
-						if (match === placeholder) {
-							return index;
-						}
-						const offset = Number.parseInt(match.replace(placeholder, ""), 10);
-						return index + offset;
-					},
-				);
-				updatedElement.customTag = "cwrapBlueprint"; // here was error in previous commit just gonna leave here this comment for a while
-				currentElement.appendChild(updatedElement);
-			}
-		}
 	},
 );
 
