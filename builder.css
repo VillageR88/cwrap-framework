@@ -667,6 +667,11 @@ body
 }
 
 body > #selectedElementLabelContainer > div > div > #mainBlueprintSelector,
+body
+  > #selectedElementLabelContainer
+  > div
+  > div
+  > #mainBlueprintAttributeSelector,
 body > #selectedElementLabelContainer > div > div > #mainBlueprintCounter,
 body > #selectedElementLabelContainer > div > div > #mainClassroomSelector,
 body > #selectedElementLabelContainer > div > div > #mainElementAdd,
@@ -675,6 +680,7 @@ body > #selectedElementLabelContainer > div > div > #mainStateSelector,
 body > #selectedElementLabelContainer > div > div > #mainStateStyleSelector,
 body > #selectedElementLabelContainer > div > div > #mainStateAdd,
 body > #selectedElementLabelContainer > div > div > #mainTextEditor,
+body > #selectedElementLabelContainer > div > div > #mainBlueprintTextEditor,
 body > #selectedElementLabelContainer > div > div > #mainAttributeSelector,
 body > #selectedElementLabelContainer > div > div > #mainStyleAdd,
 body > #selectedElementLabelContainer > div > div > #mainStateStyleAdd,
@@ -682,7 +688,8 @@ body > #selectedElementLabelContainer > div > div > #mainAttributeAdd {
   display: none;
 }
 
-body > #selectedElementLabelContainer > div > div > #mainTextEditor {
+body > #selectedElementLabelContainer > div > div > #mainTextEditor,
+body > #selectedElementLabelContainer > div > div > #mainBlueprintTextEditor {
   width: 100%;
   justify-content: space-between;
 }
@@ -690,7 +697,9 @@ body > #selectedElementLabelContainer > div > div > #mainTextEditor {
 body > #selectedElementLabelContainer > div > #mainStyleSelector2,
 body > #selectedElementLabelContainer > div > #mainStateStyleSelector2,
 body > #selectedElementLabelContainer > div > #mainAttributeSelector2,
-body > #selectedElementLabelContainer > div > #mainTextEditor2 {
+body > #selectedElementLabelContainer > div > #mainBlueprintAttributeSelector2,
+body > #selectedElementLabelContainer > div > #mainTextEditor2,
+body > #selectedElementLabelContainer > div > #mainBlueprintTextEditor2 {
   display: none;
   align-items: center;
   justify-content: center;
@@ -704,7 +713,8 @@ body > #selectedElementLabelContainer > div > #mainStateStyleContextInfo {
   justify-content: center;
 }
 
-body > #selectedElementLabelContainer > div > textarea#mainTextEditor2 {
+body > #selectedElementLabelContainer > div > textarea#mainTextEditor2,
+body > #selectedElementLabelContainer > div > textarea#mainBlueprintTextEditor2 {
   width: 400px;
   height: 100px;
 }

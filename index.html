@@ -353,6 +353,41 @@
             </svg>
           </button>
         </div>
+
+        <div id="mainBlueprintTextEditor">
+          <button id="mainBlueprintTextEditorBack" class="mediumButtons" title="back to element selector">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#back"></use>
+            </svg>
+          </button>
+          <button id="updateBlueprintText" class="mediumButtons" title="update text content">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#update"></use>
+            </svg>
+          </button>
+        </div>
+
+        <div id="mainBlueprintAttributeSelector">
+          <button id="mainBlueprintAttributeSelectorBack" class="mediumButtons"
+            title="back to blueprint element selector">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#back"></use>
+            </svg>
+          </button>
+          <button id="openBlueprintAddAttribute" class="mediumButtons" title="open add attribute">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#add"></use>
+            </svg>
+          </button>
+          <select id="blueprintAttributeSelect" class="mediumButtons"></select>
+          <button id="blueprinRemoveAttribute" class="mediumButtons" title="remove attribute">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#remove"></use>
+            </svg>
+          </button>
+        </div>
+
+
         <div id="mainBlueprintCounter">
           <button id="mainBlueprintCounterBack" class="mediumButtons" title="return to select blueprint">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
@@ -582,6 +617,7 @@
         </div>
       </div>
       <textarea id="mainTextEditor2" aria-label="edit text content"></textarea>
+      <textarea id="mainBlueprintTextEditor2" aria-label="edit text content"></textarea>
       <div id="mainAttributeSelector2">
         <input aria-label="attribute input" type="text" id="attributeInput" />
         <button class="mediumButtons " id="updateAttribute" title="update attribute value">
@@ -590,6 +626,16 @@
           </svg>
         </button>
       </div>
+
+      <div id="mainBlueprintAttributeSelector2">
+        <input id="blueprintAttributeInput" aria-label="attribute input" type="text" />
+        <button id="updateBlueprintAttribute" class="mediumButtons " title="update attribute value">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+            <use href="#update"></use>
+          </svg>
+        </button>
+      </div>
+
       <div id="mainStyleSelector2">
         <input aria-label="property input" type="text" id="propertyInput" />
         <button class="mediumButtons" id="updateProperty" title="update property value">

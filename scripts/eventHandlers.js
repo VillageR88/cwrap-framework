@@ -727,6 +727,47 @@ export const eventHandlers = () => {
 		populateAttributeOptionsValue();
 	});
 
+	global.id.mainBlueprintAttributeSelectorBack.addEventListener("click", () => {
+		global.id.mainBlueprintSelector.style.display = "flex";
+		global.id.mainBlueprintAttributeSelector.style.display = "none";
+		global.id.mainBlueprintAttributeSelector2.style.display = "none";
+	});
+
+	global.id.mainBlueprintSelectorEditText.addEventListener("click", () => {
+		global.id.mainBlueprintSelector.style.display = "none";
+		global.id.mainBlueprintTextEditor.style.display = "flex";
+		global.id.mainBlueprintTextEditor2.style.display = "flex";
+		// global.id.mainInitialSelector.style.display = "none";
+		// global.id.mainTextEditor.style.display = "flex";
+		// global.id.mainTextEditor2.style.display = "flex";
+		// global.id.mainTextEditor2.value = "";
+		// if (global.id.elementSelect.value !== "none") {
+		// 	/**
+		// 	 * @type {Element}
+		// 	 */
+		// 	const element = getElementFromPath();
+		// 	// Get only the text content of the element itself, excluding its children
+		// 	const textContent = Array.from(element.childNodes)
+		// 		.filter((node) => node.nodeType === Node.TEXT_NODE)
+		// 		.map((node) => node.nodeValue.trim())
+		// 		.join(" ");
+
+		// 	global.id.mainTextEditor2.value = textContent;
+		// }
+	});
+
+	global.id.mainBlueprintSelectorAttributes.addEventListener("click", () => {
+		global.id.mainBlueprintSelector.style.display = "none";
+		global.id.mainBlueprintAttributeSelector.style.display = "flex";
+		global.id.mainBlueprintAttributeSelector2.style.display = "flex";
+		populateAttributeOptions(true);
+		// global.id.mainInitialSelector.style.display = "none";
+		// global.id.mainAttributeSelector.style.display = "flex";
+		// global.id.mainAttributeSelector2.style.display = "flex";
+		// populateAttributeOptions();
+		// populateAttributeOptionsValue();
+	});
+
 	global.id.mainStyleSelectorBack.addEventListener("click", () => {
 		global.id.mainInitialSelector.style.display = "flex";
 		global.id.mainStyleSelector.style.display = "none";
