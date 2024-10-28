@@ -70,6 +70,8 @@ const global = {
 		mainBlueprintSelectorDelete: document.getElementById("mainBlueprintSelectorDelete"),
 		mainBlueprintSelectorEditText: document.getElementById("mainBlueprintSelectorEditText"),
 		mainBlueprintTextEditor: document.getElementById("mainBlueprintTextEditor"),
+		mainBlueprintTextEditorBack: document.getElementById("mainBlueprintTextEditorBack"),
+		mainBlueprintTextEditorUpdateBlueprintText: document.getElementById("mainBlueprintTextEditorUpdateBlueprintText"),
 		mainBlueprintTextEditor2: document.getElementById("mainBlueprintTextEditor2"),
 		mainBody: document.getElementById("mainBody"),
 		mainClassroomSelector: document.getElementById("mainClassroomSelector"),

@@ -18,7 +18,7 @@ export default function validateRemoveElement(validationForBlueprint = false) {
 		removeElement.setAttribute(
 			"title",
 			validationForBlueprint
-				? "Cannot remove the ul element"
+				? "Cannot remove the leading li element"
 				: "Cannot remove the body element",
 		);
 	}

@@ -733,27 +733,79 @@ export const eventHandlers = () => {
 		global.id.mainBlueprintAttributeSelector2.style.display = "none";
 	});
 
+	global.id.mainBlueprintTextEditorBack.addEventListener("click", () => {
+		global.id.mainBlueprintSelector.style.display = "flex";
+		global.id.mainBlueprintTextEditor.style.display = "none";
+		global.id.mainBlueprintTextEditor2.style.display = "none";
+	});
+
 	global.id.mainBlueprintSelectorEditText.addEventListener("click", () => {
 		global.id.mainBlueprintSelector.style.display = "none";
 		global.id.mainBlueprintTextEditor.style.display = "flex";
 		global.id.mainBlueprintTextEditor2.style.display = "flex";
-		// global.id.mainInitialSelector.style.display = "none";
-		// global.id.mainTextEditor.style.display = "flex";
-		// global.id.mainTextEditor2.style.display = "flex";
-		// global.id.mainTextEditor2.value = "";
-		// if (global.id.elementSelect.value !== "none") {
-		// 	/**
-		// 	 * @type {Element}
-		// 	 */
-		// 	const element = getElementFromPath();
-		// 	// Get only the text content of the element itself, excluding its children
-		// 	const textContent = Array.from(element.childNodes)
-		// 		.filter((node) => node.nodeType === Node.TEXT_NODE)
-		// 		.map((node) => node.nodeValue.trim())
-		// 		.join(" ");
 
-		// 	global.id.mainTextEditor2.value = textContent;
-		// }
+		if (global.id.blueprintSelect.value) {
+			const blueprintMap = global.map.blueprintMap;
+			const currentElement = getElementFromPath();
+			const selector = currentElement.timeStamp;
+			const currentMap = blueprintMap.get(selector);
+			const selectedBlueprintElement = global.id.blueprintSelect.value;
+			const selectedBlueprintElementTrimmed = selectedBlueprintElement
+				.replace(">", "")
+				.trim();
+			const textArray = [];
+
+			function extractTextFromMap(
+				map,
+				parentKey = "",
+				siblingCountMap = new Map(),
+			) {
+				for (const key in map) {
+					if (key === "element") {
+						const currentKey = parentKey
+							? `${parentKey} > ${map[key]}`
+							: map[key];
+					}
+					if (key === "children" && Array.isArray(map[key])) {
+						if (!siblingCountMap.has(parentKey)) {
+							siblingCountMap.set(parentKey, new Map());
+						}
+						const parentSiblingCount = siblingCountMap.get(parentKey);
+
+						for (const child of map[key]) {
+							const childElement = child.element;
+							if (!parentSiblingCount.has(childElement)) {
+								parentSiblingCount.set(childElement, 0);
+							}
+							parentSiblingCount.set(
+								childElement,
+								parentSiblingCount.get(childElement) + 1,
+							);
+							const nthOfType = parentSiblingCount.get(childElement);
+							const childKey = parentKey
+								? `${parentKey} > ${childElement}:nth-of-type(${nthOfType})`
+								: `${map.element} > ${childElement}:nth-of-type(${nthOfType})`;
+							textArray.push({ element: childKey, text: child.text || "" });
+							extractTextFromMap(child, childKey, siblingCountMap);
+						}
+					}
+				}
+			}
+
+			if (currentMap?.element) {
+				textArray.push({
+					element: currentMap.element,
+					text: currentMap.text || "",
+				});
+			}
+
+			extractTextFromMap(currentMap);
+			const textValue = textArray.find(
+				(item) => item.element === selectedBlueprintElementTrimmed,
+			)?.text;
+			console.log("textValue", textValue);
+			global.id.mainBlueprintTextEditor2.value = textValue || "";
+		}
 	});
 
 	global.id.mainBlueprintSelectorAttributes.addEventListener("click", () => {
@@ -1296,6 +1348,8 @@ global.id.editBlueprint.addEventListener("click", () => {
 	global.id.mainInitialSelector.style.display = "none";
 	global.id.mainBlueprintSelector.style.display = "flex";
 	populateSelectBlueprintOptions();
+	validateRemoveElement(true);
+	validateParentElement(true);
 });
 
 global.id.mainBlueprintSelectorCounter.addEventListener("click", () => {
@@ -1510,6 +1564,10 @@ global.id.mainBlueprintCounterUpdate.addEventListener(
 global.id.mainBlueprintCounterBack.addEventListener("click", () => {
 	global.id.mainBlueprintCounter.style.display = "none";
 	global.id.mainBlueprintSelector.style.display = "flex";
+});
+
+global.id.mainBlueprintTextEditorUpdateBlueprintText.addEventListener("click", () => {
+	console.log("updateBlueprintText clicked"); // debugging
 });
 
 // populateRoutesView();
