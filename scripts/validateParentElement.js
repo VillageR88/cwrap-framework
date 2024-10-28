@@ -5,23 +5,23 @@
  * Validates the parent element select based on the selected element.
  * It is being done in order to prevent appending child elements to the elements that cannot have children.
  * If parent element is the element like img, input, the select is disabled.
+ * In non-blueprint mode it checks if the element is Ul to display blueprint button.
  */
-export default function validateParentElement() {
-	const openAddElement = global.id.openAddElement;
-	const selectedElement = global.id.elementSelect;
-	const parentType = selectedElement.value
-		.split(">")
-		.pop()
-		.split(":")[0]
-		.trim();
-	const hasCheck = selectedElement.value.split(">").pop().includes("has(");
-	const hoverCheck = selectedElement.value.split(">").pop().includes("hover");
+export default function validateParentElement(validationForBlueprint = false) {
+	const openAddElement = validationForBlueprint
+		? global.id.mainBlueprintSelectorAdd
+		: global.id.openAddElement;
+	const selectedElementValue = validationForBlueprint
+		? global.id.blueprintSelect.value
+		: global.id.elementSelect.value;
+	const parentType = selectedElementValue.split(">").pop().split(":")[0].trim();
+	const hasCheck = selectedElementValue.split(">").pop().includes("has(");
+	const hoverCheck = selectedElementValue.split(">").pop().includes("hover");
 
 	function setElementAttributes(element, title) {
 		element.setAttribute("disabled", true);
 		element.setAttribute("title", title);
 	}
-
 	if (hasCheck) {
 		setElementAttributes(
 			openAddElement,
@@ -59,10 +59,17 @@ export default function validateParentElement() {
 		openAddElement.removeAttribute("disabled");
 		openAddElement.setAttribute("title", "add element");
 	}
-	if (parentType === "ul") {
-		global.id.editBlueprint.style.display = "flex";
+	if (!validationForBlueprint) {
+		if (parentType === "ul" || parentType === "ol") {
+			global.id.editBlueprint.style.display = "flex";
+		} else {
+			global.id.editBlueprint.style.display = "none";
+		}
+	} else {
+		if (parentType === "li") {
+			global.id.mainBlueprintSelectorCounter.style.display = "flex";
+		} else {
+			global.id.mainBlueprintSelectorCounter.style.display = "none";
+		}
 	}
-  else {
-    global.id.editBlueprint.style.display = "none";
-  }
 }

@@ -7,13 +7,9 @@ export default function validateRemoveElement(validationForBlueprint = false) {
 	const selectedElementValue = validationForBlueprint
 		? global.id.blueprintSelect.value
 		: global.id.elementSelect.value;
-	console.log(selectedElementValue);
 	const removeElement = validationForBlueprint
 		? global.id.mainBlueprintSelectorDelete
 		: global.id.removeElement;
-	console.log(removeElement);
-	console.log(selectedElementValue);
-
 	if (selectedElementValue !== (validationForBlueprint ? " > li" : "body")) {
 		removeElement.removeAttribute("disabled");
 		removeElement.setAttribute("title", "remove selected element");

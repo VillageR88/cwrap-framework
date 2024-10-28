@@ -1277,7 +1277,7 @@ global.id.mainBlueprintSelectorBack.addEventListener("click", () => {
 
 global.id.blueprintSelect.addEventListener("change", () => {
 	validateRemoveElement(true);
-	validateParentElement
+	validateParentElement(true);
 });
 
 /**
