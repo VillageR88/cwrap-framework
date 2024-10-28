@@ -886,7 +886,7 @@ export const eventHandlers = () => {
 		global.id.elementSelect.value = newElement;
 		const newElementNode = document.createElement(selectedValue);
 		const parentElement = getElementFromPath(fullPath);
-		newElementNode.customTag = "cwrapTemp";
+		newElementNode.customTag = "cwrapPreloaded";
 		parentElement.appendChild(newElementNode);
 		eventListenerClickElement(newElementNode);
 		updateElementInfo(newElement, null);
@@ -1281,10 +1281,124 @@ global.id.blueprintSelect.addEventListener("change", () => {
 });
 
 /**
- * Event handler for the blueprint counter update button.
- * @todo This function needs some serious refactoring in the near future.
+ * @typedef {import('./types.js').JsonObject} JsonObject
  */
-global.id.mainBlueprintCounterUpdate.addEventListener("click", () => {
+
+/**
+ * Generates a CSS selector string based on the provided JSON object.
+ * @param {JsonObject} jsonObj - The JSON object representing the element.
+ * @param {string} [parentSelector=""] - The CSS selector of the parent element.
+ * @param {Map} [siblingCountMap=new Map()] - A Map to keep track of sibling elements count.
+ */
+function generateCssSelectorFromBlueprint(
+	jsonObj,
+	parentSelector = "",
+	siblingCountMap = new Map(),
+) {
+	const cssMap = global.map.cssMap;
+	const mediaQueriesMap = global.map.mediaQueriesMap;
+	let selector = parentSelector;
+
+	if (jsonObj.element) {
+		const element = jsonObj.element;
+
+		if (!siblingCountMap.has(parentSelector)) {
+			siblingCountMap.set(parentSelector, new Map());
+		}
+		const parentSiblingCount = siblingCountMap.get(parentSelector);
+
+		if (element === "body" || element === "main" || element === "footer") {
+			selector += (parentSelector ? " > " : "") + element;
+		} else {
+			if (!parentSiblingCount.has(element)) {
+				parentSiblingCount.set(element, 0);
+			}
+			parentSiblingCount.set(element, parentSiblingCount.get(element) + 1);
+			selector += ` > ${element}:nth-of-type(${parentSiblingCount.get(element)})`;
+		}
+
+		if (jsonObj.style && jsonObj.customTag !== "cwrapBlueprintCSS") {
+			cssMap.set(selector, jsonObj.style);
+		} else {
+			cssMap.set(selector, "");
+		}
+
+		if (Array.isArray(jsonObj.extend)) {
+			for (const extension of jsonObj.extend) {
+				const extendedSelector = `${selector}${extension.extension}`;
+				cssMap.set(extendedSelector, extension.style);
+			}
+		}
+
+		if (jsonObj.mediaQueries) {
+			for (const mediaQuery of jsonObj.mediaQueries) {
+				const mediaQuerySelector = `${selector}`;
+				if (!mediaQueriesMap.has(mediaQuery.query)) {
+					mediaQueriesMap.set(mediaQuery.query, new Map());
+				}
+				mediaQueriesMap
+					.get(mediaQuery.query)
+					.set(mediaQuerySelector, mediaQuery.style);
+			}
+		}
+
+		if (jsonObj.children) {
+			for (const child of jsonObj.children) {
+				generateCssSelectorFromBlueprint(child, selector, siblingCountMap);
+			}
+		}
+
+		if (jsonObj.blueprint) {
+			jsonObj.customTag = "cwrapBlueprintCSS";
+			const blueprint = jsonObj.blueprint;
+			for (let i = 0; i < blueprint.count; i++) {
+				const blueprintChild = JSON.parse(JSON.stringify(blueprint));
+				blueprintChild.element = blueprint.element;
+				blueprintChild.children = blueprint.children;
+				blueprintChild.customTag = "cwrapBlueprintCSS";
+				generateCssSelectorFromBlueprint(
+					blueprintChild,
+					selector,
+					siblingCountMap,
+				);
+			}
+		}
+		//+1 added here
+		if (jsonObj.count) {
+			for (let i = 0; i + 1 < Number.parseInt(jsonObj.count, 10); i++) {
+				const { count, ...clonedJsonObj } = JSON.parse(JSON.stringify(jsonObj));
+				generateCssSelectorFromBlueprint(
+					clonedJsonObj,
+					parentSelector,
+					siblingCountMap,
+				);
+			}
+		}
+	}
+}
+
+/**
+ * Rebuilds the styles from the blueprint.
+ */
+function rebuildStyleFromBlueprint() {
+	const blueprintMap = global.map.blueprintMap;
+	const currentElement = getElementFromPath();
+	const selector = currentElement.timeStamp;
+	const currentMap = blueprintMap.get(selector);
+
+	if (currentMap) {
+		generateCssSelectorFromBlueprint(
+			currentMap,
+			getElementPath(currentElement),
+			new Map(),
+		);
+	}
+}
+
+/**
+ * Updates the blueprint counter and rebuilds the element.
+ */
+function updateBlueprintCounter() {
 	const blueprintMap = global.map.blueprintMap;
 	const selector = getElementFromPath().timeStamp;
 	const currentMap = blueprintMap.get(selector);
@@ -1293,6 +1407,7 @@ global.id.mainBlueprintCounterUpdate.addEventListener("click", () => {
 		createElementFromJson(currentMap);
 	const currentElement = getElementFromPath();
 	currentElement.innerHTML = "";
+
 	for (let i = 0; i < currentMap.count; i++) {
 		const placeholder = "cwrapIndex";
 		const regex = new RegExp(`${placeholder}(\\+\\d+)?`, "g");
@@ -1311,130 +1426,21 @@ global.id.mainBlueprintCounterUpdate.addEventListener("click", () => {
 			},
 		);
 		currentElement.appendChild(updatedElement);
-
-		// }
 	}
+
 	const selectedValue = global.id.elementSelect.value;
 	const firstChildrenTag =
 		getElementFromPath(selectedValue).childNodes[0].tagName.toLowerCase();
 	removeStyle(`${selectedValue} > ${firstChildrenTag}`);
 	rebuildStyleFromBlueprint();
-	function rebuildStyleFromBlueprint() {
-		const blueprintMap = global.map.blueprintMap;
-		const currentElement = getElementFromPath();
-		const selector = currentElement.timeStamp;
-		const currentMap = blueprintMap.get(selector);
-		if (currentMap) {
-			/**
-			 * @typedef {import('./types.js').JsonObject} JsonObject
-			 */
-			/**
-			 * Creates cssMap and mediaQueriesMap.
-			 * Generates a CSS selector string based on the provided JSON object with example outcome: "body > main> div:nth-of-type(1)"
-			 * @param {JsonObject} jsonObj - The JSON object representing the element.
-			 * @param {string} [parentSelector=""] - The CSS selector of the parent element.
-			 * @param {Map} [siblingCountMap=new Map()] - A Map to keep track of sibling elements count.
-			 */
-			function generateCssSelectorFromBlueprint(
-				jsonObj,
-				parentSelector = "",
-				siblingCountMap = new Map(),
-			) {
-				const cssMap = global.map.cssMap;
-				const mediaQueriesMap = global.map.mediaQueriesMap;
-				let selector = parentSelector;
-				if (jsonObj.element) {
-					const element = jsonObj.element;
-					if (!siblingCountMap.has(parentSelector)) {
-						siblingCountMap.set(parentSelector, new Map());
-					}
-					const parentSiblingCount = siblingCountMap.get(parentSelector);
-					if (
-						element === "body" ||
-						element === "main" ||
-						element === "footer"
-					) {
-						selector += (parentSelector ? " > " : "") + element;
-					} else {
-						if (!parentSiblingCount.has(element)) {
-							parentSiblingCount.set(element, 0);
-						}
-						parentSiblingCount.set(
-							element,
-							parentSiblingCount.get(element) + 1,
-						);
-						selector += ` > ${element}:nth-of-type(${parentSiblingCount.get(element)})`;
-					}
-					if (jsonObj.style && jsonObj.customTag !== "cwrapBlueprintCSS") {
-						cssMap.set(selector, jsonObj.style);
-					} else {
-						cssMap.set(selector, "");
-					}
-					if (Array.isArray(jsonObj.extend)) {
-						for (const extension of jsonObj.extend) {
-							const extendedSelector = `${selector}${extension.extension}`;
-							cssMap.set(extendedSelector, extension.style);
-						}
-					}
-					if (jsonObj.mediaQueries) {
-						for (const mediaQuery of jsonObj.mediaQueries) {
-							const mediaQuerySelector = `${selector}`;
-							if (!mediaQueriesMap.has(mediaQuery.query)) {
-								mediaQueriesMap.set(mediaQuery.query, new Map());
-							}
-							mediaQueriesMap
-								.get(mediaQuery.query)
-								.set(mediaQuerySelector, mediaQuery.style);
-						}
-					}
-					if (jsonObj.children) {
-						for (const child of jsonObj.children) {
-							generateCssSelectorFromBlueprint(
-								child,
-								selector,
-								siblingCountMap,
-							);
-						}
-					}
-					if (jsonObj.blueprint) {
-						jsonObj.customTag = "cwrapBlueprintCSS";
-						const blueprint = jsonObj.blueprint;
-						for (let i = 0; i < blueprint.count; i++) {
-							const blueprintChild = JSON.parse(JSON.stringify(blueprint));
-							blueprintChild.element = blueprint.element;
-							blueprintChild.children = blueprint.children;
-							blueprintChild.customTag = "cwrapBlueprintCSS";
-							generateCssSelectorFromBlueprint(
-								blueprintChild,
-								selector,
-								siblingCountMap,
-							);
-						}
-					}
-					if (jsonObj.count) {
-						for (let i = 0; i < Number.parseInt(jsonObj.count, 10); i++) {
-							const { count, ...clonedJsonObj } = JSON.parse(
-								JSON.stringify(jsonObj),
-							);
-							generateCssSelectorFromBlueprint(
-								clonedJsonObj,
-								parentSelector,
-								siblingCountMap,
-							);
-						}
-					}
-				}
-			}
-			generateCssSelectorFromBlueprint(
-				currentMap,
-				getElementPath(currentElement),
-				new Map(),
-			);
-		}
-	}
 	applyStyles();
-	console.log("cssMap", global.map.cssMap); // debugging
-});
+}
+
+// Attach the event listener
+global.id.mainBlueprintCounterUpdate.addEventListener(
+	"click",
+	updateBlueprintCounter,
+);
 
 global.id.mainBlueprintCounterBack.addEventListener("click", () => {
 	global.id.mainBlueprintCounter.style.display = "none";
@@ -1537,5 +1543,4 @@ if (iframe) {
 // global.id.sectionsVariables.value = "root";
 // localStorage.setItem("hideArrow", "true");
 // document.body.style.display = "flex";
-
 export default eventHandlers;

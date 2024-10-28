@@ -38,7 +38,7 @@ export default function createElementFromJson(jsonObj, isInitialLoad) {
 
 	// Add a custom property if it is the initial load
 	if (isInitialLoad && !jsonObj.blueprint) {
-		element.customTag = "cwrapTemp";
+		element.customTag = "cwrapPreloaded";
 	}
 
 	// Handle blueprint property
