@@ -1491,27 +1491,9 @@ function rebuildStyleFromBlueprint() {
 }
 
 /**
- * Logs custom tags of elements recursively.
- * @param {Element} element - The DOM element to log.
- */
-function logCustomTags(element) {
-	console.log(element, element.customTag);
-	for (const child of element.children) {
-		logCustomTags(child);
-	}
-}
-
-/**
  * Updates the blueprint counter and rebuilds the element.
  */
 function updateBlueprintCounter() {
-	const iframeDocument = global.id.preview.contentDocument;
-
-	console.log("Before update:");
-	for (const element of iframeDocument.body.children) {
-		logCustomTags(element);
-	}
-
 	const blueprintMap = global.map.blueprintMap;
 	const selector = getElementFromPath().timeStamp;
 	const currentMap = blueprintMap.get(selector);
@@ -1520,7 +1502,6 @@ function updateBlueprintCounter() {
 		createElementFromJson(currentMap);
 	const currentElement = getElementFromPath();
 	currentElement.innerHTML = "";
-
 	for (let i = 0; i < currentMap.count; i++) {
 		const placeholder = "cwrapIndex";
 		const regex = new RegExp(`${placeholder}(\\+\\d+)?`, "g");
@@ -1548,11 +1529,6 @@ function updateBlueprintCounter() {
 	removeStyle(`${selectedValue} > ${firstChildrenTag}`);
 	rebuildStyleFromBlueprint();
 	applyStyles();
-
-	console.log("After update:");
-	for (const element of iframeDocument.body.children) {
-		logCustomTags(element);
-	}
 }
 
 // Attach the event listener
@@ -1566,9 +1542,89 @@ global.id.mainBlueprintCounterBack.addEventListener("click", () => {
 	global.id.mainBlueprintSelector.style.display = "flex";
 });
 
-global.id.mainBlueprintTextEditorUpdateBlueprintText.addEventListener("click", () => {
-	console.log("updateBlueprintText clicked"); // debugging
-});
+global.id.mainBlueprintTextEditorUpdateBlueprintText.addEventListener(
+	"click",
+	() => {
+		console.log("updateBlueprintText clicked"); // debugging
+	},
+);
+
+global.id.mainBlueprintTextEditorUpdateBlueprintText.addEventListener(
+	"click",
+	() => {
+		const blueprintMap = global.map.blueprintMap;
+		const selector = getElementFromPath().timeStamp;
+		const currentMap = blueprintMap.get(selector);
+		const selectedBlueprintElement = global.id.blueprintSelect.value;
+		const selectedBlueprintElementTrimmed = selectedBlueprintElement
+			.replace(">", "")
+			.trim();
+		const textValue = global.id.mainBlueprintTextEditor2.value;
+
+		function updateTextInMap(map, elementPath, newText) {
+			const pathParts = elementPath.split(" > ");
+			let currentElement = map;
+
+			for (const part of pathParts) {
+				const [elementName, nthOfType] = part.split(":nth-of-type(");
+				const index = nthOfType
+					? Number.parseInt(nthOfType.replace(")", ""), 10) - 1
+					: 0;
+
+				if (currentElement.element === elementName) {
+					if (index !== 0) {
+						return false;
+					}
+				} else if (
+					currentElement.children &&
+					Array.isArray(currentElement.children)
+				) {
+					const matchingChildren = currentElement.children.filter(
+						(child) => child.element === elementName,
+					);
+					if (matchingChildren.length > index) {
+						currentElement = matchingChildren[index];
+					} else {
+						return false;
+					}
+				} else {
+					return false;
+				}
+			}
+			currentElement.text = newText;
+			return true;
+		}
+
+		updateTextInMap(currentMap, selectedBlueprintElementTrimmed, textValue);
+		reloadBlueprint();
+		function reloadBlueprint() {
+			const currentElementChildrenBlueprintReplacement =
+				createElementFromJson(currentMap);
+			const currentElement = getElementFromPath();
+			currentElement.innerHTML = "";
+			for (let i = 0; i < currentMap.count; i++) {
+				const placeholder = "cwrapIndex";
+				const regex = new RegExp(`${placeholder}(\\+\\d+)?`, "g");
+				const index = i;
+
+				const updatedElement =
+					currentElementChildrenBlueprintReplacement.cloneNode(true);
+				updatedElement.innerHTML = updatedElement.innerHTML.replace(
+					regex,
+					(match) => {
+						if (match === placeholder) {
+							return index;
+						}
+						const offset = Number.parseInt(match.replace(placeholder, ""), 10);
+						return index + offset;
+					},
+				);
+				updatedElement.customTag = "cwrapBlueprint"; // here was error in previous commit just gonna leave here this comment for a while
+				currentElement.appendChild(updatedElement);
+			}
+		}
+	},
+);
 
 // populateRoutesView();
 // loadMenuLevelView();
