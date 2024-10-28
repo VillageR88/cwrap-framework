@@ -1363,7 +1363,7 @@ function generateCssSelectorFromBlueprint(
 				);
 			}
 		}
-		//+1 added here
+
 		if (jsonObj.count) {
 			for (let i = 0; i + 1 < Number.parseInt(jsonObj.count, 10); i++) {
 				const { count, ...clonedJsonObj } = JSON.parse(JSON.stringify(jsonObj));
@@ -1396,9 +1396,27 @@ function rebuildStyleFromBlueprint() {
 }
 
 /**
+ * Logs custom tags of elements recursively.
+ * @param {Element} element - The DOM element to log.
+ */
+function logCustomTags(element) {
+	console.log(element, element.customTag);
+	for (const child of element.children) {
+		logCustomTags(child);
+	}
+}
+
+/**
  * Updates the blueprint counter and rebuilds the element.
  */
 function updateBlueprintCounter() {
+	const iframeDocument = global.id.preview.contentDocument;
+
+	console.log("Before update:");
+	for (const element of iframeDocument.body.children) {
+		logCustomTags(element);
+	}
+
 	const blueprintMap = global.map.blueprintMap;
 	const selector = getElementFromPath().timeStamp;
 	const currentMap = blueprintMap.get(selector);
@@ -1425,6 +1443,7 @@ function updateBlueprintCounter() {
 				return index + offset;
 			},
 		);
+		updatedElement.customTag = "cwrapBlueprint"; // here was error in previous commit just gonna leave here this comment for a while
 		currentElement.appendChild(updatedElement);
 	}
 
@@ -1434,6 +1453,11 @@ function updateBlueprintCounter() {
 	removeStyle(`${selectedValue} > ${firstChildrenTag}`);
 	rebuildStyleFromBlueprint();
 	applyStyles();
+
+	console.log("After update:");
+	for (const element of iframeDocument.body.children) {
+		logCustomTags(element);
+	}
 }
 
 // Attach the event listener
