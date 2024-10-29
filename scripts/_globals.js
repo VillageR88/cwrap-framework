@@ -20,6 +20,7 @@ const global = {
 		blueprintAttributeSelect: document.getElementById(
 			"blueprintAttributeSelect",
 		),
+		blueprintRemoveAttribute: document.getElementById("blueprintRemoveAttribute"),
 		blueprintSelect: document.getElementById("blueprintSelect"),
 		closeAddElement: document.getElementById("closeAddElement"),
 		closeAddScreen: document.getElementById("closeAddScreen"),

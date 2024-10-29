@@ -808,12 +808,22 @@ export const eventHandlers = () => {
 		}
 	});
 
+	function populateBlueprintAttributeOptions(targetElement) {
+		const blueprintAttributeSelect = global.id.blueprintAttributeSelect;
+		blueprintAttributeSelect.innerHTML = "";
+		if (targetElement?.attributes) {
+			for (const attribute in targetElement.attributes) {
+				const newOption = new Option(attribute, attribute);
+				blueprintAttributeSelect.appendChild(newOption);
+			}
+		}
+	}
+
 	function populateBlueprintAttributeOptionsValue(targetElement) {
 		const blueprintAttributeSelectValue =
 			global.id.blueprintAttributeSelect.value;
 		const attributeValue =
 			targetElement.attributes[blueprintAttributeSelectValue];
-
 		global.id.blueprintAttributeInput.value = attributeValue || "";
 	}
 
@@ -856,15 +866,7 @@ export const eventHandlers = () => {
 		const targetElement = getTargetElement(currentMap, blueprintSelectValue);
 		console.log("Final Target Element:", targetElement);
 
-		const blueprintAttributeSelect = global.id.blueprintAttributeSelect;
-		blueprintAttributeSelect.innerHTML = "";
-		if (targetElement?.attributes) {
-			for (const attribute in targetElement.attributes) {
-				const newOption = new Option(attribute, attribute);
-				blueprintAttributeSelect.appendChild(newOption);
-			}
-		}
-
+		populateBlueprintAttributeOptions(targetElement);
 		populateBlueprintAttributeOptionsValue(targetElement);
 	});
 
@@ -891,12 +893,10 @@ export const eventHandlers = () => {
 		const blueprintAttributeSelectValue = blueprintAttributeSelect.value;
 		const blueprintAttributeInput = global.id.blueprintAttributeInput;
 		const attributeValue = blueprintAttributeInput.value;
-
-		targetElement.attributes[blueprintAttributeSelectValue] = attributeValue;
-
+		if (targetElement) {
+			targetElement.attributes[blueprintAttributeSelectValue] = attributeValue;
+		}
 		populateBlueprintAttributeOptionsValue(targetElement);
-		reloadBlueprint();
-		//update 
 	});
 
 	global.id.mainStyleSelectorBack.addEventListener("click", () => {
@@ -909,6 +909,24 @@ export const eventHandlers = () => {
 		global.id.mainInitialSelector.style.display = "flex";
 		global.id.mainAttributeSelector.style.display = "none";
 		global.id.mainAttributeSelector2.style.display = "none";
+	});
+
+	global.id.blueprintRemoveAttribute.addEventListener("click", () => {
+		const blueprintMap = global.map.blueprintMap;
+		const selector = getElementFromPath().timeStamp;
+		const currentMap = blueprintMap.get(selector);
+		const blueprintSelectValue = global.id.blueprintSelect.value;
+
+		const targetElement = getTargetElement(currentMap, blueprintSelectValue);
+
+		const blueprintAttributeSelect = global.id.blueprintAttributeSelect;
+		const blueprintAttributeSelectValue = blueprintAttributeSelect.value;
+
+		delete targetElement.attributes[blueprintAttributeSelectValue];
+		//should be here populate BlueprintAttributeOptions before BlueprintAttributeOptionsValue
+		populateBlueprintAttributeOptions(targetElement);
+		populateBlueprintAttributeOptionsValue(targetElement);
+		reloadBlueprint();
 	});
 
 	global.id.openState.addEventListener("click", () => {
@@ -1569,8 +1587,6 @@ function rebuildStyleFromBlueprint() {
 		);
 	}
 }
-
-
 
 /**
  * Updates the blueprint counter and rebuilds the element.
