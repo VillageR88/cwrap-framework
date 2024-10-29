@@ -991,10 +991,6 @@ export const eventHandlers = () => {
 		reloadBlueprint();
 	});
 
-	
-
-	
-
 	global.id.mainBlueprintSelectorEditStyle.addEventListener("click", () => {
 		global.id.mainBlueprintSelector.style.display = "none";
 		global.id.mainBlueprintStyleSelector.style.display = "flex";
@@ -1212,6 +1208,53 @@ export const eventHandlers = () => {
 		//populateBlueprintStyleOptionsValue();
 		global.id.blueprintPropertySelect.value = selectedProperty;
 	});
+
+	global.id.removePropertyBlueprintSelectProperty.addEventListener(
+		"click",
+		() => {
+			const blueprintMap = global.map.blueprintMap;
+			const selector = getElementFromPath().timeStamp;
+			const currentMap = blueprintMap.get(selector);
+			const blueprintSelectValue = global.id.blueprintSelect.value;
+
+			const targetElement = getTargetElement(currentMap, blueprintSelectValue);
+
+			const blueprintPropertySelect = global.id.blueprintPropertySelect;
+			const blueprintPropertySelectValue = blueprintPropertySelect.value;
+
+			if (targetElement.style) {
+				const updatedStyles = targetElement.style
+					.split(";")
+					.filter(Boolean)
+					.filter(
+						(style) =>
+							style.split(":")[0].trim() !== blueprintPropertySelectValue,
+					)
+					.join(";");
+				targetElement.style = updatedStyles;
+
+				// Apply the style changes to the view
+				const validSelector = blueprintSelectValue
+					.replace(/ > /g, " ")
+					.replace(/:nth-of-type\(\d+\)/g, "");
+				const elementInView = document.querySelector(validSelector);
+				if (elementInView) {
+					elementInView.style[blueprintPropertySelectValue.trim()] = "";
+				}
+
+				// Rebuild the blueprint element
+				reloadBlueprint();
+				const selectedValue = global.id.elementSelect.value;
+				const firstChildrenTag =
+					getElementFromPath(selectedValue).childNodes[0].tagName.toLowerCase();
+				removeStyle(`${selectedValue} > ${firstChildrenTag}`);
+				rebuildStyleFromBlueprint();
+				applyStyles();
+			}
+			populateBlueprintStyleOptions();
+			populateBlueprintStyleOptionsValue();
+		},
+	);
 
 	global.id.openState.addEventListener("click", () => {
 		global.id.mainStyleSelector.style.display = "none";

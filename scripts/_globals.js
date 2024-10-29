@@ -222,6 +222,9 @@ const global = {
 		removeAttribute: document.getElementById("removeAttribute"),
 		removeElement: document.getElementById("removeElement"),
 		removeProperty: document.getElementById("removeProperty"),
+		removePropertyBlueprintSelectProperty: document.getElementById(
+			"removePropertyBlueprintSelectProperty",
+		),
 		removeStateProperty: document.getElementById("removeStateProperty"),
 		rootInput: document.getElementById("rootInput"),
 		rootSelectVariable: document.getElementById("rootSelectVariable"),
