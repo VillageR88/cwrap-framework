@@ -18,7 +18,7 @@ export default function populatePropertyValue(path, isState) {
 		(isState
 			? global.id.elementStateSelect.value
 			: global.id.elementSelect.value);
-		console.log("fullPath", fullPath); // debugging
+		// console.log("fullPath", fullPath); // debugging
 	let currentStyle;
 	if (global.id.navAdditionalScreen.classList.contains("screenDesktop")) {
 		currentStyle = cssMap.get(fullPath);
@@ -41,7 +41,7 @@ export default function populatePropertyValue(path, isState) {
 						.trim()
 				: "";
 	const propertySelectMemory = propertySelect.value;
-	console.log("propertySelectMemory", propertySelectMemory); // debugging
+	// console.log("propertySelectMemory", propertySelectMemory); // debugging
 	propertySelect.innerHTML = "";
 	let firstOption;
 	for (const prop of styleProperties) {
@@ -63,8 +63,8 @@ export default function populatePropertyValue(path, isState) {
 			.map((option) => option.value)
 			.includes(propertySelectMemory)
 	) {
-		console.log("propertySelectMemory", propertySelectMemory); // debugging
-		console.log("firstOption", firstOption); // debugging
+		// console.log("propertySelectMemory", propertySelectMemory); // debugging
+		// console.log("firstOption", firstOption); // debugging
 		propertySelect.value = propertySelectMemory
 			? propertySelectMemory
 			: firstOption;

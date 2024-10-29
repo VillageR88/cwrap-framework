@@ -209,6 +209,7 @@ const global = {
 		popupSubmitReject: document.getElementById("popupSubmitReject"),
 		preview: document.getElementById("preview"),
 		previewTree: document.getElementById("previewTree"),
+		propertyBlueprintInput: document.getElementById("propertyBlueprintInput"),
 		propertyInput: document.getElementById("propertyInput"),
 		propertySelect: document.getElementById("propertySelect"),
 		propertySelectAll: document.getElementById("propertySelectAll"),
