@@ -1764,7 +1764,19 @@ global.id.mainClassroomSelectorSelectType.addEventListener("change", () => {
 	populateClassroomSelectName();
 });
 
-global.id.mainClassroomSelectorEditStyle.addEventListener("click", () => {});
+global.id.mainClassroomSelectorEditStyle.addEventListener("click", () => {
+	global.id.mainClassroomSelector.style.display = "none";
+	global.id.mainClassroomStyleSelector.style.display = "flex";
+	global.id.mainClassroomStyleSelector2.style.display = "flex";
+	// populateClassroomStyleOptions();
+	// populateClassroomStyleOptionsValue();
+});
+
+global.id.mainClassroomStyleSelectorBack.addEventListener("click", () => {
+	global.id.mainClassroomSelector.style.display = "flex";
+	global.id.mainClassroomStyleSelector.style.display = "none";
+	global.id.mainClassroomStyleSelector2.style.display = "none";
+});
 
 global.id.navJavascript.addEventListener("click", () => {
 	//debugging (commented out)

@@ -126,6 +126,7 @@ const global = {
 		mainBlueprintTextEditor2: document.getElementById(
 			"mainBlueprintTextEditor2",
 		),
+		mainClassroomStyleSelectorBack: document.getElementById("mainClassroomStyleSelectorBack"),
 		mainBody: document.getElementById("mainBody"),
 		mainClassroomSelector: document.getElementById("mainClassroomSelector"),
 		mainClassroomSelectorSelectName: document.getElementById(
@@ -135,6 +136,8 @@ const global = {
 			"mainClassroomSelectorSelectType",
 		),
 		mainClassroomSelectorEditStyle: document.getElementById("mainClassroomSelectorEditStyle"),
+		mainClassroomStyleSelector: document.getElementById("mainClassroomStyleSelector"),
+		mainClassroomStyleSelector2: document.getElementById("mainClassroomStyleSelector2"),
 		mainElementAdd: document.getElementById("mainElementAdd"),
 		mainInitialSelector: document.getElementById("mainInitialSelector"),
 		mainStateStyleAdd: document.getElementById("mainStateStyleAdd"),
