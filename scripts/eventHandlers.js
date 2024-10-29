@@ -1824,6 +1824,10 @@ global.id.mainClassroomSelectorEditStyle.addEventListener("click", () => {
 	populateClassroomStyleOptionsValue();
 });
 
+global.id.classroomPropertySelect.addEventListener("change", () => {
+	populateClassroomStyleOptionsValue();
+});
+
 global.id.mainClassroomStyleSelectorBack.addEventListener("click", () => {
 	global.id.mainClassroomSelector.style.display = "flex";
 	global.id.mainClassroomStyleSelector.style.display = "none";
