@@ -229,6 +229,7 @@ const global = {
 		styleRow: document.getElementById("styleRow"),
 		themesTree: document.getElementById("themesTree"),
 		updateAttribute: document.getElementById("updateAttribute"),
+		updateBlueprintAttribute: document.getElementById("updateBlueprintAttribute"),
 		updateProperty: document.getElementById("updateProperty"),
 		updateStateProperty: document.getElementById("updateStateProperty"),
 		updateText: document.getElementById("updateText"),

@@ -813,27 +813,18 @@ export const eventHandlers = () => {
 		global.id.blueprintAttributeInput.value = attributeValue || "";
 	}
 	
-	global.id.mainBlueprintSelectorAttributes.addEventListener("click", () => {
-		global.id.mainBlueprintSelector.style.display = "none";
-		global.id.mainBlueprintAttributeSelector.style.display = "flex";
-		global.id.mainBlueprintAttributeSelector2.style.display = "flex";
-		const blueprintMap = global.map.blueprintMap;
-		const selector = getElementFromPath().timeStamp;
-		const currentMap = blueprintMap.get(selector);
-		const blueprintSelectValue = global.id.blueprintSelect.value;
+	function getTargetElement(currentMap, blueprintSelectValue) {
 		const blueprintSelectValueTrimmed = blueprintSelectValue.replace(">", "");
 		const blueprintSelectorsArray = blueprintSelectValueTrimmed.split(">");
 		const searchedArray = [];
 	
 		for (const i in blueprintSelectorsArray) {
-			console.log(blueprintSelectorsArray.length);
 			const trimmedElement = blueprintSelectorsArray[i].trim();
 			const counter = trimmedElement.match(/(?<=nth-of-type\()\d+/) ?? 1;
 			if (Number(i) + 1 !== blueprintSelectorsArray.length)
 				searchedArray.push(`children[${counter - 1}]`);
 			else searchedArray.push(`[${counter - 1}]`);
 		}
-		console.log("searchedArray", searchedArray);
 	
 		let targetElement = currentMap;
 		try {
@@ -842,12 +833,23 @@ export const eventHandlers = () => {
 				targetElement = targetElement.children
 					? targetElement.children[Number.parseInt(path.match(/\d+/)[0])]
 					: targetElement[Number.parseInt(path.match(/\d+/)[0])];
-				console.log("Current Path:", path);
-				console.log("Current Target Element:", targetElement);
 			}
 		} catch (error) {
 			console.error("Error navigating path:", error);
 		}
+		return targetElement;
+	}
+	
+	global.id.mainBlueprintSelectorAttributes.addEventListener("click", () => {
+		global.id.mainBlueprintSelector.style.display = "none";
+		global.id.mainBlueprintAttributeSelector.style.display = "flex";
+		global.id.mainBlueprintAttributeSelector2.style.display = "flex";
+		const blueprintMap = global.map.blueprintMap;
+		const selector = getElementFromPath().timeStamp;
+		const currentMap = blueprintMap.get(selector);
+		const blueprintSelectValue = global.id.blueprintSelect.value;
+	
+		const targetElement = getTargetElement(currentMap, blueprintSelectValue);
 		console.log("Final Target Element:", targetElement);
 	
 		const blueprintAttributeSelect = global.id.blueprintAttributeSelect;
@@ -868,32 +870,30 @@ export const eventHandlers = () => {
 		const selector = getElementFromPath().timeStamp;
 		const currentMap = blueprintMap.get(selector);
 		const blueprintSelectValue = global.id.blueprintSelect.value;
-		const blueprintSelectValueTrimmed = blueprintSelectValue.replace(">", "");
-		const blueprintSelectorsArray = blueprintSelectValueTrimmed.split(">");
-		const searchedArray = [];
 	
-		for (const i in blueprintSelectorsArray) {
-			const trimmedElement = blueprintSelectorsArray[i].trim();
-			const counter = trimmedElement.match(/(?<=nth-of-type\()\d+/) ?? 1;
-			if (Number(i) + 1 !== blueprintSelectorsArray.length)
-				searchedArray.push(`children[${counter - 1}]`);
-			else searchedArray.push(`[${counter - 1}]`);
-		}
-	
-		let targetElement = currentMap;
-		try {
-			for (let j = 0; j < searchedArray.length - 1; j++) {
-				const path = searchedArray[j];
-				targetElement = targetElement.children
-					? targetElement.children[Number.parseInt(path.match(/\d+/)[0])]
-					: targetElement[Number.parseInt(path.match(/\d+/)[0])];
-			}
-		} catch (error) {
-			console.error("Error navigating path:", error);
-		}
-	
+		const targetElement = getTargetElement(currentMap, blueprintSelectValue);
 		populateBlueprintAttributeOptionsValue(targetElement);
 	});
+	
+	global.id.updateBlueprintAttribute.addEventListener("click", () => {
+		const blueprintMap = global.map.blueprintMap;
+		const selector = getElementFromPath().timeStamp;
+		const currentMap = blueprintMap.get(selector);
+		const blueprintSelectValue = global.id.blueprintSelect.value;
+	
+		const targetElement = getTargetElement(currentMap, blueprintSelectValue);
+	
+		const blueprintAttributeSelect = global.id.blueprintAttributeSelect;
+		const blueprintAttributeSelectValue = blueprintAttributeSelect.value;
+		const blueprintAttributeInput = global.id.blueprintAttributeInput;
+		const attributeValue = blueprintAttributeInput.value;
+		if (targetElement) {
+			targetElement.attributes[blueprintAttributeSelectValue] = attributeValue;
+		}
+		populateBlueprintAttributeOptionsValue(targetElement);
+	});
+
+
 	
 	global.id.mainStyleSelectorBack.addEventListener("click", () => {
 		global.id.mainInitialSelector.style.display = "flex";
