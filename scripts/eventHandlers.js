@@ -937,6 +937,13 @@ export const eventHandlers = () => {
 		populateAttributeSelectAll(true);
 	});
 
+	global.id.mainBlueprintAttributeAddBack.addEventListener("click", () => {
+		global.id.mainBlueprintSelector.style.display = "flex";
+		global.id.mainBlueprintAttributeSelector.style.display = "flex";
+		global.id.mainBlueprintAttributeSelector2.style.display = "flex";
+		global.id.mainBlueprintAttributeAdd.style.display = "none";
+	});
+
 	global.id.blueprintAddAttribute.addEventListener("click", () => {
 	});
 

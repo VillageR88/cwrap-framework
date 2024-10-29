@@ -69,6 +69,7 @@ const global = {
 		mainBlueprintAttributeAdd: document.getElementById(
 			"mainBlueprintAttributeAdd",
 		),
+		mainBlueprintAttributeAddBack: document.getElementById("mainBlueprintAttributeAddBack"),
 		mainBlueprintAttributeSelector: document.getElementById(
 			"mainBlueprintAttributeSelector",
 		),
