@@ -864,7 +864,7 @@ export const eventHandlers = () => {
 		const blueprintSelectValue = global.id.blueprintSelect.value;
 
 		const targetElement = getTargetElement(currentMap, blueprintSelectValue);
-		console.log("Final Target Element:", targetElement);
+		// console.log("Final Target Element:", targetElement);
 
 		populateBlueprintAttributeOptions(targetElement);
 		populateBlueprintAttributeOptionsValue(targetElement);
@@ -930,7 +930,7 @@ export const eventHandlers = () => {
 	});
 
 	global.id.openBlueprintAddAttribute.addEventListener("click", () => {
-		global.id.mainBlueprintSelector.style.display = "none";
+		// global.id.mainBlueprintSelector.style.display = "none";
 		global.id.mainBlueprintAttributeSelector.style.display = "none";
 		global.id.mainBlueprintAttributeSelector2.style.display = "none";
 		global.id.mainBlueprintAttributeAdd.style.display = "flex";
@@ -938,7 +938,7 @@ export const eventHandlers = () => {
 	});
 
 	global.id.mainBlueprintAttributeAddBack.addEventListener("click", () => {
-		global.id.mainBlueprintSelector.style.display = "flex";
+		// global.id.mainBlueprintSelector.style.display = "flex";
 		global.id.mainBlueprintAttributeSelector.style.display = "flex";
 		global.id.mainBlueprintAttributeSelector2.style.display = "flex";
 		global.id.mainBlueprintAttributeAdd.style.display = "none";
