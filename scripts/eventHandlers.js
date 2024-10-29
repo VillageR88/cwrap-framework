@@ -1255,8 +1255,13 @@ export const eventHandlers = () => {
 		global.id.mainBlueprintStyleSelector.style.display = "none";
 		global.id.mainBlueprintStyleSelector2.style.display = "none";
 		global.id.mainBlueprintStyleAdd.style.display = "flex";
-
 		populateBlueprintPropertySelectAll(cssProperties);
+	});
+
+	global.id.mainBlueprintStyleAddBack.addEventListener("click", () => {
+		global.id.mainBlueprintStyleSelector.style.display = "flex";
+		global.id.mainBlueprintStyleSelector2.style.display = "flex";
+		global.id.mainBlueprintStyleAdd.style.display = "none";
 	});
 
 	global.id.openState.addEventListener("click", () => {
