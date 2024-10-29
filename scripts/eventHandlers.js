@@ -822,8 +822,9 @@ export const eventHandlers = () => {
 	function populateBlueprintAttributeOptionsValue(targetElement) {
 		const blueprintAttributeSelectValue =
 			global.id.blueprintAttributeSelect.value;
-		const attributeValue =
-		blueprintAttributeSelectValue ? targetElement.attributes[blueprintAttributeSelectValue] : "";
+		const attributeValue = blueprintAttributeSelectValue
+			? targetElement.attributes[blueprintAttributeSelectValue]
+			: "";
 		global.id.blueprintAttributeInput.value = attributeValue || "";
 	}
 
@@ -922,8 +923,11 @@ export const eventHandlers = () => {
 		const blueprintAttributeSelect = global.id.blueprintAttributeSelect;
 		const blueprintAttributeSelectValue = blueprintAttributeSelect.value;
 
-		delete targetElement.attributes[blueprintAttributeSelectValue];
-		//should be here populate BlueprintAttributeOptions before BlueprintAttributeOptionsValue
+		if (targetElement.attributes) {
+			delete targetElement.attributes[blueprintAttributeSelectValue];
+			console.log("Removed attribute:", blueprintAttributeSelectValue);
+		}
+
 		populateBlueprintAttributeOptions(targetElement);
 		populateBlueprintAttributeOptionsValue(targetElement);
 		reloadBlueprint();
@@ -945,6 +949,44 @@ export const eventHandlers = () => {
 	});
 
 	global.id.blueprintAddAttribute.addEventListener("click", () => {
+		const blueprintMap = global.map.blueprintMap;
+		const selector = getElementFromPath().timeStamp;
+		console.log("Selector:", selector);
+		const currentMap = blueprintMap.get(selector);
+		console.log("Current Map:", currentMap);
+		const blueprintSelectValue = global.id.blueprintSelect.value;
+		console.log("Blueprint Select Value:", blueprintSelectValue);
+
+		const targetElement = getTargetElement(currentMap, blueprintSelectValue);
+		console.log("Target Element:", targetElement);
+
+		const blueprintAttributeSelectAll = global.id.blueprintAttributeSelectAll;
+		const selectedAttribute = blueprintAttributeSelectAll.value;
+		console.log("Selected Attribute:", selectedAttribute);
+		const attributeValue = "";
+		if (targetElement) {
+			if (!targetElement.attributes) {
+				targetElement.attributes = {};
+			}
+			targetElement.attributes[selectedAttribute] = attributeValue;
+			console.log(
+				"Updated Target Element Attributes:",
+				targetElement.attributes,
+			);
+		} else {
+			console.error("Target element is undefined");
+		}
+		populateBlueprintAttributeOptions(targetElement);
+		global.id.blueprintAttributeInput.value = "";
+		console.log("Blueprint Attribute Input cleared");
+
+		// Manually add steps to go back to the main blueprint attribute selector
+		global.id.mainBlueprintAttributeSelector.style.display = "flex";
+		global.id.mainBlueprintAttributeSelector2.style.display = "flex";
+		global.id.mainBlueprintAttributeAdd.style.display = "none";
+		console.log("Navigated back to main blueprint attribute selector");
+		reloadBlueprint();
+		console.log("Blueprint reloaded");
 	});
 
 	global.id.openState.addEventListener("click", () => {
