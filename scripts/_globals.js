@@ -12,6 +12,7 @@ const global = {
 		addAttribute: document.getElementById("addAttribute"),
 		addElement: document.getElementById("addElement"),
 		addProperty: document.getElementById("addProperty"),
+		addBlueprintProperty: document.getElementById("addBlueprintProperty"),
 		addStateProperty: document.getElementById("addStateProperty"),
 		attributeInput: document.getElementById("attributeInput"),
 		attributeSelect: document.getElementById("attributeSelect"),

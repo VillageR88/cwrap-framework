@@ -1264,6 +1264,72 @@ export const eventHandlers = () => {
 		global.id.mainBlueprintStyleAdd.style.display = "none";
 	});
 
+	global.id.addBlueprintProperty.addEventListener("click", () => {
+		console.log("addBlueprintProperty clicked");
+		const blueprintMap = global.map.blueprintMap;
+		const selector = getElementFromPath().timeStamp;
+		console.log("Selector:", selector);
+		const currentMap = blueprintMap.get(selector);
+		console.log("Current Map:", currentMap);
+		const blueprintSelectValue = global.id.blueprintSelect.value;
+		console.log("Blueprint Select Value:", blueprintSelectValue);
+	
+		const targetElement = getTargetElement(currentMap, blueprintSelectValue);
+		console.log("Target Element:", targetElement);
+	
+		const propertyBlueprintSelectAll = global.id.propertyBlueprintSelectAll;
+		if (!propertyBlueprintSelectAll) {
+			console.error("Element with ID 'propertyBlueprintSelectAll' not found in the DOM");
+			return;
+		}
+		const selectedProperty = propertyBlueprintSelectAll.value;
+		console.log("Selected Property:", selectedProperty);
+		const newValue = "";
+		if (targetElement) {
+			const styles = targetElement.style ? targetElement.style.split(";") : [];
+			console.log("Current Styles:", styles);
+			const updatedStyles = [
+				...styles,
+				`${selectedProperty.trim()}: ${newValue.trim()}`,
+			].join(";");
+			console.log("Updated Styles:", updatedStyles);
+			targetElement.style = updatedStyles;
+	
+			// Apply the style changes to the view
+			const validSelector = blueprintSelectValue
+				.replace(/ > /g, " ")
+				.replace(/:nth-of-type\(\d+\)/g, "");
+			console.log("Valid Selector:", validSelector);
+			const elementInView = document.querySelector(validSelector);
+			console.log("Element in View:", elementInView);
+			if (elementInView) {
+				elementInView.style[selectedProperty.trim()] = newValue.trim();
+				console.log("Applied style to element in view");
+			}
+	
+			// Rebuild the blueprint element
+			reloadBlueprint();
+			console.log("Blueprint reloaded");
+			const selectedValue = global.id.elementSelect.value;
+			const firstChildrenTag =
+				getElementFromPath(selectedValue).childNodes[0].tagName.toLowerCase();
+			console.log("First Children Tag:", firstChildrenTag);
+			removeStyle(`${selectedValue} > ${firstChildrenTag}`);
+			console.log("Removed style from first children tag");
+			rebuildStyleFromBlueprint();
+			console.log("Rebuilt style from blueprint");
+			applyStyles();
+			console.log("Applied styles");
+		}
+	
+		// Go back to the previous view
+		global.id.mainBlueprintStyleSelector.style.display = "flex";
+		global.id.mainBlueprintStyleSelector2.style.display = "flex";
+		global.id.mainBlueprintStyleAdd.style.display = "none";
+		console.log("Navigated back to previous view");
+		//now should populate the property select
+	});
+
 	global.id.openState.addEventListener("click", () => {
 		global.id.mainStyleSelector.style.display = "none";
 		global.id.mainStyleSelector2.style.display = "none";
