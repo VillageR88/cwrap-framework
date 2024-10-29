@@ -54,6 +54,7 @@ import replaceBlueprintJsonPlaceholders from "./replaceBlueprintJsonPlaceholders
 import getElementPath from "./getElementPath.js";
 import populateSelectBlueprintOptions from "./populateSelectBlueprintOptions.js";
 import reloadBlueprint from "./reloadBlueprint.js";
+import populateBlueprintStyleOptions from "./populateBlueprintStyleOptions.js";
 
 /**
  * Sets up the event handlers.
@@ -990,79 +991,6 @@ export const eventHandlers = () => {
 		console.log("Blueprint reloaded");
 	});
 
-	global.id.mainBlueprintSelectorEditStyle.addEventListener("click", () => {
-		global.id.mainBlueprintSelector.style.display = "none";
-		global.id.mainBlueprintStyleSelector.style.display = "flex";
-		global.id.mainBlueprintStyleSelector2.style.display = "flex";
-
-		function populateBlueprintStyleOptions() {
-			const blueprintStyleSelect = global.id.blueprintPropertySelect;
-			blueprintStyleSelect.innerHTML = "";
-			const blueprintMap = global.map.blueprintMap;
-			const selector = getElementFromPath().timeStamp;
-			const currentMap = blueprintMap.get(selector);
-			const selectedBlueprintElement = global.id.blueprintSelect.value;
-			const selectedBlueprintElementTrimmed = selectedBlueprintElement
-				.replace(">", "")
-				.trim();
-
-			function getTargetElement(map, elementPath) {
-				const pathParts = elementPath.split(" > ");
-				let currentElement = map;
-
-				for (const part of pathParts) {
-					const [elementName, nthOfType] = part.split(":nth-of-type(");
-					const index = nthOfType
-						? Number.parseInt(nthOfType.replace(")", ""), 10) - 1
-						: 0;
-
-					if (currentElement.element === elementName) {
-						if (index === 0) {
-							continue;
-						}
-					}
-
-					if (
-						currentElement.children &&
-						Array.isArray(currentElement.children)
-					) {
-						const matchingChildren = currentElement.children.filter(
-							(child) => child.element === elementName,
-						);
-						if (matchingChildren.length > index) {
-							currentElement = matchingChildren[index];
-						} else {
-							return null;
-						}
-					} else {
-						return null;
-					}
-				}
-
-				return currentElement;
-			}
-
-			const targetElement = getTargetElement(
-				currentMap,
-				selectedBlueprintElementTrimmed,
-			);
-
-			if (targetElement?.style && typeof targetElement.style === "string") {
-				const styles = targetElement.style.split(";");
-				for (const style of styles) {
-					const [property] = style.split(":");
-					if (property.trim()) {
-						const newOption = new Option(property.trim(), property.trim());
-						blueprintStyleSelect.appendChild(newOption);
-					}
-				}
-			}
-		}
-
-		populateBlueprintStyleOptions();
-		populateBlueprintStyleOptionsValue();
-	});
-
 	function populateBlueprintStyleOptionsValue() {
 		const blueprintStyleSelectValue = global.id.blueprintPropertySelect.value;
 		const blueprintStyleInput = global.id.propertyBlueprintInput;
@@ -1124,6 +1052,19 @@ export const eventHandlers = () => {
 			}
 		}
 	}
+
+	
+
+	global.id.mainBlueprintSelectorEditStyle.addEventListener("click", () => {
+		global.id.mainBlueprintSelector.style.display = "none";
+		global.id.mainBlueprintStyleSelector.style.display = "flex";
+		global.id.mainBlueprintStyleSelector2.style.display = "flex";
+
+		
+
+		populateBlueprintStyleOptions();
+		populateBlueprintStyleOptionsValue();
+	});
 
 	global.id.blueprintPropertySelect.addEventListener("change", () => {
 		populateBlueprintStyleOptionsValue();
@@ -1273,13 +1214,15 @@ export const eventHandlers = () => {
 		console.log("Current Map:", currentMap);
 		const blueprintSelectValue = global.id.blueprintSelect.value;
 		console.log("Blueprint Select Value:", blueprintSelectValue);
-	
+
 		const targetElement = getTargetElement(currentMap, blueprintSelectValue);
 		console.log("Target Element:", targetElement);
-	
+
 		const propertyBlueprintSelectAll = global.id.propertyBlueprintSelectAll;
 		if (!propertyBlueprintSelectAll) {
-			console.error("Element with ID 'propertyBlueprintSelectAll' not found in the DOM");
+			console.error(
+				"Element with ID 'propertyBlueprintSelectAll' not found in the DOM",
+			);
 			return;
 		}
 		const selectedProperty = propertyBlueprintSelectAll.value;
@@ -1294,7 +1237,7 @@ export const eventHandlers = () => {
 			].join(";");
 			console.log("Updated Styles:", updatedStyles);
 			targetElement.style = updatedStyles;
-	
+
 			// Apply the style changes to the view
 			const validSelector = blueprintSelectValue
 				.replace(/ > /g, " ")
@@ -1306,7 +1249,7 @@ export const eventHandlers = () => {
 				elementInView.style[selectedProperty.trim()] = newValue.trim();
 				console.log("Applied style to element in view");
 			}
-	
+
 			// Rebuild the blueprint element
 			reloadBlueprint();
 			console.log("Blueprint reloaded");
@@ -1321,7 +1264,7 @@ export const eventHandlers = () => {
 			applyStyles();
 			console.log("Applied styles");
 		}
-	
+
 		// Go back to the previous view
 		global.id.mainBlueprintStyleSelector.style.display = "flex";
 		global.id.mainBlueprintStyleSelector2.style.display = "flex";
