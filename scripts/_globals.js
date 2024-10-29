@@ -134,6 +134,7 @@ const global = {
 		mainClassroomSelectorSelectType: document.getElementById(
 			"mainClassroomSelectorSelectType",
 		),
+		mainClassroomSelectorEditStyle: document.getElementById("mainClassroomSelectorEditStyle"),
 		mainElementAdd: document.getElementById("mainElementAdd"),
 		mainInitialSelector: document.getElementById("mainInitialSelector"),
 		mainStateStyleAdd: document.getElementById("mainStateStyleAdd"),

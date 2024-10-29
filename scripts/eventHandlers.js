@@ -1230,7 +1230,8 @@ export const eventHandlers = () => {
 						(style) =>
 							style.split(":")[0].trim() !== blueprintPropertySelectValue,
 					)
-					.join(";").trim();
+					.join(";")
+					.trim();
 				targetElement.style = updatedStyles;
 
 				// Apply the style changes to the view
@@ -1758,9 +1759,12 @@ global.id.navClassroom.addEventListener("click", () => {
 	populateClassroomSelectType();
 	populateClassroomSelectName();
 });
+
 global.id.mainClassroomSelectorSelectType.addEventListener("change", () => {
 	populateClassroomSelectName();
 });
+
+global.id.mainClassroomSelectorEditStyle.addEventListener("click", () => {});
 
 global.id.navJavascript.addEventListener("click", () => {
 	//debugging (commented out)
