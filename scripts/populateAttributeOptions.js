@@ -2,18 +2,16 @@
  * @type {import('./_globals.js')}
  */
 /**
- *
- * @param {boolean} areBlueprintAttributes - If true, the function will populate the attribute options for the blueprint element, otherwise it will populate the attribute options for the selected element
+ *Populate the attribute options for the selected element
  */
-export default function populateAttributeOptions(
-	areBlueprintAttributes = false,
-) {
+export default function populateAttributeOptions() {
 	const preview = global.id.preview;
 	const doc = preview.contentDocument || preview.contentWindow.document;
 	const selectorMap = new Map();
 	const elements = [doc.body, ...doc.body.querySelectorAll("*")];
 	for (const element of elements) {
 		const selector = getFullSelector(element);
+		console.log(selector);
 		const attributes = getAttributes(element);
 
 		if (!selectorMap.has(selector)) {

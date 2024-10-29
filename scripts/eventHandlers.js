@@ -811,12 +811,47 @@ export const eventHandlers = () => {
 		global.id.mainBlueprintSelector.style.display = "none";
 		global.id.mainBlueprintAttributeSelector.style.display = "flex";
 		global.id.mainBlueprintAttributeSelector2.style.display = "flex";
-		populateAttributeOptions(true);
-		// global.id.mainInitialSelector.style.display = "none";
-		// global.id.mainAttributeSelector.style.display = "flex";
-		// global.id.mainAttributeSelector2.style.display = "flex";
-		// populateAttributeOptions();
-		// populateAttributeOptionsValue();
+		const blueprintMap = global.map.blueprintMap;
+		const selector = getElementFromPath().timeStamp;
+		const currentMap = blueprintMap.get(selector);
+		const blueprintSelectValue = global.id.blueprintSelect.value;
+		const blueprintSelectValueTrimmed = blueprintSelectValue.replace(">", "");
+		const blueprintSelectorsArray = blueprintSelectValueTrimmed.split(">");
+		const searchedArray = [];
+
+		for (const i in blueprintSelectorsArray) {
+			console.log(blueprintSelectorsArray.length);
+			const trimmedElement = blueprintSelectorsArray[i].trim();
+			const counter = trimmedElement.match(/(?<=nth-of-type\()\d+/) ?? 1;
+			if (Number(i) + 1 !== blueprintSelectorsArray.length)
+				searchedArray.push(`children[${counter - 1}]`);
+			else searchedArray.push(`[${counter - 1}]`);
+		}
+		console.log("searchedArray", searchedArray);
+
+		let targetElement = currentMap;
+		try {
+			for (let j = 0; j < searchedArray.length - 1; j++) {
+				const path = searchedArray[j];
+				targetElement = targetElement.children
+					? targetElement.children[Number.parseInt(path.match(/\d+/)[0])]
+					: targetElement[Number.parseInt(path.match(/\d+/)[0])];
+				console.log("Current Path:", path);
+				console.log("Current Target Element:", targetElement);
+			}
+		} catch (error) {
+			console.error("Error navigating path:", error);
+		}
+		console.log("Final Target Element:", targetElement);
+
+		const blueprintAttributeSelect = global.id.blueprintAttributeSelect;
+		blueprintAttributeSelect.innerHTML = "";
+		if (targetElement?.attributes) {
+			for (const attribute in targetElement.attributes) {
+				const newOption = new Option(attribute, attribute);
+				blueprintAttributeSelect.appendChild(newOption);
+			}
+		}
 	});
 
 	global.id.mainStyleSelectorBack.addEventListener("click", () => {
@@ -1545,13 +1580,6 @@ global.id.mainBlueprintCounterBack.addEventListener("click", () => {
 	global.id.mainBlueprintCounter.style.display = "none";
 	global.id.mainBlueprintSelector.style.display = "flex";
 });
-
-global.id.mainBlueprintTextEditorUpdateBlueprintText.addEventListener(
-	"click",
-	() => {
-		console.log("updateBlueprintText clicked"); // debugging
-	},
-);
 
 global.id.mainBlueprintTextEditorUpdateBlueprintText.addEventListener(
 	"click",

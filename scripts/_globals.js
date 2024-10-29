@@ -16,6 +16,7 @@ const global = {
 		attributeInput: document.getElementById("attributeInput"),
 		attributeSelect: document.getElementById("attributeSelect"),
 		attributeSelectAll: document.getElementById("attributeSelectAll"),
+		blueprintAttributeSelect: document.getElementById("blueprintAttributeSelect"),
 		blueprintSelect: document.getElementById("blueprintSelect"),
 		closeAddElement: document.getElementById("closeAddElement"),
 		closeAddScreen: document.getElementById("closeAddScreen"),
