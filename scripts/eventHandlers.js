@@ -53,6 +53,7 @@ import createElementFromJson from "./createElementFromJson.js";
 import replaceBlueprintJsonPlaceholders from "./replaceBlueprintJsonPlaceholders.js";
 import getElementPath from "./getElementPath.js";
 import populateSelectBlueprintOptions from "./populateSelectBlueprintOptions.js";
+import reloadBlueprint from "./reloadBlueprint.js";
 
 /**
  * Sets up the event handlers.
@@ -808,16 +809,19 @@ export const eventHandlers = () => {
 	});
 
 	function populateBlueprintAttributeOptionsValue(targetElement) {
-		const blueprintAttributeSelectValue = global.id.blueprintAttributeSelect.value;
-		const attributeValue = blueprintAttributeSelectValue ? targetElement.attributes[blueprintAttributeSelectValue] : "";
+		const blueprintAttributeSelectValue =
+			global.id.blueprintAttributeSelect.value;
+		const attributeValue =
+			targetElement.attributes[blueprintAttributeSelectValue];
+
 		global.id.blueprintAttributeInput.value = attributeValue || "";
 	}
-	
+
 	function getTargetElement(currentMap, blueprintSelectValue) {
 		const blueprintSelectValueTrimmed = blueprintSelectValue.replace(">", "");
 		const blueprintSelectorsArray = blueprintSelectValueTrimmed.split(">");
 		const searchedArray = [];
-	
+
 		for (const i in blueprintSelectorsArray) {
 			const trimmedElement = blueprintSelectorsArray[i].trim();
 			const counter = trimmedElement.match(/(?<=nth-of-type\()\d+/) ?? 1;
@@ -825,7 +829,7 @@ export const eventHandlers = () => {
 				searchedArray.push(`children[${counter - 1}]`);
 			else searchedArray.push(`[${counter - 1}]`);
 		}
-	
+
 		let targetElement = currentMap;
 		try {
 			for (let j = 0; j < searchedArray.length - 1; j++) {
@@ -839,7 +843,7 @@ export const eventHandlers = () => {
 		}
 		return targetElement;
 	}
-	
+
 	global.id.mainBlueprintSelectorAttributes.addEventListener("click", () => {
 		global.id.mainBlueprintSelector.style.display = "none";
 		global.id.mainBlueprintAttributeSelector.style.display = "flex";
@@ -848,10 +852,10 @@ export const eventHandlers = () => {
 		const selector = getElementFromPath().timeStamp;
 		const currentMap = blueprintMap.get(selector);
 		const blueprintSelectValue = global.id.blueprintSelect.value;
-	
+
 		const targetElement = getTargetElement(currentMap, blueprintSelectValue);
 		console.log("Final Target Element:", targetElement);
-	
+
 		const blueprintAttributeSelect = global.id.blueprintAttributeSelect;
 		blueprintAttributeSelect.innerHTML = "";
 		if (targetElement?.attributes) {
@@ -860,47 +864,46 @@ export const eventHandlers = () => {
 				blueprintAttributeSelect.appendChild(newOption);
 			}
 		}
-	
+
 		populateBlueprintAttributeOptionsValue(targetElement);
 	});
-	
+
 	global.id.blueprintAttributeSelect.addEventListener("change", () => {
 		console.log("blueprintAttributeSelect change event"); // debugging
 		const blueprintMap = global.map.blueprintMap;
 		const selector = getElementFromPath().timeStamp;
 		const currentMap = blueprintMap.get(selector);
 		const blueprintSelectValue = global.id.blueprintSelect.value;
-	
+
 		const targetElement = getTargetElement(currentMap, blueprintSelectValue);
 		populateBlueprintAttributeOptionsValue(targetElement);
 	});
-	
+
 	global.id.updateBlueprintAttribute.addEventListener("click", () => {
 		const blueprintMap = global.map.blueprintMap;
 		const selector = getElementFromPath().timeStamp;
 		const currentMap = blueprintMap.get(selector);
 		const blueprintSelectValue = global.id.blueprintSelect.value;
-	
+
 		const targetElement = getTargetElement(currentMap, blueprintSelectValue);
-	
+
 		const blueprintAttributeSelect = global.id.blueprintAttributeSelect;
 		const blueprintAttributeSelectValue = blueprintAttributeSelect.value;
 		const blueprintAttributeInput = global.id.blueprintAttributeInput;
 		const attributeValue = blueprintAttributeInput.value;
-		if (targetElement) {
-			targetElement.attributes[blueprintAttributeSelectValue] = attributeValue;
-		}
+
+		targetElement.attributes[blueprintAttributeSelectValue] = attributeValue;
+
 		populateBlueprintAttributeOptionsValue(targetElement);
+		//update 
 	});
 
-
-	
 	global.id.mainStyleSelectorBack.addEventListener("click", () => {
 		global.id.mainInitialSelector.style.display = "flex";
 		global.id.mainStyleSelector.style.display = "none";
 		global.id.mainStyleSelector2.style.display = "none";
 	});
-	
+
 	global.id.mainAttributeSelectorBack.addEventListener("click", () => {
 		global.id.mainInitialSelector.style.display = "flex";
 		global.id.mainAttributeSelector.style.display = "none";
@@ -1566,34 +1569,7 @@ function rebuildStyleFromBlueprint() {
 	}
 }
 
-function reloadBlueprint() {
-	const blueprintMap = global.map.blueprintMap;
-	const selector = getElementFromPath().timeStamp;
-	const currentMap = blueprintMap.get(selector);
-	const currentElementChildrenBlueprintReplacement =
-		createElementFromJson(currentMap);
-	const currentElement = getElementFromPath();
-	currentElement.innerHTML = "";
-	for (let i = 0; i < currentMap.count; i++) {
-		const placeholder = "cwrapIndex";
-		const regex = new RegExp(`${placeholder}(\\+\\d+)?`, "g");
-		const index = i;
-		const updatedElement =
-			currentElementChildrenBlueprintReplacement.cloneNode(true);
-		updatedElement.innerHTML = updatedElement.innerHTML.replace(
-			regex,
-			(match) => {
-				if (match === placeholder) {
-					return index;
-				}
-				const offset = Number.parseInt(match.replace(placeholder, ""), 10);
-				return index + offset;
-			},
-		);
-		updatedElement.customTag = "cwrapBlueprint"; // here was error in previous commit just gonna leave here this comment for a while
-		currentElement.appendChild(updatedElement);
-	}
-}
+
 
 /**
  * Updates the blueprint counter and rebuilds the element.
