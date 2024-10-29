@@ -684,7 +684,8 @@ body > #selectedElementLabelContainer > div > div > #mainBlueprintTextEditor,
 body > #selectedElementLabelContainer > div > div > #mainAttributeSelector,
 body > #selectedElementLabelContainer > div > div > #mainStyleAdd,
 body > #selectedElementLabelContainer > div > div > #mainStateStyleAdd,
-body > #selectedElementLabelContainer > div > div > #mainAttributeAdd {
+body > #selectedElementLabelContainer > div > div > #mainAttributeAdd,
+body > #selectedElementLabelContainer > div > div > #mainBlueprintAttributeAdd {
   display: none;
 }
 
@@ -714,7 +715,10 @@ body > #selectedElementLabelContainer > div > #mainStateStyleContextInfo {
 }
 
 body > #selectedElementLabelContainer > div > textarea#mainTextEditor2,
-body > #selectedElementLabelContainer > div > textarea#mainBlueprintTextEditor2 {
+body
+  > #selectedElementLabelContainer
+  > div
+  > textarea#mainBlueprintTextEditor2 {
   width: 400px;
   height: 100px;
 }
