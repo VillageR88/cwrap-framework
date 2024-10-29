@@ -1230,7 +1230,7 @@ export const eventHandlers = () => {
 						(style) =>
 							style.split(":")[0].trim() !== blueprintPropertySelectValue,
 					)
-					.join(";");
+					.join(";").trim();
 				targetElement.style = updatedStyles;
 
 				// Apply the style changes to the view
