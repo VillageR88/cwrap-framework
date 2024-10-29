@@ -1134,6 +1134,52 @@ export const eventHandlers = () => {
 		global.id.mainBlueprintStyleSelector2.style.display = "none";
 	});
 
+	global.id.updateBlueprintProperty.addEventListener("click", () => {
+		const blueprintMap = global.map.blueprintMap;
+		const selector = getElementFromPath().timeStamp;
+		const currentMap = blueprintMap.get(selector);
+		const blueprintSelectValue = global.id.blueprintSelect.value;
+	
+		const targetElement = getTargetElement(currentMap, blueprintSelectValue);
+	
+		const blueprintPropertySelect = global.id.blueprintPropertySelect;
+		const blueprintPropertySelectValue = blueprintPropertySelect.value;
+		const blueprintPropertyInput = global.id.propertyBlueprintInput;
+		const propertyValue = blueprintPropertyInput.value;
+	
+		if (targetElement) {
+			const styles = targetElement.style.split(";");
+			const updatedStyles = styles
+				.map((style) => {
+					const [property] = style.split(":");
+					if (property.trim() === blueprintPropertySelectValue.trim()) {
+						return `${property.trim()}: ${propertyValue.trim()}`;
+					}
+					return style;
+				})
+				.join(";");
+			targetElement.style = updatedStyles;
+	
+			// Apply the style changes to the view
+			const validSelector = blueprintSelectValue.replace(/ > /g, " ").replace(/:nth-of-type\(\d+\)/g, "");
+			const elementInView = document.querySelector(validSelector);
+			if (elementInView) {
+				elementInView.style[blueprintPropertySelectValue.trim()] = propertyValue.trim();
+			}
+	
+			// Rebuild the blueprint element
+			reloadBlueprint();
+			const selectedValue = global.id.elementSelect.value;
+			const firstChildrenTag =
+				getElementFromPath(selectedValue).childNodes[0].tagName.toLowerCase();
+			removeStyle(`${selectedValue} > ${firstChildrenTag}`);
+			rebuildStyleFromBlueprint();
+			applyStyles();
+		}
+	
+		populateBlueprintStyleOptionsValue();
+	});
+
 	global.id.openState.addEventListener("click", () => {
 		global.id.mainStyleSelector.style.display = "none";
 		global.id.mainStyleSelector2.style.display = "none";
