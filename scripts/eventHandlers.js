@@ -989,7 +989,6 @@ export const eventHandlers = () => {
 		global.id.mainBlueprintAttributeAdd.style.display = "none";
 		console.log("Navigated back to main blueprint attribute selector");
 		reloadBlueprint();
-		console.log("Blueprint reloaded");
 	});
 
 	
@@ -1000,9 +999,6 @@ export const eventHandlers = () => {
 		global.id.mainBlueprintSelector.style.display = "none";
 		global.id.mainBlueprintStyleSelector.style.display = "flex";
 		global.id.mainBlueprintStyleSelector2.style.display = "flex";
-
-		
-
 		populateBlueprintStyleOptions();
 		populateBlueprintStyleOptionsValue();
 	});
@@ -1212,6 +1208,9 @@ export const eventHandlers = () => {
 		global.id.mainBlueprintStyleAdd.style.display = "none";
 		console.log("Navigated back to previous view");
 		//now should populate the property select
+		populateBlueprintStyleOptions();
+		//populateBlueprintStyleOptionsValue();
+		global.id.blueprintPropertySelect.value = selectedProperty;
 	});
 
 	global.id.openState.addEventListener("click", () => {
