@@ -1764,12 +1764,64 @@ global.id.mainClassroomSelectorSelectType.addEventListener("change", () => {
 	populateClassroomSelectName();
 });
 
+function populateClassroomStyleOptions() {
+    const classroomMap = global.map.classroomMap;
+    console.log("Classroom Map:", classroomMap);
+
+    const classroomStyleSelect = global.id.classroomPropertySelect;
+    classroomStyleSelect.innerHTML = "";
+
+    for (const [key, value] of classroomMap.entries()) {
+        if (value && typeof value.style === 'string') {
+            const styleArray = value.style.split(';').map(style => style.trim()).filter(Boolean);
+			for (const style of styleArray) {
+				const styleProperty = style.split(':')[0].trim();
+				if (![...classroomStyleSelect.options].some(option => option.value === styleProperty)) {
+					const opt = document.createElement("option");
+					opt.value = styleProperty;
+					opt.textContent = styleProperty;
+					classroomStyleSelect.appendChild(opt);
+					console.log(`Added style option: ${styleProperty}`);
+				}
+			}
+        }
+    }
+}
+
+function populateClassroomStyleOptionsValue() {
+    const classroomMap = global.map.classroomMap;
+    console.log("Classroom Map:", classroomMap);
+
+    const classroomStyleSelect = global.id.classroomPropertySelect.value;
+    console.log("Selected Classroom Style:", classroomStyleSelect);
+
+    const classroomStyleValueSelect = global.id.classroomPropertyInput;
+    classroomStyleValueSelect.innerHTML = "";
+
+    for (const [key, value] of classroomMap.entries()) {
+        if (value && typeof value.style === 'string') {
+            const styleArray = value.style.split(';').map(style => style.trim()).filter(Boolean);
+			for (const style of styleArray) {
+				const [property, propertyValue] = style.split(':').map(s => s.trim());
+				if (property === classroomStyleSelect) {
+					const opt = document.createElement("option");
+					opt.value = propertyValue;
+					opt.textContent = propertyValue;
+					classroomStyleValueSelect.appendChild(opt);
+					console.log(`Added style value: ${propertyValue}`);
+					classroomStyleValueSelect.value = propertyValue;
+				}
+			}
+        }
+    }
+}
+
 global.id.mainClassroomSelectorEditStyle.addEventListener("click", () => {
 	global.id.mainClassroomSelector.style.display = "none";
 	global.id.mainClassroomStyleSelector.style.display = "flex";
 	global.id.mainClassroomStyleSelector2.style.display = "flex";
-	// populateClassroomStyleOptions();
-	// populateClassroomStyleOptionsValue();
+	populateClassroomStyleOptions();
+	populateClassroomStyleOptionsValue();
 });
 
 global.id.mainClassroomStyleSelectorBack.addEventListener("click", () => {

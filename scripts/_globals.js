@@ -30,6 +30,8 @@ const global = {
 		),
 		blueprintPropertySelect: document.getElementById("blueprintPropertySelect"),
 		blueprintSelect: document.getElementById("blueprintSelect"),
+		classroomPropertySelect: document.getElementById("classroomPropertySelect"),
+		classroomPropertyInput: document.getElementById("classroomPropertyInput"),
 		closeAddElement: document.getElementById("closeAddElement"),
 		closeAddScreen: document.getElementById("closeAddScreen"),
 		closeAddState: document.getElementById("closeAddState"),
