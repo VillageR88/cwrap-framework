@@ -895,6 +895,7 @@ export const eventHandlers = () => {
 		targetElement.attributes[blueprintAttributeSelectValue] = attributeValue;
 
 		populateBlueprintAttributeOptionsValue(targetElement);
+		reloadBlueprint();
 		//update 
 	});
 
