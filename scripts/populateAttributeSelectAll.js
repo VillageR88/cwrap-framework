@@ -1,7 +1,15 @@
 import getHtmlAttributes from "./getHtmlAttributes.js";
 
-export default function populateAttributeSelectAll() {
-	const attributeSelectAll = global.id.attributeSelectAll;
+/**
+ * Populates the attribute select all dropdown with all the attributes of the HTML elements.
+ * @param {boolean} areBlueprintAttributes - If the attributes are blueprint attributes.
+ */
+export default function populateAttributeSelectAll(
+	areBlueprintAttributes = false,
+) {
+	const attributeSelectAll = areBlueprintAttributes
+		? global.id.blueprintAttributeSelectAll
+		: global.id.attributeSelectAll;
 	attributeSelectAll.innerHTML = "";
 	const htmlAttributes = getHtmlAttributes();
 	for (const attribute of htmlAttributes) {

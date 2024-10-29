@@ -11,7 +11,6 @@ export default function populateAttributeOptions() {
 	const elements = [doc.body, ...doc.body.querySelectorAll("*")];
 	for (const element of elements) {
 		const selector = getFullSelector(element);
-		console.log(selector);
 		const attributes = getAttributes(element);
 
 		if (!selectorMap.has(selector)) {

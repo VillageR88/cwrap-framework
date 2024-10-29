@@ -20,7 +20,12 @@ const global = {
 		blueprintAttributeSelect: document.getElementById(
 			"blueprintAttributeSelect",
 		),
-		blueprintRemoveAttribute: document.getElementById("blueprintRemoveAttribute"),
+		blueprintRemoveAttribute: document.getElementById(
+			"blueprintRemoveAttribute",
+		),
+		blueprintAttributeSelectAll: document.getElementById(
+			"blueprintAttributeSelectAll",
+		),
 		blueprintSelect: document.getElementById("blueprintSelect"),
 		closeAddElement: document.getElementById("closeAddElement"),
 		closeAddScreen: document.getElementById("closeAddScreen"),
@@ -59,6 +64,9 @@ const global = {
 		mainAttributeSelector2: document.getElementById("mainAttributeSelector2"),
 		mainAttributeSelectorBack: document.getElementById(
 			"mainAttributeSelectorBack",
+		),
+		mainBlueprintAttributeAdd: document.getElementById(
+			"mainBlueprintAttributeAdd",
 		),
 		mainBlueprintAttributeSelector: document.getElementById(
 			"mainBlueprintAttributeSelector",
@@ -177,6 +185,9 @@ const global = {
 		openAddScreen: document.getElementById("openAddScreen"),
 		openAddState: document.getElementById("openAddState"),
 		openAddStateProperty: document.getElementById("openAddStateProperty"),
+		openBlueprintAddAttribute: document.getElementById(
+			"openBlueprintAddAttribute",
+		),
 		openState: document.getElementById("openState"),
 		addState: document.getElementById("addState"),
 		mainStateSelectorBack: document.getElementById("mainStateSelectorBack"),
@@ -230,7 +241,9 @@ const global = {
 		styleRow: document.getElementById("styleRow"),
 		themesTree: document.getElementById("themesTree"),
 		updateAttribute: document.getElementById("updateAttribute"),
-		updateBlueprintAttribute: document.getElementById("updateBlueprintAttribute"),
+		updateBlueprintAttribute: document.getElementById(
+			"updateBlueprintAttribute",
+		),
 		updateProperty: document.getElementById("updateProperty"),
 		updateStateProperty: document.getElementById("updateStateProperty"),
 		updateText: document.getElementById("updateText"),

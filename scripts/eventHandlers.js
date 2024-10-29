@@ -823,7 +823,7 @@ export const eventHandlers = () => {
 		const blueprintAttributeSelectValue =
 			global.id.blueprintAttributeSelect.value;
 		const attributeValue =
-			targetElement.attributes[blueprintAttributeSelectValue];
+		blueprintAttributeSelectValue ? targetElement.attributes[blueprintAttributeSelectValue] : "";
 		global.id.blueprintAttributeInput.value = attributeValue || "";
 	}
 
@@ -927,6 +927,13 @@ export const eventHandlers = () => {
 		populateBlueprintAttributeOptions(targetElement);
 		populateBlueprintAttributeOptionsValue(targetElement);
 		reloadBlueprint();
+	});
+
+	global.id.openBlueprintAddAttribute.addEventListener("click", () => {
+		global.id.mainBlueprintSelector.style.display = "none";
+		global.id.mainBlueprintAttributeSelector.style.display = "none";
+		global.id.mainBlueprintAttributeAdd.style.display = "flex";
+		populateAttributeSelectAll(true);
 	});
 
 	global.id.openState.addEventListener("click", () => {
