@@ -111,6 +111,7 @@ const global = {
 			"mainBlueprintSelectorEditText",
 		),
 		mainBlueprintStyleSelector: document.getElementById("mainBlueprintStyleSelector"),
+		mainBlueprintStyleSelectorBack: document.getElementById("mainBlueprintStyleSelectorBack"),
 		mainBlueprintStyleSelector2: document.getElementById("mainBlueprintStyleSelector2"),
 		mainBlueprintTextEditor: document.getElementById("mainBlueprintTextEditor"),
 		mainBlueprintTextEditorBack: document.getElementById(

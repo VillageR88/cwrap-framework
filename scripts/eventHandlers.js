@@ -1046,10 +1046,7 @@ export const eventHandlers = () => {
 				selectedBlueprintElementTrimmed,
 			);
 
-			if (
-				targetElement?.style &&
-				typeof targetElement.style === "string"
-			) {
+			if (targetElement?.style && typeof targetElement.style === "string") {
 				const styles = targetElement.style.split(";");
 				for (const style of styles) {
 					const [property] = style.split(":");
@@ -1062,6 +1059,12 @@ export const eventHandlers = () => {
 		}
 
 		populateBlueprintStyleOptions();
+	});
+
+	global.id.mainBlueprintStyleSelectorBack.addEventListener("click", () => {
+		global.id.mainBlueprintSelector.style.display = "flex";
+		global.id.mainBlueprintStyleSelector.style.display = "none";
+		global.id.mainBlueprintStyleSelector2.style.display = "none";
 	});
 
 	global.id.openState.addEventListener("click", () => {
