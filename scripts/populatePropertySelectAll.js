@@ -8,7 +8,7 @@
  * @param {boolean} isState - The boolean indicating whether the state property select element
  * @todo applied styles are wrongly checked for state properties
  */
-export default function populatePropertySelectAll(cssProperties, isState) {
+export default function populatePropertySelectAll(cssProperties, isState = false) {
 	const cssMap = global.map.cssMap;
 	const mediaQueriesMap = global.map.mediaQueriesMap;
 	const fullPath = global.id.elementSelect.value;

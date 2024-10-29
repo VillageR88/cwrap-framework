@@ -110,6 +110,7 @@ const global = {
 		mainBlueprintSelectorEditText: document.getElementById(
 			"mainBlueprintSelectorEditText",
 		),
+		mainBlueprintStyleAdd: document.getElementById("mainBlueprintStyleAdd"),
 		mainBlueprintStyleSelector: document.getElementById("mainBlueprintStyleSelector"),
 		mainBlueprintStyleSelectorBack: document.getElementById("mainBlueprintStyleSelectorBack"),
 		mainBlueprintStyleSelector2: document.getElementById("mainBlueprintStyleSelector2"),
@@ -195,6 +196,7 @@ const global = {
 		openBlueprintAddAttribute: document.getElementById(
 			"openBlueprintAddAttribute",
 		),
+		openBlueprintAddProperty: document.getElementById("openBlueprintAddProperty"),
 		openState: document.getElementById("openState"),
 		addState: document.getElementById("addState"),
 		mainStateSelectorBack: document.getElementById("mainStateSelectorBack"),
@@ -210,6 +212,7 @@ const global = {
 		preview: document.getElementById("preview"),
 		previewTree: document.getElementById("previewTree"),
 		propertyBlueprintInput: document.getElementById("propertyBlueprintInput"),
+		propertyBlueprintSelectAll: document.getElementById("propertyBlueprintSelectAll"),
 		propertyInput: document.getElementById("propertyInput"),
 		propertySelect: document.getElementById("propertySelect"),
 		propertySelectAll: document.getElementById("propertySelectAll"),

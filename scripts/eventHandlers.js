@@ -1140,14 +1140,14 @@ export const eventHandlers = () => {
 		const selector = getElementFromPath().timeStamp;
 		const currentMap = blueprintMap.get(selector);
 		const blueprintSelectValue = global.id.blueprintSelect.value;
-	
+
 		const targetElement = getTargetElement(currentMap, blueprintSelectValue);
-	
+
 		const blueprintPropertySelect = global.id.blueprintPropertySelect;
 		const blueprintPropertySelectValue = blueprintPropertySelect.value;
 		const blueprintPropertyInput = global.id.propertyBlueprintInput;
 		const propertyValue = blueprintPropertyInput.value;
-	
+
 		if (targetElement) {
 			const styles = targetElement.style.split(";");
 			const updatedStyles = styles
@@ -1160,14 +1160,17 @@ export const eventHandlers = () => {
 				})
 				.join(";");
 			targetElement.style = updatedStyles;
-	
+
 			// Apply the style changes to the view
-			const validSelector = blueprintSelectValue.replace(/ > /g, " ").replace(/:nth-of-type\(\d+\)/g, "");
+			const validSelector = blueprintSelectValue
+				.replace(/ > /g, " ")
+				.replace(/:nth-of-type\(\d+\)/g, "");
 			const elementInView = document.querySelector(validSelector);
 			if (elementInView) {
-				elementInView.style[blueprintPropertySelectValue.trim()] = propertyValue.trim();
+				elementInView.style[blueprintPropertySelectValue.trim()] =
+					propertyValue.trim();
 			}
-	
+
 			// Rebuild the blueprint element
 			reloadBlueprint();
 			const selectedValue = global.id.elementSelect.value;
@@ -1177,8 +1180,83 @@ export const eventHandlers = () => {
 			rebuildStyleFromBlueprint();
 			applyStyles();
 		}
-	
+
 		populateBlueprintStyleOptionsValue();
+	});
+
+	function populateBlueprintPropertySelectAll(cssProperties) {
+		const blueprintMap = global.map.blueprintMap;
+		const selector = getElementFromPath().timeStamp;
+		const currentMap = blueprintMap.get(selector);
+		const selectedBlueprintElement = global.id.blueprintSelect.value;
+		const selectedBlueprintElementTrimmed = selectedBlueprintElement
+			.replace(">", "")
+			.trim();
+
+		function getTargetElement(map, elementPath) {
+			const pathParts = elementPath.split(" > ");
+			let currentElement = map;
+
+			for (const part of pathParts) {
+				const [elementName, nthOfType] = part.split(":nth-of-type(");
+				const index = nthOfType
+					? Number.parseInt(nthOfType.replace(")", ""), 10) - 1
+					: 0;
+
+				if (currentElement.element === elementName) {
+					if (index === 0) {
+						continue;
+					}
+				}
+
+				if (currentElement.children && Array.isArray(currentElement.children)) {
+					const matchingChildren = currentElement.children.filter(
+						(child) => child.element === elementName,
+					);
+					if (matchingChildren.length > index) {
+						currentElement = matchingChildren[index];
+					} else {
+						return null;
+					}
+				} else {
+					return null;
+				}
+			}
+
+			return currentElement;
+		}
+
+		const targetElement = getTargetElement(
+			currentMap,
+			selectedBlueprintElementTrimmed,
+		);
+
+		const appliedProperties = targetElement?.style
+			? targetElement.style
+					.split(";")
+					.filter(Boolean)
+					.map((prop) => prop.split(":")[0].trim())
+			: [];
+
+		const blueprintPropertySelectAll = global.id.propertyBlueprintSelectAll;
+		blueprintPropertySelectAll.innerHTML = "";
+
+		for (const property of cssProperties) {
+			if (!appliedProperties.includes(property)) {
+				const option = document.createElement("option");
+				option.value = property;
+				option.textContent = property;
+				blueprintPropertySelectAll.appendChild(option);
+			}
+		}
+	}
+
+	global.id.openBlueprintAddProperty.addEventListener("click", () => {
+		global.id.mainBlueprintStyleSelector.style.display = "none";
+		global.id.mainBlueprintStyleSelector2.style.display = "none";
+		global.id.mainBlueprintStyleAdd.style.display = "flex";
+
+		populateBlueprintPropertySelectAll(cssProperties);
 	});
 
 	global.id.openState.addEventListener("click", () => {
