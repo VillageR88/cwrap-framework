@@ -898,6 +898,7 @@ export const eventHandlers = () => {
 			targetElement.attributes[blueprintAttributeSelectValue] = attributeValue;
 		}
 		populateBlueprintAttributeOptionsValue(targetElement);
+		reloadBlueprint();
 	});
 
 	global.id.mainStyleSelectorBack.addEventListener("click", () => {
