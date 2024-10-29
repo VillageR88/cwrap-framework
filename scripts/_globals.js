@@ -16,7 +16,10 @@ const global = {
 		attributeInput: document.getElementById("attributeInput"),
 		attributeSelect: document.getElementById("attributeSelect"),
 		attributeSelectAll: document.getElementById("attributeSelectAll"),
-		blueprintAttributeSelect: document.getElementById("blueprintAttributeSelect"),
+		blueprintAttributeInput: document.getElementById("blueprintAttributeInput"),
+		blueprintAttributeSelect: document.getElementById(
+			"blueprintAttributeSelect",
+		),
 		blueprintSelect: document.getElementById("blueprintSelect"),
 		closeAddElement: document.getElementById("closeAddElement"),
 		closeAddScreen: document.getElementById("closeAddScreen"),
@@ -56,28 +59,62 @@ const global = {
 		mainAttributeSelectorBack: document.getElementById(
 			"mainAttributeSelectorBack",
 		),
-		mainBlueprintAttributeSelector: document.getElementById("mainBlueprintAttributeSelector"),
-		mainBlueprintAttributeSelector2: document.getElementById("mainBlueprintAttributeSelector2"),
-		mainBlueprintAttributeSelectorBack: document.getElementById("mainBlueprintAttributeSelectorBack"),
+		mainBlueprintAttributeSelector: document.getElementById(
+			"mainBlueprintAttributeSelector",
+		),
+		mainBlueprintAttributeSelector2: document.getElementById(
+			"mainBlueprintAttributeSelector2",
+		),
+		mainBlueprintAttributeSelectorBack: document.getElementById(
+			"mainBlueprintAttributeSelectorBack",
+		),
 		mainBlueprintCounter: document.getElementById("mainBlueprintCounter"),
-		mainBlueprintCounterBack: document.getElementById("mainBlueprintCounterBack"),
-		mainBlueprintCounterInput: document.getElementById("mainBlueprintCounterInput"),
-		mainBlueprintCounterUpdate: document.getElementById("mainBlueprintCounterUpdate"),
+		mainBlueprintCounterBack: document.getElementById(
+			"mainBlueprintCounterBack",
+		),
+		mainBlueprintCounterInput: document.getElementById(
+			"mainBlueprintCounterInput",
+		),
+		mainBlueprintCounterUpdate: document.getElementById(
+			"mainBlueprintCounterUpdate",
+		),
 		mainBlueprintSelector: document.getElementById("mainBlueprintSelector"),
-		mainBlueprintSelectorAdd: document.getElementById("mainBlueprintSelectorAdd"),
-		mainBlueprintSelectorAttributes: document.getElementById("mainBlueprintSelectorAttributes"),
-		mainBlueprintSelectorBack: document.getElementById("mainBlueprintSelectorBack"),
-		mainBlueprintSelectorCounter: document.getElementById("mainBlueprintSelectorCounter"),
-		mainBlueprintSelectorDelete: document.getElementById("mainBlueprintSelectorDelete"),
-		mainBlueprintSelectorEditText: document.getElementById("mainBlueprintSelectorEditText"),
+		mainBlueprintSelectorAdd: document.getElementById(
+			"mainBlueprintSelectorAdd",
+		),
+		mainBlueprintSelectorAttributes: document.getElementById(
+			"mainBlueprintSelectorAttributes",
+		),
+		mainBlueprintSelectorBack: document.getElementById(
+			"mainBlueprintSelectorBack",
+		),
+		mainBlueprintSelectorCounter: document.getElementById(
+			"mainBlueprintSelectorCounter",
+		),
+		mainBlueprintSelectorDelete: document.getElementById(
+			"mainBlueprintSelectorDelete",
+		),
+		mainBlueprintSelectorEditText: document.getElementById(
+			"mainBlueprintSelectorEditText",
+		),
 		mainBlueprintTextEditor: document.getElementById("mainBlueprintTextEditor"),
-		mainBlueprintTextEditorBack: document.getElementById("mainBlueprintTextEditorBack"),
-		mainBlueprintTextEditorUpdateBlueprintText: document.getElementById("mainBlueprintTextEditorUpdateBlueprintText"),
-		mainBlueprintTextEditor2: document.getElementById("mainBlueprintTextEditor2"),
+		mainBlueprintTextEditorBack: document.getElementById(
+			"mainBlueprintTextEditorBack",
+		),
+		mainBlueprintTextEditorUpdateBlueprintText: document.getElementById(
+			"mainBlueprintTextEditorUpdateBlueprintText",
+		),
+		mainBlueprintTextEditor2: document.getElementById(
+			"mainBlueprintTextEditor2",
+		),
 		mainBody: document.getElementById("mainBody"),
 		mainClassroomSelector: document.getElementById("mainClassroomSelector"),
-		mainClassroomSelectorSelectName: document.getElementById("mainClassroomSelectorSelectName"),
-		mainClassroomSelectorSelectType: document.getElementById("mainClassroomSelectorSelectType"),
+		mainClassroomSelectorSelectName: document.getElementById(
+			"mainClassroomSelectorSelectName",
+		),
+		mainClassroomSelectorSelectType: document.getElementById(
+			"mainClassroomSelectorSelectType",
+		),
 		mainElementAdd: document.getElementById("mainElementAdd"),
 		mainInitialSelector: document.getElementById("mainInitialSelector"),
 		mainStateStyleAdd: document.getElementById("mainStateStyleAdd"),

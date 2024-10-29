@@ -807,6 +807,12 @@ export const eventHandlers = () => {
 		}
 	});
 
+	function populateBlueprintAttributeOptionsValue(targetElement) {
+		const blueprintAttributeSelectValue = global.id.blueprintAttributeSelect.value;
+		const attributeValue = blueprintAttributeSelectValue ? targetElement.attributes[blueprintAttributeSelectValue] : "";
+		global.id.blueprintAttributeInput.value = attributeValue || "";
+	}
+	
 	global.id.mainBlueprintSelectorAttributes.addEventListener("click", () => {
 		global.id.mainBlueprintSelector.style.display = "none";
 		global.id.mainBlueprintAttributeSelector.style.display = "flex";
@@ -818,7 +824,7 @@ export const eventHandlers = () => {
 		const blueprintSelectValueTrimmed = blueprintSelectValue.replace(">", "");
 		const blueprintSelectorsArray = blueprintSelectValueTrimmed.split(">");
 		const searchedArray = [];
-
+	
 		for (const i in blueprintSelectorsArray) {
 			console.log(blueprintSelectorsArray.length);
 			const trimmedElement = blueprintSelectorsArray[i].trim();
@@ -828,7 +834,7 @@ export const eventHandlers = () => {
 			else searchedArray.push(`[${counter - 1}]`);
 		}
 		console.log("searchedArray", searchedArray);
-
+	
 		let targetElement = currentMap;
 		try {
 			for (let j = 0; j < searchedArray.length - 1; j++) {
@@ -843,7 +849,7 @@ export const eventHandlers = () => {
 			console.error("Error navigating path:", error);
 		}
 		console.log("Final Target Element:", targetElement);
-
+	
 		const blueprintAttributeSelect = global.id.blueprintAttributeSelect;
 		blueprintAttributeSelect.innerHTML = "";
 		if (targetElement?.attributes) {
@@ -852,13 +858,49 @@ export const eventHandlers = () => {
 				blueprintAttributeSelect.appendChild(newOption);
 			}
 		}
+	
+		populateBlueprintAttributeOptionsValue(targetElement);
 	});
-
+	
+	global.id.blueprintAttributeSelect.addEventListener("change", () => {
+		console.log("blueprintAttributeSelect change event"); // debugging
+		const blueprintMap = global.map.blueprintMap;
+		const selector = getElementFromPath().timeStamp;
+		const currentMap = blueprintMap.get(selector);
+		const blueprintSelectValue = global.id.blueprintSelect.value;
+		const blueprintSelectValueTrimmed = blueprintSelectValue.replace(">", "");
+		const blueprintSelectorsArray = blueprintSelectValueTrimmed.split(">");
+		const searchedArray = [];
+	
+		for (const i in blueprintSelectorsArray) {
+			const trimmedElement = blueprintSelectorsArray[i].trim();
+			const counter = trimmedElement.match(/(?<=nth-of-type\()\d+/) ?? 1;
+			if (Number(i) + 1 !== blueprintSelectorsArray.length)
+				searchedArray.push(`children[${counter - 1}]`);
+			else searchedArray.push(`[${counter - 1}]`);
+		}
+	
+		let targetElement = currentMap;
+		try {
+			for (let j = 0; j < searchedArray.length - 1; j++) {
+				const path = searchedArray[j];
+				targetElement = targetElement.children
+					? targetElement.children[Number.parseInt(path.match(/\d+/)[0])]
+					: targetElement[Number.parseInt(path.match(/\d+/)[0])];
+			}
+		} catch (error) {
+			console.error("Error navigating path:", error);
+		}
+	
+		populateBlueprintAttributeOptionsValue(targetElement);
+	});
+	
 	global.id.mainStyleSelectorBack.addEventListener("click", () => {
 		global.id.mainInitialSelector.style.display = "flex";
 		global.id.mainStyleSelector.style.display = "none";
 		global.id.mainStyleSelector2.style.display = "none";
 	});
+	
 	global.id.mainAttributeSelectorBack.addEventListener("click", () => {
 		global.id.mainInitialSelector.style.display = "flex";
 		global.id.mainAttributeSelector.style.display = "none";
