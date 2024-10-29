@@ -105,9 +105,12 @@ const global = {
 		mainBlueprintSelectorDelete: document.getElementById(
 			"mainBlueprintSelectorDelete",
 		),
+		mainBlueprintSelectorEditStyle: document.getElementById("mainBlueprintSelectorEditStyle"),
 		mainBlueprintSelectorEditText: document.getElementById(
 			"mainBlueprintSelectorEditText",
 		),
+		mainBlueprintStyleSelector: document.getElementById("mainBlueprintStyleSelector"),
+		mainBlueprintStyleSelector2: document.getElementById("mainBlueprintStyleSelector2"),
 		mainBlueprintTextEditor: document.getElementById("mainBlueprintTextEditor"),
 		mainBlueprintTextEditorBack: document.getElementById(
 			"mainBlueprintTextEditorBack",

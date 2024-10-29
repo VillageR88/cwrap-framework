@@ -989,6 +989,12 @@ export const eventHandlers = () => {
 		console.log("Blueprint reloaded");
 	});
 
+	global.id.mainBlueprintSelectorEditStyle.addEventListener("click", () => {
+		global.id.mainBlueprintSelector.style.display = "none";
+		global.id.mainBlueprintStyleSelector.style.display = "flex";
+		global.id.mainBlueprintStyleSelector2.style.display = "flex";
+	});
+
 	global.id.openState.addEventListener("click", () => {
 		global.id.mainStyleSelector.style.display = "none";
 		global.id.mainStyleSelector2.style.display = "none";
