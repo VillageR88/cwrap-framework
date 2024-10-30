@@ -1744,13 +1744,23 @@ export const eventHandlers = () => {
 		populateClassroomSelectName();
 	});
 
+	global.id.mainClassroomSelectorEditStyle.addEventListener("click", () => {
+		global.id.mainClassroomSelector.style.display = "none";
+		global.id.mainClassroomStyleSelector.style.display = "flex";
+		global.id.mainClassroomStyleSelector2.style.display = "flex";
+		populateClassroomStyleOptions();
+		populateClassroomStyleOptionsValue();
+	});
+
 	function populateClassroomStyleOptions(valueToSet) {
 		const classroomMap = global.map.classroomMap;
 		const classroomStyleSelect = global.id.classroomPropertySelect;
 		classroomStyleSelect.innerHTML = "";
 		const navAdditionalScreen = global.id.navAdditionalScreen;
+		const selectedType = global.id.mainClassroomSelectorSelectType.value;
+		const selectedName = global.id.mainClassroomSelectorSelectName.value;
 		let currentScreen;
-
+	
 		if (navAdditionalScreen.classList.contains("screenDesktop")) {
 			currentScreen = "screenDesktop";
 		} else if (navAdditionalScreen.classList.contains("screenTablet")) {
@@ -1758,23 +1768,25 @@ export const eventHandlers = () => {
 		} else if (navAdditionalScreen.classList.contains("screenMobile")) {
 			currentScreen = "screenMobile";
 		}
-
+	
 		console.log("Current Screen:", currentScreen);
-
+		console.log("Selected Type:", selectedType);
+		console.log("Selected Name:", selectedName);
+	
 		for (const [key, value] of classroomMap.entries()) {
+			if (value.type !== selectedType || value.name !== selectedName) {
+				continue;
+			}
+	
 			console.log("Processing classroom:", key, value);
-
-			if (
-				currentScreen === "screenDesktop" &&
-				value &&
-				typeof value.style === "string"
-			) {
+	
+			if (currentScreen === "screenDesktop" && value && typeof value.style === "string") {
 				const styleArray = value.style
 					.split(";")
 					.map((style) => style.trim())
 					.filter(Boolean);
 				console.log("Style Array:", styleArray);
-
+	
 				for (const style of styleArray) {
 					const styleProperty = style.split(":")[0].trim();
 					if (
@@ -1789,34 +1801,21 @@ export const eventHandlers = () => {
 					}
 				}
 			}
-
-			if (
-				(currentScreen === "screenTablet" ||
-					currentScreen === "screenMobile") &&
-				value.mediaQueries
-			) {
-				console.log(
-					"Processing media queries for classroom:",
-					key,
-					value.mediaQueries,
-				);
-
+	
+			if ((currentScreen === "screenTablet" || currentScreen === "screenMobile") && value.mediaQueries) {
+				console.log("Processing media queries for classroom:", key, value.mediaQueries);
+	
 				for (const mediaQuery of value.mediaQueries) {
 					console.log("Processing media query:", mediaQuery);
-
+	
 					const maxWidth = mediaQuery.query.trim();
-					if (
-						(currentScreen === "screenTablet" &&
-							maxWidth === "max-width: 768px") ||
-						(currentScreen === "screenMobile" &&
-							maxWidth === "max-width: 640px")
-					) {
+					if ((currentScreen === "screenTablet" && maxWidth === "max-width: 768px") || (currentScreen === "screenMobile" && maxWidth === "max-width: 640px")) {
 						const styleArray = mediaQuery.style
 							.split(";")
 							.map((style) => style.trim())
 							.filter(Boolean);
 						console.log("Media Query Style Array:", styleArray);
-
+	
 						for (const style of styleArray) {
 							const styleProperty = style.split(":")[0].trim();
 							if (
@@ -1833,7 +1832,7 @@ export const eventHandlers = () => {
 					}
 				}
 			}
-
+	
 			if (valueToSet) {
 				classroomStyleSelect.value = valueToSet;
 			}
@@ -1939,13 +1938,7 @@ export const eventHandlers = () => {
 		}
 	}
 
-	global.id.mainClassroomSelectorEditStyle.addEventListener("click", () => {
-		global.id.mainClassroomSelector.style.display = "none";
-		global.id.mainClassroomStyleSelector.style.display = "flex";
-		global.id.mainClassroomStyleSelector2.style.display = "flex";
-		populateClassroomStyleOptions();
-		populateClassroomStyleOptionsValue();
-	});
+
 
 	global.id.mainClassroomSelectorDelete.addEventListener("click", () => {});
 
