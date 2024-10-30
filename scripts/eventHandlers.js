@@ -1973,6 +1973,10 @@ export const eventHandlers = () => {
 		isValidCSSClassName();
 	});
 
+	global.id.mainAddClassroomSelectorInputName.addEventListener("input", () => {
+		isValidCSSClassName();
+	});
+
 	global.id.mainAddClassroomSelectorBack.addEventListener("click", () => {
 		global.id.mainClassroomSelector.style.display = "flex";
 		global.id.mainAddClassroomSelector.style.display = "none";
@@ -2016,8 +2020,8 @@ export const eventHandlers = () => {
 
 		classroomMap.set(key, newClassroom);
 
-		populateClassroomSelectType();
-		populateClassroomSelectName(key);
+		populateClassroomSelectType(selectedType);
+		populateClassroomSelectName(selectedName);
 
 		global.id.mainClassroomSelector.style.display = "flex";
 		global.id.mainAddClassroomSelector.style.display = "none";

@@ -1,4 +1,4 @@
-export default function populateClassroomSelectType() {
+export default function populateClassroomSelectType(selectedType = "") {
 	const classroomMap = global.map.classroomMap;
 	const mainClassroomSelectorSelectType =
 		global.id.mainClassroomSelectorSelectType;
@@ -14,6 +14,9 @@ export default function populateClassroomSelectType() {
 		option.value = type;
 		option.textContent = type;
 		mainClassroomSelectorSelectType.appendChild(option);
+	}
+	if (selectedType) {
+		mainClassroomSelectorSelectType.value = selectedType;
 	}
 }
 
