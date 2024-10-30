@@ -1765,18 +1765,25 @@ global.id.mainClassroomSelectorSelectType.addEventListener("change", () => {
 });
 
 function populateClassroomStyleOptions() {
-    const classroomMap = global.map.classroomMap;
-    console.log("Classroom Map:", classroomMap);
+	const classroomMap = global.map.classroomMap;
+	console.log("Classroom Map:", classroomMap);
 
-    const classroomStyleSelect = global.id.classroomPropertySelect;
-    classroomStyleSelect.innerHTML = "";
+	const classroomStyleSelect = global.id.classroomPropertySelect;
+	classroomStyleSelect.innerHTML = "";
 
-    for (const [key, value] of classroomMap.entries()) {
-        if (value && typeof value.style === 'string') {
-            const styleArray = value.style.split(';').map(style => style.trim()).filter(Boolean);
+	for (const [key, value] of classroomMap.entries()) {
+		if (value && typeof value.style === "string") {
+			const styleArray = value.style
+				.split(";")
+				.map((style) => style.trim())
+				.filter(Boolean);
 			for (const style of styleArray) {
-				const styleProperty = style.split(':')[0].trim();
-				if (![...classroomStyleSelect.options].some(option => option.value === styleProperty)) {
+				const styleProperty = style.split(":")[0].trim();
+				if (
+					![...classroomStyleSelect.options].some(
+						(option) => option.value === styleProperty,
+					)
+				) {
 					const opt = document.createElement("option");
 					opt.value = styleProperty;
 					opt.textContent = styleProperty;
@@ -1784,25 +1791,28 @@ function populateClassroomStyleOptions() {
 					console.log(`Added style option: ${styleProperty}`);
 				}
 			}
-        }
-    }
+		}
+	}
 }
 
 function populateClassroomStyleOptionsValue() {
-    const classroomMap = global.map.classroomMap;
-    console.log("Classroom Map:", classroomMap);
+	const classroomMap = global.map.classroomMap;
+	console.log("Classroom Map:", classroomMap);
 
-    const classroomStyleSelect = global.id.classroomPropertySelect.value;
-    console.log("Selected Classroom Style:", classroomStyleSelect);
+	const classroomStyleSelect = global.id.classroomPropertySelect.value;
+	console.log("Selected Classroom Style:", classroomStyleSelect);
 
-    const classroomStyleValueSelect = global.id.classroomPropertyInput;
-    classroomStyleValueSelect.innerHTML = "";
+	const classroomStyleValueSelect = global.id.classroomPropertyInput;
+	classroomStyleValueSelect.innerHTML = "";
 
-    for (const [key, value] of classroomMap.entries()) {
-        if (value && typeof value.style === 'string') {
-            const styleArray = value.style.split(';').map(style => style.trim()).filter(Boolean);
+	for (const [key, value] of classroomMap.entries()) {
+		if (value && typeof value.style === "string") {
+			const styleArray = value.style
+				.split(";")
+				.map((style) => style.trim())
+				.filter(Boolean);
 			for (const style of styleArray) {
-				const [property, propertyValue] = style.split(':').map(s => s.trim());
+				const [property, propertyValue] = style.split(":").map((s) => s.trim());
 				if (property === classroomStyleSelect) {
 					const opt = document.createElement("option");
 					opt.value = propertyValue;
@@ -1812,8 +1822,8 @@ function populateClassroomStyleOptionsValue() {
 					classroomStyleValueSelect.value = propertyValue;
 				}
 			}
-        }
-    }
+		}
+	}
 }
 
 global.id.mainClassroomSelectorEditStyle.addEventListener("click", () => {
@@ -1824,6 +1834,8 @@ global.id.mainClassroomSelectorEditStyle.addEventListener("click", () => {
 	populateClassroomStyleOptionsValue();
 });
 
+global.id.mainClassroomSelectorDelete.addEventListener("click", () => {});
+
 global.id.classroomPropertySelect.addEventListener("change", () => {
 	populateClassroomStyleOptionsValue();
 });
@@ -1832,6 +1844,16 @@ global.id.mainClassroomStyleSelectorBack.addEventListener("click", () => {
 	global.id.mainClassroomSelector.style.display = "flex";
 	global.id.mainClassroomStyleSelector.style.display = "none";
 	global.id.mainClassroomStyleSelector2.style.display = "none";
+});
+
+global.id.mainClassroomSelectorAdd.addEventListener("click", () => {
+	global.id.mainClassroomSelector.style.display = "none";
+	global.id.mainAddClassroomSelector.style.display = "flex";
+});
+
+global.id.mainAddClassroomSelectorBack.addEventListener("click", () => {
+	global.id.mainClassroomSelector.style.display = "flex";
+	global.id.mainAddClassroomSelector.style.display = "none";
 });
 
 global.id.navJavascript.addEventListener("click", () => {
