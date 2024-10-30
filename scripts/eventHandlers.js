@@ -56,6 +56,7 @@ import populateSelectBlueprintOptions from "./populateSelectBlueprintOptions.js"
 import reloadBlueprint from "./reloadBlueprint.js";
 import populateBlueprintStyleOptions from "./populateBlueprintStyleOptions.js";
 import populateBlueprintStyleOptionsValue from "./populateBlueprintStyleOptionsValue.js";
+import getCssProperties from "./getCssProperties.js";
 
 /**
  * Sets up the event handlers.
@@ -64,28 +65,6 @@ import populateBlueprintStyleOptionsValue from "./populateBlueprintStyleOptionsV
 export const eventHandlers = () => {
 	const cssProperties = getCssProperties();
 
-	function getCssProperties() {
-		// Create a dummy element to access the full list of possible CSS properties
-		const dummyElement = document.createElement("div");
-
-		// Access the style object, which contains all possible CSS properties
-		const allCSSProperties = dummyElement.style;
-
-		// Log all the CSS properties
-		const cssProperties = [];
-		for (const property in allCSSProperties) {
-			if (Object.prototype.hasOwnProperty.call(allCSSProperties, property)) {
-				// Convert camelCase to kebab-case
-				const kebabCaseProperty = camelCaseToKebabCase(property);
-				cssProperties.push(kebabCaseProperty);
-			}
-		}
-		return cssProperties;
-	}
-
-	function camelCaseToKebabCase(camelCase) {
-		return camelCase.replace(/[A-Z]/g, (match) => `-${match.toLowerCase()}`);
-	}
 	const headMap = global.map.headMap;
 	const rootMap = global.map.rootMap;
 	const fontMap = global.map.fontMap;
@@ -1657,520 +1636,602 @@ export const eventHandlers = () => {
 			populatePropertyValue(undefined, true);
 		}
 	});
-};
 
-global.id.navLvlRouteBack.addEventListener("click", () => {
-	global.id.mask.style.display = "flex";
-	global.id.popupBackend.style.display = "flex";
-	// window.history.replaceState(null, "", "/");
-	// loadMenuLevelView();
-	// loadRoutesView();
-	// populateRoutesView();
-});
+	global.id.navLvlRouteBack.addEventListener("click", () => {
+		global.id.mask.style.display = "flex";
+		global.id.popupBackend.style.display = "flex";
+		// window.history.replaceState(null, "", "/");
+		// loadMenuLevelView();
+		// loadRoutesView();
+		// populateRoutesView();
+	});
 
-global.id.popupBackendConfirm.addEventListener("click", () => {
-	global.id.mask.style.display = "none";
-	window.history.replaceState(null, "", "/");
-	loadMenuLevelView();
-	loadRoutesView();
-	populateRoutesView();
-	populateThemeOptions();
-});
+	global.id.popupBackendConfirm.addEventListener("click", () => {
+		global.id.mask.style.display = "none";
+		window.history.replaceState(null, "", "/");
+		loadMenuLevelView();
+		loadRoutesView();
+		populateRoutesView();
+		populateThemeOptions();
+	});
 
-global.id.popupBackendReject.addEventListener("click", () => {
-	global.id.mask.style.display = "none";
-	global.id.popupBackend.style.display = "none";
-});
+	global.id.popupBackendReject.addEventListener("click", () => {
+		global.id.mask.style.display = "none";
+		global.id.popupBackend.style.display = "none";
+	});
 
-global.id.elementStateSelect.addEventListener("change", () => {
-	resolveElementStateSelect();
-});
+	global.id.elementStateSelect.addEventListener("change", () => {
+		resolveElementStateSelect();
+	});
 
-global.id.navSelectionStatic.addEventListener("click", () => {
-	console.log("navSelectionStatic clicked"); // debugging
-	try {
-		fetch("/api/open-folder/static");
-	} catch (error) {
-		console.error("Error fetching static data:", error);
-	}
-});
-
-global.id.navSelectionBuild.addEventListener("click", () => {
-	console.log("navSelectionBuilder clicked"); // debugging
-	try {
-		fetch("/api/build");
-	} catch (error) {
-		console.error("Error fetching builder data:", error);
-	}
-});
-
-global.id.navSelectionBuildRoutes.addEventListener("click", () => {
-	loadRoutesView();
-	populateRoutesView();
-});
-
-global.id.navLvlMenuSettings.addEventListener("click", () => {
-	resolveInitialSettings();
-	loadSettingsView();
-});
-
-global.id.navLvlMenuTheme.addEventListener("change", (option) => {
-	localStorage.setItem("theme", option.target.value);
-	loadTheme(option.target.value);
-	populateThemeOptions();
-	populateRoutesView();
-	if (global.settings.empty !== true) createInitialSettings(global.settings);
-});
-
-global.id.creatorExtend.addEventListener("click", () => {
-	const fontMap = global.map.fontMap;
-	const rootMap = global.map.rootMap;
-	const wizardTitle = global.id.wizardTitle.textContent.split(" ")[0];
-	if (wizardTitle === "Head") {
-		console.log("creatorExtend Head"); // debugging
-	} else if (wizardTitle === "Fonts") {
-		fontMap.get("fonts").push({
-			"font-family": "",
-			src: "",
-			"font-display": "",
-		});
-		onLoadPopulateFontsCreator();
-	} else if (wizardTitle === "Root") {
-		let variableName = "--newVariable";
-		let counter = 2;
-		while (rootMap.has(variableName)) {
-			variableName = `--newVariable${counter}`;
-			counter++;
+	global.id.navSelectionStatic.addEventListener("click", () => {
+		console.log("navSelectionStatic clicked"); // debugging
+		try {
+			fetch("/api/open-folder/static");
+		} catch (error) {
+			console.error("Error fetching static data:", error);
 		}
-		rootMap.set(variableName, "");
-		onLoadPopulateRootCreator();
-	}
-});
+	});
 
-global.id.settingsTreeFirstTimeCreateSettings.addEventListener("click", () => {
-	createInitialSettings();
-});
+	global.id.navSelectionBuild.addEventListener("click", () => {
+		console.log("navSelectionBuilder clicked"); // debugging
+		try {
+			fetch("/api/build");
+		} catch (error) {
+			console.error("Error fetching builder data:", error);
+		}
+	});
 
-global.id.navClassroom.addEventListener("click", () => {
-	global.id.mainInitialSelector.style.display = "none";
-	global.id.selectedElementHighlight.style.display = "none";
-	global.id.mainClassroomSelector.style.display = "flex";
-	populateClassroomSelectType();
-	populateClassroomSelectName();
-});
+	global.id.navSelectionBuildRoutes.addEventListener("click", () => {
+		loadRoutesView();
+		populateRoutesView();
+	});
 
-global.id.mainClassroomSelectorSelectType.addEventListener("change", () => {
-	populateClassroomSelectName();
-});
+	global.id.navLvlMenuSettings.addEventListener("click", () => {
+		resolveInitialSettings();
+		loadSettingsView();
+	});
 
-function populateClassroomStyleOptions() {
-	const classroomMap = global.map.classroomMap;
-	const classroomStyleSelect = global.id.classroomPropertySelect;
-	classroomStyleSelect.innerHTML = "";
+	global.id.navLvlMenuTheme.addEventListener("change", (option) => {
+		localStorage.setItem("theme", option.target.value);
+		loadTheme(option.target.value);
+		populateThemeOptions();
+		populateRoutesView();
+		if (global.settings.empty !== true) createInitialSettings(global.settings);
+	});
 
-	for (const [key, value] of classroomMap.entries()) {
-		if (value && typeof value.style === "string") {
-			const styleArray = value.style
-				.split(";")
-				.map((style) => style.trim())
-				.filter(Boolean);
-			for (const style of styleArray) {
-				const styleProperty = style.split(":")[0].trim();
-				if (
-					![...classroomStyleSelect.options].some(
-						(option) => option.value === styleProperty,
-					)
-				) {
-					const opt = document.createElement("option");
-					opt.value = styleProperty;
-					opt.textContent = styleProperty;
-					classroomStyleSelect.appendChild(opt);
-				}
+	global.id.creatorExtend.addEventListener("click", () => {
+		const fontMap = global.map.fontMap;
+		const rootMap = global.map.rootMap;
+		const wizardTitle = global.id.wizardTitle.textContent.split(" ")[0];
+		if (wizardTitle === "Head") {
+			console.log("creatorExtend Head"); // debugging
+		} else if (wizardTitle === "Fonts") {
+			fontMap.get("fonts").push({
+				"font-family": "",
+				src: "",
+				"font-display": "",
+			});
+			onLoadPopulateFontsCreator();
+		} else if (wizardTitle === "Root") {
+			let variableName = "--newVariable";
+			let counter = 2;
+			while (rootMap.has(variableName)) {
+				variableName = `--newVariable${counter}`;
+				counter++;
 			}
+			rootMap.set(variableName, "");
+			onLoadPopulateRootCreator();
 		}
-	}
-}
+	});
 
-function populateClassroomStyleOptionsValue() {
-	const classroomMap = global.map.classroomMap;
-	const classroomStyleSelect = global.id.classroomPropertySelect.value;
-	const classroomStyleValueSelect = global.id.classroomPropertyInput;
-	classroomStyleValueSelect.innerHTML = "";
+	global.id.settingsTreeFirstTimeCreateSettings.addEventListener(
+		"click",
+		() => {
+			createInitialSettings();
+		},
+	);
 
-	for (const [key, value] of classroomMap.entries()) {
-		if (value && typeof value.style === "string") {
-			const styleArray = value.style
-				.split(";")
-				.map((style) => style.trim())
-				.filter(Boolean);
-			for (const style of styleArray) {
-				const [property, propertyValue] = style.split(":").map((s) => s.trim());
-				if (property === classroomStyleSelect) {
-					const opt = document.createElement("option");
-					opt.value = propertyValue;
-					opt.textContent = propertyValue;
-					classroomStyleValueSelect.appendChild(opt);
-					classroomStyleValueSelect.value = propertyValue;
-				}
-			}
-		}
-	}
-}
+	global.id.navClassroom.addEventListener("click", () => {
+		global.id.mainInitialSelector.style.display = "none";
+		global.id.selectedElementHighlight.style.display = "none";
+		global.id.mainClassroomSelector.style.display = "flex";
+		populateClassroomSelectType();
+		populateClassroomSelectName();
+	});
 
-global.id.mainClassroomSelectorEditStyle.addEventListener("click", () => {
-	global.id.mainClassroomSelector.style.display = "none";
-	global.id.mainClassroomStyleSelector.style.display = "flex";
-	global.id.mainClassroomStyleSelector2.style.display = "flex";
-	populateClassroomStyleOptions();
-	populateClassroomStyleOptionsValue();
-});
+	global.id.mainClassroomSelectorSelectType.addEventListener("change", () => {
+		populateClassroomSelectName();
+	});
 
-global.id.mainClassroomSelectorDelete.addEventListener("click", () => {});
+	function populateClassroomStyleOptions(valueToSet) {
+		const classroomMap = global.map.classroomMap;
+		const classroomStyleSelect = global.id.classroomPropertySelect;
+		classroomStyleSelect.innerHTML = "";
 
-global.id.classroomPropertySelect.addEventListener("change", () => {
-	populateClassroomStyleOptionsValue();
-});
-
-global.id.mainClassroomStyleSelectorBack.addEventListener("click", () => {
-	global.id.mainClassroomSelector.style.display = "flex";
-	global.id.mainClassroomStyleSelector.style.display = "none";
-	global.id.mainClassroomStyleSelector2.style.display = "none";
-});
-
-global.id.mainClassroomSelectorAdd.addEventListener("click", () => {
-	global.id.mainClassroomSelector.style.display = "none";
-	global.id.mainAddClassroomSelector.style.display = "flex";
-	global.id.mainAddClassroomSelectorSelectType.innerHTML = "Add Classroom";
-	const options = ["id", "class", "pseudo :", "pseudo ::"];
-	for (const option of options) {
-		const opt = document.createElement("option");
-		opt.value = option;
-		opt.textContent = option;
-		global.id.mainAddClassroomSelectorSelectType.appendChild(opt);
-	}
-	isValidCSSClassName();
-});
-
-global.id.mainAddClassroomSelectorBack.addEventListener("click", () => {
-	global.id.mainClassroomSelector.style.display = "flex";
-	global.id.mainAddClassroomSelector.style.display = "none";
-});
-
-function isValidCSSClassName() {
-	const classNameRegex = /^[a-zA-Z_-][a-zA-Z0-9_-]*$/;
-	const className = global.id.mainAddClassroomSelectorInputName.value;
-	const ok = classNameRegex.test(className);
-	if (ok) {
-		global.id.mainAddClassroomSelectorAdd.removeAttribute("disabled");
-		global.id.mainAddClassroomSelectorAdd.title = "add tag";
-		global.id.mainAddClassroomSelectorInputName.classList.remove("error");
-	} else {
-		global.id.mainAddClassroomSelectorAdd.setAttribute("disabled", true);
-		global.id.mainAddClassroomSelectorAdd.title = "invalid tag";
-		if (global.id.mainAddClassroomSelectorInputName.value !== "") {
-			global.id.mainAddClassroomSelectorInputName.classList.add("error");
-		} else {
-			global.id.mainAddClassroomSelectorInputName.classList.remove("error");
-		}
-	}
-}
-
-global.id.mainAddClassroomSelectorAdd.addEventListener("click", () => {
-    const classroomMap = global.map.classroomMap;
-
-    const selectedType = global.id.mainAddClassroomSelectorSelectType.value;
-    const selectedName = global.id.mainAddClassroomSelectorInputName.value;
-
-    const newClassroom = {
-        name: selectedName,
-        type: selectedType,
-        style: "",
-    };
-
-    let key = classroomMap.size;
-    while (classroomMap.has(key)) {
-        key += 1;
-    }
-
-    classroomMap.set(key, newClassroom);
-
-    populateClassroomSelectType();
-    populateClassroomSelectName(key);
-
-    global.id.mainClassroomSelector.style.display = "flex";
-    global.id.mainAddClassroomSelector.style.display = "none";
-    console.log("Classroom Map after adding:", classroomMap);
-});
-
-global.id.updateClassroomProperty.addEventListener("click", () => {
-    const classroomMap = global.map.classroomMap;
-    const selectedType = global.id.mainClassroomSelectorSelectType.value;
-    const selectedName = global.id.mainClassroomSelectorSelectName.value;
-    console.log("Selected Type:", selectedType);
-    console.log("Selected Name:", selectedName);
-    console.log("Classroom Map:", classroomMap);
-
-    const key = selectedName; // Use selectedName directly as the key
-    const currentClassroom = classroomMap.get(key);
-    console.log("Current Classroom:", currentClassroom);
-
-    if (!currentClassroom) {
-        console.error(`Classroom not found for key: ${key}`);
-        return;
-    }
-
-    const selectedProperty = global.id.classroomPropertySelect.value;
-    const selectedValue = global.id.classroomPropertyInput.value;
-    const currentStyle = currentClassroom.style;
-    const styleArray = currentStyle.split(";").map((style) => style.trim()).filter(Boolean); // Filter out empty styles
-    const newStyle = styleArray
-        .map((style) => {
-            const [property, value] = style.split(":").map((s) => s.trim());
-            return property === selectedProperty ? `${property}: ${selectedValue}` : style;
-        })
-        .join("; ")
-        .concat(";");
-    currentClassroom.style = newStyle;
-    populateClassroomStyleOptionsValue();
-    applyStyles(); // Apply the updated styles
-});
-
-global.id.mainAddClassroomSelectorInputName.addEventListener("input", () => {
-	isValidCSSClassName();
-});
-
-global.id.navJavascript.addEventListener("click", () => {
-	//debugging (commented out)
-	//centralBarCleanup();
-	//global.id.mainInitialSelector.style.display = "none";
-	//global.id.selectedElementHighlight.style.display = "none";
-});
-
-global.id.editBlueprint.addEventListener("click", () => {
-	global.id.mainInitialSelector.style.display = "none";
-	global.id.mainBlueprintSelector.style.display = "flex";
-	populateSelectBlueprintOptions();
-	validateRemoveElement(true);
-	validateParentElement(true);
-});
-
-global.id.mainBlueprintSelectorCounter.addEventListener("click", () => {
-	global.id.mainBlueprintSelector.style.display = "none";
-	global.id.mainBlueprintCounter.style.display = "flex";
-
-	function populateCounter() {
-		const blueprintMap = global.map.blueprintMap;
-		const selector = getElementFromPath().timeStamp;
-		const currentMap = blueprintMap.get(selector);
-		global.id.mainBlueprintCounterInput.value = currentMap.count;
-	}
-	populateCounter();
-});
-
-global.id.mainBlueprintSelectorBack.addEventListener("click", () => {
-	global.id.mainInitialSelector.style.display = "flex";
-	global.id.mainBlueprintSelector.style.display = "none";
-});
-
-global.id.blueprintSelect.addEventListener("change", () => {
-	validateRemoveElement(true);
-	validateParentElement(true);
-});
-
-/**
- * @typedef {import('./types.js').JsonObject} JsonObject
- */
-
-/**
- * Generates a CSS selector string based on the provided JSON object.
- * @param {JsonObject} jsonObj - The JSON object representing the element.
- * @param {string} [parentSelector=""] - The CSS selector of the parent element.
- * @param {Map} [siblingCountMap=new Map()] - A Map to keep track of sibling elements count.
- */
-function generateCssSelectorFromBlueprint(
-	jsonObj,
-	parentSelector = "",
-	siblingCountMap = new Map(),
-) {
-	const cssMap = global.map.cssMap;
-	const mediaQueriesMap = global.map.mediaQueriesMap;
-	let selector = parentSelector;
-
-	if (jsonObj.element) {
-		const element = jsonObj.element;
-
-		if (!siblingCountMap.has(parentSelector)) {
-			siblingCountMap.set(parentSelector, new Map());
-		}
-		const parentSiblingCount = siblingCountMap.get(parentSelector);
-
-		if (element === "body" || element === "main" || element === "footer") {
-			selector += (parentSelector ? " > " : "") + element;
-		} else {
-			if (!parentSiblingCount.has(element)) {
-				parentSiblingCount.set(element, 0);
-			}
-			parentSiblingCount.set(element, parentSiblingCount.get(element) + 1);
-			selector += ` > ${element}:nth-of-type(${parentSiblingCount.get(element)})`;
-		}
-
-		if (jsonObj.style && jsonObj.customTag !== "cwrapBlueprintCSS") {
-			cssMap.set(selector, jsonObj.style);
-		} else {
-			cssMap.set(selector, "");
-		}
-
-		if (Array.isArray(jsonObj.extend)) {
-			for (const extension of jsonObj.extend) {
-				const extendedSelector = `${selector}${extension.extension}`;
-				cssMap.set(extendedSelector, extension.style);
-			}
-		}
-
-		if (jsonObj.mediaQueries) {
-			for (const mediaQuery of jsonObj.mediaQueries) {
-				const mediaQuerySelector = `${selector}`;
-				if (!mediaQueriesMap.has(mediaQuery.query)) {
-					mediaQueriesMap.set(mediaQuery.query, new Map());
-				}
-				mediaQueriesMap
-					.get(mediaQuery.query)
-					.set(mediaQuerySelector, mediaQuery.style);
-			}
-		}
-
-		if (jsonObj.children) {
-			for (const child of jsonObj.children) {
-				generateCssSelectorFromBlueprint(child, selector, siblingCountMap);
-			}
-		}
-
-		if (jsonObj.blueprint) {
-			jsonObj.customTag = "cwrapBlueprintCSS";
-			const blueprint = jsonObj.blueprint;
-			for (let i = 0; i < blueprint.count; i++) {
-				const blueprintChild = JSON.parse(JSON.stringify(blueprint));
-				blueprintChild.element = blueprint.element;
-				blueprintChild.children = blueprint.children;
-				blueprintChild.customTag = "cwrapBlueprintCSS";
-				generateCssSelectorFromBlueprint(
-					blueprintChild,
-					selector,
-					siblingCountMap,
-				);
-			}
-		}
-
-		if (jsonObj.count) {
-			for (let i = 0; i + 1 < Number.parseInt(jsonObj.count, 10); i++) {
-				const { count, ...clonedJsonObj } = JSON.parse(JSON.stringify(jsonObj));
-				generateCssSelectorFromBlueprint(
-					clonedJsonObj,
-					parentSelector,
-					siblingCountMap,
-				);
-			}
-		}
-	}
-}
-
-/**
- * Rebuilds the styles from the blueprint.
- */
-function rebuildStyleFromBlueprint() {
-	const blueprintMap = global.map.blueprintMap;
-	const currentElement = getElementFromPath();
-	const selector = currentElement.timeStamp;
-	const currentMap = blueprintMap.get(selector);
-
-	if (currentMap) {
-		generateCssSelectorFromBlueprint(
-			currentMap,
-			getElementPath(currentElement),
-			new Map(),
-		);
-	}
-}
-
-/**
- * Updates the blueprint counter and rebuilds the element.
- */
-function updateBlueprintCounter() {
-	const blueprintMap = global.map.blueprintMap;
-	const selector = getElementFromPath().timeStamp;
-	const currentMap = blueprintMap.get(selector);
-	currentMap.count = global.id.mainBlueprintCounterInput.value;
-	reloadBlueprint();
-	const selectedValue = global.id.elementSelect.value;
-	const firstChildrenTag =
-		getElementFromPath(selectedValue).childNodes[0].tagName.toLowerCase();
-	removeStyle(`${selectedValue} > ${firstChildrenTag}`);
-	rebuildStyleFromBlueprint();
-	applyStyles();
-}
-
-// Attach the event listener
-global.id.mainBlueprintCounterUpdate.addEventListener(
-	"click",
-	updateBlueprintCounter,
-);
-
-global.id.mainBlueprintCounterBack.addEventListener("click", () => {
-	global.id.mainBlueprintCounter.style.display = "none";
-	global.id.mainBlueprintSelector.style.display = "flex";
-});
-
-global.id.mainBlueprintTextEditorUpdateBlueprintText.addEventListener(
-	"click",
-	() => {
-		const blueprintMap = global.map.blueprintMap;
-		const selector = getElementFromPath().timeStamp;
-		const currentMap = blueprintMap.get(selector);
-		const selectedBlueprintElement = global.id.blueprintSelect.value;
-		const selectedBlueprintElementTrimmed = selectedBlueprintElement
-			.replace(">", "")
-			.trim();
-		const textValue = global.id.mainBlueprintTextEditor2.value;
-
-		function updateTextInMap(map, elementPath, newText) {
-			const pathParts = elementPath.split(" > ");
-			let currentElement = map;
-
-			for (const part of pathParts) {
-				const [elementName, nthOfType] = part.split(":nth-of-type(");
-				const index = nthOfType
-					? Number.parseInt(nthOfType.replace(")", ""), 10) - 1
-					: 0;
-
-				if (currentElement.element === elementName) {
-					if (index !== 0) {
-						return false;
+		for (const [key, value] of classroomMap.entries()) {
+			if (value && typeof value.style === "string") {
+				const styleArray = value.style
+					.split(";")
+					.map((style) => style.trim())
+					.filter(Boolean);
+				for (const style of styleArray) {
+					const styleProperty = style.split(":")[0].trim();
+					if (
+						![...classroomStyleSelect.options].some(
+							(option) => option.value === styleProperty,
+						)
+					) {
+						const opt = document.createElement("option");
+						opt.value = styleProperty;
+						opt.textContent = styleProperty;
+						classroomStyleSelect.appendChild(opt);
 					}
-				} else if (
-					currentElement.children &&
-					Array.isArray(currentElement.children)
-				) {
-					const matchingChildren = currentElement.children.filter(
-						(child) => child.element === elementName,
+				}
+			}
+			if (valueToSet) {
+				classroomStyleSelect.value = valueToSet;
+			}
+		}
+	}
+
+	function populateClassroomStyleOptionsValue() {
+		const classroomMap = global.map.classroomMap;
+		const classroomStyleSelect = global.id.classroomPropertySelect.value;
+		const classroomStyleValueSelect = global.id.classroomPropertyInput;
+		classroomStyleValueSelect.innerHTML = "";
+
+		for (const [key, value] of classroomMap.entries()) {
+			if (value && typeof value.style === "string") {
+				const styleArray = value.style
+					.split(";")
+					.map((style) => style.trim())
+					.filter(Boolean);
+				for (const style of styleArray) {
+					const [property, propertyValue] = style
+						.split(":")
+						.map((s) => s.trim());
+					if (property === classroomStyleSelect) {
+						const opt = document.createElement("option");
+						opt.value = propertyValue;
+						opt.textContent = propertyValue;
+						classroomStyleValueSelect.appendChild(opt);
+						classroomStyleValueSelect.value = propertyValue;
+					}
+				}
+			}
+		}
+	}
+
+	global.id.mainClassroomSelectorEditStyle.addEventListener("click", () => {
+		global.id.mainClassroomSelector.style.display = "none";
+		global.id.mainClassroomStyleSelector.style.display = "flex";
+		global.id.mainClassroomStyleSelector2.style.display = "flex";
+		populateClassroomStyleOptions();
+		populateClassroomStyleOptionsValue();
+	});
+
+	global.id.mainClassroomSelectorDelete.addEventListener("click", () => {});
+
+	global.id.classroomPropertySelect.addEventListener("change", () => {
+		populateClassroomStyleOptionsValue();
+	});
+
+	global.id.mainClassroomStyleSelectorBack.addEventListener("click", () => {
+		global.id.mainClassroomSelector.style.display = "flex";
+		global.id.mainClassroomStyleSelector.style.display = "none";
+		global.id.mainClassroomStyleSelector2.style.display = "none";
+	});
+
+	global.id.mainClassroomSelectorAdd.addEventListener("click", () => {
+		global.id.mainClassroomSelector.style.display = "none";
+		global.id.mainAddClassroomSelector.style.display = "flex";
+		global.id.mainAddClassroomSelectorSelectType.innerHTML = "Add Classroom";
+		const options = ["id", "class", "pseudo :", "pseudo ::"];
+		for (const option of options) {
+			const opt = document.createElement("option");
+			opt.value = option;
+			opt.textContent = option;
+			global.id.mainAddClassroomSelectorSelectType.appendChild(opt);
+		}
+		isValidCSSClassName();
+	});
+
+	global.id.mainAddClassroomSelectorBack.addEventListener("click", () => {
+		global.id.mainClassroomSelector.style.display = "flex";
+		global.id.mainAddClassroomSelector.style.display = "none";
+	});
+
+	function isValidCSSClassName() {
+		const classNameRegex = /^[a-zA-Z_-][a-zA-Z0-9_-]*$/;
+		const className = global.id.mainAddClassroomSelectorInputName.value;
+		const ok = classNameRegex.test(className);
+		if (ok) {
+			global.id.mainAddClassroomSelectorAdd.removeAttribute("disabled");
+			global.id.mainAddClassroomSelectorAdd.title = "add tag";
+			global.id.mainAddClassroomSelectorInputName.classList.remove("error");
+		} else {
+			global.id.mainAddClassroomSelectorAdd.setAttribute("disabled", true);
+			global.id.mainAddClassroomSelectorAdd.title = "invalid tag";
+			if (global.id.mainAddClassroomSelectorInputName.value !== "") {
+				global.id.mainAddClassroomSelectorInputName.classList.add("error");
+			} else {
+				global.id.mainAddClassroomSelectorInputName.classList.remove("error");
+			}
+		}
+	}
+
+	global.id.mainAddClassroomSelectorAdd.addEventListener("click", () => {
+		const classroomMap = global.map.classroomMap;
+
+		const selectedType = global.id.mainAddClassroomSelectorSelectType.value;
+		const selectedName = global.id.mainAddClassroomSelectorInputName.value;
+
+		const newClassroom = {
+			name: selectedName,
+			type: selectedType,
+			style: "",
+		};
+
+		let key = classroomMap.size;
+		while (classroomMap.has(key)) {
+			key += 1;
+		}
+
+		classroomMap.set(key, newClassroom);
+
+		populateClassroomSelectType();
+		populateClassroomSelectName(key);
+
+		global.id.mainClassroomSelector.style.display = "flex";
+		global.id.mainAddClassroomSelector.style.display = "none";
+		console.log("Classroom Map after adding:", classroomMap);
+	});
+
+	global.id.updateClassroomProperty.addEventListener("click", () => {
+		const classroomMap = global.map.classroomMap;
+		const selectedType = global.id.mainClassroomSelectorSelectType.value;
+		const selectedName = global.id.mainClassroomSelectorSelectName.value;
+		console.log("Selected Type:", selectedType);
+		console.log("Selected Name:", selectedName);
+		console.log("Classroom Map:", classroomMap);
+
+		const key = selectedName; // Use selectedName directly as the key
+		const currentClassroom = classroomMap.get(key);
+		console.log("Current Classroom:", currentClassroom);
+
+		if (!currentClassroom) {
+			console.error(`Classroom not found for key: ${key}`);
+			return;
+		}
+
+		const selectedProperty = global.id.classroomPropertySelect.value;
+		const selectedValue = global.id.classroomPropertyInput.value;
+		const currentStyle = currentClassroom.style;
+		const styleArray = currentStyle
+			.split(";")
+			.map((style) => style.trim())
+			.filter(Boolean); // Filter out empty styles
+		const newStyle = styleArray
+			.map((style) => {
+				const [property, value] = style.split(":").map((s) => s.trim());
+				return property === selectedProperty
+					? `${property}: ${selectedValue}`
+					: style;
+			})
+			.join("; ")
+			.concat(";");
+		currentClassroom.style = newStyle;
+		populateClassroomStyleOptionsValue();
+		applyStyles(); // Apply the updated styles
+	});
+
+	global.id.mainAddClassroomSelectorInputName.addEventListener("input", () => {
+		isValidCSSClassName();
+	});
+
+	function populateClassroomPropertySelect() {
+		const classroomPropertySelect = global.id.propertyClassroomSelectAll;
+		classroomPropertySelect.innerHTML = "";
+
+		for (const property of cssProperties) {
+			const opt = document.createElement("option");
+			opt.value = property;
+			opt.textContent = property;
+			classroomPropertySelect.appendChild(opt);
+		}
+	}
+
+	global.id.addClassroomProperty.addEventListener("click", () => {
+		const classroomMap = global.map.classroomMap;
+		const selectedName = global.id.mainClassroomSelectorSelectName.value;
+		const selectedProperty = global.id.propertyClassroomSelectAll.value;
+		const selectedValue = "";
+
+		console.log("Selected Name:", selectedName);
+		console.log("Selected Property:", selectedProperty);
+		console.log("Selected Value:", selectedValue);
+		console.log("Classroom Map:", classroomMap);
+
+		const currentClassroom = classroomMap.get(selectedName);
+		console.log("Current Classroom:", currentClassroom);
+
+		if (!currentClassroom) {
+			console.error(`Classroom not found for key: ${selectedName}`);
+			return;
+		}
+
+		const currentStyle = currentClassroom.style;
+		console.log("Current Style:", currentStyle);
+
+		const styleArray = currentStyle
+			.split(";")
+			.map((style) => style.trim())
+			.filter(Boolean); // Filter out empty styles
+		console.log("Style Array:", styleArray);
+
+		const newStyle = styleArray
+			.concat(`${selectedProperty}: ${selectedValue}`)
+			.join("; ")
+			.concat(";");
+		console.log("New Style:", newStyle);
+
+		currentClassroom.style = newStyle;
+		populateClassroomStyleOptions(global.id.propertyClassroomSelectAll.value);
+		populateClassroomStyleOptionsValue();
+		applyStyles(); // Apply the updated styles
+		global.id.mainClassroomStyleSelector.style.display = "flex";
+		global.id.mainClassroomStyleSelector2.style.display = "flex";
+		global.id.mainClassroomStyleAdd.style.display = "none";
+	});
+
+	global.id.openClassroomAddProperty.addEventListener("click", () => {
+		global.id.mainClassroomStyleSelector.style.display = "none";
+		global.id.mainClassroomStyleSelector2.style.display = "none";
+		global.id.mainClassroomStyleAdd.style.display = "flex";
+		populateClassroomPropertySelect();
+	});
+
+	global.id.mainClassroomStyleAddBack.addEventListener("click", () => {
+		global.id.mainClassroomStyleSelector.style.display = "flex";
+		global.id.mainClassroomStyleSelector2.style.display = "flex";
+		global.id.mainClassroomStyleAdd.style.display = "none";
+	});
+
+	global.id.navJavascript.addEventListener("click", () => {
+		//debugging (commented out)
+		//centralBarCleanup();
+		//global.id.mainInitialSelector.style.display = "none";
+		//global.id.selectedElementHighlight.style.display = "none";
+	});
+
+	global.id.editBlueprint.addEventListener("click", () => {
+		global.id.mainInitialSelector.style.display = "none";
+		global.id.mainBlueprintSelector.style.display = "flex";
+		populateSelectBlueprintOptions();
+		validateRemoveElement(true);
+		validateParentElement(true);
+	});
+
+	global.id.mainBlueprintSelectorCounter.addEventListener("click", () => {
+		global.id.mainBlueprintSelector.style.display = "none";
+		global.id.mainBlueprintCounter.style.display = "flex";
+
+		function populateCounter() {
+			const blueprintMap = global.map.blueprintMap;
+			const selector = getElementFromPath().timeStamp;
+			const currentMap = blueprintMap.get(selector);
+			global.id.mainBlueprintCounterInput.value = currentMap.count;
+		}
+		populateCounter();
+	});
+
+	global.id.mainBlueprintSelectorBack.addEventListener("click", () => {
+		global.id.mainInitialSelector.style.display = "flex";
+		global.id.mainBlueprintSelector.style.display = "none";
+	});
+
+	global.id.blueprintSelect.addEventListener("change", () => {
+		validateRemoveElement(true);
+		validateParentElement(true);
+	});
+
+	/**
+	 * @typedef {import('./types.js').JsonObject} JsonObject
+	 */
+
+	/**
+	 * Generates a CSS selector string based on the provided JSON object.
+	 * @param {JsonObject} jsonObj - The JSON object representing the element.
+	 * @param {string} [parentSelector=""] - The CSS selector of the parent element.
+	 * @param {Map} [siblingCountMap=new Map()] - A Map to keep track of sibling elements count.
+	 */
+	function generateCssSelectorFromBlueprint(
+		jsonObj,
+		parentSelector = "",
+		siblingCountMap = new Map(),
+	) {
+		const cssMap = global.map.cssMap;
+		const mediaQueriesMap = global.map.mediaQueriesMap;
+		let selector = parentSelector;
+
+		if (jsonObj.element) {
+			const element = jsonObj.element;
+
+			if (!siblingCountMap.has(parentSelector)) {
+				siblingCountMap.set(parentSelector, new Map());
+			}
+			const parentSiblingCount = siblingCountMap.get(parentSelector);
+
+			if (element === "body" || element === "main" || element === "footer") {
+				selector += (parentSelector ? " > " : "") + element;
+			} else {
+				if (!parentSiblingCount.has(element)) {
+					parentSiblingCount.set(element, 0);
+				}
+				parentSiblingCount.set(element, parentSiblingCount.get(element) + 1);
+				selector += ` > ${element}:nth-of-type(${parentSiblingCount.get(element)})`;
+			}
+
+			if (jsonObj.style && jsonObj.customTag !== "cwrapBlueprintCSS") {
+				cssMap.set(selector, jsonObj.style);
+			} else {
+				cssMap.set(selector, "");
+			}
+
+			if (Array.isArray(jsonObj.extend)) {
+				for (const extension of jsonObj.extend) {
+					const extendedSelector = `${selector}${extension.extension}`;
+					cssMap.set(extendedSelector, extension.style);
+				}
+			}
+
+			if (jsonObj.mediaQueries) {
+				for (const mediaQuery of jsonObj.mediaQueries) {
+					const mediaQuerySelector = `${selector}`;
+					if (!mediaQueriesMap.has(mediaQuery.query)) {
+						mediaQueriesMap.set(mediaQuery.query, new Map());
+					}
+					mediaQueriesMap
+						.get(mediaQuery.query)
+						.set(mediaQuerySelector, mediaQuery.style);
+				}
+			}
+
+			if (jsonObj.children) {
+				for (const child of jsonObj.children) {
+					generateCssSelectorFromBlueprint(child, selector, siblingCountMap);
+				}
+			}
+
+			if (jsonObj.blueprint) {
+				jsonObj.customTag = "cwrapBlueprintCSS";
+				const blueprint = jsonObj.blueprint;
+				for (let i = 0; i < blueprint.count; i++) {
+					const blueprintChild = JSON.parse(JSON.stringify(blueprint));
+					blueprintChild.element = blueprint.element;
+					blueprintChild.children = blueprint.children;
+					blueprintChild.customTag = "cwrapBlueprintCSS";
+					generateCssSelectorFromBlueprint(
+						blueprintChild,
+						selector,
+						siblingCountMap,
 					);
-					if (matchingChildren.length > index) {
-						currentElement = matchingChildren[index];
+				}
+			}
+
+			if (jsonObj.count) {
+				for (let i = 0; i + 1 < Number.parseInt(jsonObj.count, 10); i++) {
+					const { count, ...clonedJsonObj } = JSON.parse(
+						JSON.stringify(jsonObj),
+					);
+					generateCssSelectorFromBlueprint(
+						clonedJsonObj,
+						parentSelector,
+						siblingCountMap,
+					);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Rebuilds the styles from the blueprint.
+	 */
+	function rebuildStyleFromBlueprint() {
+		const blueprintMap = global.map.blueprintMap;
+		const currentElement = getElementFromPath();
+		const selector = currentElement.timeStamp;
+		const currentMap = blueprintMap.get(selector);
+
+		if (currentMap) {
+			generateCssSelectorFromBlueprint(
+				currentMap,
+				getElementPath(currentElement),
+				new Map(),
+			);
+		}
+	}
+
+	/**
+	 * Updates the blueprint counter and rebuilds the element.
+	 */
+	function updateBlueprintCounter() {
+		const blueprintMap = global.map.blueprintMap;
+		const selector = getElementFromPath().timeStamp;
+		const currentMap = blueprintMap.get(selector);
+		currentMap.count = global.id.mainBlueprintCounterInput.value;
+		reloadBlueprint();
+		const selectedValue = global.id.elementSelect.value;
+		const firstChildrenTag =
+			getElementFromPath(selectedValue).childNodes[0].tagName.toLowerCase();
+		removeStyle(`${selectedValue} > ${firstChildrenTag}`);
+		rebuildStyleFromBlueprint();
+		applyStyles();
+	}
+
+	// Attach the event listener
+	global.id.mainBlueprintCounterUpdate.addEventListener(
+		"click",
+		updateBlueprintCounter,
+	);
+
+	global.id.mainBlueprintCounterBack.addEventListener("click", () => {
+		global.id.mainBlueprintCounter.style.display = "none";
+		global.id.mainBlueprintSelector.style.display = "flex";
+	});
+
+	global.id.mainBlueprintTextEditorUpdateBlueprintText.addEventListener(
+		"click",
+		() => {
+			const blueprintMap = global.map.blueprintMap;
+			const selector = getElementFromPath().timeStamp;
+			const currentMap = blueprintMap.get(selector);
+			const selectedBlueprintElement = global.id.blueprintSelect.value;
+			const selectedBlueprintElementTrimmed = selectedBlueprintElement
+				.replace(">", "")
+				.trim();
+			const textValue = global.id.mainBlueprintTextEditor2.value;
+
+			function updateTextInMap(map, elementPath, newText) {
+				const pathParts = elementPath.split(" > ");
+				let currentElement = map;
+
+				for (const part of pathParts) {
+					const [elementName, nthOfType] = part.split(":nth-of-type(");
+					const index = nthOfType
+						? Number.parseInt(nthOfType.replace(")", ""), 10) - 1
+						: 0;
+
+					if (currentElement.element === elementName) {
+						if (index !== 0) {
+							return false;
+						}
+					} else if (
+						currentElement.children &&
+						Array.isArray(currentElement.children)
+					) {
+						const matchingChildren = currentElement.children.filter(
+							(child) => child.element === elementName,
+						);
+						if (matchingChildren.length > index) {
+							currentElement = matchingChildren[index];
+						} else {
+							return false;
+						}
 					} else {
 						return false;
 					}
-				} else {
-					return false;
 				}
+				currentElement.text = newText;
+				return true;
 			}
-			currentElement.text = newText;
-			return true;
-		}
 
-		updateTextInMap(currentMap, selectedBlueprintElementTrimmed, textValue);
-		reloadBlueprint();
-	},
-);
-
+			updateTextInMap(currentMap, selectedBlueprintElementTrimmed, textValue);
+			reloadBlueprint();
+		},
+	);
+};
 // populateRoutesView();
 // loadMenuLevelView();
 // loadRoutesView();
