@@ -36,6 +36,8 @@ const global = {
 		mainClassroomSelectorAdd: document.getElementById("mainClassroomSelectorAdd"),
 		mainAddClassroomSelector: document.getElementById("mainAddClassroomSelector"),
 		mainAddClassroomSelectorBack: document.getElementById("mainAddClassroomSelectorBack"),
+		mainAddClassroomSelectorInputName: document.getElementById("mainAddClassroomSelectorInputName"),
+		mainAddClassroomSelectorAdd: document.getElementById("mainAddClassroomSelectorAdd"),
 		closeAddElement: document.getElementById("closeAddElement"),
 		closeAddScreen: document.getElementById("closeAddScreen"),
 		closeAddState: document.getElementById("closeAddState"),

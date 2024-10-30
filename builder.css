@@ -851,12 +851,22 @@ textarea {
   border-left: 2px solid var(--colorBorder-lighter);
   border-top: 2px solid var(--colorBorder-lighter);
   outline: none;
-  color: var(--colorFill-primary);
+  color: var(--colorFill-regular);
   font-size: medium;
   box-sizing: border-box;
   width: 100%;
   resize: none;
   font-size: 16px;
+}
+
+input.error {
+  text-decoration-line: underline;
+  text-decoration-color: red;
+  text-decoration-thickness: 2px;
+  /* border-left: 2px solid rgb(40, 0, 0);
+  border-top: 2px solid rgb(40, 0, 0);
+  border-right: 2px solid rgb(120, 0, 0);
+  border-bottom: 2px solid rgb(120, 0, 0); */
 }
 
 input,

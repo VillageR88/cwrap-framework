@@ -1849,11 +1849,35 @@ global.id.mainClassroomStyleSelectorBack.addEventListener("click", () => {
 global.id.mainClassroomSelectorAdd.addEventListener("click", () => {
 	global.id.mainClassroomSelector.style.display = "none";
 	global.id.mainAddClassroomSelector.style.display = "flex";
+	isValidCSSClassName();
 });
 
 global.id.mainAddClassroomSelectorBack.addEventListener("click", () => {
 	global.id.mainClassroomSelector.style.display = "flex";
 	global.id.mainAddClassroomSelector.style.display = "none";
+});
+
+function isValidCSSClassName() {
+	const classNameRegex = /^[a-zA-Z_-][a-zA-Z0-9_-]*$/;
+	const className = global.id.mainAddClassroomSelectorInputName.value;
+	const ok = classNameRegex.test(className);
+	if (ok) {
+		global.id.mainAddClassroomSelectorAdd.removeAttribute("disabled");
+		global.id.mainAddClassroomSelectorAdd.title = "add tag";
+		global.id.mainAddClassroomSelectorInputName.classList.remove("error");
+	} else {
+		global.id.mainAddClassroomSelectorAdd.setAttribute("disabled", true);
+		global.id.mainAddClassroomSelectorAdd.title = "invalid tag";
+		if (global.id.mainAddClassroomSelectorInputName.value !== "") {
+			global.id.mainAddClassroomSelectorInputName.classList.add("error");
+		} else {
+			global.id.mainAddClassroomSelectorInputName.classList.remove("error");
+		}
+	}
+}
+
+global.id.mainAddClassroomSelectorInputName.addEventListener("input", () => {
+	isValidCSSClassName();
 });
 
 global.id.navJavascript.addEventListener("click", () => {
