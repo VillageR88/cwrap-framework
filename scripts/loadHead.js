@@ -1,5 +1,3 @@
-import getElementFromPath from "./getElementFromPath.js";
-
 /**
  * @typedef {import('./types.js').JsonObject} JsonObject
  * @typedef {import('./_globals.js')}
@@ -9,79 +7,114 @@ import getElementFromPath from "./getElementFromPath.js";
  * @param {JsonObject} jsonObj
  */
 export default function loadHead(jsonObj) {
-    global.map.headMap.clear();
-    if (jsonObj.head) {
-        for (const [key, value] of Object.entries(jsonObj.head)) {
-            global.map.headMap.set(key, value);
-        }
-    }
-    onLoadPopulateHeadCreator(global.map.headMap);
+	global.map.headMap.clear();
+	if (jsonObj.head) {
+		for (const [key, value] of Object.entries(jsonObj.head)) {
+			global.map.headMap.set(key, value);
+		}
+	}
+	onLoadPopulateHeadCreator();
 }
 
-function onLoadPopulateHeadCreator() {
-    const wizardHeadTitle = global.id.wizardHeadTitle;
-    const wizardHeadMetaDescription = global.id.wizardHeadMetaDescription;
-    const wizardHeadMetaKeywords = global.id.wizardHeadMetaKeywords;
-    const wizardHeadLinksDiv = global.id.wizardHeadDiv; // Assuming this is the container for links
+export function onLoadPopulateHeadCreator() {
+	const wizardHeadTitle = global.id.wizardHeadTitle;
+	const wizardHeadMetaDescription = global.id.wizardHeadMetaDescription;
+	const wizardHeadMetaKeywords = global.id.wizardHeadMetaKeywords;
+	const wizardHeadLinksDiv = global.id.wizardHeadDiv; // Assuming this is the container for links
 
-    const headMap = Object.fromEntries(global.map.headMap);
-    const title = headMap.title;
-    const meta = headMap.meta;
-    const links = headMap.link;
+	const headMap = Object.fromEntries(global.map.headMap);
+	const title = headMap.title;
+	const meta = headMap.meta;
+	const links = headMap.link;
 
-    if (title) wizardHeadTitle.value = title;
+	if (title) wizardHeadTitle.value = title;
 
-    if (meta) {
-        const metaDescription = meta.find(
-            (meta) => meta.name === "description",
-        )?.content;
-        const metaKeywords = meta.find((meta) => meta.name === "keywords")?.content;
+	if (meta) {
+		const metaDescription = meta.find(
+			(meta) => meta.name === "description",
+		)?.content;
+		const metaKeywords = meta.find((meta) => meta.name === "keywords")?.content;
 
-        if (metaDescription) wizardHeadMetaDescription.value = metaDescription;
-        if (metaKeywords) wizardHeadMetaKeywords.value = metaKeywords;
-    }
+		if (metaDescription) wizardHeadMetaDescription.value = metaDescription;
+		if (metaKeywords) wizardHeadMetaKeywords.value = metaKeywords;
+	}
 
-    if (links) {
-        // Create title h4
-        const title = document.createElement("h4");
-        title.textContent = "Links";
-        wizardHeadLinksDiv.appendChild(title);
-        links.forEach((link, index) => {
-            const linkDiv = document.createElement("div");
-            linkDiv.classList.add("linkDiv");
+	// Clear only the linkDiv elements within wizardHeadLinksDiv
+	const linkDivs = wizardHeadLinksDiv.querySelectorAll(".linkDiv");
+	for (const linkDiv of linkDivs) {
+		linkDiv.remove();
+	}
 
-            const relLabel = document.createElement("label");
-            relLabel.textContent = "rel";
-            const relInput = document.createElement("input");
-            relInput.type = "text";
-            relInput.value = link.rel ? link.rel : "";
-            relInput.id = `link-${index}-rel`;
-            relLabel.setAttribute("for", relInput.id);
+	if (links) {
+		// Create a container div for all links
+		let linksContainer = wizardHeadLinksDiv.querySelector(".linksContainer");
+		if (!linksContainer) {
+			linksContainer = document.createElement("div");
+			linksContainer.classList.add("linksContainer");
+			wizardHeadLinksDiv.appendChild(linksContainer);
+		}
+		linksContainer.innerHTML = "";
 
-            const hrefLabel = document.createElement("label");
-            hrefLabel.textContent = "href";
-            const hrefInput = document.createElement("input");
-            hrefInput.type = "text";
-            hrefInput.value = link.href ? link.href : "";
-            hrefInput.id = `link-${index}-href`;
-            hrefLabel.setAttribute("for", hrefInput.id);
+		links.forEach((link, index) => {
+			// Create title h4 if it doesn't already exist
+			let titleElement = linksContainer.querySelector("h4");
+			if (!titleElement) {
+				titleElement = document.createElement("h4");
+				titleElement.textContent = "Links";
+				linksContainer.appendChild(titleElement);
+			}
 
-            const typeLabel = document.createElement("label");
-            typeLabel.textContent = "type";
-            const typeInput = document.createElement("input");
-            typeInput.type = "text";
-            typeInput.value = link.type ? link.type : "";
-            typeInput.id = `link-${index}-type`;
-            typeLabel.setAttribute("for", typeInput.id);
+			const linkDiv = document.createElement("div");
+			linkDiv.classList.add("linkDiv");
 
-            linkDiv.appendChild(relLabel);
-            linkDiv.appendChild(relInput);
-            linkDiv.appendChild(hrefLabel);
-            linkDiv.appendChild(hrefInput);
-            linkDiv.appendChild(typeLabel);
-            linkDiv.appendChild(typeInput);
+			const relLabel = document.createElement("label");
+			relLabel.textContent = "rel";
+			const relInput = document.createElement("input");
+			relInput.type = "text";
+			relInput.value = link.rel ? link.rel : "";
+			relInput.id = `link-${index}-rel`;
+			relLabel.setAttribute("for", relInput.id);
 
-            wizardHeadLinksDiv.appendChild(linkDiv);
-        });
-    }
+			const hrefLabel = document.createElement("label");
+			hrefLabel.textContent = "href";
+			const hrefInput = document.createElement("input");
+			hrefInput.type = "text";
+			hrefInput.value = link.href ? link.href : "";
+			hrefInput.id = `link-${index}-href`;
+			hrefLabel.setAttribute("for", hrefInput.id);
+
+			const typeLabel = document.createElement("label");
+			typeLabel.textContent = "type";
+			const typeInput = document.createElement("input");
+			typeInput.type = "text";
+			typeInput.value = link.type ? link.type : "";
+			typeInput.id = `link-${index}-type`;
+			typeLabel.setAttribute("for", typeInput.id);
+
+			const removeSvg = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"> <path d="m376-300 104-104 104 104 56-56-104-104 104-104-56-56-104 104-104-104-56 56 104 104-104 104 56 56Zm-96 180q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520Zm-400 0v520-520Z" /> </svg>`;
+			const removeButton = document.createElement("button");
+			removeButton.innerHTML = removeSvg;
+			removeButton.classList.add(global.class.mediumButtons);
+			removeButton.type = "button";
+			removeButton.addEventListener("click", () => {
+				links.splice(index, 1); // Remove the link from the array
+                onLoadPopulateHeadCreator(); // Re-render the links
+			});
+
+			const topDiv = document.createElement("div");
+			topDiv.appendChild(relLabel);
+			topDiv.appendChild(removeButton);
+
+			linkDiv.appendChild(topDiv);
+			linkDiv.appendChild(relInput);
+			linkDiv.appendChild(hrefLabel);
+			linkDiv.appendChild(hrefInput);
+			linkDiv.appendChild(typeLabel);
+			linkDiv.appendChild(typeInput);
+
+			linksContainer.appendChild(linkDiv);
+		});
+
+
+	}
 }

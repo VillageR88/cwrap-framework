@@ -517,7 +517,8 @@ h3 {
   gap: 12px;
 }
 
-#wizardDiv > form > #wizardHeadDiv > div,
+#wizardDiv > form > #wizardHeadDiv > div:not(.linksContainer),
+#wizardDiv > form > #wizardHeadDiv > div > div,
 #wizardDiv > form > #wizardFontsDiv > div,
 #wizardDiv > form > #wizardRootDiv > div {
   display: flex;
@@ -530,6 +531,28 @@ h3 {
   border-radius: 10px;
   padding: 24px;
   box-sizing: border-box;
+}
+
+#wizardDiv > form > #wizardHeadDiv > div.linksContainer {
+  background-color: transparent;
+}
+
+#wizardDiv > form > #wizardHeadDiv > div.linksContainer {
+  gap: 20px;
+}
+
+#wizardDiv > form > #wizardHeadDiv > div.linksContainer > h4 {
+  margin-top: 8px;
+  margin-bottom: -6px;
+}
+
+#wizardDiv > form > #wizardHeadDiv > div.linksContainer > div {
+  background-color: var(--colorBackground-lighter);
+}
+#wizardDiv > form > #wizardHeadDiv > div.linksContainer > div > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
 }
 
 /* a {
