@@ -1884,6 +1884,29 @@ function isValidCSSClassName() {
 	}
 }
 
+global.id.mainAddClassroomSelectorAdd.addEventListener("click", () => {
+	const classroomMap = global.map.classroomMap;
+
+	const selectedType = global.id.mainAddClassroomSelectorSelectType.value;
+	const selectedName = global.id.mainAddClassroomSelectorInputName.value;
+
+	const newClassroom = {
+		name: selectedName,
+		type: selectedType,
+		style: "",
+	};
+	classroomMap.set(`${selectedType} ${selectedName}`, newClassroom);
+
+	populateClassroomSelectType();
+	global.id.mainClassroomSelector.style.display = "flex";
+	global.id.mainAddClassroomSelector.style.display = "none";
+
+	global.id.mainClassroomSelectorSelectType.value = selectedType;
+	populateClassroomSelectName();
+	global.id.mainClassroomSelectorSelectName.te = selectedName;
+	console.log("Classroom Map:", classroomMap);
+});
+
 global.id.mainAddClassroomSelectorInputName.addEventListener("input", () => {
 	isValidCSSClassName();
 });
