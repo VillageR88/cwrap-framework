@@ -1849,6 +1849,14 @@ global.id.mainClassroomStyleSelectorBack.addEventListener("click", () => {
 global.id.mainClassroomSelectorAdd.addEventListener("click", () => {
 	global.id.mainClassroomSelector.style.display = "none";
 	global.id.mainAddClassroomSelector.style.display = "flex";
+	global.id.mainAddClassroomSelectorSelectType.innerHTML = "Add Classroom";
+	const options = ["id", "class", "pseudo :", "pseudo ::"];
+	for (const option of options) {
+		const opt = document.createElement("option");
+		opt.value = option;
+		opt.textContent = option;
+		global.id.mainAddClassroomSelectorSelectType.appendChild(opt);
+	}
 	isValidCSSClassName();
 });
 

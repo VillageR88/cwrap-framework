@@ -591,7 +591,6 @@ body > div#selectedElementLabelContainer.bottom {
   flex-direction: column-reverse;
 }
 body > div#selectedElementLabelContainer > div {
-  width: fit-content;
   pointer-events: visible;
   display: flex;
   flex-direction: column;
@@ -621,7 +620,6 @@ body > #selectedElementLabelContainer > div > div {
 
 body > #selectedElementLabelContainer select {
   padding-block: 0;
-  width: fit-content;
 }
 
 body
@@ -840,6 +838,8 @@ select {
   font-weight: 500;
   border-radius: 6px;
   background-color: var(--colorBackground-lighter);
+  width: max-content;
+  flex-shrink: 0;
 }
 
 select,
@@ -854,7 +854,7 @@ textarea {
   color: var(--colorFill-regular);
   font-size: medium;
   box-sizing: border-box;
-  width: 100%;
+
   resize: none;
   font-size: 16px;
 }
@@ -878,6 +878,7 @@ textarea {
   border-top: 2px solid var(--colorShadow-regular);
   border-radius: 10px;
   background-color: var(--colorBackground-textField);
+  width: 100%;
 }
 
 input:-webkit-autofill,
