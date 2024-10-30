@@ -1748,13 +1748,29 @@ export const eventHandlers = () => {
 		const classroomMap = global.map.classroomMap;
 		const classroomStyleSelect = global.id.classroomPropertySelect;
 		classroomStyleSelect.innerHTML = "";
-
+		const navAdditionalScreen = global.id.navAdditionalScreen;
+		let currentScreen;
+	
+		if (navAdditionalScreen.classList.contains("screenDesktop")) {
+			currentScreen = "screenDesktop";
+		} else if (navAdditionalScreen.classList.contains("screenTablet")) {
+			currentScreen = "screenTablet";
+		} else if (navAdditionalScreen.classList.contains("screenMobile")) {
+			currentScreen = "screenMobile";
+		}
+	
+		console.log("Current Screen:", currentScreen);
+	
 		for (const [key, value] of classroomMap.entries()) {
-			if (value && typeof value.style === "string") {
+			console.log("Processing classroom:", key, value);
+	
+			if (currentScreen === "screenDesktop" && value && typeof value.style === "string") {
 				const styleArray = value.style
 					.split(";")
 					.map((style) => style.trim())
 					.filter(Boolean);
+				console.log("Style Array:", styleArray);
+	
 				for (const style of styleArray) {
 					const styleProperty = style.split(":")[0].trim();
 					if (
@@ -1769,6 +1785,38 @@ export const eventHandlers = () => {
 					}
 				}
 			}
+	
+			if ((currentScreen === "screenTablet" || currentScreen === "screenMobile") && value.mediaQueries) {
+				console.log("Processing media queries for classroom:", key, value.mediaQueries);
+	
+				for (const mediaQuery of value.mediaQueries) {
+					console.log("Processing media query:", mediaQuery);
+	
+					const maxWidth = mediaQuery.query.trim();
+					if ((currentScreen === "screenTablet" && maxWidth === "max-width: 768px") || (currentScreen === "screenMobile" && maxWidth === "max-width: 640px")) {
+						const styleArray = mediaQuery.style
+							.split(";")
+							.map((style) => style.trim())
+							.filter(Boolean);
+						console.log("Media Query Style Array:", styleArray);
+	
+						for (const style of styleArray) {
+							const styleProperty = style.split(":")[0].trim();
+							if (
+								![...classroomStyleSelect.options].some(
+									(option) => option.value === styleProperty,
+								)
+							) {
+								const opt = document.createElement("option");
+								opt.value = styleProperty;
+								opt.textContent = styleProperty;
+								classroomStyleSelect.appendChild(opt);
+							}
+						}
+					}
+				}
+			}
+	
 			if (valueToSet) {
 				classroomStyleSelect.value = valueToSet;
 			}
@@ -1780,15 +1828,31 @@ export const eventHandlers = () => {
 		const classroomStyleSelect = global.id.classroomPropertySelect.value;
 		const classroomStyleValueSelect = global.id.classroomPropertyInput;
 		classroomStyleValueSelect.innerHTML = "";
+		const navAdditionalScreen = global.id.navAdditionalScreen;
+		let currentScreen;
+	
+		if (navAdditionalScreen.classList.contains("screenDesktop")) {
+			currentScreen = "screenDesktop";
+		} else if (navAdditionalScreen.classList.contains("screenTablet")) {
+			currentScreen = "screenTablet";
+		} else if (navAdditionalScreen.classList.contains("screenMobile")) {
+			currentScreen = "screenMobile";
+		}
+	
+		console.log("Current Screen:", currentScreen);
 	
 		let propertyFound = false;
 	
 		for (const [key, value] of classroomMap.entries()) {
-			if (value && typeof value.style === "string") {
+			console.log("Processing classroom:", key, value);
+	
+			if (currentScreen === "screenDesktop" && value && typeof value.style === "string") {
 				const styleArray = value.style
 					.split(";")
 					.map((style) => style.trim())
 					.filter(Boolean);
+				console.log("Style Array:", styleArray);
+	
 				for (const style of styleArray) {
 					const [property, propertyValue] = style
 						.split(":")
@@ -1800,6 +1864,37 @@ export const eventHandlers = () => {
 						classroomStyleValueSelect.appendChild(opt);
 						classroomStyleValueSelect.value = propertyValue;
 						propertyFound = true;
+					}
+				}
+			}
+	
+			if ((currentScreen === "screenTablet" || currentScreen === "screenMobile") && value.mediaQueries) {
+				console.log("Processing media queries for classroom:", key, value.mediaQueries);
+	
+				for (const mediaQuery of value.mediaQueries) {
+					console.log("Processing media query:", mediaQuery);
+	
+					const maxWidth = mediaQuery.query.trim();
+					if ((currentScreen === "screenTablet" && maxWidth === "max-width: 768px") || (currentScreen === "screenMobile" && maxWidth === "max-width: 640px")) {
+						const styleArray = mediaQuery.style
+							.split(";")
+							.map((style) => style.trim())
+							.filter(Boolean);
+						console.log("Media Query Style Array:", styleArray);
+	
+						for (const style of styleArray) {
+							const [property, propertyValue] = style
+								.split(":")
+								.map((s) => s.trim());
+							if (property === classroomStyleSelect) {
+								const opt = document.createElement("option");
+								opt.value = propertyValue;
+								opt.textContent = propertyValue;
+								classroomStyleValueSelect.appendChild(opt);
+								classroomStyleValueSelect.value = propertyValue;
+								propertyFound = true;
+							}
+						}
 					}
 				}
 			}
@@ -1996,33 +2091,33 @@ export const eventHandlers = () => {
 		const classroomMap = global.map.classroomMap;
 		const selectedName = global.id.mainClassroomSelectorSelectName.value; // Correct element for name
 		const selectedProperty = global.id.classroomPropertySelect.value; // Correct element for property
-	
+
 		console.log("Selected Name:", selectedName);
 		console.log("Selected Property:", selectedProperty);
 		console.log("Classroom Map:", classroomMap);
-	
+
 		const currentClassroom = classroomMap.get(selectedName);
 		console.log("Current Classroom:", currentClassroom);
-	
+
 		if (!currentClassroom) {
 			console.error(`Classroom not found for key: ${selectedName}`);
 			return;
 		}
-	
+
 		const currentStyle = currentClassroom.style;
 		console.log("Current Style:", currentStyle);
-	
+
 		const styleArray = currentStyle
 			.split(";")
 			.map((style) => style.trim())
 			.filter(Boolean); // Filter out empty styles
 		console.log("Style Array:", styleArray);
-	
+
 		if (!selectedProperty) {
 			// console.error("No property selected to remove.");
 			return;
 		}
-	
+
 		const newStyle = styleArray
 			.filter((style) => {
 				const [property] = style.split(":").map((s) => s.trim());
@@ -2033,7 +2128,7 @@ export const eventHandlers = () => {
 			.join("; ")
 			.concat(";");
 		console.log("New Style:", newStyle);
-	
+
 		currentClassroom.style = newStyle;
 		populateClassroomStyleOptions(global.id.propertyClassroomSelectAll.value);
 		populateClassroomStyleOptionsValue();

@@ -79,7 +79,6 @@ export default function loadPreview(jsonObj) {
 	html.appendChild(head);
 	html.appendChild(body);
 	generateClassroomMap(jsonObj);
-	console.log(global.map.classroomMap);
 	generateStageMap(jsonObj);
 	generateCssSelector(jsonObj, "", new Map());
 	const jsonObjReplacedPlaceholders = replaceJsonPlaceholders(jsonObj);
