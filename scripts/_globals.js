@@ -238,6 +238,7 @@ const global = {
 		propertySelectAll: document.getElementById("propertySelectAll"),
 		propertySelectAllDiv: document.getElementById("propertySelectAllDiv"),
 		removeAttribute: document.getElementById("removeAttribute"),
+		removeClassroomProperty: document.getElementById("removeClassroomProperty"),
 		removeElement: document.getElementById("removeElement"),
 		removeProperty: document.getElementById("removeProperty"),
 		removePropertyBlueprintSelectProperty: document.getElementById(

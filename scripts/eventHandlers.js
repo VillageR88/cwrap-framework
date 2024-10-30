@@ -1780,7 +1780,9 @@ export const eventHandlers = () => {
 		const classroomStyleSelect = global.id.classroomPropertySelect.value;
 		const classroomStyleValueSelect = global.id.classroomPropertyInput;
 		classroomStyleValueSelect.innerHTML = "";
-
+	
+		let propertyFound = false;
+	
 		for (const [key, value] of classroomMap.entries()) {
 			if (value && typeof value.style === "string") {
 				const styleArray = value.style
@@ -1797,9 +1799,14 @@ export const eventHandlers = () => {
 						opt.textContent = propertyValue;
 						classroomStyleValueSelect.appendChild(opt);
 						classroomStyleValueSelect.value = propertyValue;
+						propertyFound = true;
 					}
 				}
 			}
+		}
+	
+		if (!propertyFound) {
+			classroomStyleValueSelect.value = "";
 		}
 	}
 
@@ -1976,6 +1983,57 @@ export const eventHandlers = () => {
 			.concat(";");
 		console.log("New Style:", newStyle);
 
+		currentClassroom.style = newStyle;
+		populateClassroomStyleOptions(global.id.propertyClassroomSelectAll.value);
+		populateClassroomStyleOptionsValue();
+		applyStyles(); // Apply the updated styles
+		global.id.mainClassroomStyleSelector.style.display = "flex";
+		global.id.mainClassroomStyleSelector2.style.display = "flex";
+		global.id.mainClassroomStyleAdd.style.display = "none";
+	});
+
+	global.id.removeClassroomProperty.addEventListener("click", () => {
+		const classroomMap = global.map.classroomMap;
+		const selectedName = global.id.mainClassroomSelectorSelectName.value; // Correct element for name
+		const selectedProperty = global.id.classroomPropertySelect.value; // Correct element for property
+	
+		console.log("Selected Name:", selectedName);
+		console.log("Selected Property:", selectedProperty);
+		console.log("Classroom Map:", classroomMap);
+	
+		const currentClassroom = classroomMap.get(selectedName);
+		console.log("Current Classroom:", currentClassroom);
+	
+		if (!currentClassroom) {
+			console.error(`Classroom not found for key: ${selectedName}`);
+			return;
+		}
+	
+		const currentStyle = currentClassroom.style;
+		console.log("Current Style:", currentStyle);
+	
+		const styleArray = currentStyle
+			.split(";")
+			.map((style) => style.trim())
+			.filter(Boolean); // Filter out empty styles
+		console.log("Style Array:", styleArray);
+	
+		if (!selectedProperty) {
+			// console.error("No property selected to remove.");
+			return;
+		}
+	
+		const newStyle = styleArray
+			.filter((style) => {
+				const [property] = style.split(":").map((s) => s.trim());
+				const keep = property !== selectedProperty;
+				console.log(`Filtering property: ${property}, keep: ${keep}`);
+				return keep;
+			})
+			.join("; ")
+			.concat(";");
+		console.log("New Style:", newStyle);
+	
 		currentClassroom.style = newStyle;
 		populateClassroomStyleOptions(global.id.propertyClassroomSelectAll.value);
 		populateClassroomStyleOptionsValue();
