@@ -1761,7 +1761,8 @@ global.id.navClassroom.addEventListener("click", () => {
 });
 
 global.id.mainClassroomSelectorSelectType.addEventListener("change", () => {
-	populateClassroomSelectName();
+		populateClassroomSelectName();
+	
 });
 
 function populateClassroomStyleOptions() {
@@ -1898,13 +1899,12 @@ global.id.mainAddClassroomSelectorAdd.addEventListener("click", () => {
 	classroomMap.set(`${selectedType} ${selectedName}`, newClassroom);
 
 	populateClassroomSelectType();
-	global.id.mainClassroomSelector.style.display = "flex";
-	global.id.mainAddClassroomSelector.style.display = "none";
 
 	global.id.mainClassroomSelectorSelectType.value = selectedType;
-	populateClassroomSelectName();
-	global.id.mainClassroomSelectorSelectName.te = selectedName;
-	console.log("Classroom Map:", classroomMap);
+	populateClassroomSelectName(selectedName);
+
+	global.id.mainClassroomSelector.style.display = "flex";
+	global.id.mainAddClassroomSelector.style.display = "none";
 });
 
 global.id.mainAddClassroomSelectorInputName.addEventListener("input", () => {
