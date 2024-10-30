@@ -501,6 +501,21 @@ h3 {
   gap: 20px;
 }
 
+#wizardDiv
+  > form:has(#wizardHeadDiv[style="display: flex;"])
+  button#creatorExtend {
+  display: none;
+}
+#wizardDiv
+  > form:has(#wizardHeadDiv[style="display: none;"])
+  select#creatorHeadExtend {
+  display: none;
+}
+
+#wizardDiv > form:has(#wizardHeadDiv) select {
+  appearance: none;
+}
+
 #wizardDiv > form > #wizardFontsDiv > div > .labelDiv,
 #wizardDiv > form > #wizardRootDiv > div > div > .labelDiv {
   display: flex;
@@ -875,7 +890,7 @@ textarea {
   border-left: 2px solid var(--colorBorder-lighter);
   border-top: 2px solid var(--colorBorder-lighter);
   outline: none;
-  color: var(--colorFill-regular);
+  color: var(--colorFill-primary);
   font-size: medium;
   box-sizing: border-box;
 

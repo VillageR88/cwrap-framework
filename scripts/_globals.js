@@ -47,6 +47,7 @@ const global = {
 		contextSelectAllDiv: document.getElementById("contextSelectAllDiv"),
 		creatorSave: document.getElementById("creatorSave"),
 		creatorExtend: document.getElementById("creatorExtend"),
+		creatorHeadExtend: document.getElementById("creatorHeadExtend"),
 		/** @type {Document} */
 		doc:
 			document.getElementById("preview").contentDocument ||

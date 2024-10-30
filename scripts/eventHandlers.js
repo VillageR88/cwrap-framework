@@ -1705,11 +1705,7 @@ export const eventHandlers = () => {
 		const fontMap = global.map.fontMap;
 		const rootMap = global.map.rootMap;
 		const wizardTitle = global.id.wizardTitle.textContent.split(" ")[0];
-		if (wizardTitle === "Head") {
-			console.log("headMap", headMap); // debugging
-			headMap.get("link").push({ rel: "", href: "", type: "" }); // Add a new empty link
-			onLoadPopulateHeadCreator();
-		} else if (wizardTitle === "Fonts") {
+		if (wizardTitle === "Fonts") {
 			fontMap.get("fonts").push({
 				"font-family": "",
 				src: "",
@@ -1725,6 +1721,15 @@ export const eventHandlers = () => {
 			}
 			rootMap.set(variableName, "");
 			onLoadPopulateRootCreator();
+		}
+	});
+
+	global.id.creatorHeadExtend.addEventListener("change", () => {
+		if (global.id.creatorHeadExtend.value === "link") {
+			console.log("headMap", headMap); // debugging
+			headMap.get("link").push({ rel: "", href: "", type: "" }); // Add a new empty link
+			onLoadPopulateHeadCreator();
+			global.id.creatorHeadExtend.value = "";
 		}
 	});
 
