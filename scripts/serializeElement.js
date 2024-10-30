@@ -6,7 +6,6 @@
  * @returns {Object|null} The serialized element or null if the element does not have the customTag property set to cwrapPreloaded.
  */
 export default function serializeElement(element, isForBuild) {
-	console.log(element, element.customTag);
 	if (element.customTag === "cwrapTempScript") {
 		return null;
 	}

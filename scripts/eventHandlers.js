@@ -391,7 +391,6 @@ export const eventHandlers = () => {
 	 */
 	global.id.menuSave.addEventListener("click", () => {
 		creatorSave();
-		console.log("Save clicked"); //debugging
 		// console.log(global.map.extendMap); //debugging // commented out to confirm extendedMap is not used
 		// for (const [key, _] of cssMap) {
 		// 	if (key.includes(":has")) {
@@ -1761,14 +1760,11 @@ global.id.navClassroom.addEventListener("click", () => {
 });
 
 global.id.mainClassroomSelectorSelectType.addEventListener("change", () => {
-		populateClassroomSelectName();
-	
+	populateClassroomSelectName();
 });
 
 function populateClassroomStyleOptions() {
 	const classroomMap = global.map.classroomMap;
-	console.log("Classroom Map:", classroomMap);
-
 	const classroomStyleSelect = global.id.classroomPropertySelect;
 	classroomStyleSelect.innerHTML = "";
 
@@ -1789,7 +1785,6 @@ function populateClassroomStyleOptions() {
 					opt.value = styleProperty;
 					opt.textContent = styleProperty;
 					classroomStyleSelect.appendChild(opt);
-					console.log(`Added style option: ${styleProperty}`);
 				}
 			}
 		}
@@ -1798,11 +1793,7 @@ function populateClassroomStyleOptions() {
 
 function populateClassroomStyleOptionsValue() {
 	const classroomMap = global.map.classroomMap;
-	console.log("Classroom Map:", classroomMap);
-
 	const classroomStyleSelect = global.id.classroomPropertySelect.value;
-	console.log("Selected Classroom Style:", classroomStyleSelect);
-
 	const classroomStyleValueSelect = global.id.classroomPropertyInput;
 	classroomStyleValueSelect.innerHTML = "";
 
@@ -1819,7 +1810,6 @@ function populateClassroomStyleOptionsValue() {
 					opt.value = propertyValue;
 					opt.textContent = propertyValue;
 					classroomStyleValueSelect.appendChild(opt);
-					console.log(`Added style value: ${propertyValue}`);
 					classroomStyleValueSelect.value = propertyValue;
 				}
 			}
@@ -1886,25 +1876,63 @@ function isValidCSSClassName() {
 }
 
 global.id.mainAddClassroomSelectorAdd.addEventListener("click", () => {
-	const classroomMap = global.map.classroomMap;
+    const classroomMap = global.map.classroomMap;
 
-	const selectedType = global.id.mainAddClassroomSelectorSelectType.value;
-	const selectedName = global.id.mainAddClassroomSelectorInputName.value;
+    const selectedType = global.id.mainAddClassroomSelectorSelectType.value;
+    const selectedName = global.id.mainAddClassroomSelectorInputName.value;
 
-	const newClassroom = {
-		name: selectedName,
-		type: selectedType,
-		style: "",
-	};
-	classroomMap.set(`${selectedType} ${selectedName}`, newClassroom);
+    const newClassroom = {
+        name: selectedName,
+        type: selectedType,
+        style: "",
+    };
 
-	populateClassroomSelectType();
+    let key = classroomMap.size;
+    while (classroomMap.has(key)) {
+        key += 1;
+    }
 
-	global.id.mainClassroomSelectorSelectType.value = selectedType;
-	populateClassroomSelectName(selectedName);
+    classroomMap.set(key, newClassroom);
 
-	global.id.mainClassroomSelector.style.display = "flex";
-	global.id.mainAddClassroomSelector.style.display = "none";
+    populateClassroomSelectType();
+    populateClassroomSelectName(key);
+
+    global.id.mainClassroomSelector.style.display = "flex";
+    global.id.mainAddClassroomSelector.style.display = "none";
+    console.log("Classroom Map after adding:", classroomMap);
+});
+
+global.id.updateClassroomProperty.addEventListener("click", () => {
+    const classroomMap = global.map.classroomMap;
+    const selectedType = global.id.mainClassroomSelectorSelectType.value;
+    const selectedName = global.id.mainClassroomSelectorSelectName.value;
+    console.log("Selected Type:", selectedType);
+    console.log("Selected Name:", selectedName);
+    console.log("Classroom Map:", classroomMap);
+
+    const key = selectedName; // Use selectedName directly as the key
+    const currentClassroom = classroomMap.get(key);
+    console.log("Current Classroom:", currentClassroom);
+
+    if (!currentClassroom) {
+        console.error(`Classroom not found for key: ${key}`);
+        return;
+    }
+
+    const selectedProperty = global.id.classroomPropertySelect.value;
+    const selectedValue = global.id.classroomPropertyInput.value;
+    const currentStyle = currentClassroom.style;
+    const styleArray = currentStyle.split(";").map((style) => style.trim()).filter(Boolean); // Filter out empty styles
+    const newStyle = styleArray
+        .map((style) => {
+            const [property, value] = style.split(":").map((s) => s.trim());
+            return property === selectedProperty ? `${property}: ${selectedValue}` : style;
+        })
+        .join("; ")
+        .concat(";");
+    currentClassroom.style = newStyle;
+    populateClassroomStyleOptionsValue();
+    applyStyles(); // Apply the updated styles
 });
 
 global.id.mainAddClassroomSelectorInputName.addEventListener("input", () => {

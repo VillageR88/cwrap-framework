@@ -274,6 +274,7 @@ const global = {
 			"updateBlueprintAttribute",
 		),
 		updateBlueprintProperty: document.getElementById("updateBlueprintProperty"),
+		updateClassroomProperty: document.getElementById("updateClassroomProperty"),
 		updateProperty: document.getElementById("updateProperty"),
 		updateStateProperty: document.getElementById("updateStateProperty"),
 		updateText: document.getElementById("updateText"),
