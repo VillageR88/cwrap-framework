@@ -93,6 +93,11 @@ export default function serializeElement(element, isForBuild) {
 		obj.blueprint = global.map.blueprintMap.get(element.timeStamp);
 		return obj;
 	}
+	
+	if (element.customTag2 === "cwrapNewBlueprintParent") {
+		obj.blueprint = {};
+		return obj;
+	}
 
 	// Serialize text content if it exists and is not part of a child element
 	const textNodes = Array.from(element.childNodes).filter(

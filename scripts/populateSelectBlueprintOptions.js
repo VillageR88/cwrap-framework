@@ -21,7 +21,7 @@ export default function populateSelectBlueprintOptions() {
 	selectBlueprintElement.style.backgroundRepeat = "no-repeat";
 
 	function processMap(map, parentRoute = "", siblingCountMap = new Map()) {
-		if (map.element) {
+		if (map?.element) {
 			const element = map.element;
 
 			if (!siblingCountMap.has(parentRoute)) {

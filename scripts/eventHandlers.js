@@ -1385,6 +1385,9 @@ export const eventHandlers = () => {
 		const newElementNode = document.createElement(selectedValue);
 		const parentElement = getElementFromPath(fullPath);
 		newElementNode.customTag = "cwrapPreloaded";
+		if (newElementNode.tagName === "UL") {
+			newElementNode.customTag2 = "cwrapNewBlueprintParent";
+		}
 		parentElement.appendChild(newElementNode);
 		eventListenerClickElement(newElementNode);
 		updateElementInfo(newElement, null);
@@ -2627,6 +2630,82 @@ export const eventHandlers = () => {
 			reloadBlueprint();
 		},
 	);
+
+	global.id.mainBlueprintSelectorAdd.addEventListener("click", () => {
+		global.id.mainBlueprintElementAdd.style.display = "flex";
+		global.id.mainBlueprintSelector.style.display = "none";
+		populateElementSelectAll(global.id.elementBlueprintSelectAll);
+	});
+
+	global.id.closeBlueprintAddElement.addEventListener("click", () => {
+		global.id.mainBlueprintElementAdd.style.display = "none";
+		global.id.mainBlueprintSelector.style.display = "flex";
+	});
+
+	//TODO This function is not working properly. Almost but not quite.
+	global.id.addBlueprintElement.addEventListener("click", () => {
+		const blueprintMap = global.map.blueprintMap;
+		const currentElement = getElementFromPath();
+		const selector = currentElement.timeStamp;
+		const currentMap = blueprintMap.get(selector);
+		const newElement = global.id.elementBlueprintSelectAll.value;
+		const selectedElement = global.id.blueprintSelect.value;
+		const formattedSelectedElement = selectedElement.replace(">", "").trim();
+		const formattedSelectedElementArray = formattedSelectedElement.split(">");
+
+		let targetMap = currentMap;
+		for (let i = 0; i < formattedSelectedElementArray.length; i++) {
+			targetMap = searchedObject(
+				formattedSelectedElementArray[i].trim(),
+				targetMap,
+				i,
+			);
+		}
+
+		function searchedObject(searched, map, i) {
+			if (!map.children) {
+				map.children = [];
+			}
+			if (i === formattedSelectedElementArray.length - 1) {
+				console.log("starting point");
+				const newElementObject = {
+					element: newElement,
+				};
+				map.children.push(newElementObject);
+				return newElementObject;
+			}
+			console.log("after:", searched);
+			const nthMatch = searched.match(/:nth-of-type\((\d+)\)/);
+			const tagName = nthMatch
+				? searched.replace(/:nth-of-type\(\d+\)/, "").trim()
+				: searched;
+			console.log("Search:", searched);
+			console.log("Tag Name:", tagName);
+			console.log("Map:", map);
+			const index = nthMatch ? Number.parseInt(nthMatch[1], 10) - 1 : 0;
+			const matchingChildren = map.children.filter(
+				(child) => child.element === tagName,
+			);
+			if (matchingChildren.length > index) {
+				console.log("Matching Children:", matchingChildren);
+				return matchingChildren[index];
+			}
+
+			const newElementObject = {
+				element: newElement,
+			};
+			map.children.push(newElementObject);
+			return newElementObject;
+		}
+
+		console.log(currentMap);
+		populateSelectBlueprintOptions();
+		validateRemoveElement(true);
+		validateParentElement(true);
+		reloadBlueprint();
+		global.id.mainBlueprintElementAdd.style.display = "none";
+		global.id.mainBlueprintSelector.style.display = "flex";
+	});
 };
 // populateRoutesView();
 // loadMenuLevelView();

@@ -1,8 +1,10 @@
 /**
  * Populates the element select all element with sematic HTML elements like div, span, p, etc.
  */
-export default function populateElementSelectAll() {
-	const elementSelectAll = global.id.elementSelectAll;
+export default function populateElementSelectAll(targetSelector = undefined) {
+	const elementSelectAll = targetSelector
+		? targetSelector
+		: global.id.elementSelectAll;
 	const semanticElements = [
 		"a",
 		"abbr",

@@ -10,6 +10,7 @@ const global = {
 	},
 	id: {
 		addAttribute: document.getElementById("addAttribute"),
+		addBlueprintElement: document.getElementById("addBlueprintElement"),
 		addClassroomProperty: document.getElementById("addClassroomProperty"),
 		addElement: document.getElementById("addElement"),
 		addProperty: document.getElementById("addProperty"),
@@ -33,16 +34,31 @@ const global = {
 		blueprintSelect: document.getElementById("blueprintSelect"),
 		classroomPropertySelect: document.getElementById("classroomPropertySelect"),
 		classroomPropertyInput: document.getElementById("classroomPropertyInput"),
-		mainClassroomSelectorDelete: document.getElementById("mainClassroomSelectorDelete"),
-		mainClassroomSelectorAdd: document.getElementById("mainClassroomSelectorAdd"),
-		mainAddClassroomSelector: document.getElementById("mainAddClassroomSelector"),
-		mainAddClassroomSelectorBack: document.getElementById("mainAddClassroomSelectorBack"),
-		mainAddClassroomSelectorInputName: document.getElementById("mainAddClassroomSelectorInputName"),
-		mainAddClassroomSelectorAdd: document.getElementById("mainAddClassroomSelectorAdd"),
-		mainAddClassroomSelectorSelectType: document.getElementById("mainAddClassroomSelectorSelectType"),
+		mainClassroomSelectorDelete: document.getElementById(
+			"mainClassroomSelectorDelete",
+		),
+		mainClassroomSelectorAdd: document.getElementById(
+			"mainClassroomSelectorAdd",
+		),
+		mainAddClassroomSelector: document.getElementById(
+			"mainAddClassroomSelector",
+		),
+		mainAddClassroomSelectorBack: document.getElementById(
+			"mainAddClassroomSelectorBack",
+		),
+		mainAddClassroomSelectorInputName: document.getElementById(
+			"mainAddClassroomSelectorInputName",
+		),
+		mainAddClassroomSelectorAdd: document.getElementById(
+			"mainAddClassroomSelectorAdd",
+		),
+		mainAddClassroomSelectorSelectType: document.getElementById(
+			"mainAddClassroomSelectorSelectType",
+		),
 		closeAddElement: document.getElementById("closeAddElement"),
 		closeAddScreen: document.getElementById("closeAddScreen"),
 		closeAddState: document.getElementById("closeAddState"),
+		closeBlueprintAddElement: document.getElementById("closeBlueprintAddElement"),
 		closeState: document.getElementById("closeState"),
 		contextSelectAllDiv: document.getElementById("contextSelectAllDiv"),
 		creatorSave: document.getElementById("creatorSave"),
@@ -57,6 +73,7 @@ const global = {
 		editStateStyle: document.getElementById("editStateStyle"),
 		editStyle: document.getElementById("editStyle"),
 		editText: document.getElementById("editText"),
+		elementBlueprintSelectAll: document.getElementById("elementBlueprintSelectAll"),
 		elementHeaderDiv: document.getElementById("elementHeaderDiv"),
 		elementSelect: document.getElementById("elementSelect"),
 		elementSelectAll: document.getElementById("elementSelectAll"),
@@ -82,7 +99,9 @@ const global = {
 		mainBlueprintAttributeAdd: document.getElementById(
 			"mainBlueprintAttributeAdd",
 		),
-		mainBlueprintAttributeAddBack: document.getElementById("mainBlueprintAttributeAddBack"),
+		mainBlueprintAttributeAddBack: document.getElementById(
+			"mainBlueprintAttributeAddBack",
+		),
 		mainBlueprintAttributeSelector: document.getElementById(
 			"mainBlueprintAttributeSelector",
 		),
@@ -118,15 +137,25 @@ const global = {
 		mainBlueprintSelectorDelete: document.getElementById(
 			"mainBlueprintSelectorDelete",
 		),
-		mainBlueprintSelectorEditStyle: document.getElementById("mainBlueprintSelectorEditStyle"),
+		mainBlueprintSelectorEditStyle: document.getElementById(
+			"mainBlueprintSelectorEditStyle",
+		),
 		mainBlueprintSelectorEditText: document.getElementById(
 			"mainBlueprintSelectorEditText",
 		),
 		mainBlueprintStyleAdd: document.getElementById("mainBlueprintStyleAdd"),
-		mainBlueprintStyleAddBack: document.getElementById("mainBlueprintStyleAddBack"),
-		mainBlueprintStyleSelector: document.getElementById("mainBlueprintStyleSelector"),
-		mainBlueprintStyleSelectorBack: document.getElementById("mainBlueprintStyleSelectorBack"),
-		mainBlueprintStyleSelector2: document.getElementById("mainBlueprintStyleSelector2"),
+		mainBlueprintStyleAddBack: document.getElementById(
+			"mainBlueprintStyleAddBack",
+		),
+		mainBlueprintStyleSelector: document.getElementById(
+			"mainBlueprintStyleSelector",
+		),
+		mainBlueprintStyleSelectorBack: document.getElementById(
+			"mainBlueprintStyleSelectorBack",
+		),
+		mainBlueprintStyleSelector2: document.getElementById(
+			"mainBlueprintStyleSelector2",
+		),
 		mainBlueprintTextEditor: document.getElementById("mainBlueprintTextEditor"),
 		mainBlueprintTextEditorBack: document.getElementById(
 			"mainBlueprintTextEditorBack",
@@ -137,7 +166,10 @@ const global = {
 		mainBlueprintTextEditor2: document.getElementById(
 			"mainBlueprintTextEditor2",
 		),
-		mainClassroomStyleSelectorBack: document.getElementById("mainClassroomStyleSelectorBack"),
+		mainBlueprintElementAdd: document.getElementById("mainBlueprintElementAdd"),
+		mainClassroomStyleSelectorBack: document.getElementById(
+			"mainClassroomStyleSelectorBack",
+		),
 		mainBody: document.getElementById("mainBody"),
 		mainClassroomSelector: document.getElementById("mainClassroomSelector"),
 		mainClassroomSelectorSelectName: document.getElementById(
@@ -146,11 +178,19 @@ const global = {
 		mainClassroomSelectorSelectType: document.getElementById(
 			"mainClassroomSelectorSelectType",
 		),
-		mainClassroomSelectorEditStyle: document.getElementById("mainClassroomSelectorEditStyle"),
-		mainClassroomStyleSelector: document.getElementById("mainClassroomStyleSelector"),
+		mainClassroomSelectorEditStyle: document.getElementById(
+			"mainClassroomSelectorEditStyle",
+		),
+		mainClassroomStyleSelector: document.getElementById(
+			"mainClassroomStyleSelector",
+		),
 		mainClassroomStyleAdd: document.getElementById("mainClassroomStyleAdd"),
-		mainClassroomStyleAddBack: document.getElementById("mainClassroomStyleAddBack"),
-		mainClassroomStyleSelector2: document.getElementById("mainClassroomStyleSelector2"),
+		mainClassroomStyleAddBack: document.getElementById(
+			"mainClassroomStyleAddBack",
+		),
+		mainClassroomStyleSelector2: document.getElementById(
+			"mainClassroomStyleSelector2",
+		),
 		mainElementAdd: document.getElementById("mainElementAdd"),
 		mainInitialSelector: document.getElementById("mainInitialSelector"),
 		mainStateStyleAdd: document.getElementById("mainStateStyleAdd"),
@@ -215,8 +255,12 @@ const global = {
 		openBlueprintAddAttribute: document.getElementById(
 			"openBlueprintAddAttribute",
 		),
-		openBlueprintAddProperty: document.getElementById("openBlueprintAddProperty"),
-		openClassroomAddProperty: document.getElementById("openClassroomAddProperty"),
+		openBlueprintAddProperty: document.getElementById(
+			"openBlueprintAddProperty",
+		),
+		openClassroomAddProperty: document.getElementById(
+			"openClassroomAddProperty",
+		),
 		openState: document.getElementById("openState"),
 		addState: document.getElementById("addState"),
 		mainStateSelectorBack: document.getElementById("mainStateSelectorBack"),
@@ -232,8 +276,12 @@ const global = {
 		preview: document.getElementById("preview"),
 		previewTree: document.getElementById("previewTree"),
 		propertyBlueprintInput: document.getElementById("propertyBlueprintInput"),
-		propertyBlueprintSelectAll: document.getElementById("propertyBlueprintSelectAll"),
-		propertyClassroomSelectAll: document.getElementById("propertyClassroomSelectAll"),
+		propertyBlueprintSelectAll: document.getElementById(
+			"propertyBlueprintSelectAll",
+		),
+		propertyClassroomSelectAll: document.getElementById(
+			"propertyClassroomSelectAll",
+		),
 		propertyInput: document.getElementById("propertyInput"),
 		propertySelect: document.getElementById("propertySelect"),
 		propertySelectAll: document.getElementById("propertySelectAll"),
