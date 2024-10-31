@@ -6,7 +6,6 @@ import validateRemoveElement from "./validateRemoveElement.js";
 export const eventListenerClickElement = (element) => {
 	element.addEventListener("click", (event) => {
 		event.stopPropagation();
-		// event.preventDefault(); // Commented out to test behavior without it
 		if (event.target.tagName === "BUTTON") {
 			const isPartOfForm = event.target.closest("form") !== null;
 			const isTypeSubmit = event.target.type !== "button";
@@ -42,8 +41,8 @@ export const eventListenerClickElement = (element) => {
 								"click",
 								handleRejectClick,
 							);
-                            global.id.mask.style.display = "none";
-                            global.id.popupSubmit.style.display = "none";
+							global.id.mask.style.display = "none";
+							global.id.popupSubmit.style.display = "none";
 						}
 						global.id.popupSubmitConfirm.addEventListener(
 							"click",
@@ -68,6 +67,7 @@ export const eventListenerClickElement = (element) => {
 			!event.target.href?.match("#") &&
 			!global.id.navSelectPreview.classList.contains("static")
 		) {
+			event.preventDefault(); 
 			console.log("clicked on a link");
 			global.id.mask.style.display = "flex";
 			global.id.popupLink.style.display = "flex";

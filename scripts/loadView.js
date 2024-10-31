@@ -136,4 +136,15 @@ export function centralBarCleanup() {
 	global.id.mainClassroomSelector.style.display = "none";
 	global.id.mainBlueprintSelector.style.display = "none";
 	global.id.mainBlueprintCounter.style.display = "none";
+	global.id.mainAddClassroomSelector.style.display = "none";
+	global.id.mainClassroomStyleSelector.style.display = "none";
+	global.id.mainClassroomStyleSelector2.style.display = "none";
+	global.id.mainBlueprintTextEditor.style.display = "none";
+	global.id.mainBlueprintTextEditor2.style.display = "none";
+	global.id.mainBlueprintAttributeSelector.style.display = "none";
+	global.id.mainBlueprintAttributeSelector2.style.display = "none";
+	global.id.mainBlueprintAttributeAdd.style.display = "none";
+	global.id.mainBlueprintStyleSelector.style.display = "none";
+	global.id.mainBlueprintStyleSelector2.style.display = "none";
+	global.id.mainBlueprintStyleAdd.style.display = "none";
 }

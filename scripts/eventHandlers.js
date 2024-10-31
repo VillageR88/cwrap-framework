@@ -1741,6 +1741,7 @@ export const eventHandlers = () => {
 	);
 
 	global.id.navClassroom.addEventListener("click", () => {
+		centralBarCleanup();
 		global.id.mainInitialSelector.style.display = "none";
 		global.id.selectedElementHighlight.style.display = "none";
 		global.id.mainClassroomSelector.style.display = "flex";
