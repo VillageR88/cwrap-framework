@@ -2764,8 +2764,8 @@ export const eventHandlers = () => {
 		// global.id.mainStateStyleSelector.style.display = "none";
 		// global.id.mainStateStyleAdd.style.display = "flex";
 		// global.id.mainStateStyleSelector2.style.display = "none";
-		// populatePropertySelectAll(cssProperties, true);
-		// resolveElementStateSelect();
+		// populatePropertySelectAll(cssProperties, true); //WIP for blueprint
+		// resolveElementStateSelect(); //WIP for blueprint
 	});
 
 	global.id.closeBlueprintAddState.addEventListener("click", () => {
