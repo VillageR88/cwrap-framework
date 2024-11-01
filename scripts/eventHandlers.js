@@ -2653,52 +2653,66 @@ export const eventHandlers = () => {
 		const formattedSelectedElement = selectedElement.replace(">", "").trim();
 		const formattedSelectedElementArray = formattedSelectedElement.split(">");
 
-		let targetMap = currentMap;
-		for (let i = 0; i < formattedSelectedElementArray.length; i++) {
-			targetMap = searchedObject(
-				formattedSelectedElementArray[i].trim(),
-				targetMap,
-				i,
-			);
-		}
+		console.log("Initial currentMap:", JSON.stringify(currentMap, null, 2));
+		console.log(
+			"Formatted Selected Element Array:",
+			formattedSelectedElementArray,
+		);
 
-		function searchedObject(searched, map, i) {
-			if (!map.children) {
-				map.children = [];
-			}
-			if (i === formattedSelectedElementArray.length - 1) {
-				console.log("starting point");
-				const newElementObject = {
-					element: newElement,
-				};
-				map.children.push(newElementObject);
-				return newElementObject;
-			}
-			console.log("after:", searched);
-			const nthMatch = searched.match(/:nth-of-type\((\d+)\)/);
-			const tagName = nthMatch
-				? searched.replace(/:nth-of-type\(\d+\)/, "").trim()
-				: searched;
-			console.log("Search:", searched);
-			console.log("Tag Name:", tagName);
-			console.log("Map:", map);
-			const index = nthMatch ? Number.parseInt(nthMatch[1], 10) - 1 : 0;
-			const matchingChildren = map.children.filter(
-				(child) => child.element === tagName,
-			);
-			if (matchingChildren.length > index) {
+		function addElementToMap(map, elementPath, newElement) {
+			const pathParts = elementPath.split(" > ");
+			let currentElement = map;
+
+			for (let i = 0; i < pathParts.length; i++) {
+				const part = pathParts[i];
+				const [elementName, nthOfType] = part.split(":nth-of-type(");
+				const index = nthOfType
+					? Number.parseInt(nthOfType.replace(")", ""), 10) - 1
+					: 0;
+
+				console.log(`Processing part: ${part}`);
+				console.log(`Element Name: ${elementName}, Index: ${index}`);
+
+				if (!currentElement.children) {
+					currentElement.children = [];
+					console.log("Initialized children array for currentElement");
+				}
+
+				const matchingChildren = currentElement.children.filter(
+					(child) => child.element === elementName,
+				);
+
 				console.log("Matching Children:", matchingChildren);
-				return matchingChildren[index];
-			}
 
-			const newElementObject = {
-				element: newElement,
-			};
-			map.children.push(newElementObject);
-			return newElementObject;
+				if (matchingChildren.length > index) {
+					currentElement = matchingChildren[index];
+					console.log(
+						"Found matching child, updated currentElement:",
+						currentElement,
+					);
+				}
+				// else {
+				// 	const newElementObject = {
+				// 		element: elementName,
+				// 		children: []
+				// 	};
+				// 	currentElement.children.push(newElementObject);
+				// 	currentElement = newElementObject;
+				// 	console.log("Created and pushed new element object:", newElementObject);
+				// }
+
+				if (i === pathParts.length - 1) {
+					// Add the new element to the children array
+					const newElementObject = { element: newElement };
+					currentElement.children.push(newElementObject);
+				}
+			}
 		}
 
-		console.log(currentMap);
+		addElementToMap(currentMap, formattedSelectedElement, newElement);
+
+		console.log("Final currentMap:", JSON.stringify(currentMap, null, 2));
+
 		populateSelectBlueprintOptions();
 		validateRemoveElement(true);
 		validateParentElement(true);
