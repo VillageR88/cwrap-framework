@@ -1385,10 +1385,23 @@ export const eventHandlers = () => {
 		const newElementNode = document.createElement(selectedValue);
 		const parentElement = getElementFromPath(fullPath);
 		newElementNode.customTag = "cwrapPreloaded";
+		const blueprintMap = global.map.blueprintMap;
 		if (newElementNode.tagName === "UL") {
-			newElementNode.customTag2 = "cwrapNewBlueprintParent";
+			const timeStamp = new Date().getTime();
+			newElementNode.customTag = "cwrapBlueprintContainer";
+			newElementNode.timeStamp = timeStamp;
+			blueprintMap.set(newElementNode.timeStamp, {
+				element: "li",
+				count: 1,
+				children: [],
+			});
+
+			// populateSelectBlueprintOptions();
+			// validateRemoveElement(true);
+			// validateParentElement(true);
 		}
 		parentElement.appendChild(newElementNode);
+		if (newElementNode.tagName === "UL") reloadBlueprint();
 		eventListenerClickElement(newElementNode);
 		updateElementInfo(newElement, null);
 		applyStyles();
@@ -2704,6 +2717,9 @@ export const eventHandlers = () => {
 				if (i === pathParts.length - 1) {
 					// Add the new element to the children array
 					const newElementObject = { element: newElement };
+					if (!currentElement.children) {
+						currentElement.children = [];
+					}
 					currentElement.children.push(newElementObject);
 				}
 			}
