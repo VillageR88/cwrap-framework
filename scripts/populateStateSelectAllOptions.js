@@ -6,8 +6,9 @@ import { stateNonContextual, stateContextual } from "./_const.js";
  * @param {Map<string,string>} cssMap
  * @param {Map<string,string>} mediaQueriesMap
  */
-export default function populateStateSelectAllOptions() {
+export default function populateStateSelectAllOptions(isBlueprint = false) {
 	const cssMap = global.map.cssMap;
+	console.log("cssMap", cssMap);
 	const mediaQueriesMap = global.map.mediaQueriesMap;
 	// const stateOfText = global.id.elementSelect.value.split(" > ")[0];
 	/** @type {Map<string,string>}  */
@@ -29,13 +30,27 @@ export default function populateStateSelectAllOptions() {
 			keyInMapHasChildren.set(key, value);
 		}
 	}
-	/** @type {Map<string,string>} mapContextual */
+	/** @type {Map<string,string>} */
 	const mapContextual = new Map();
 	for (const [key, value] of keyInMapHasChildren) {
 		const newKey = key.replace(`${global.id.elementSelect.value} > `, "");
+		if (newKey.includes("body")) continue;
+		if (newKey.includes("li:nth-of-type")) {
+			const cleanedKey = newKey.replace(/li:nth-of-type\(\d+\)/g, "li");
+			mapContextual.set(cleanedKey, value);
+		} else {
+			mapContextual.set(newKey, value);
+		}
+	}
+
+	for (const [key, value] of keyInMapHasChildren) {
+		const newKey = key.replace(`${global.id.elementSelect.value} > `, "");
+		if (newKey.includes("body")) continue;
 		mapContextual.set(newKey, value);
 	}
-	const stateSelectAll = global.id.stateSelectAll;
+	const stateSelectAll = isBlueprint
+		? global.id.stateBlueprintSelectAll
+		: global.id.stateSelectAll;
 	const memoryStateSelectAllValue = stateSelectAll.value;
 	stateSelectAll.innerHTML = "";
 	for (const element of stateNonContextual) {
@@ -51,5 +66,6 @@ export default function populateStateSelectAllOptions() {
 		stateSelectAll.appendChild(option);
 	}
 	stateSelectAll.value = memoryStateSelectAllValue || stateSelectAll.value;
-	resolveToggleContext(mapContextual);
+	console.log(mapContextual);
+	resolveToggleContext(mapContextual, isBlueprint);
 }

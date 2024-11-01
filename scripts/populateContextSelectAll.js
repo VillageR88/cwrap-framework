@@ -1,5 +1,12 @@
-export default function populateContextSelectAll(mapContextual) {
-	const selectContext = global.id.selectContext;
+import populateStateOfContextSelectAllOptions from "./populateStateOfContextSelectAllOptions.js";
+
+export default function populateContextSelectAll(
+	mapContextual,
+	isBlueprint = false,
+) {
+	const selectContext = isBlueprint
+		? global.id.selectBlueprintContext
+		: global.id.selectContext;
 	selectContext.innerHTML = "";
 	for (const [key, value] of mapContextual) {
 		const option = document.createElement("option");
@@ -7,4 +14,5 @@ export default function populateContextSelectAll(mapContextual) {
 		option.textContent = key;
 		selectContext.appendChild(option);
 	}
+	populateStateOfContextSelectAllOptions(isBlueprint);
 }

@@ -1,7 +1,7 @@
 import { stateNonContextual } from "./_const.js";
 
-export default function populateStateOfContextSelectAllOptions() {
-  const selectStateOfContext = global.id.selectStateOfContext;
+export default function populateStateOfContextSelectAllOptions(isBlueprint = false) {
+  const selectStateOfContext =isBlueprint ? global.id.selectBlueprintStateOfContext : global.id.selectStateOfContext;
   selectStateOfContext.innerHTML = "";
   for (const element of stateNonContextual) {
     const option = document.createElement("option");

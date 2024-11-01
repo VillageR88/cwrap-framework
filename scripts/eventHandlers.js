@@ -217,7 +217,17 @@ export const eventHandlers = () => {
 
 	global.id.selectedElementHighlight.addEventListener("mousedown", () => {
 		const nameHelper = global.id.nameHelper;
-		const element = getElementFromPath();
+		const isBlueprint =
+			global.id.mainBlueprintSelector.style.display === "flex" ||
+			global.id.mainBlueprintStyleSelector.style.display === "flex" ||
+			global.id.mainBlueprintStyleAdd.style.display === "flex" ||
+			global.id.mainBlueprintStateSelector.style.display === "flex" ||
+			global.id.mainBlueprintStateAdd.style.display === "flex";
+		const element = isBlueprint
+			? getElementFromPath(
+					global.id.elementSelect.value + global.id.blueprintSelect.value,
+				)
+			: getElementFromPath();
 		if (element) {
 			const selectionColor = {
 				red: "rgba(255, 0, 0, 1)",
@@ -362,6 +372,11 @@ export const eventHandlers = () => {
 
 	global.id.stateSelectAll.addEventListener("change", () => {
 		populateStateSelectAllOptions();
+		// resolveToggleContext();
+	});
+
+	global.id.stateBlueprintSelectAll.addEventListener("change", () => {
+		populateStateSelectAllOptions(true);
 		// resolveToggleContext();
 	});
 
@@ -2759,6 +2774,7 @@ export const eventHandlers = () => {
 	});
 
 	global.id.openBlueprintAddState.addEventListener("click", () => {
+		populateStateSelectAllOptions(true);
 		global.id.mainBlueprintStateSelector.style.display = "none";
 		global.id.mainBlueprintStateAdd.style.display = "flex";
 		// global.id.mainStateStyleSelector.style.display = "none";

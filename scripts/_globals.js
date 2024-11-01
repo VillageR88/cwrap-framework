@@ -304,6 +304,9 @@ const global = {
 		rootSelectVariable: document.getElementById("rootSelectVariable"),
 		routesTree: document.getElementById("routesTree"),
 		sectionsVariables: document.getElementById("sectionsVariables"),
+		selectBlueprintContext: document.getElementById("selectBlueprintContext"),
+		selectBlueprintContextHighlight: document.getElementById("selectBlueprintContextHighlight"),
+		selectBlueprintStateOfContext: document.getElementById("selectBlueprintStateOfContext"),
 		selectContext: document.getElementById("selectContext"),
 		selectContextHighlight: document.getElementById("selectContextHighlight"),
 		selectStateOfContext: document.getElementById("selectStateOfContext"),
@@ -322,6 +325,7 @@ const global = {
 		settingsTreeFirstTimeCreateSettings: document.getElementById(
 			"settingsTreeFirstTimeCreateSettings",
 		),
+		stateBlueprintSelectAll: document.getElementById("stateBlueprintSelectAll"),
 		stateContextInfo: document.getElementById("stateContextInfo"),
 		statePropertyInput: document.getElementById("statePropertyInput"),
 		statePropertySelect: document.getElementById("statePropertySelect"),

@@ -2,7 +2,6 @@ import getElementPath from "./getElementPath.js";
 import updateElementInfo from "./updateElementInfo.js";
 import populateSelectOptions from "./populateSelectOptions.js";
 import populateAttributeOptions from "./populateAttributeOptions.js";
-import populateStateOfContextSelectAllOptions from "./populateStateOfContextSelectAllOptions.js";
 import createElementFromJson from "./createElementFromJson.js";
 import generateClassroomMap from "./generateClassroomMap.js";
 import generateStageMap from "./generateStageMap.js";
@@ -93,5 +92,4 @@ export default function loadPreview(jsonObj) {
 	populateSelectOptions(jsonObj);
 	const bodyPath = getElementPath(doc.body);
 	updateElementInfo(bodyPath, doc.body);
-	populateStateOfContextSelectAllOptions(); //TODO rethink this
 }
