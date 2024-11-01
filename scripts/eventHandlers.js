@@ -2745,7 +2745,6 @@ export const eventHandlers = () => {
 		global.id.mainBlueprintSelector.style.display = "flex";
 	});
 
-
 	global.id.openBlueprintState.addEventListener("click", () => {
 		global.id.mainBlueprintStyleSelector.style.display = "none";
 		global.id.mainBlueprintStyleSelector2.style.display = "none";
@@ -2753,6 +2752,11 @@ export const eventHandlers = () => {
 		// populateSelectBlueprintOptions();
 	});
 
+	global.id.mainBlueprintStateSelectorBack.addEventListener("click", () => {
+		global.id.mainBlueprintStyleSelector.style.display = "flex";
+		global.id.mainBlueprintStyleSelector2.style.display = "flex";
+		global.id.mainBlueprintStateSelector.style.display = "none";
+	});
 };
 // populateRoutesView();
 // loadMenuLevelView();

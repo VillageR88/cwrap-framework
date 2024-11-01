@@ -168,6 +168,7 @@ const global = {
 		),
 		mainBlueprintElementAdd: document.getElementById("mainBlueprintElementAdd"),
 		mainBlueprintStateSelector: document.getElementById("mainBlueprintStateSelector"),
+		mainBlueprintStateSelectorBack: document.getElementById("mainBlueprintStateSelectorBack"),
 		mainClassroomStyleSelectorBack: document.getElementById(
 			"mainClassroomStyleSelectorBack",
 		),
