@@ -2757,6 +2757,21 @@ export const eventHandlers = () => {
 		global.id.mainBlueprintStyleSelector2.style.display = "flex";
 		global.id.mainBlueprintStateSelector.style.display = "none";
 	});
+
+	global.id.openBlueprintAddState.addEventListener("click", () => {
+		global.id.mainBlueprintStateSelector.style.display = "none";
+		global.id.mainBlueprintStateAdd.style.display = "flex";
+		// global.id.mainStateStyleSelector.style.display = "none";
+		// global.id.mainStateStyleAdd.style.display = "flex";
+		// global.id.mainStateStyleSelector2.style.display = "none";
+		// populatePropertySelectAll(cssProperties, true);
+		// resolveElementStateSelect();
+	});
+
+	global.id.closeBlueprintAddState.addEventListener("click", () => {
+		global.id.mainBlueprintStateAdd.style.display = "none";
+		global.id.mainBlueprintStateSelector.style.display = "flex";
+	});
 };
 // populateRoutesView();
 // loadMenuLevelView();

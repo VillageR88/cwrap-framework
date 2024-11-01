@@ -59,6 +59,7 @@ const global = {
 		closeAddScreen: document.getElementById("closeAddScreen"),
 		closeAddState: document.getElementById("closeAddState"),
 		closeBlueprintAddElement: document.getElementById("closeBlueprintAddElement"),
+		closeBlueprintAddState: document.getElementById("closeBlueprintAddState"),
 		closeState: document.getElementById("closeState"),
 		contextSelectAllDiv: document.getElementById("contextSelectAllDiv"),
 		creatorSave: document.getElementById("creatorSave"),
@@ -169,6 +170,7 @@ const global = {
 		mainBlueprintElementAdd: document.getElementById("mainBlueprintElementAdd"),
 		mainBlueprintStateSelector: document.getElementById("mainBlueprintStateSelector"),
 		mainBlueprintStateSelectorBack: document.getElementById("mainBlueprintStateSelectorBack"),
+		mainBlueprintStateAdd: document.getElementById("mainBlueprintStateAdd"),
 		mainClassroomStyleSelectorBack: document.getElementById(
 			"mainClassroomStyleSelectorBack",
 		),
@@ -258,6 +260,7 @@ const global = {
 			"openBlueprintAddAttribute",
 		),
 		openBlueprintState: document.getElementById("openBlueprintState"),
+		openBlueprintAddState: document.getElementById("openBlueprintAddState"),
 		openBlueprintAddProperty: document.getElementById(
 			"openBlueprintAddProperty",
 		),
