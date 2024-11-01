@@ -167,6 +167,7 @@ const global = {
 			"mainBlueprintTextEditor2",
 		),
 		mainBlueprintElementAdd: document.getElementById("mainBlueprintElementAdd"),
+		mainBlueprintStateSelector: document.getElementById("mainBlueprintStateSelector"),
 		mainClassroomStyleSelectorBack: document.getElementById(
 			"mainClassroomStyleSelectorBack",
 		),
@@ -255,6 +256,7 @@ const global = {
 		openBlueprintAddAttribute: document.getElementById(
 			"openBlueprintAddAttribute",
 		),
+		openBlueprintState: document.getElementById("openBlueprintState"),
 		openBlueprintAddProperty: document.getElementById(
 			"openBlueprintAddProperty",
 		),

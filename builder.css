@@ -716,7 +716,7 @@ body > #selectedElementLabelContainer > div > div > #mainBlueprintElementAdd,
 body > #selectedElementLabelContainer > div > div > #mainStyleSelector,
 body > #selectedElementLabelContainer > div > div > #mainClassroomStyleSelector,
 body > #selectedElementLabelContainer > div > div > #mainBlueprintStyleSelector,
-body > #selectedElementLabelContainer > div > div > #mainStateSelector,
+body > #selectedElementLabelContainer > div > div > #mainBlueprintStateSelector,
 body > #selectedElementLabelContainer > div > div > #mainStateStyleSelector,
 body > #selectedElementLabelContainer > div > div > #mainStateAdd,
 body > #selectedElementLabelContainer > div > div > #mainTextEditor,
@@ -765,6 +765,14 @@ body
   > textarea#mainBlueprintTextEditor2 {
   width: 400px;
   height: 100px;
+}
+
+body > #selectedElementLabelContainer > div > textarea#mainTextEditor2 {
+  resize: both;
+  max-width: 800px;
+  min-width: 400px;
+  min-height: 100px;
+  max-height: 600px;
 }
 
 body > #selectedElementLabelContainer > div > div > div {

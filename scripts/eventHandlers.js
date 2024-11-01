@@ -690,10 +690,18 @@ export const eventHandlers = () => {
 		}
 	});
 
+	global.id.mainTextEditor2.addEventListener("dblclick", () => {
+		global.id.mainTextEditor2.style.width = "";
+		global.id.mainTextEditor2.style.height = "";
+		console.log("Textarea size reset");
+	});
+
 	global.id.mainTextEditorBack.addEventListener("click", () => {
 		global.id.mainInitialSelector.style.display = "flex";
 		global.id.mainTextEditor.style.display = "none";
 		global.id.mainTextEditor2.style.display = "none";
+		global.id.mainTextEditor2.style.width = "";
+		global.id.mainTextEditor2.style.height = "";
 	});
 
 	global.id.updateText.addEventListener("click", () => {
@@ -2736,6 +2744,15 @@ export const eventHandlers = () => {
 		global.id.mainBlueprintElementAdd.style.display = "none";
 		global.id.mainBlueprintSelector.style.display = "flex";
 	});
+
+
+	global.id.openBlueprintState.addEventListener("click", () => {
+		global.id.mainBlueprintStyleSelector.style.display = "none";
+		global.id.mainBlueprintStyleSelector2.style.display = "none";
+		global.id.mainBlueprintStateSelector.style.display = "flex";
+		// populateSelectBlueprintOptions();
+	});
+
 };
 // populateRoutesView();
 // loadMenuLevelView();
