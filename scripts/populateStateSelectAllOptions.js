@@ -24,19 +24,19 @@ export default function populateStateSelectAllOptions(isBlueprint = false) {
 			keyInMapHasChildren.set(key, value);
 		}
 	}
-	console.log(keyInMapHasChildren);
+	// console.log(keyInMapHasChildren);
 	/** @type {Map<string,string>} */
 	const mapContextual = new Map();
 	for (const [key, value] of keyInMapHasChildren) {
-		console.log("key", key);
-		console.log("elementSelect:", global.id.elementSelect.value);
-		console.log("blueprintSelect:", global.id.blueprintSelect.value);
-		console.log(
-			"both:",
-			global.id.elementSelect.value + global.id.blueprintSelect.value,
-		);
+		// console.log("key", key);
+		// console.log("elementSelect:", global.id.elementSelect.value);
+		// console.log("blueprintSelect:", global.id.blueprintSelect.value);
+		// console.log(
+		// 	"both:",
+		// 	global.id.elementSelect.value + global.id.blueprintSelect.value,
+		// );
 		const newKey = key.replace(`${global.id.elementSelect.value} > `, "");
-		console.log("newKey", newKey);
+		// console.log("newKey", newKey);
 		if (isBlueprint) {
 			// const cleanedKey = newKey.replace(/^:nth-of-type\(\d+\)/g, "");
 			const selectedBlueprintElementLength = global.id.blueprintSelect.value
@@ -62,7 +62,7 @@ export default function populateStateSelectAllOptions(isBlueprint = false) {
 		// 	mapContextual.set(newKey, value);
 		// }
 	}
-	console.log(mapContextual);
+	// console.log(mapContextual);
 
 	// for (const [key, value] of keyInMapHasChildren) {
 	// 	const newKey = key.replace(
@@ -71,7 +71,7 @@ export default function populateStateSelectAllOptions(isBlueprint = false) {
 	// 	);
 	// 	mapContextual.set(newKey, value);
 	// }
-	console.log(mapContextual);
+	// console.log(mapContextual);
 	const stateSelectAll = isBlueprint
 		? global.id.stateBlueprintSelectAll
 		: global.id.stateSelectAll;
@@ -90,6 +90,6 @@ export default function populateStateSelectAllOptions(isBlueprint = false) {
 		stateSelectAll.appendChild(option);
 	}
 	stateSelectAll.value = memoryStateSelectAllValue || stateSelectAll.value;
-	console.log(mapContextual);
+	// console.log(mapContextual);
 	resolveToggleContext(mapContextual, isBlueprint);
 }

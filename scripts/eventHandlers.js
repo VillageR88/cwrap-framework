@@ -2727,15 +2727,6 @@ export const eventHandlers = () => {
 						currentElement,
 					);
 				}
-				// else {
-				// 	const newElementObject = {
-				// 		element: elementName,
-				// 		children: []
-				// 	};
-				// 	currentElement.children.push(newElementObject);
-				// 	currentElement = newElementObject;
-				// 	console.log("Created and pushed new element object:", newElementObject);
-				// }
 
 				if (i === pathParts.length - 1) {
 					// Add the new element to the children array
@@ -2785,6 +2776,88 @@ export const eventHandlers = () => {
 	});
 
 	global.id.closeBlueprintAddState.addEventListener("click", () => {
+		global.id.mainBlueprintStateAdd.style.display = "none";
+		global.id.mainBlueprintStateSelector.style.display = "flex";
+	});
+
+	global.id.addBlueprintState.addEventListener("click", () => {
+		const blueprintMap = global.map.blueprintMap;
+		const currentElement = getElementFromPath();
+		const selector = currentElement.timeStamp;
+		const currentMap = blueprintMap.get(selector);
+		console.log("global.id.selectStateOfContext.value",global.id.selectBlueprintStateOfContext.value);
+		let selectedState = `:${global.id.stateBlueprintSelectAll.value}`;
+		if (selectedState === ":has") {
+			selectedState = `${selectedState}(${global.id.selectBlueprintContext.value}:${global.id.selectBlueprintStateOfContext.value})`;
+		}
+		// const selectedStateTrimmed = selectedState.replace(">", "").trim();
+		// const formattedSelectedStateArray = selectedStateTrimmed.split(">");
+
+		// console.log("Initial currentMap:", JSON.stringify(currentMap, null, 2));
+		// console.log("Formatted Selected State Array:", formattedSelectedStateArray);
+
+		function addStateToMap(map, elementPath, newState) {
+			const pathParts = elementPath.split(" > ");
+			let currentElement = map;
+
+			for (let i = 0; i < pathParts.length; i++) {
+				const part = pathParts[i].trim();
+				const elementName = part.replace(/:nth-of-type\(\d+\)/, "").trim();
+				const nthMatch = part.match(/:nth-of-type\((\d+)\)/);
+				const index = nthMatch ? Number.parseInt(nthMatch[1], 10) - 1 : 0;
+
+				console.log(`Processing part: ${part}`);
+				console.log(`Element Name: ${elementName}, Index: ${index}`);
+
+				if (!currentElement.children) {
+					currentElement.children = [];
+					console.log("Initialized children array for currentElement");
+				}
+
+				const matchingChildren = currentElement.children.filter(
+					(child) => child.element === elementName,
+				);
+
+				console.log("Matching Children:", matchingChildren);
+
+				if (matchingChildren.length > index) {
+					currentElement = matchingChildren[index];
+					console.log(
+						"Found matching child, updated currentElement:",
+						currentElement,
+					);
+				}
+
+				if (i === pathParts.length - 1) {
+					// Add the new state to the extend array
+					const newStateObject = {
+						extension: newState,
+						style: "",
+					};
+					if (!currentElement.extend) {
+						currentElement.extend = [];
+					}
+					currentElement.extend.push(newStateObject); // Add to the existing extend array
+					console.log("Added new state to extend array:", newStateObject);
+				}
+			}
+		}
+
+		const blueprintElementPath = global.id.blueprintSelect.value
+			.replace(">", "")
+			.trim()
+			.replace(/:nth-of-type\(\d+\)/g, "")
+			.trim();
+		addStateToMap(currentMap, blueprintElementPath, selectedState);
+
+		// populateSelectBlueprintOptions();
+		validateRemoveElement(true);
+		validateParentElement(true);
+		reloadBlueprint();
+
+		console.log("Final currentMap:", JSON.stringify(currentMap, null, 2));
+
+		reloadBlueprint();
 		global.id.mainBlueprintStateAdd.style.display = "none";
 		global.id.mainBlueprintStateSelector.style.display = "flex";
 	});
