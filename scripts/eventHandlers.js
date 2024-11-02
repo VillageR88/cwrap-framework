@@ -306,6 +306,11 @@ export const eventHandlers = () => {
 		transformedTitle = transformedTitle.replace(/:\w+\)/g, "");
 		return transformedTitle;
 	}
+	const selectionColor = {
+		red: "rgba(255, 0, 0, 1)",
+		green: "rgba(0, 255, 0, 1)",
+		blue: "rgba(0, 0, 255, 1)",
+	};
 	global.id.stateContextInfo.addEventListener("mousedown", () => {
 		console.log(
 			"stateContextInfo mousedown event",
@@ -316,11 +321,6 @@ export const eventHandlers = () => {
 		);
 		console.log("element", element);
 		if (element) {
-			const selectionColor = {
-				red: "rgba(255, 0, 0, 1)",
-				green: "rgba(0, 255, 0, 1)",
-				blue: "rgba(0, 0, 255, 1)",
-			};
 			const selected = global.localSettings.selectionColor;
 			element.style.boxShadow = `0 0 10px ${selectionColor[selected]} inset, 0 0 10px ${selectionColor[selected]}`;
 			const removeGlow = () => {
@@ -333,7 +333,7 @@ export const eventHandlers = () => {
 
 	global.id.stateContextInfo.addEventListener("mouseleave", () => {
 		const element = getElementFromPath(
-			transformStateTitleToPath(global.id.elementStateSelect.value),
+			global.id.elementSelect.value + global.id.blueprintSelect.value,
 		);
 		if (element) {
 			element.style.boxShadow = "";
@@ -342,8 +342,59 @@ export const eventHandlers = () => {
 
 	global.id.stateContextInfo.addEventListener("mouseup", () => {
 		const element = getElementFromPath(
-			transformStateTitleToPath(global.id.elementStateSelect.value),
+			global.id.elementSelect.value + global.id.blueprintSelect.value,
 		);
+		if (element) {
+			element.style.boxShadow = "";
+		}
+	});
+
+	global.id.stateBlueprintContextInfo.addEventListener("mousedown", () => {
+		const foundChild = global.id.elementBlueprintStateSelect.value
+			.match(/\(\w+(.*?)\)/g)?.[0]
+			.slice(1);
+
+		const element = getElementFromPath(
+			`${
+				global.id.elementSelect.value + global.id.blueprintSelect.value
+			} > ${foundChild}`,
+		);
+		if (element) {
+			const selected = global.localSettings.selectionColor;
+			element.style.boxShadow = `0 0 10px ${selectionColor[selected]} inset, 0 0 10px ${selectionColor[selected]}`;
+			const removeGlow = () => {
+				element.style.boxShadow = "";
+				document.removeEventListener("mouseup", removeGlow);
+			};
+			document.addEventListener("mouseup", removeGlow);
+		}
+	});
+
+	global.id.stateBlueprintContextInfo.addEventListener("mouseleave", () => {
+		const foundChild = global.id.elementBlueprintStateSelect.value
+			.match(/\(\w+(.*?)\)/g)?.[0]
+			.slice(1);
+
+		const element = getElementFromPath(
+			`${
+				global.id.elementSelect.value + global.id.blueprintSelect.value
+			} > ${foundChild}`,
+		);
+		if (element) {
+			element.style.boxShadow = "";
+		}
+	});
+
+	global.id.stateBlueprintContextInfo.addEventListener("mouseup", () => {
+		const foundChild = global.id.elementBlueprintStateSelect.value
+		.match(/\(\w+(.*?)\)/g)?.[0]
+		.slice(1);
+
+	const element = getElementFromPath(
+		`${
+			global.id.elementSelect.value + global.id.blueprintSelect.value
+		} > ${foundChild}`,
+	);
 		if (element) {
 			element.style.boxShadow = "";
 		}
