@@ -732,6 +732,7 @@ body > #selectedElementLabelContainer > div > div > #mainStyleAdd,
 body > #selectedElementLabelContainer > div > div > #mainClassroomStyleAdd,
 body > #selectedElementLabelContainer > div > div > #mainBlueprintStyleAdd,
 body > #selectedElementLabelContainer > div > div > #mainStateStyleAdd,
+body > #selectedElementLabelContainer > div > div > #mainBlueprintStateStyleAdd,
 body > #selectedElementLabelContainer > div > div > #mainAttributeAdd,
 body > #selectedElementLabelContainer > div > div > #mainBlueprintAttributeAdd {
   display: none;

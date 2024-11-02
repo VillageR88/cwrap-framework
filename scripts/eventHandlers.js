@@ -1652,13 +1652,10 @@ export const eventHandlers = () => {
 	});
 
 	global.id.updateBlueprintStateProperty.addEventListener("click", () => {
-		const isState = true; // Assuming this is for state updates
-		const blueprintStyleSelectValue = isState
-			? global.id.stateBlueprintPropertySelect.value
-			: global.id.blueprintPropertySelect.value;
-		const blueprintStyleInput = isState
-			? global.id.blueprintStatePropertyInput
-			: global.id.propertyBlueprintInput;
+		const blueprintStyleSelectValue =
+			global.id.stateBlueprintPropertySelect.value;
+		const blueprintStyleInput = global.id.blueprintStatePropertyInput;
+
 		const blueprintMap = global.map.blueprintMap;
 		const selector = getElementFromPath().timeStamp;
 		const currentMap = blueprintMap.get(selector);
@@ -1705,59 +1702,31 @@ export const eventHandlers = () => {
 			selectedBlueprintElementTrimmed,
 		);
 
-		if (isState) {
-			if (targetElement?.extend && Array.isArray(targetElement.extend)) {
-				for (const extension of targetElement.extend) {
-					if (extension.style && typeof extension.style === "string") {
-						const styles = extension.style
-							.split(";")
-							.map((style) => style.trim());
-						let propertyFound = false;
+		if (targetElement?.extend && Array.isArray(targetElement.extend)) {
+			for (const extension of targetElement.extend) {
+				if (extension.style && typeof extension.style === "string") {
+					const styles = extension.style
+						.split(";")
+						.map((style) => style.trim());
+					let propertyFound = false;
 
-						for (let i = 0; i < styles.length; i++) {
-							const [property, value] = styles[i]
-								.split(":")
-								.map((s) => s.trim());
-							if (property === blueprintStyleSelectValue.trim()) {
-								styles[i] = `${property}: ${blueprintStyleInput.value.trim()}`;
-								propertyFound = true;
-								break;
-							}
+					for (let i = 0; i < styles.length; i++) {
+						const [property, value] = styles[i].split(":").map((s) => s.trim());
+						if (property === blueprintStyleSelectValue.trim()) {
+							styles[i] = `${property}: ${blueprintStyleInput.value.trim()}`;
+							propertyFound = true;
+							break;
 						}
-
-						if (!propertyFound) {
-							styles.push(
-								`${blueprintStyleSelectValue.trim()}: ${blueprintStyleInput.value.trim()}`,
-							);
-						}
-
-						extension.style = styles.join("; ");
 					}
-				}
-			}
-		} else {
-			if (targetElement?.style && typeof targetElement.style === "string") {
-				const styles = targetElement.style
-					.split(";")
-					.map((style) => style.trim());
-				let propertyFound = false;
 
-				for (let i = 0; i < styles.length; i++) {
-					const [property, value] = styles[i].split(":").map((s) => s.trim());
-					if (property === blueprintStyleSelectValue.trim()) {
-						styles[i] = `${property}: ${blueprintStyleInput.value.trim()}`;
-						propertyFound = true;
-						break;
+					if (!propertyFound) {
+						styles.push(
+							`${blueprintStyleSelectValue.trim()}: ${blueprintStyleInput.value.trim()}`,
+						);
 					}
-				}
 
-				if (!propertyFound) {
-					styles.push(
-						`${blueprintStyleSelectValue.trim()}: ${blueprintStyleInput.value.trim()}`,
-					);
+					extension.style = styles.join("; ").trim();
 				}
-
-				targetElement.style = styles.join("; ");
 			}
 		}
 
@@ -1779,6 +1748,86 @@ export const eventHandlers = () => {
 		removeStyle(`${selectedValue} > ${firstChildrenTag}`);
 		rebuildStyleFromBlueprint();
 		applyStyles();
+	});
+
+	global.id.removeBlueprintStateProperty.addEventListener("click", () => {
+		console.log("removeBlueprintStateProperty clicked");
+
+		const blueprintMap = global.map.blueprintMap;
+		const selector = getElementFromPath().timeStamp;
+		console.log("Selector:", selector);
+
+		const currentMap = blueprintMap.get(selector);
+		console.log("Current Map:", JSON.stringify(currentMap, null, 2));
+
+		const blueprintSelectValue = global.id.blueprintSelect.value;
+		console.log("Blueprint Select Value:", blueprintSelectValue);
+
+		const targetElement = getTargetElement(currentMap, blueprintSelectValue);
+		console.log("Target Element:", targetElement);
+
+		const blueprintPropertySelect = global.id.stateBlueprintPropertySelect;
+		const blueprintPropertySelectValue = blueprintPropertySelect.value;
+		console.log(
+			"Blueprint Property Select Value:",
+			blueprintPropertySelectValue,
+		);
+
+		if (targetElement?.extend && Array.isArray(targetElement.extend)) {
+			for (const extension of targetElement.extend) {
+				if (extension.style && typeof extension.style === "string") {
+					const styles = extension.style
+						.split(";")
+						.map((style) => style.trim())
+						.filter((style) => !style.startsWith(blueprintPropertySelectValue));
+					extension.style = styles.join("; ").concat(";").trim();
+					if (extension.style === ";") {
+						extension.style = "";
+					}
+					console.log("Updated Styles:", extension.style);
+				}
+			}
+		}
+
+		// Apply the style changes to the view
+		const validSelector = blueprintSelectValue
+			.replace(/ > /g, " ")
+			.replace(/:nth-of-type\(\d+\)/g, "");
+		console.log("Valid Selector:", validSelector);
+
+		const elementInView = document.querySelector(validSelector);
+		console.log("Element in View:", elementInView);
+
+		if (elementInView) {
+			elementInView.style[blueprintPropertySelectValue.trim()] = "";
+			console.log("Cleared style from element in view");
+		}
+
+		// Rebuild the blueprint element
+		reloadBlueprint();
+		const selectedValue = global.id.elementSelect.value;
+		const firstChildrenTag =
+			getElementFromPath(selectedValue).childNodes[0].tagName.toLowerCase();
+		removeStyle(`${selectedValue} > ${firstChildrenTag}`);
+		rebuildStyleFromBlueprint();
+		applyStyles();
+		populateBlueprintStyleOptions(true);
+		populateBlueprintStyleOptionsValue(true);
+		console.log("Rebuilt blueprint element and applied styles");
+	});
+
+	global.id.openBlueprintAddStateProperty.addEventListener("click", () => {
+		global.id.mainBlueprintStateStyleSelector.style.display = "none";
+		global.id.mainBlueprintStateStyleSelector2.style.display = "none";
+		global.id.mainBlueprintStateStyleAdd.style.display = "flex";
+
+
+		// global.id.mainStateStyleSelector.style.display = "none";
+		// global.id.mainStateStyleAdd.style.display = "flex";
+		// global.id.mainStateStyleSelector2.style.display = "none";
+		// populatePropertySelectAll(cssProperties, true);
+
+		// resolveElementStateSelect();
 	});
 
 	global.id.updateAttribute.addEventListener("click", () => {

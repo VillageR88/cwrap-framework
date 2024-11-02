@@ -180,6 +180,7 @@ const global = {
 		editBlueprintStateStyle: document.getElementById("editBlueprintStateStyle"),
 		mainBlueprintStateStyleSelector: document.getElementById("mainBlueprintStateStyleSelector"),
 		mainBlueprintStateStyleSelectorBack: document.getElementById("mainBlueprintStateStyleSelectorBack"),
+		mainBlueprintStateStyleAdd: document.getElementById("mainBlueprintStateStyleAdd"),
 		mainBlueprintStateStyleSelector2: document.getElementById("mainBlueprintStateStyleSelector2"),
 		mainBody: document.getElementById("mainBody"),
 		mainClassroomSelector: document.getElementById("mainClassroomSelector"),
@@ -268,6 +269,7 @@ const global = {
 		),
 		openBlueprintState: document.getElementById("openBlueprintState"),
 		openBlueprintAddState: document.getElementById("openBlueprintAddState"),
+		openBlueprintAddStateProperty: document.getElementById("openBlueprintAddStateProperty"),
 		openBlueprintAddProperty: document.getElementById(
 			"openBlueprintAddProperty",
 		),
@@ -307,6 +309,7 @@ const global = {
 			"removePropertyBlueprintSelectProperty",
 		),
 		removeStateProperty: document.getElementById("removeStateProperty"),
+		removeBlueprintStateProperty: document.getElementById("removeBlueprintStateProperty"),
 		rootInput: document.getElementById("rootInput"),
 		rootSelectVariable: document.getElementById("rootSelectVariable"),
 		routesTree: document.getElementById("routesTree"),
