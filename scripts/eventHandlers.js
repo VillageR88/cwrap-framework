@@ -1651,6 +1651,7 @@ export const eventHandlers = () => {
 		global.variable.style = newStyle;
 	});
 
+	//TODO updating problem causing all extensions to update with the same value at once
 	global.id.updateBlueprintStateProperty.addEventListener("click", () => {
 		const blueprintStyleSelectValue =
 			global.id.stateBlueprintPropertySelect.value;
@@ -1704,7 +1705,8 @@ export const eventHandlers = () => {
 
 		if (targetElement?.extend && Array.isArray(targetElement.extend)) {
 			for (const extension of targetElement.extend) {
-				if (extension.style && typeof extension.style === "string") {
+				console.log("Extension:", extension);
+				if (extension.style && typeof extension.style === "string" && extension.extension === global.id.stateBlueprintContextInfo.title) {
 					const styles = extension.style
 						.split(";")
 						.map((style) => style.trim());
@@ -3077,6 +3079,10 @@ export const eventHandlers = () => {
 		// populateSelectBlueprintOptions();
 	});
 
+	global.id.elementBlueprintStateSelect.addEventListener("change", () => {
+		resolveElementStateSelect(true);
+	});
+
 	function populateBlueprintElementStateOptions() {
 		// console.log("populateBlueprintElementStateOptions");
 		const blueprintMap = global.map.blueprintMap;
@@ -3131,11 +3137,13 @@ export const eventHandlers = () => {
 		if (!targetMap.extend) {
 			return;
 		}
+		global.id.elementBlueprintStateSelect.innerHTML = "";
 		for (const extension of targetMap.extend) {
 			const opt = document.createElement("option");
 			const pseudo = extension.extension.match(/\w+/);
 			opt.value = extension.extension;
 			opt.textContent = pseudo;
+			opt.title = extension.extension;
 			global.id.elementBlueprintStateSelect.appendChild(opt);
 		}
 	}
