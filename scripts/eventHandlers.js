@@ -1326,6 +1326,19 @@ export const eventHandlers = () => {
 		populatePropertyValue(undefined, true);
 	});
 
+	global.id.editBlueprintStateStyle.addEventListener("click", () => {
+		global.id.mainBlueprintStateStyleSelector.style.display = "flex";
+		global.id.mainBlueprintStateStyleSelector2.style.display = "flex";
+		global.id.mainBlueprintStateSelector.style.display = "none";
+		global.id.mainBlueprintStateStyleContextInfo.style.display = "none";
+		// global.id.mainBlueprintSelector.style.display = "none";
+		// global.id.mainBlueprintStyleSelector.style.display = "flex";
+		// global.id.mainBlueprintStyleSelector2.style.display = "flex";
+		// populateBlueprintStyleOptions();
+		// populateBlueprintStyleOptionsValue();
+	}
+);
+
 	global.id.openAddStateProperty.addEventListener("click", () => {
 		global.id.mainStateStyleSelector.style.display = "none";
 		global.id.mainStateStyleAdd.style.display = "flex";

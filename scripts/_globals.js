@@ -177,6 +177,9 @@ const global = {
 			"mainClassroomStyleSelectorBack",
 		),
 		mainBlueprintStateStyleContextInfo: document.getElementById("mainBlueprintStateStyleContextInfo"),
+		editBlueprintStateStyle: document.getElementById("editBlueprintStateStyle"),
+		mainBlueprintStateStyleSelector: document.getElementById("mainBlueprintStateStyleSelector"),
+		mainBlueprintStateStyleSelector2: document.getElementById("mainBlueprintStateStyleSelector2"),
 		mainBody: document.getElementById("mainBody"),
 		mainClassroomSelector: document.getElementById("mainClassroomSelector"),
 		mainClassroomSelectorSelectName: document.getElementById(

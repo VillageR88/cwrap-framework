@@ -472,6 +472,8 @@
           </button>
         </div>
 
+
+
         <div id="mainBlueprintStateAdd">
           <button class="mediumButtons" id="closeBlueprintAddState" title="return to select state">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
@@ -493,7 +495,24 @@
           </button>
         </div>
 
-
+        <div id="mainBlueprintStateStyleSelector">
+          <button id="mainBlueprintStateStyleSelectorBack" class="mediumButtons" title="back to element state selector">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#back"></use>
+            </svg>
+          </button>
+          <button id="openBlueprintAddStateProperty" class="mediumButtons" title="open add state property">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#add"></use>
+            </svg>
+          </button>
+          <select id="stateBlueprintPropertySelect" class="mediumButtons"></select>
+          <button id="removeBlueprintStateProperty" class="mediumButtons" title="remove state property">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#remove"></use>
+            </svg>
+          </button>
+        </div>
 
 
         <div id="mainBlueprintStyleAdd">
@@ -859,6 +878,17 @@
           </svg>
         </button>
       </div>
+
+      <div id="mainBlueprintStateStyleSelector2">
+        <input aria-label="state property input" type="text" id="blueprintStatePropertyInput" />
+        <button class="mediumButtons" id="updateBlueprintStateProperty" title="update state property value">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+            <use href="#update"></use>
+          </svg>
+        </button>
+      </div>
+
+      
     </div>
     <div class="mediumButtons" id="nameHelper">nameHelper</div>
   </div>
