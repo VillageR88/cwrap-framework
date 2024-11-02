@@ -1820,6 +1820,7 @@ export const eventHandlers = () => {
 		global.id.mainBlueprintStateStyleSelector.style.display = "none";
 		global.id.mainBlueprintStateStyleSelector2.style.display = "none";
 		global.id.mainBlueprintStateStyleAdd.style.display = "flex";
+		populatePropertySelectAll(cssProperties, true, true);
 
 
 		// global.id.mainStateStyleSelector.style.display = "none";
@@ -1828,6 +1829,12 @@ export const eventHandlers = () => {
 		// populatePropertySelectAll(cssProperties, true);
 
 		// resolveElementStateSelect();
+	});
+
+	global.id.mainBlueprintStateStyleAddBack.addEventListener("click", () => {
+		global.id.mainBlueprintStateStyleAdd.style.display = "none";
+		global.id.mainBlueprintStateStyleSelector.style.display = "flex";
+		global.id.mainBlueprintStateStyleSelector2.style.display = "flex";
 	});
 
 	global.id.updateAttribute.addEventListener("click", () => {
