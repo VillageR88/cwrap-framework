@@ -387,14 +387,14 @@ export const eventHandlers = () => {
 
 	global.id.stateBlueprintContextInfo.addEventListener("mouseup", () => {
 		const foundChild = global.id.elementBlueprintStateSelect.value
-		.match(/\(\w+(.*?)\)/g)?.[0]
-		.slice(1);
+			.match(/\(\w+(.*?)\)/g)?.[0]
+			.slice(1);
 
-	const element = getElementFromPath(
-		`${
-			global.id.elementSelect.value + global.id.blueprintSelect.value
-		} > ${foundChild}`,
-	);
+		const element = getElementFromPath(
+			`${
+				global.id.elementSelect.value + global.id.blueprintSelect.value
+			} > ${foundChild}`,
+		);
 		if (element) {
 			element.style.boxShadow = "";
 		}
@@ -1336,8 +1336,13 @@ export const eventHandlers = () => {
 		// global.id.mainBlueprintStyleSelector2.style.display = "flex";
 		// populateBlueprintStyleOptions();
 		// populateBlueprintStyleOptionsValue();
-	}
-);
+	});
+
+	global.id.mainBlueprintStateStyleSelectorBack.addEventListener("click", () => {
+		global.id.mainBlueprintStateSelector.style.display = "flex";
+		global.id.mainBlueprintStateStyleSelector.style.display = "none";
+		global.id.mainBlueprintStateStyleSelector2.style.display = "none";
+	});
 
 	global.id.openAddStateProperty.addEventListener("click", () => {
 		global.id.mainStateStyleSelector.style.display = "none";

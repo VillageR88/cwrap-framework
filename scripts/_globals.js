@@ -179,6 +179,7 @@ const global = {
 		mainBlueprintStateStyleContextInfo: document.getElementById("mainBlueprintStateStyleContextInfo"),
 		editBlueprintStateStyle: document.getElementById("editBlueprintStateStyle"),
 		mainBlueprintStateStyleSelector: document.getElementById("mainBlueprintStateStyleSelector"),
+		mainBlueprintStateStyleSelectorBack: document.getElementById("mainBlueprintStateStyleSelectorBack"),
 		mainBlueprintStateStyleSelector2: document.getElementById("mainBlueprintStateStyleSelector2"),
 		mainBody: document.getElementById("mainBody"),
 		mainClassroomSelector: document.getElementById("mainClassroomSelector"),
