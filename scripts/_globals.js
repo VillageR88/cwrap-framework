@@ -334,6 +334,7 @@ const global = {
 		),
 		stateBlueprintSelectAll: document.getElementById("stateBlueprintSelectAll"),
 		stateBlueprintContextInfo: document.getElementById("stateBlueprintContextInfo"),
+		stateBlueprintPropertySelect: document.getElementById("stateBlueprintPropertySelect"),
 		stateContextInfo: document.getElementById("stateContextInfo"),
 		statePropertyInput: document.getElementById("statePropertyInput"),
 		statePropertySelect: document.getElementById("statePropertySelect"),

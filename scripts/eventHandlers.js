@@ -1331,6 +1331,7 @@ export const eventHandlers = () => {
 		global.id.mainBlueprintStateStyleSelector2.style.display = "flex";
 		global.id.mainBlueprintStateSelector.style.display = "none";
 		global.id.mainBlueprintStateStyleContextInfo.style.display = "none";
+		populateBlueprintStyleOptions(true);
 		// global.id.mainBlueprintSelector.style.display = "none";
 		// global.id.mainBlueprintStyleSelector.style.display = "flex";
 		// global.id.mainBlueprintStyleSelector2.style.display = "flex";
@@ -1338,11 +1339,14 @@ export const eventHandlers = () => {
 		// populateBlueprintStyleOptionsValue();
 	});
 
-	global.id.mainBlueprintStateStyleSelectorBack.addEventListener("click", () => {
-		global.id.mainBlueprintStateSelector.style.display = "flex";
-		global.id.mainBlueprintStateStyleSelector.style.display = "none";
-		global.id.mainBlueprintStateStyleSelector2.style.display = "none";
-	});
+	global.id.mainBlueprintStateStyleSelectorBack.addEventListener(
+		"click",
+		() => {
+			global.id.mainBlueprintStateSelector.style.display = "flex";
+			global.id.mainBlueprintStateStyleSelector.style.display = "none";
+			global.id.mainBlueprintStateStyleSelector2.style.display = "none";
+		},
+	);
 
 	global.id.openAddStateProperty.addEventListener("click", () => {
 		global.id.mainStateStyleSelector.style.display = "none";
@@ -2879,8 +2883,8 @@ export const eventHandlers = () => {
 			}
 		}
 
-		console.log("Final targetMap:", targetMap);
-		console.log("Extend:", targetMap.extend);
+		// console.log("Final targetMap:", targetMap);
+		// console.log("Extend:", targetMap.extend);
 		if (!targetMap.extend) {
 			return;
 		}
