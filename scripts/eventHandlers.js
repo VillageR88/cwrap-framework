@@ -2755,8 +2755,74 @@ export const eventHandlers = () => {
 		global.id.mainBlueprintStyleSelector.style.display = "none";
 		global.id.mainBlueprintStyleSelector2.style.display = "none";
 		global.id.mainBlueprintStateSelector.style.display = "flex";
+		populateBlueprintElementStateOptions();
+		resolveElementStateSelect(true);
+
 		// populateSelectBlueprintOptions();
 	});
+
+	function populateBlueprintElementStateOptions() {
+		// console.log("populateBlueprintElementStateOptions");
+		const blueprintMap = global.map.blueprintMap;
+		const currentElement = getElementFromPath();
+		const selector = currentElement.timeStamp;
+		const currentMap = blueprintMap.get(selector);
+		// console.log("currentMap:", JSON.stringify(currentMap, null, 2));
+
+		const selectedElement = global.id.blueprintSelect.value.trim();
+		const formattedSelectedElement = selectedElement
+			.replace(/^>\s*/, "")
+			.trim();
+		const formattedSelectedElementArray = formattedSelectedElement
+			.split(">")
+			.map((e) => e.trim())
+			.slice(1);
+		// console.log("selectedElement:", selectedElement);
+		// console.log("Formatted Selected Element Array:", formattedSelectedElementArray);
+
+		let targetMap = currentMap;
+		for (let i = 0; i < formattedSelectedElementArray.length; i++) {
+			const element = formattedSelectedElementArray[i];
+			const elementName = element.replace(/:nth-of-type\(\d+\)/, "").trim();
+			const nthMatch = element.match(/:nth-of-type\((\d+)\)/);
+			const index = nthMatch ? Number.parseInt(nthMatch[1], 10) - 1 : 0;
+
+			// console.log(`Processing part: ${element}`);
+			// console.log(`Element Name: ${elementName}, Index: ${index}`);
+
+			if (!targetMap.children) {
+				// console.log("No children found for", elementName);
+				return null;
+			}
+
+			const matchingChildren = targetMap.children.filter(
+				(child) => child.element === elementName,
+			);
+
+			// console.log("Matching Children:", matchingChildren);
+
+			if (matchingChildren.length > index) {
+				targetMap = matchingChildren[index];
+				// console.log("Found matching child, updated targetMap:", targetMap);
+			} else {
+				// console.log("No matching child found for", elementName);
+				return null;
+			}
+		}
+
+		console.log("Final targetMap:", targetMap);
+		console.log("Extend:", targetMap.extend);
+		if (!targetMap.extend) {
+			return;
+		}
+		for (const extension of targetMap.extend) {
+			const opt = document.createElement("option");
+			const pseudo = extension.extension.match(/\w+/);
+			opt.value = extension.extension;
+			opt.textContent = pseudo;
+			global.id.elementBlueprintStateSelect.appendChild(opt);
+		}
+	}
 
 	global.id.mainBlueprintStateSelectorBack.addEventListener("click", () => {
 		global.id.mainBlueprintStyleSelector.style.display = "flex";
@@ -2785,7 +2851,10 @@ export const eventHandlers = () => {
 		const currentElement = getElementFromPath();
 		const selector = currentElement.timeStamp;
 		const currentMap = blueprintMap.get(selector);
-		console.log("global.id.selectStateOfContext.value",global.id.selectBlueprintStateOfContext.value);
+		console.log(
+			"global.id.selectStateOfContext.value",
+			global.id.selectBlueprintStateOfContext.value,
+		);
 		let selectedState = `:${global.id.stateBlueprintSelectAll.value}`;
 		if (selectedState === ":has") {
 			selectedState = `${selectedState}(${global.id.selectBlueprintContext.value}:${global.id.selectBlueprintStateOfContext.value})`;

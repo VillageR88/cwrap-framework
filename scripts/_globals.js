@@ -76,6 +76,7 @@ const global = {
 		editStyle: document.getElementById("editStyle"),
 		editText: document.getElementById("editText"),
 		elementBlueprintSelectAll: document.getElementById("elementBlueprintSelectAll"),
+		elementBlueprintStateSelect: document.getElementById("elementBlueprintStateSelect"),
 		elementHeaderDiv: document.getElementById("elementHeaderDiv"),
 		elementSelect: document.getElementById("elementSelect"),
 		elementSelectAll: document.getElementById("elementSelectAll"),
@@ -175,6 +176,7 @@ const global = {
 		mainClassroomStyleSelectorBack: document.getElementById(
 			"mainClassroomStyleSelectorBack",
 		),
+		mainBlueprintStateStyleContextInfo: document.getElementById("mainBlueprintStateStyleContextInfo"),
 		mainBody: document.getElementById("mainBody"),
 		mainClassroomSelector: document.getElementById("mainClassroomSelector"),
 		mainClassroomSelectorSelectName: document.getElementById(
@@ -327,6 +329,7 @@ const global = {
 			"settingsTreeFirstTimeCreateSettings",
 		),
 		stateBlueprintSelectAll: document.getElementById("stateBlueprintSelectAll"),
+		stateBlueprintContextInfo: document.getElementById("stateBlueprintContextInfo"),
 		stateContextInfo: document.getElementById("stateContextInfo"),
 		statePropertyInput: document.getElementById("statePropertyInput"),
 		statePropertySelect: document.getElementById("statePropertySelect"),

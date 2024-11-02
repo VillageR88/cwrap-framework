@@ -1,19 +1,23 @@
 export default function resolveElementStateSelect(isBlueprint = false) {
 	//Do not use yet isBlueprint (WIP)
 	const selectedElement = isBlueprint
-		? global.id.stateBlueprintSelectAll
+		? global.id.elementBlueprintStateSelect
 		: global.id.elementStateSelect;
+	const contextInfo = isBlueprint
+		? global.id.stateBlueprintContextInfo
+		: global.id.stateContextInfo;mainBlueprintStateStyleContextInfo
+	const mainStateStyle = isBlueprint
+		? global.id.mainBlueprintStateStyleContextInfo
+		: global.id.mainStateStyleContextInfo;
 	if (selectedElement.value.includes(":has")) {
-		global.id.mainStateStyleContextInfo.style.display = "flex";
-		global.id.stateContextInfo.value = selectedElement.value
+		mainStateStyle.style.display = "flex";
+		contextInfo.value = selectedElement.value
 			.split(":has")[1]
 			.slice(1, -1);
-		global.id.stateContextInfo.title = selectedElement.value;
-		global.id.stateContextInfo.scrollLeft = 0;
+		contextInfo.title = selectedElement.value;
 	} else {
-		global.id.mainStateStyleContextInfo.style.display = "none";
-		global.id.stateContextInfo.value = "";
-		global.id.stateContextInfo.title = "";
-		global.id.stateContextInfo.scrollLeft = 0;
+		mainStateStyle.style.display = "none";
+		contextInfo.value = "";
+		contextInfo.title = "";
 	}
 }
