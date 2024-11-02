@@ -58,6 +58,7 @@ import reloadBlueprint from "./reloadBlueprint.js";
 import populateBlueprintStyleOptions from "./populateBlueprintStyleOptions.js";
 import populateBlueprintStyleOptionsValue from "./populateBlueprintStyleOptionsValue.js";
 import getCssProperties from "./getCssProperties.js";
+import checkIfBlueprintEnvironment from "./checkIfBlueprintEnvironment.js";
 
 /**
  * Sets up the event handlers.
@@ -214,15 +215,14 @@ export const eventHandlers = () => {
 		populatePropertySelectAll(cssProperties);
 		highlightSelectedElement();
 	});
-
 	global.id.selectedElementHighlight.addEventListener("mousedown", () => {
 		const nameHelper = global.id.nameHelper;
-		const isBlueprint =
-			global.id.mainBlueprintSelector.style.display === "flex" ||
-			global.id.mainBlueprintStyleSelector.style.display === "flex" ||
-			global.id.mainBlueprintStyleAdd.style.display === "flex" ||
-			global.id.mainBlueprintStateSelector.style.display === "flex" ||
-			global.id.mainBlueprintStateAdd.style.display === "flex";
+		const isBlueprint = checkIfBlueprintEnvironment();
+
+		global.id.nameHelper.textContent = isBlueprint
+			? global.id.elementSelect.value + global.id.blueprintSelect.value
+			: global.id.elementSelect.value;
+
 		const element = isBlueprint
 			? getElementFromPath(
 					global.id.elementSelect.value + global.id.blueprintSelect.value,
