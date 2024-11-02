@@ -8,7 +8,7 @@ export default function populateContextSelectAll(
 		? global.id.selectBlueprintContext
 		: global.id.selectContext;
 	selectContext.innerHTML = "";
-	for (const [key, value] of mapContextual) {
+	for (const [key] of mapContextual) {
 		const option = document.createElement("option");
 		option.value = key;
 		option.textContent = key;
