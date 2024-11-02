@@ -58,7 +58,7 @@ export default function populateBlueprintStyleOptionsValue(isState = false) {
                     for (const style of styles) {
                         const [property, value] = style.split(":");
                         if (property.trim() === blueprintStyleSelectValue.trim()) {
-                            blueprintStyleInput.value = value.trim();
+                            blueprintStyleInput.value = value?.trim();
                             return;
                         }
                     }
