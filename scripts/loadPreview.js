@@ -7,7 +7,6 @@ import generateClassroomMap from "./generateClassroomMap.js";
 import generateStageMap from "./generateStageMap.js";
 import generateCssSelector from "./generateCssSelector.js";
 import applyStyles from "./applyStyles.js";
-import replaceJsonPlaceholders from "./replaceJsonPlaceholders.js";
 
 /**
  * @typedef {import('./types.js').JsonObject} JsonObject
@@ -80,16 +79,17 @@ export default function loadPreview(jsonObj) {
 	generateClassroomMap(jsonObj);
 	generateStageMap(jsonObj);
 	generateCssSelector(jsonObj, "", new Map());
-	const jsonObjReplacedPlaceholders = replaceJsonPlaceholders(jsonObj);
-	const element = createElementFromJson(jsonObjReplacedPlaceholders, true);
+	const element = createElementFromJson(jsonObj, true);
 	doc.body.replaceWith(element);
-	// const mainScript = doc.createElement("script");
-	// mainScript.src = "/javascript/builder.js";
-	// mainScript.type = "module";
-	// mainScript.customTag = "cwrapTempScript";
-	// doc.body.appendChild(mainScript);
+	const mainScript = doc.createElement("script");
+	mainScript.src = "scripts/cwrapFunctions.js";
+	mainScript.type = "module";
+	mainScript.customTag = "cwrapTempScript";
+	doc.body.appendChild(mainScript);
 	applyStyles();
 	populateSelectOptions(jsonObj);
 	const bodyPath = getElementPath(doc.body);
 	updateElementInfo(bodyPath, doc.body);
+	// replaceJsonPlaceholders();
+
 }

@@ -76,11 +76,7 @@ function generateCssSelector(jsonObj, parentSelector, divCountStack = []) {
 	return selector;
 }
 
- function replaceBlueprintJsonPlaceholders(
-	jsonObj,
-	placeholder,
-	index,
-) {
+function replaceBlueprintJsonPlaceholders(jsonObj, placeholder, index) {
 	const jsonString = JSON.stringify(jsonObj);
 	const replacedString = jsonString.replace(
 		new RegExp(`${placeholder}(\\+\\d+)?`, "g"),
@@ -144,6 +140,17 @@ function generateHtmlFromJson(jsonObj) {
 			html += `</${element}>`;
 		}
 	}
+
+	return html;
+}
+
+function generateHtmlWithScript(jsonObj) {
+	let html = generateHtmlFromJson(jsonObj);
+
+	// Append the script tag for cwrapFunctions.js
+	html += `
+<script src="/scripts/cwrapFunctions.js" type="module"></script>
+`;
 
 	return html;
 }
@@ -264,8 +271,8 @@ function processRouteDirectory(routeDir, buildDir) {
 		headContent = generateHeadHtml(jsonObj.head, buildDir);
 	}
 
-	// Generate HTML content from JSON
-	const bodyContent = generateHtmlFromJson(jsonObj);
+	// Generate HTML content from JSON and append the script tag
+	const bodyContent = generateHtmlWithScript(jsonObj);
 
 	const webContent = `
 <!DOCTYPE html>
