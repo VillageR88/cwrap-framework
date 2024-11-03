@@ -3321,19 +3321,20 @@ export const eventHandlers = () => {
 
 	function moveTreeViewElement(direction) {
 		const treeViewList = document.getElementById("treeViewList"); // cannot do it other way like setting up a global. Probably has to do with the way the script is loaded
-		const highlightedElements = treeViewList.querySelectorAll(".cwrapHighlight");
-	
+		const highlightedElements =
+			treeViewList.querySelectorAll(".cwrapHighlight");
+
 		for (const element of highlightedElements) {
 			console.log("Current Element:", element);
-	
+
 			const elementPath = element.value.trim(); // Assuming the path is stored in the value attribute
 			const domElement = getElementFromPath(elementPath);
 			console.log("DOM Element from Path:", domElement);
-	
+
 			if (domElement) {
 				const parentElement = domElement.parentElement;
 				console.log("Parent Element:", parentElement);
-	
+
 				if (parentElement) {
 					let sibling;
 					if (direction === "down") {
@@ -3342,7 +3343,7 @@ export const eventHandlers = () => {
 						sibling = domElement.previousElementSibling;
 					}
 					console.log("Sibling:", sibling);
-	
+
 					if (sibling) {
 						if (direction === "down") {
 							parentElement.insertBefore(sibling, domElement);
@@ -3360,8 +3361,14 @@ export const eventHandlers = () => {
 				console.log("No DOM element found for path:", elementPath);
 			}
 		}
+
+		// Rebuild CSS selectors and apply styles
+		rebuildCssSelector();
+		applyStyles();
+		validateRemoveElement();
 		populateTreeView();
 		highlightSelectedElement();
+		populateSelectOptions();
 	}
 
 	global.id.treeViewMoveUp.addEventListener("click", () => {
