@@ -3319,9 +3319,7 @@ export const eventHandlers = () => {
 		global.id.mainBlueprintStateSelector.style.display = "flex";
 	});
 
-
-
-	global.id.treeViewMoveDown.addEventListener("click", () => {
+	function moveTreeViewElement(direction) {
 		const treeViewList = document.getElementById("treeViewList"); // cannot do it other way like setting up a global. Probably has to do with the way the script is loaded
 		const highlightedElements = treeViewList.querySelectorAll(".cwrapHighlight");
 	
@@ -3337,14 +3335,23 @@ export const eventHandlers = () => {
 				console.log("Parent Element:", parentElement);
 	
 				if (parentElement) {
-					const nextSibling = domElement.nextElementSibling;
-					console.log("Next Sibling:", nextSibling);
+					let sibling;
+					if (direction === "down") {
+						sibling = domElement.nextElementSibling;
+					} else if (direction === "up") {
+						sibling = domElement.previousElementSibling;
+					}
+					console.log("Sibling:", sibling);
 	
-					if (nextSibling) {
-						parentElement.insertBefore(nextSibling, domElement);
-						console.log("Moved element after next sibling within the same level");
+					if (sibling) {
+						if (direction === "down") {
+							parentElement.insertBefore(sibling, domElement);
+						} else if (direction === "up") {
+							parentElement.insertBefore(domElement, sibling);
+						}
+						console.log(`Moved element ${direction} within the same level`);
 					} else {
-						console.log("No next sibling found. Element not moved.");
+						console.log(`No ${direction} sibling found. Element not moved.`);
 					}
 				} else {
 					console.log("No parent element found. Element not moved.");
@@ -3355,6 +3362,14 @@ export const eventHandlers = () => {
 		}
 		populateTreeView();
 		highlightSelectedElement();
+	}
+
+	global.id.treeViewMoveUp.addEventListener("click", () => {
+		moveTreeViewElement("up");
+	});
+
+	global.id.treeViewMoveDown.addEventListener("click", () => {
+		moveTreeViewElement("down");
 	});
 };
 // populateRoutesView();
