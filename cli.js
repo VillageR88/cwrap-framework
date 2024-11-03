@@ -41,8 +41,8 @@ rl.question("Enter project name (default: my-new-cwrap-project): ", (input) => {
 			build: "node build.js",
 		},
 		devDependencies: {
+			// "cwrap-framework": "file:../cwrap-framework-0.1.0-alpha.202411031705.tgz",
 			"cwrap-framework": cwrapFrameworkVersion,
-			// "cwrap-framework": "file:../cwrap-framework-0.1.0-alpha.202410170159.tgz",
 			"body-parser": "^1.20.2",
 			express: "^4.17.1",
 			"connect-livereload": "^0.6.1",
@@ -280,6 +280,26 @@ function runAdditionalSetup(projectPath, template) {
 		}
 	} else {
 		logMessage(".github folder already exists in the root folder");
+	}
+
+	// Move cwrapFunctions.js from cwrap to scripts folder if it does not exist
+	const scriptsSrcPath = path.join(cwrapPath, "scripts", "cwrapFunctions.js");
+	const scriptsDestDir = path.join(projectPath, "scripts");
+	const scriptsDestPath = path.join(scriptsDestDir, "cwrapFunctions.js");
+	if (!fs.existsSync(scriptsDestPath)) {
+		try {
+			if (!fs.existsSync(scriptsDestDir)) {
+				fs.mkdirSync(scriptsDestDir, { recursive: true });
+			}
+			fs.copyFileSync(scriptsSrcPath, scriptsDestPath);
+			logMessage("Moved cwrapFunctions.js to scripts folder");
+		} catch (error) {
+			logMessage("Error moving cwrapFunctions.js:", error.message);
+			removeLockFile();
+			process.exit(1);
+		}
+	} else {
+		logMessage("cwrapFunctions.js already exists in the scripts folder");
 	}
 
 	// Remove the lock file
