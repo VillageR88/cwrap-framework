@@ -315,6 +315,7 @@ const global = {
 		),
 		removeStateProperty: document.getElementById("removeStateProperty"),
 		removeBlueprintStateProperty: document.getElementById("removeBlueprintStateProperty"),
+		removeBlueprintState: document.getElementById("removeBlueprintState"),
 		rootInput: document.getElementById("rootInput"),
 		rootSelectVariable: document.getElementById("rootSelectVariable"),
 		routesTree: document.getElementById("routesTree"),

@@ -954,6 +954,7 @@ export const eventHandlers = () => {
 		}
 		populateBlueprintAttributeOptionsValue(targetElement);
 		reloadBlueprint();
+		removeStateFromMap(currentMap, selectedStateTrimmed);
 	});
 
 	global.id.mainStyleSelectorBack.addEventListener("click", () => {
@@ -3229,6 +3230,92 @@ export const eventHandlers = () => {
 		//resolveElementStateSelect(true); //WIP for blueprint
 	});
 
+	global.id.removeBlueprintState.addEventListener("click", () => {
+		const blueprintMap = global.map.blueprintMap;
+		const currentElement = getElementFromPath();
+		const selector = currentElement.timeStamp;
+		const currentMap = blueprintMap.get(selector);
+		const selectedState = global.id.elementBlueprintStateSelect.value;
+		console.log("Selected State:", selectedState);
+		const selectedStateTrimmed = selectedState.replace(">", "").trim();
+
+		if (!selectedStateTrimmed) {
+			console.error("Selected state is empty or invalid.");
+			return;
+		}
+
+		const formattedSelectedStateArray = selectedStateTrimmed.split(">");
+		console.log("Initial currentMap:", JSON.stringify(currentMap, null, 2));
+		console.log("Formatted Selected State Array:", formattedSelectedStateArray);
+		removeStateFromMap(
+			currentMap,
+			global.id.blueprintSelect.value
+				.replace(">", "")
+				.split(">")
+				.slice(1)
+				.join(">")
+				.trim(),
+		);
+
+		function removeStateFromMap(map, elementPath) {
+			const pathParts = elementPath.split(" > ");
+			let currentElement = map;
+
+			for (let i = 0; i < pathParts.length; i++) {
+				const part = pathParts[i].trim();
+				const elementName = part.replace(/:nth-of-type\(\d+\)/, "").trim();
+				const nthMatch = part.match(/:nth-of-type\((\d+)\)/);
+				const index = nthMatch ? Number.parseInt(nthMatch[1], 10) - 1 : 0;
+
+				console.log(`Processing part: ${part}`);
+				console.log(`Element Name: ${elementName}, Index: ${index}`);
+
+				if (!currentElement.children) {
+					console.log("No children found for", elementName);
+					return;
+				}
+
+				const matchingChildren = currentElement.children.filter(
+					(child) => child.element === elementName,
+				);
+
+				console.log("Matching Children:", matchingChildren);
+
+				if (matchingChildren.length > index) {
+					currentElement = matchingChildren[index];
+					console.log(
+						"Found matching child, updated currentElement:",
+						currentElement,
+					);
+				} else {
+					console.log(
+						"No matching child found for",
+						elementName,
+						"at index",
+						index,
+					);
+					return;
+				}
+
+				if (i === pathParts.length - 1) {
+					// Remove the state from the extend array
+
+					console.log("State to remove:", selectedStateTrimmed);
+					const newStateArray = currentElement.extend?.filter(
+						(state) => state.extension !== selectedStateTrimmed,
+					);
+					currentElement.extend = newStateArray || [];
+					console.log("Removed state from extend array:", selectedStateTrimmed);
+					if (currentElement.extend.length === 0) {
+						currentElement.extend = undefined;
+					}
+					global.id.elementBlueprintStateSelect.innerHTML = "";
+					populateBlueprintElementStateOptions();
+				}
+			}
+		}
+	});
+
 	global.id.closeBlueprintAddState.addEventListener("click", () => {
 		global.id.mainBlueprintStateAdd.style.display = "none";
 		global.id.mainBlueprintStateSelector.style.display = "flex";
@@ -3310,11 +3397,11 @@ export const eventHandlers = () => {
 		// populateSelectBlueprintOptions();
 		validateRemoveElement(true);
 		validateParentElement(true);
+		populateBlueprintElementStateOptions();
 		reloadBlueprint();
 
 		console.log("Final currentMap:", JSON.stringify(currentMap, null, 2));
 
-		reloadBlueprint();
 		global.id.mainBlueprintStateAdd.style.display = "none";
 		global.id.mainBlueprintStateSelector.style.display = "flex";
 	});
