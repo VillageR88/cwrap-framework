@@ -8,7 +8,7 @@ import validateParentElement from "./validateParentElement.js";
 import validateRemoveElement from "./validateRemoveElement.js";
 
 export default function populateTreeView() {
-	const treeView = global.id.previewTree;
+	const treeView = global.id.treeView;
 	treeView.innerHTML = "";
 	const bodyElement = global.id.doc.body;
 	const tree = document.createElement("ul");

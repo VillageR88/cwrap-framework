@@ -249,6 +249,7 @@ const global = {
 		navPreviewNormal: document.getElementById("navPreviewNormal"),
 		navPreviewStatic: document.getElementById("navPreviewStatic"),
 		navPreviewTree: document.getElementById("navPreviewTree"),
+		treeView: document.getElementById("treeView"),
 		navRoot: document.getElementById("navRoot"),
 		navSelection: document.getElementById("navSelection"),
 		navSelectionBuild: document.getElementById("navSelectionBuild"),

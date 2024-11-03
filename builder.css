@@ -291,6 +291,15 @@ body > main:has(#previewTree[style="display: flex;"]) {
   padding-bottom: 24px;
 }
 
+body > main > #previewTree {
+  justify-content: space-between;
+}
+body > main > #previewTree > div:nth-of-type(2) {
+  padding: 16px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
 body > main:has(#routesTree[style="display: flex;"]),
 body > main:has(#settingsTree[style="display: flex;"]),
 body > main:has(#themesTree[style="display: flex;"]) {
