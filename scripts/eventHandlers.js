@@ -1874,11 +1874,16 @@ export const eventHandlers = () => {
 			console.log("Extensions:", targetElement.extend);
 			for (const extension of targetElement.extend) {
 				console.log("Extension:", extension);
+				console.log(extension.style);
+				console.log(typeof extension.style);
+				console.log(global.id.elementBlueprintStateSelect.value);
 				if (
-					extension.style &&
 					typeof extension.style === "string" &&
-					extension.extension === global.id.stateBlueprintContextInfo.title
+					extension.extension === global.id.elementBlueprintStateSelect.value
 				) {
+					if (!extension.style) {
+						extension.style = "";
+					}
 					console.log("Extension Style:", extension.style);
 					const styles = extension.style
 						.split(";")
@@ -1898,6 +1903,7 @@ export const eventHandlers = () => {
 					}
 
 					if (!propertyFound) {
+						console.log("Property not found");
 						styles.push(`${blueprintPropertySelectValue}: ;`);
 					}
 
@@ -1906,7 +1912,7 @@ export const eventHandlers = () => {
 					extensionFound = true;
 					break;
 				}
-				//extension.style = `${blueprintPropertySelectValue}: ;`; TO RESOLVE IN NEXT TIME
+				// extension.style = `${blueprintPropertySelectValue}: ;`
 			}
 		} else {
 			const newExtension = {
@@ -3399,6 +3405,7 @@ export const eventHandlers = () => {
 		validateParentElement(true);
 		populateBlueprintElementStateOptions();
 		reloadBlueprint();
+		resolveElementStateSelect(true);
 
 		console.log("Final currentMap:", JSON.stringify(currentMap, null, 2));
 
