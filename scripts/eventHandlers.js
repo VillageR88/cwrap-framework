@@ -1828,7 +1828,6 @@ export const eventHandlers = () => {
 		global.id.mainBlueprintStateStyleAdd.style.display = "flex";
 		//TODO Problem with adding another prop to the same extension aka populatePropertySelectAll TODO
 		populatePropertySelectAll(cssProperties, true, true);
-	
 
 		// global.id.mainStateStyleSelector.style.display = "none";
 		// global.id.mainStateStyleAdd.style.display = "flex";
@@ -1874,7 +1873,11 @@ export const eventHandlers = () => {
 			console.log("Extensions:", targetElement.extend);
 			for (const extension of targetElement.extend) {
 				console.log("Extension:", extension);
-				if (extension.style && typeof extension.style === "string" && extension.extension === global.id.stateBlueprintContextInfo.title) {
+				if (
+					extension.style &&
+					typeof extension.style === "string" &&
+					extension.extension === global.id.stateBlueprintContextInfo.title
+				) {
 					console.log("Extension Style:", extension.style);
 					const styles = extension.style
 						.split(";")
@@ -2156,6 +2159,7 @@ export const eventHandlers = () => {
 		populateClassroomSelectName();
 	});
 
+	//TODO FOUND problem with populating different values for different types
 	global.id.mainClassroomSelectorEditStyle.addEventListener("click", () => {
 		global.id.mainClassroomSelector.style.display = "none";
 		global.id.mainClassroomStyleSelector.style.display = "flex";
@@ -2289,6 +2293,20 @@ export const eventHandlers = () => {
 		let propertyFound = false;
 
 		for (const [key, value] of classroomMap.entries()) {
+			if (value.type !== global.id.mainClassroomSelectorSelectType.value) {
+				continue;
+			}
+			if (value.name !== global.id.mainClassroomSelectorSelectName.value) {
+				continue;
+			}
+			console.log(
+				"mainClassroomSelectorSelectType",
+				global.id.mainClassroomSelectorSelectType.value,
+			);
+			console.log(
+				"mainClassroomSelectorSelectName",
+				global.id.mainClassroomSelectorSelectName.value,
+			);
 			console.log("Processing classroom:", key, value);
 
 			if (
