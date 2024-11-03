@@ -235,6 +235,7 @@ const global = {
 		navBody: document.getElementById("navBody"),
 		navBodyAdditional: document.getElementById("navBodyAdditional"),
 		navBodyToolset: document.getElementById("navBodyToolset"),
+		treeViewMoveDown: document.getElementById("treeViewMoveDown"),
 		navClassroom: document.getElementById("navClassroom"),
 		navDevice: document.getElementById("navDevice"),
 		navFonts: document.getElementById("navFonts"),

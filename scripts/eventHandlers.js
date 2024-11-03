@@ -3318,6 +3318,44 @@ export const eventHandlers = () => {
 		global.id.mainBlueprintStateAdd.style.display = "none";
 		global.id.mainBlueprintStateSelector.style.display = "flex";
 	});
+
+
+
+	global.id.treeViewMoveDown.addEventListener("click", () => {
+		const treeViewList = document.getElementById("treeViewList"); // cannot do it other way like setting up a global. Probably has to do with the way the script is loaded
+		const highlightedElements = treeViewList.querySelectorAll(".cwrapHighlight");
+	
+		for (const element of highlightedElements) {
+			console.log("Current Element:", element);
+	
+			const elementPath = element.value.trim(); // Assuming the path is stored in the value attribute
+			const domElement = getElementFromPath(elementPath);
+			console.log("DOM Element from Path:", domElement);
+	
+			if (domElement) {
+				const parentElement = domElement.parentElement;
+				console.log("Parent Element:", parentElement);
+	
+				if (parentElement) {
+					const nextSibling = domElement.nextElementSibling;
+					console.log("Next Sibling:", nextSibling);
+	
+					if (nextSibling) {
+						parentElement.insertBefore(nextSibling, domElement);
+						console.log("Moved element after next sibling within the same level");
+					} else {
+						console.log("No next sibling found. Element not moved.");
+					}
+				} else {
+					console.log("No parent element found. Element not moved.");
+				}
+			} else {
+				console.log("No DOM element found for path:", elementPath);
+			}
+		}
+		populateTreeView();
+		highlightSelectedElement();
+	});
 };
 // populateRoutesView();
 // loadMenuLevelView();

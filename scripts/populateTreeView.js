@@ -46,6 +46,7 @@ export default function populateTreeView() {
 				newButton.value = getElementPath(child);
 				newButton.appendChild(subText);
 				subListItem.appendChild(newButton);
+				subList.id = "treeViewList";
 				subList.appendChild(subListItem);
 				createTree(child, subListItem);
 			}
