@@ -45,7 +45,7 @@ export default function populatePropertySelectAll(
 		);
 		console.log("Target Element:", targetElement);
 
-		if (targetElement?.style && typeof targetElement.style === "string") {
+		if (targetElement?.style && typeof targetElement.style === "string" && targetElement.extension === global.id.stateBlueprintContextInfo.title) {
 			currentStyle = targetElement.style;
 		}
 	} else {

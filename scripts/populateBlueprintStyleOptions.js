@@ -54,14 +54,14 @@ export default function populateBlueprintStyleOptions(isState = false) {
 	if (isState) {
 		if (targetElement?.extend && Array.isArray(targetElement.extend)) {
 			for (const extension of targetElement.extend) {
-                console.log(extension);
+				console.log(extension);
 				if (
 					extension.style &&
 					typeof extension.style === "string" &&
 					extension.extension === global.id.stateBlueprintContextInfo.title
 				) {
-                    console.log(global.id.stateBlueprintContextInfo.title);
-                    console.log("extension.style", extension.style);
+					console.log(global.id.stateBlueprintContextInfo.title);
+					console.log("extension.style", extension.style);
 					const styles = extension.style.split(";");
 					for (const style of styles) {
 						const [property] = style.split(":");
@@ -74,7 +74,7 @@ export default function populateBlueprintStyleOptions(isState = false) {
 			}
 		}
 	} else {
-		if (targetElement?.style && typeof targetElement.style === "string") {
+		if (targetElement?.style && typeof targetElement.style === "string") { // fixed for non State by deletion in this commit
 			const styles = targetElement.style.split(";");
 			for (const style of styles) {
 				const [property] = style.split(":");

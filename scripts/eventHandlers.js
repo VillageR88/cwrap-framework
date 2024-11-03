@@ -1706,7 +1706,11 @@ export const eventHandlers = () => {
 		if (targetElement?.extend && Array.isArray(targetElement.extend)) {
 			for (const extension of targetElement.extend) {
 				console.log("Extension:", extension);
-				if (extension.style && typeof extension.style === "string" && extension.extension === global.id.stateBlueprintContextInfo.title) {
+				if (
+					extension.style &&
+					typeof extension.style === "string" &&
+					extension.extension === global.id.stateBlueprintContextInfo.title
+				) {
 					const styles = extension.style
 						.split(";")
 						.map((style) => style.trim());
@@ -1822,7 +1826,9 @@ export const eventHandlers = () => {
 		global.id.mainBlueprintStateStyleSelector.style.display = "none";
 		global.id.mainBlueprintStateStyleSelector2.style.display = "none";
 		global.id.mainBlueprintStateStyleAdd.style.display = "flex";
+		//TODO Problem with adding another prop to the same extension aka populatePropertySelectAll TODO
 		populatePropertySelectAll(cssProperties, true, true);
+	
 
 		// global.id.mainStateStyleSelector.style.display = "none";
 		// global.id.mainStateStyleAdd.style.display = "flex";
@@ -1868,7 +1874,7 @@ export const eventHandlers = () => {
 			console.log("Extensions:", targetElement.extend);
 			for (const extension of targetElement.extend) {
 				console.log("Extension:", extension);
-				if (extension.style) {
+				if (extension.style && typeof extension.style === "string" && extension.extension === global.id.stateBlueprintContextInfo.title) {
 					console.log("Extension Style:", extension.style);
 					const styles = extension.style
 						.split(";")
@@ -1896,7 +1902,7 @@ export const eventHandlers = () => {
 					extensionFound = true;
 					break;
 				}
-				extension.style = `${blueprintPropertySelectValue}: ;`;
+				//extension.style = `${blueprintPropertySelectValue}: ;`; TO RESOLVE IN NEXT TIME
 			}
 		} else {
 			const newExtension = {
@@ -1925,8 +1931,8 @@ export const eventHandlers = () => {
 		rebuildStyleFromBlueprint();
 		applyStyles();
 		populateBlueprintStyleOptions(true);
-		global.id.stateBlueprintPropertySelect.value =
-			global.id.stateBlueprintPropertySelectAll.value;
+		// global.id.stateBlueprintPropertySelect.value =
+		// 	global.id.stateBlueprintPropertySelectAll.value;
 		populateBlueprintStyleOptionsValue(true);
 		console.log("Rebuilt blueprint element and applied styles");
 		global.id.mainBlueprintStateStyleAdd.style.display = "none";
@@ -1935,6 +1941,46 @@ export const eventHandlers = () => {
 	});
 	global.id.stateBlueprintPropertySelect.addEventListener("change", () => {
 		populateBlueprintStyleOptionsValue(true);
+	});
+
+	global.id.updateStateProperty.addEventListener("click", () => {
+		console.log("updateStateProperty clicked"); // debugging
+		const statePropertySelect = global.id.statePropertySelect;
+		const statePropertyInput = global.id.statePropertyInput;
+		console.log("statePropertyInput.value", statePropertyInput.value); // debugging
+		const fullPath = global.id.elementStateSelect.value;
+		const selectedProperty = statePropertySelect.value;
+		const newValue = statePropertyInput.value;
+		const currentStyle = cssMap.get(fullPath) || "";
+		const styleProperties = currentStyle
+			.split(";")
+			.filter(Boolean)
+			.map((prop) => prop.trim());
+		let newStyle = styleProperties;
+		console.log("newStyle", newStyle); // debugging
+		const propertyExists = styleProperties.some((prop) =>
+			prop.startsWith(selectedProperty),
+		);
+		if (propertyExists) {
+			console.log("Property exists"); // debugging
+			newStyle = newStyle.map((prop) => {
+				const [key] = prop.split(":").map((item) => item.trim());
+				console.log("prop", prop); // debugging
+				console.log("key", key); // debugging
+				console.log("selectedProperty", selectedProperty); // debugging
+				console.log("newValue", newValue); // debugging
+				console.log("key === selectedProperty", key === selectedProperty); // debugging
+				console.log("`${key}: ${newValue}`", `${key}: ${newValue}`); // debugging
+				return key === selectedProperty ? `${key}: ${newValue}` : prop;
+			});
+		} else {
+			console.log("Property does not exist"); // debugging
+			newStyle.push(`${selectedProperty}: ${newValue}`);
+		}
+		console.log("newStyle", newStyle); // debugging
+		cssMap.set(fullPath, newStyle.join("; ").concat(";"));
+		applyStyles();
+		global.variable.style = newStyle.join("; ").concat(";");
 	});
 
 	global.id.updateAttribute.addEventListener("click", () => {
