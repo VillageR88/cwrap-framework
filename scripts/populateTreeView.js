@@ -15,10 +15,20 @@ export default function populateTreeView() {
 
 	// Function to create tree structure recursively
 	function createTree(element, parentListItem) {
-		if (element.customTag === "cwrapBlueprintContainer") return null;
+		if (
+			element.customTag === "cwrapBlueprintContainer" ||
+			element.customTag === "cwrapTempScript"
+		)
+			return null;
 		if (element.children.length > 0) {
 			const subList = document.createElement("ul");
 			for (const child of element.children) {
+				if (
+					child.customTag === "cwrapBlueprintContainer" ||
+					child.customTag === "cwrapTempScript"
+				)
+					continue;
+
 				const subListItem = document.createElement("li");
 				const subText = document.createTextNode(child.tagName.toLowerCase());
 				const newButton = document.createElement("button");

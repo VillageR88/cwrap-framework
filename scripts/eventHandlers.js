@@ -954,7 +954,7 @@ export const eventHandlers = () => {
 		}
 		populateBlueprintAttributeOptionsValue(targetElement);
 		reloadBlueprint();
-		removeStateFromMap(currentMap, selectedStateTrimmed);
+		//removeStateFromMap(currentMap, selectedStateTrimmed);
 	});
 
 	global.id.mainStyleSelectorBack.addEventListener("click", () => {
@@ -1043,6 +1043,7 @@ export const eventHandlers = () => {
 		global.id.mainBlueprintAttributeAdd.style.display = "none";
 		console.log("Navigated back to main blueprint attribute selector");
 		reloadBlueprint();
+		global.id.blueprintAttributeSelect.value = selectedAttribute;
 	});
 
 	global.id.mainBlueprintSelectorEditStyle.addEventListener("click", () => {
@@ -1259,8 +1260,9 @@ export const eventHandlers = () => {
 		console.log("Navigated back to previous view");
 		//now should populate the property select
 		populateBlueprintStyleOptions();
-		//populateBlueprintStyleOptionsValue();
 		global.id.blueprintPropertySelect.value = selectedProperty;
+		populateBlueprintStyleOptionsValue();
+		//populateBlueprintStyleOptionsValue();
 	});
 
 	global.id.removePropertyBlueprintSelectProperty.addEventListener(
@@ -2004,6 +2006,19 @@ export const eventHandlers = () => {
 			element.setAttribute(selectedAttribute, newValue);
 		}
 	});
+	// Define the reusable function
+	function getCurrentScreen(navAdditionalScreen) {
+		if (navAdditionalScreen.classList.contains("screenDesktop")) {
+			return "screenDesktop";
+		}
+		if (navAdditionalScreen.classList.contains("screenTablet")) {
+			return "screenTablet";
+		}
+		if (navAdditionalScreen.classList.contains("screenMobile")) {
+			return "screenMobile";
+		}
+	}
+
 	global.id.removeProperty.addEventListener("click", () => {
 		const fullPath = global.id.elementSelect.value;
 		const propertySelect = global.id.propertySelect;
@@ -2018,7 +2033,19 @@ export const eventHandlers = () => {
 			.filter((prop) => !prop.startsWith(selectedProperty))
 			.join("; ")
 			.concat(";");
-		cssMap.set(fullPath, newStyle);
+	
+		const currentScreen = getCurrentScreen(global.id.navAdditionalScreen);
+
+		if (currentScreen === "screenDesktop") {
+			cssMap.set(fullPath, newStyle);
+		} else if (currentScreen === "screenTablet") {
+			const mediaQueries = mediaQueriesMap.get("max-width: 768px");
+			mediaQueries.set(fullPath, newStyle);
+		} else if (currentScreen === "screenMobile") {
+			const mediaQueries = mediaQueriesMap.get("max-width: 640px");
+			mediaQueries.set(fullPath, newStyle);
+		}
+
 		applyStyles(rootMap, cssMap, mediaQueriesMap);
 		styleSpan = newStyle;
 		updatePropertySelectOptions();
