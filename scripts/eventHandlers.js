@@ -756,11 +756,12 @@ export const eventHandlers = () => {
 		}
 	});
 
-	global.id.mainTextEditor2.addEventListener("dblclick", () => {
-		global.id.mainTextEditor2.style.width = "";
-		global.id.mainTextEditor2.style.height = "";
-		console.log("Textarea size reset");
-	});
+	// Caused too many issues, disabled for now
+	// global.id.mainTextEditor2.addEventListener("dblclick", () => {
+	// 	global.id.mainTextEditor2.style.width = "";
+	// 	global.id.mainTextEditor2.style.height = "";
+	// 	console.log("Textarea size reset");
+	// });
 
 	global.id.mainTextEditorBack.addEventListener("click", () => {
 		global.id.mainInitialSelector.style.display = "flex";
@@ -2033,7 +2034,7 @@ export const eventHandlers = () => {
 			.filter((prop) => !prop.startsWith(selectedProperty))
 			.join("; ")
 			.concat(";");
-	
+
 		const currentScreen = getCurrentScreen(global.id.navAdditionalScreen);
 
 		if (currentScreen === "screenDesktop") {

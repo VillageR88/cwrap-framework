@@ -135,6 +135,7 @@ body > div#leftSide {
   box-sizing: border-box;
   justify-content: space-between;
   width: fit-content;
+  pointer-events: none;
 }
 
 body > div#leftSide.right {
@@ -159,6 +160,7 @@ body > div#leftSide > div#leftSidebarCanvas > div#leftSidebar {
   border-bottom: 2px solid var(--colorShadow-regular);
   border-radius: 10px 10px 10px 10px;
   margin-left: 12px;
+  pointer-events: all;
 }
 
 body > div#leftSide.right > div#leftSidebarCanvas > div#leftSidebar {
