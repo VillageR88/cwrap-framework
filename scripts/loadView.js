@@ -120,6 +120,7 @@ function leftSidebarCleanup() {
 export function centralBarCleanup() {
 	global.id.mainInitialSelector.style.display = "flex";
 	global.id.selectedElementHighlight.style.display = "flex";
+	// global.id.editStyle.style.display = "flex";
 	global.id.mainElementAdd.style.display = "none";
 	global.id.mainTextEditor.style.display = "none";
 	global.id.mainTextEditor2.style.display = "none";

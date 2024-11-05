@@ -49,6 +49,7 @@ export default function validateParentElement(validationForBlueprint = false) {
 			"track",
 			"wbr",
 			"has(a",
+			"script",
 		].includes(parentType)
 	) {
 		setElementAttributes(
@@ -64,6 +65,13 @@ export default function validateParentElement(validationForBlueprint = false) {
 			global.id.editBlueprint.style.display = "flex";
 		} else {
 			global.id.editBlueprint.style.display = "none";
+		}
+		if (parentType ==="script")
+		{
+			global.id.editStyle.style.display = "none";
+		}
+		else {
+			global.id.editStyle.style.display = "flex";
 		}
 	} else {
 		if (parentType === "li") {
