@@ -3,14 +3,29 @@ export default function updatePropertySelectOptions(isState) {
 		? global.id.elementStateSelect.value
 		: global.id.elementSelect.value;
 	const cssMap = global.map.cssMap;
+	const mediaQueriesMap = global.map.mediaQueriesMap;
 	const propertySelect = isState
 		? global.id.statePropertySelect
 		: global.id.propertySelect;
-	const currentStyle = cssMap.get(fullPath) || "";
+
+	// Determine the current screen
+	const currentScreen = getCurrentScreen(global.id.navAdditionalScreen);
+
+	// Retrieve the current style based on the current screen
+	let currentStyle = "";
+	if (currentScreen === "screenDesktop") {
+		currentStyle = cssMap.get(fullPath) || "";
+	} else if (currentScreen === "screenTablet") {
+		currentStyle = mediaQueriesMap.get("max-width: 768px")?.get(fullPath) || "";
+	} else if (currentScreen === "screenMobile") {
+		currentStyle = mediaQueriesMap.get("max-width: 640px")?.get(fullPath) || "";
+	}
+
 	const styleProperties = currentStyle
 		.split(";")
 		.filter(Boolean)
 		.map((prop) => prop.trim());
+
 	propertySelect.innerHTML = "";
 	for (const prop of styleProperties) {
 		const [key] = prop.split(":").map((item) => item.trim());
@@ -19,6 +34,7 @@ export default function updatePropertySelectOptions(isState) {
 		option.textContent = key;
 		propertySelect.appendChild(option);
 	}
+
 	const propertyInput = global.id.propertyInput;
 	const selectedProperty = propertySelect.value;
 	const selectedValue =
@@ -30,4 +46,18 @@ export default function updatePropertySelectOptions(isState) {
 			: "";
 	propertySelect.value = selectedProperty;
 	propertyInput.value = selectedValue;
+}
+
+// Define the reusable function
+function getCurrentScreen(navAdditionalScreen) {
+	if (navAdditionalScreen.classList.contains("screenDesktop")) {
+		return "screenDesktop";
+	}
+	if (navAdditionalScreen.classList.contains("screenTablet")) {
+		return "screenTablet";
+	}
+	if (navAdditionalScreen.classList.contains("screenMobile")) {
+		return "screenMobile";
+	}
+	return null; // Return null if no matching class is found
 }
