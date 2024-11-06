@@ -49,7 +49,6 @@ export default function serializeElement(element, isForBuild) {
 	// Handle extended styles
 	const extendMap = new Map();
 	for (const [key, _] of cssMap) {
-		console.log("key:", key);
 		for (const state of [...stateContextual, ...stateNonContextual]) {
 			const pseudoClass = `:${state}`;
 			const pseudoElement = `::${state}`;

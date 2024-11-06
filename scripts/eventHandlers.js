@@ -213,7 +213,7 @@ export const eventHandlers = () => {
 		const selectedValue = global.id.elementSelect.value;
 		const element = getElementFromPath();
 		updateElementInfo(selectedValue, element);
-		populatePropertySelectAll(cssProperties);
+		//populatePropertySelectAll(cssProperties); // I don't see any necessity for this line
 		highlightSelectedElement();
 	});
 	global.id.selectedElementHighlight.addEventListener("mousedown", () => {
