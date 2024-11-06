@@ -1,3 +1,5 @@
+import { stateNonContextual, stateContextual } from "./_const.js";
+
 /**
  * Serialize the DOM element to JSON. In other words convert the DOM element to a JSON object with styles appended and others like class, attributes.
  *
@@ -47,16 +49,24 @@ export default function serializeElement(element, isForBuild) {
 	// Handle extended styles
 	const extendMap = new Map();
 	for (const [key, _] of cssMap) {
-		if (key.includes(":has")) {
-			const newKey = key.split(":has")[0];
-			const newValue = `:has${key.split(":has")[1]}`;
-			extendMap.set(newKey, newValue);
-		} else if (key.includes(":hover")) {
-			const newKey = key.split(":hover")[0];
-			const newValue = `:hover${key.split(":hover")[1]}`;
-			extendMap.set(newKey, newValue);
+		console.log("key:", key);
+		for (const state of [...stateContextual, ...stateNonContextual]) {
+			const pseudoClass = `:${state}`;
+			const pseudoElement = `::${state}`;
+			if (key.includes(pseudoElement) || key.includes(pseudoClass)) {
+				const splitKey = key.includes(pseudoElement)
+					? key.split(pseudoElement)
+					: key.split(pseudoClass);
+				const newKey = splitKey[0];
+				const newValue =
+					(key.includes(pseudoElement) ? `::${state}` : `:${state}`) +
+					splitKey[1];
+				extendMap.set(newKey, newValue);
+				break; // Break the loop once a match is found
+			}
 		}
 	}
+
 	if (extendMap.has(selector)) {
 		const newSelector = selector + extendMap.get(selector);
 		const newStyle = cssMap.get(newSelector);
@@ -93,7 +103,7 @@ export default function serializeElement(element, isForBuild) {
 		obj.blueprint = global.map.blueprintMap.get(element.timeStamp);
 		return obj;
 	}
-	
+
 	// if (element.customTag2 === "cwrapNewBlueprintParent") {
 	// 	obj.blueprint = {};
 	// 	return obj;

@@ -59,6 +59,7 @@ import populateBlueprintStyleOptions from "./populateBlueprintStyleOptions.js";
 import populateBlueprintStyleOptionsValue from "./populateBlueprintStyleOptionsValue.js";
 import getCssProperties from "./getCssProperties.js";
 import checkIfBlueprintEnvironment from "./checkIfBlueprintEnvironment.js";
+import { stateNonContextual, stateContextual } from "./_const.js";
 
 /**
  * Sets up the event handlers.
@@ -1395,6 +1396,7 @@ export const eventHandlers = () => {
 		const selectedState = stateSelectAll.value;
 		const selectedElement = elementSelect.value;
 		let currentMap;
+
 		if (global.id.navAdditionalScreen.classList.contains("screenDesktop")) {
 			currentMap = cssMap;
 		} else if (
@@ -1406,14 +1408,30 @@ export const eventHandlers = () => {
 		) {
 			currentMap = mediaQueriesMap.get("max-width: 640px");
 		}
+
 		let fullPath;
-		if (stateSelectAll.value === "has") {
-			console.log("has"); // debugging
-			fullPath = `${selectedElement}:${selectedState}(${global.id.selectContext.value}:${global.id.selectStateOfContext.value})`;
+		if (stateContextual.includes(selectedState)) {
+			const contextValue = global.id.selectContext.value;
+			const stateOfContext = global.id.selectStateOfContext.value;
+			const separator =
+				stateOfContext.includes("after") || stateOfContext.includes("before")
+					? "::"
+					: ":";
+			fullPath = `${selectedElement}:${selectedState}(${contextValue}${separator}${stateOfContext})`;
+		} else if (
+			stateNonContextual.includes(selectedState) &&
+			selectedState !== "before" &&
+			selectedState !== "after"
+		) {
+			fullPath = `${selectedElement}:${selectedState}`;
+		} else if (selectedState === "before" || selectedState === "after") {
+			console.log("before or after"); // debugging
+			fullPath = `${selectedElement}::${selectedState}`;
 		} else {
-			console.log("not has"); // debugging
+			console.log("default case"); // debugging
 			fullPath = `${selectedElement}:${selectedState}`;
 		}
+
 		console.log("fullPath", fullPath); // debugging
 		currentMap.set(fullPath, "");
 		global.id.mainStateSelector.style.display = "flex";

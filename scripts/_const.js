@@ -6,6 +6,8 @@ export const stateNonContextual = [
 	"focus-visible",
 	"disabled",
 	"checked",
+	"before",
+	"after",
 ];
 
 export const stateContextual = ["has"];
