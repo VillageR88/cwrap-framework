@@ -384,7 +384,6 @@ const global = {
 		headMap: new Map(),
 		mediaQueriesMap: new Map(),
 		rootMap: new Map(),
-		stageMap: new Map(),
 	},
 	variable: {
 		memoryElement: "",

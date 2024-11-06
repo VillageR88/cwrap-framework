@@ -72,7 +72,6 @@ export const eventHandlers = () => {
 	const rootMap = global.map.rootMap;
 	const fontMap = global.map.fontMap;
 	const classroomMap = global.map.classroomMap;
-	const stageMap = global.map.stageMap;
 	const cssMap = global.map.cssMap;
 	const mediaQueriesMap = global.map.mediaQueriesMap;
 
@@ -460,13 +459,6 @@ export const eventHandlers = () => {
 
 		function encapsulateJson(jsonObj) {
 			let newJsonObj = JSON.parse(JSON.stringify(jsonObj));
-			if (stageMap.size > 0) {
-				const stage = {};
-				for (const [key, value] of stageMap.entries()) {
-					stage[key] = value;
-				}
-				newJsonObj = { ...newJsonObj, stage };
-			}
 
 			if (classroomMap.size > 0) {
 				const classroom = [];
@@ -885,30 +877,47 @@ export const eventHandlers = () => {
 		global.id.blueprintAttributeInput.value = attributeValue || "";
 	}
 
-	function getTargetElement(currentMap, blueprintSelectValue) {
-		const blueprintSelectValueTrimmed = blueprintSelectValue.replace(">", "");
+	function getBlueprintTargetElement(currentMap, blueprintSelectValue) {
+		console.log("Initial currentMap:", currentMap);
+		const blueprintSelectValueTrimmed = blueprintSelectValue
+			.replace(">", "")
+			.trim();
+		console.log("Trimmed Blueprint Select Value:", blueprintSelectValueTrimmed);
 		const blueprintSelectorsArray = blueprintSelectValueTrimmed.split(">");
-		const searchedArray = [];
+		console.log("Blueprint Selectors Array:", blueprintSelectorsArray);
+		let targetElement = currentMap;
 
 		for (const i in blueprintSelectorsArray) {
 			const trimmedElement = blueprintSelectorsArray[i].trim();
-			const counter = trimmedElement.match(/(?<=nth-of-type\()\d+/) ?? 1;
-			if (Number(i) + 1 !== blueprintSelectorsArray.length)
-				searchedArray.push(`children[${counter - 1}]`);
-			else searchedArray.push(`[${counter - 1}]`);
-		}
+			console.log("Trimmed Element:", trimmedElement);
+			const match = trimmedElement.match(/nth-of-type\((\d+)\)/);
+			const counter = match ? parseInt(match[1], 10) : 1;
+			console.log("Counter:", counter);
+			const elementName = trimmedElement
+				.replace(/:nth-of-type\(\d+\)/, "")
+				.trim();
+			console.log("Element Name:", elementName);
+			let foundIndex = -1;
 
-		let targetElement = currentMap;
-		try {
-			for (let j = 0; j < searchedArray.length - 1; j++) {
-				const path = searchedArray[j];
-				targetElement = targetElement.children
-					? targetElement.children[Number.parseInt(path.match(/\d+/)[0])]
-					: targetElement[Number.parseInt(path.match(/\d+/)[0])];
+			if (Number(i) + 1 <= blueprintSelectorsArray.length) {
+				if (targetElement.children) {
+					console.log("Children found:", targetElement.children);
+					for (let k = 0; k < targetElement.children.length; k++) {
+						console.log("Checking child:", targetElement.children[k]);
+						if (targetElement.children[k].element === elementName) {
+							foundIndex++;
+							console.log("Found Index:", foundIndex);
+							if (foundIndex === counter - 1) {
+								targetElement = targetElement.children[k];
+								console.log("Target Element Updated:", targetElement);
+								break;
+							}
+						}
+					}
+				} 
 			}
-		} catch (error) {
-			console.error("Error navigating path:", error);
 		}
+		console.log("Final Target Element:", targetElement);
 		return targetElement;
 	}
 
@@ -921,7 +930,10 @@ export const eventHandlers = () => {
 		const currentMap = blueprintMap.get(selector);
 		const blueprintSelectValue = global.id.blueprintSelect.value;
 
-		const targetElement = getTargetElement(currentMap, blueprintSelectValue);
+		const targetElement = getBlueprintTargetElement(
+			currentMap,
+			blueprintSelectValue,
+		);
 		// console.log("Final Target Element:", targetElement);
 
 		populateBlueprintAttributeOptions(targetElement);
@@ -929,13 +941,15 @@ export const eventHandlers = () => {
 	});
 
 	global.id.blueprintAttributeSelect.addEventListener("change", () => {
-		console.log("blueprintAttributeSelect change event"); // debugging
 		const blueprintMap = global.map.blueprintMap;
 		const selector = getElementFromPath().timeStamp;
 		const currentMap = blueprintMap.get(selector);
 		const blueprintSelectValue = global.id.blueprintSelect.value;
 
-		const targetElement = getTargetElement(currentMap, blueprintSelectValue);
+		const targetElement = getBlueprintTargetElement(
+			currentMap,
+			blueprintSelectValue,
+		);
 		populateBlueprintAttributeOptionsValue(targetElement);
 	});
 
@@ -945,7 +959,10 @@ export const eventHandlers = () => {
 		const currentMap = blueprintMap.get(selector);
 		const blueprintSelectValue = global.id.blueprintSelect.value;
 
-		const targetElement = getTargetElement(currentMap, blueprintSelectValue);
+		const targetElement = getBlueprintTargetElement(
+			currentMap,
+			blueprintSelectValue,
+		);
 
 		const blueprintAttributeSelect = global.id.blueprintAttributeSelect;
 		const blueprintAttributeSelectValue = blueprintAttributeSelect.value;
@@ -977,7 +994,10 @@ export const eventHandlers = () => {
 		const currentMap = blueprintMap.get(selector);
 		const blueprintSelectValue = global.id.blueprintSelect.value;
 
-		const targetElement = getTargetElement(currentMap, blueprintSelectValue);
+		const targetElement = getBlueprintTargetElement(
+			currentMap,
+			blueprintSelectValue,
+		);
 
 		const blueprintAttributeSelect = global.id.blueprintAttributeSelect;
 		const blueprintAttributeSelectValue = blueprintAttributeSelect.value;
@@ -1016,7 +1036,10 @@ export const eventHandlers = () => {
 		const blueprintSelectValue = global.id.blueprintSelect.value;
 		console.log("Blueprint Select Value:", blueprintSelectValue);
 
-		const targetElement = getTargetElement(currentMap, blueprintSelectValue);
+		const targetElement = getBlueprintTargetElement(
+			currentMap,
+			blueprintSelectValue,
+		);
 		console.log("Target Element:", targetElement);
 
 		const blueprintAttributeSelectAll = global.id.blueprintAttributeSelectAll;
@@ -1072,7 +1095,10 @@ export const eventHandlers = () => {
 		const currentMap = blueprintMap.get(selector);
 		const blueprintSelectValue = global.id.blueprintSelect.value;
 
-		const targetElement = getTargetElement(currentMap, blueprintSelectValue);
+		const targetElement = getBlueprintTargetElement(
+			currentMap,
+			blueprintSelectValue,
+		);
 
 		const blueprintPropertySelect = global.id.blueprintPropertySelect;
 		const blueprintPropertySelectValue = blueprintPropertySelect.value;
@@ -1124,7 +1150,7 @@ export const eventHandlers = () => {
 			.replace(">", "")
 			.trim();
 
-		function getTargetElement(map, elementPath) {
+		function getBlueprintTargetElement(map, elementPath) {
 			const pathParts = elementPath.split(" > ");
 			let currentElement = map;
 
@@ -1157,7 +1183,7 @@ export const eventHandlers = () => {
 			return currentElement;
 		}
 
-		const targetElement = getTargetElement(
+		const targetElement = getBlueprintTargetElement(
 			currentMap,
 			selectedBlueprintElementTrimmed,
 		);
@@ -1196,17 +1222,15 @@ export const eventHandlers = () => {
 	});
 
 	global.id.addBlueprintProperty.addEventListener("click", () => {
-		console.log("addBlueprintProperty clicked");
 		const blueprintMap = global.map.blueprintMap;
 		const selector = getElementFromPath().timeStamp;
-		console.log("Selector:", selector);
 		const currentMap = blueprintMap.get(selector);
-		console.log("Current Map:", currentMap);
 		const blueprintSelectValue = global.id.blueprintSelect.value;
-		console.log("Blueprint Select Value:", blueprintSelectValue);
 
-		const targetElement = getTargetElement(currentMap, blueprintSelectValue);
-		console.log("Target Element:", targetElement);
+		const targetElement = getBlueprintTargetElement(
+			currentMap,
+			blueprintSelectValue,
+		);
 
 		const propertyBlueprintSelectAll = global.id.propertyBlueprintSelectAll;
 		if (!propertyBlueprintSelectAll) {
@@ -1216,50 +1240,38 @@ export const eventHandlers = () => {
 			return;
 		}
 		const selectedProperty = propertyBlueprintSelectAll.value;
-		console.log("Selected Property:", selectedProperty);
 		const newValue = "";
 		if (targetElement) {
 			const styles = targetElement.style ? targetElement.style.split(";") : [];
-			console.log("Current Styles:", styles);
 			const updatedStyles = [
 				...styles,
 				`${selectedProperty.trim()}: ${newValue.trim()}`,
 			].join(";");
-			console.log("Updated Styles:", updatedStyles);
 			targetElement.style = updatedStyles;
 
 			// Apply the style changes to the view
 			const validSelector = blueprintSelectValue
 				.replace(/ > /g, " ")
 				.replace(/:nth-of-type\(\d+\)/g, "");
-			console.log("Valid Selector:", validSelector);
 			const elementInView = document.querySelector(validSelector);
-			console.log("Element in View:", elementInView);
 			if (elementInView) {
 				elementInView.style[selectedProperty.trim()] = newValue.trim();
-				console.log("Applied style to element in view");
 			}
 
 			// Rebuild the blueprint element
 			reloadBlueprint();
-			console.log("Blueprint reloaded");
 			const selectedValue = global.id.elementSelect.value;
 			const firstChildrenTag =
 				getElementFromPath(selectedValue).childNodes[0].tagName.toLowerCase();
-			console.log("First Children Tag:", firstChildrenTag);
 			removeStyle(`${selectedValue} > ${firstChildrenTag}`);
-			console.log("Removed style from first children tag");
 			rebuildStyleFromBlueprint();
-			console.log("Rebuilt style from blueprint");
 			applyStyles();
-			console.log("Applied styles");
 		}
 
 		// Go back to the previous view
 		global.id.mainBlueprintStyleSelector.style.display = "flex";
 		global.id.mainBlueprintStyleSelector2.style.display = "flex";
 		global.id.mainBlueprintStyleAdd.style.display = "none";
-		console.log("Navigated back to previous view");
 		//now should populate the property select
 		populateBlueprintStyleOptions();
 		global.id.blueprintPropertySelect.value = selectedProperty;
@@ -1275,7 +1287,10 @@ export const eventHandlers = () => {
 			const currentMap = blueprintMap.get(selector);
 			const blueprintSelectValue = global.id.blueprintSelect.value;
 
-			const targetElement = getTargetElement(currentMap, blueprintSelectValue);
+			const targetElement = getBlueprintTargetElement(
+				currentMap,
+				blueprintSelectValue,
+			);
 
 			const blueprintPropertySelect = global.id.blueprintPropertySelect;
 			const blueprintPropertySelectValue = blueprintPropertySelect.value;
@@ -1687,7 +1702,7 @@ export const eventHandlers = () => {
 			.replace(">", "")
 			.trim();
 
-		function getTargetElement(map, elementPath) {
+		function getBlueprintTargetElement(map, elementPath) {
 			const pathParts = elementPath.split(" > ");
 			let currentElement = map;
 
@@ -1720,7 +1735,7 @@ export const eventHandlers = () => {
 			return currentElement;
 		}
 
-		const targetElement = getTargetElement(
+		const targetElement = getBlueprintTargetElement(
 			currentMap,
 			selectedBlueprintElementTrimmed,
 		);
@@ -1791,7 +1806,10 @@ export const eventHandlers = () => {
 		const blueprintSelectValue = global.id.blueprintSelect.value;
 		console.log("Blueprint Select Value:", blueprintSelectValue);
 
-		const targetElement = getTargetElement(currentMap, blueprintSelectValue);
+		const targetElement = getBlueprintTargetElement(
+			currentMap,
+			blueprintSelectValue,
+		);
 		console.log("Target Element:", targetElement);
 
 		const blueprintPropertySelect = global.id.stateBlueprintPropertySelect;
@@ -1880,7 +1898,10 @@ export const eventHandlers = () => {
 		const blueprintSelectValue = global.id.blueprintSelect.value;
 		console.log("Blueprint Select Value:", blueprintSelectValue);
 
-		const targetElement = getTargetElement(currentMap, blueprintSelectValue);
+		const targetElement = getBlueprintTargetElement(
+			currentMap,
+			blueprintSelectValue,
+		);
 		console.log("Target Element:", targetElement);
 
 		const blueprintPropertySelectValue = blueprintStyleSelectValue.trim();
@@ -3538,11 +3559,6 @@ if (new URLSearchParams(window.location.search).has("param")) {
 	}
 } else {
 	loadBodyView();
-}
-
-if (new URLSearchParams(window.location.search).has("stage")) {
-	const stage = new URLSearchParams(window.location.search).get("stage");
-	console.log("stage", stage); // debugging
 }
 
 // Function to handle keydown events

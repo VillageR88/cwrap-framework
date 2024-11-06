@@ -93,7 +93,7 @@ export default function generateCssSelector(
 				const blueprintChild = JSON.parse(JSON.stringify(blueprint));
 				blueprintChild.element = blueprint.element;
 				blueprintChild.children = blueprint.children;
-				blueprintChild.customTag = "cwrapBlueprintCSS";
+				//blueprintChild.customTag = "cwrapBlueprintCSS"; //commenting this house fix the issue (not sure why) with the blueprint elements not being added to the cssMap on the first load
 				generateCssSelector(blueprintChild, selector, siblingCountMap);
 			}
 		}

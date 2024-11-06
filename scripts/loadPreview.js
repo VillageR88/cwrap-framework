@@ -4,7 +4,6 @@ import populateSelectOptions from "./populateSelectOptions.js";
 import populateAttributeOptions from "./populateAttributeOptions.js";
 import createElementFromJson from "./createElementFromJson.js";
 import generateClassroomMap from "./generateClassroomMap.js";
-import generateStageMap from "./generateStageMap.js";
 import generateCssSelector from "./generateCssSelector.js";
 import applyStyles from "./applyStyles.js";
 
@@ -77,7 +76,6 @@ export default function loadPreview(jsonObj) {
 	html.appendChild(head);
 	html.appendChild(body);
 	generateClassroomMap(jsonObj);
-	generateStageMap(jsonObj);
 	generateCssSelector(jsonObj, "", new Map());
 	const element = createElementFromJson(jsonObj, true);
 	doc.body.replaceWith(element);
@@ -88,8 +86,7 @@ export default function loadPreview(jsonObj) {
 	doc.body.appendChild(mainScript);
 	applyStyles();
 	populateSelectOptions(jsonObj);
-	const bodyPath = getElementPath(doc.body);
-	updateElementInfo(bodyPath, doc.body);
+	//const bodyPath = getElementPath(doc.body); // commented out for now don't see point of this
+	//updateElementInfo(bodyPath, doc.body); // same with this line
 	// replaceJsonPlaceholders();
-
 }
