@@ -2868,7 +2868,8 @@ export const eventHandlers = () => {
 		global.id.mainClassroomStyleAdd.style.display = "none";
 	});
 
-	global.id.navJavascript.addEventListener("click", () => {
+	global.id.navScript.addEventListener("click", () => {
+		console.log("navScript clicked"); // debugging
 		//debugging (commented out)
 		//centralBarCleanup();
 		//global.id.mainInitialSelector.style.display = "none";
