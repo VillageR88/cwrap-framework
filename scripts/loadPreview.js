@@ -86,7 +86,6 @@ export default function loadPreview(jsonObj) {
 	doc.body.appendChild(mainScript);
 	applyStyles();
 	populateSelectOptions(jsonObj);
-	console.log(global.map.blueprintMap);
 	//const bodyPath = getElementPath(doc.body); // commented out for now don't see point of this
 	//updateElementInfo(bodyPath, doc.body); // same with this line
 	// replaceJsonPlaceholders();

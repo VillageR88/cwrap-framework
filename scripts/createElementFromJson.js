@@ -1,5 +1,8 @@
 import eventListenerClickElement from "./eventListenerClickElement.js";
-import { replacePlaceholdersCwrapIndex } from "./replaceBlueprintJsonPlaceholders.js";
+import {
+	replacePlaceholdersCwrapIndex,
+	replacePlaceholdersCwrapArray,
+} from "./replaceBlueprintJsonPlaceholders.js";
 
 /**
  * Replaces placeholders in the JSON object with the specified value.
@@ -49,10 +52,8 @@ export default function createElementFromJson(jsonObj, isInitialLoad) {
 		global.map.blueprintMap.set(timeStamp, jsonObj.blueprint);
 		const count = jsonObj.blueprint.count;
 		for (let i = 0; i < count; i++) {
-			const blueprintJson = replacePlaceholdersCwrapIndex(
-				jsonObj.blueprint,
-				i,
-			);
+			let blueprintJson = replacePlaceholdersCwrapIndex(jsonObj.blueprint, i);
+			blueprintJson = replacePlaceholdersCwrapArray(blueprintJson, i);
 			const blueprintElement = createElementFromJson(
 				blueprintJson,
 				isInitialLoad,
