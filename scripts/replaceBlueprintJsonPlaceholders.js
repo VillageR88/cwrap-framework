@@ -1,16 +1,12 @@
-export default function replaceBlueprintJsonPlaceholders(
-	jsonObj,
-	placeholder,
-	index,
-) {
+export function replacePlaceholdersCwrapIndex(jsonObj, index) {
 	const jsonString = JSON.stringify(jsonObj);
 	const replacedString = jsonString.replace(
-		new RegExp(`${placeholder}(\\+\\d+)?`, "g"),
+		new RegExp(`${"cwrapIndex"}(\\+\\d+)?`, "g"),
 		(match) => {
-			if (match === placeholder) {
+			if (match === "cwrapIndex") {
 				return index;
 			}
-			const offset = Number.parseInt(match.replace(placeholder, ""), 10);
+			const offset = Number.parseInt(match.replace("cwrapIndex", ""), 10);
 			return index + offset;
 		},
 	);
