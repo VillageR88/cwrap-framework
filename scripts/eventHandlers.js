@@ -878,46 +878,35 @@ export const eventHandlers = () => {
 	}
 
 	function getBlueprintTargetElement(currentMap, blueprintSelectValue) {
-		console.log("Initial currentMap:", currentMap);
 		const blueprintSelectValueTrimmed = blueprintSelectValue
 			.replace(">", "")
 			.trim();
-		console.log("Trimmed Blueprint Select Value:", blueprintSelectValueTrimmed);
 		const blueprintSelectorsArray = blueprintSelectValueTrimmed.split(">");
-		console.log("Blueprint Selectors Array:", blueprintSelectorsArray);
 		let targetElement = currentMap;
 
 		for (const i in blueprintSelectorsArray) {
 			const trimmedElement = blueprintSelectorsArray[i].trim();
-			console.log("Trimmed Element:", trimmedElement);
 			const match = trimmedElement.match(/nth-of-type\((\d+)\)/);
-			const counter = match ? parseInt(match[1], 10) : 1;
-			console.log("Counter:", counter);
+			const counter = match ? Number.parseInt(match[1], 10) : 1;
 			const elementName = trimmedElement
 				.replace(/:nth-of-type\(\d+\)/, "")
 				.trim();
-			console.log("Element Name:", elementName);
 			let foundIndex = -1;
 
 			if (Number(i) + 1 <= blueprintSelectorsArray.length) {
 				if (targetElement.children) {
-					console.log("Children found:", targetElement.children);
 					for (let k = 0; k < targetElement.children.length; k++) {
-						console.log("Checking child:", targetElement.children[k]);
 						if (targetElement.children[k].element === elementName) {
 							foundIndex++;
-							console.log("Found Index:", foundIndex);
 							if (foundIndex === counter - 1) {
 								targetElement = targetElement.children[k];
-								console.log("Target Element Updated:", targetElement);
 								break;
 							}
 						}
 					}
-				} 
+				}
 			}
 		}
-		console.log("Final Target Element:", targetElement);
 		return targetElement;
 	}
 
@@ -1129,7 +1118,7 @@ export const eventHandlers = () => {
 			}
 
 			// Rebuild the blueprint element
-			reloadBlueprint();
+			//reloadBlueprint();
 			const selectedValue = global.id.elementSelect.value;
 			const firstChildrenTag =
 				getElementFromPath(selectedValue).childNodes[0].tagName.toLowerCase();
@@ -2946,38 +2935,45 @@ export const eventHandlers = () => {
 		const cssMap = global.map.cssMap;
 		const mediaQueriesMap = global.map.mediaQueriesMap;
 		let selector = parentSelector;
-
+	
 		if (jsonObj.element) {
 			const element = jsonObj.element;
-
+			console.log("Processing element:", element);
+	
 			if (!siblingCountMap.has(parentSelector)) {
+				console.log('case1');
 				siblingCountMap.set(parentSelector, new Map());
 			}
 			const parentSiblingCount = siblingCountMap.get(parentSelector);
-
+	
 			if (element === "body" || element === "main" || element === "footer") {
+				console.log('case2');
 				selector += (parentSelector ? " > " : "") + element;
 			} else {
 				if (!parentSiblingCount.has(element)) {
+					console.log('case3', element);
 					parentSiblingCount.set(element, 0);
 				}
+				console.log('case4');
 				parentSiblingCount.set(element, parentSiblingCount.get(element) + 1);
 				selector += ` > ${element}:nth-of-type(${parentSiblingCount.get(element)})`;
 			}
-
+	
 			if (jsonObj.style && jsonObj.customTag !== "cwrapBlueprintCSS") {
+				console.log("option1");
 				cssMap.set(selector, jsonObj.style);
 			} else {
+				console.log("option2");
 				cssMap.set(selector, "");
 			}
-
+	
 			if (Array.isArray(jsonObj.extend)) {
 				for (const extension of jsonObj.extend) {
 					const extendedSelector = `${selector}${extension.extension}`;
 					cssMap.set(extendedSelector, extension.style);
 				}
 			}
-
+	
 			if (jsonObj.mediaQueries) {
 				for (const mediaQuery of jsonObj.mediaQueries) {
 					const mediaQuerySelector = `${selector}`;
@@ -2989,36 +2985,31 @@ export const eventHandlers = () => {
 						.set(mediaQuerySelector, mediaQuery.style);
 				}
 			}
-
+	
 			if (jsonObj.children) {
 				for (const child of jsonObj.children) {
+					console.log("Processing child:", child);
 					generateCssSelectorFromBlueprint(child, selector, siblingCountMap);
 				}
 			}
-
-			if (jsonObj.blueprint) {
-				jsonObj.customTag = "cwrapBlueprintCSS";
-				const blueprint = jsonObj.blueprint;
-				for (let i = 0; i < blueprint.count; i++) {
-					const blueprintChild = JSON.parse(JSON.stringify(blueprint));
-					blueprintChild.element = blueprint.element;
-					blueprintChild.children = blueprint.children;
-					blueprintChild.customTag = "cwrapBlueprintCSS";
-					generateCssSelectorFromBlueprint(
-						blueprintChild,
-						selector,
-						siblingCountMap,
-					);
-				}
-			}
-
+	
 			if (jsonObj.count) {
-				for (let i = 0; i + 1 < Number.parseInt(jsonObj.count, 10); i++) {
+				parentSiblingCount.set(element, 0);
+	
+				console.log("Processing count:", jsonObj.count);
+				for (let i = 0; i < Number.parseInt(jsonObj.count, 10); i++) {
+					console.log("Processing count iteration:", i);
 					const { count, ...clonedJsonObj } = JSON.parse(
 						JSON.stringify(jsonObj),
 					);
-					generateCssSelectorFromBlueprint(
+					console.log("Cloned JSON Object:", clonedJsonObj);
+					const cookedObj = replaceBlueprintJsonPlaceholders(
 						clonedJsonObj,
+						"cwrapIndex",
+						i,
+					);
+					generateCssSelectorFromBlueprint(
+						cookedObj,
 						parentSelector,
 						siblingCountMap,
 					);
@@ -3035,7 +3026,6 @@ export const eventHandlers = () => {
 		const currentElement = getElementFromPath();
 		const selector = currentElement.timeStamp;
 		const currentMap = blueprintMap.get(selector);
-
 		if (currentMap) {
 			generateCssSelectorFromBlueprint(
 				currentMap,

@@ -1,6 +1,9 @@
 /**
  * @typedef {import('./types.js').JsonObject} JsonObject
  */
+
+import replaceBlueprintJsonPlaceholders from './replaceBlueprintJsonPlaceholders.js';
+
 /**
  * Creates cssMap and mediaQueriesMap.
  * Generates a CSS selector string based on the provided JSON object with example outcome: "body > main> div:nth-of-type(1)"
@@ -94,7 +97,8 @@ export default function generateCssSelector(
 				blueprintChild.element = blueprint.element;
 				blueprintChild.children = blueprint.children;
 				//blueprintChild.customTag = "cwrapBlueprintCSS"; //commenting this house fix the issue (not sure why) with the blueprint elements not being added to the cssMap on the first load
-				generateCssSelector(blueprintChild, selector, siblingCountMap);
+				const cookedBLueprintChild = replaceBlueprintJsonPlaceholders(blueprintChild, "cwrapIndex", i);
+				generateCssSelector(cookedBLueprintChild, selector, siblingCountMap);
 			}
 		}
 	}
