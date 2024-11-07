@@ -51,6 +51,8 @@ export default function populateBlueprintStyleOptions(isState = false) {
 		selectedBlueprintElementTrimmed,
 	);
 
+
+
 	if (isState) {
 		if (targetElement?.extend && Array.isArray(targetElement.extend)) {
 			for (const extension of targetElement.extend) {
@@ -58,9 +60,9 @@ export default function populateBlueprintStyleOptions(isState = false) {
 				if (
 					extension.style &&
 					typeof extension.style === "string" &&
-					extension.extension === global.id.stateBlueprintContextInfo.title
+					extension.extension === global.id.elementBlueprintStateSelect.value // this is bad choice for check is current extension is for current state
 				) {
-					console.log(global.id.stateBlueprintContextInfo.title);
+					console.log(global.id.elementBlueprintStateSelect.value);
 					console.log("extension.style", extension.style);
 					const styles = extension.style.split(";");
 					for (const style of styles) {

@@ -455,6 +455,7 @@ export const eventHandlers = () => {
 		 * @type {JsonObject} bodyJson
 		 */
 		let bodyJson = serializeElement(global.id.doc.body);
+		console.log("bodyJson", bodyJson);
 		// let bodyJsonTemp = serializeElement(global.id.doc.body, true);
 
 		function encapsulateJson(jsonObj) {

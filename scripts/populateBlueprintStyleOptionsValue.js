@@ -60,7 +60,7 @@ export default function populateBlueprintStyleOptionsValue(isState = false) {
 				if (
 					extension.style &&
 					typeof extension.style === "string" &&
-					extension.extension === global.id.stateBlueprintContextInfo.title
+					extension.extension === global.id.elementBlueprintStateSelect.value
 				) {
 					const styles = extension.style.split(";");
 					for (const style of styles) {
