@@ -51,7 +51,10 @@ import removeAttribute from "./removeAttribute.js";
 import populateClassroomSelectName from "./populateClassroomSelectName.js";
 import populateClassroomSelectType from "./populateClassroomSelectType.js";
 import createElementFromJson from "./createElementFromJson.js";
-import { replacePlaceholdersCwrapIndex } from "./replaceBlueprintJsonPlaceholders.js";
+import {
+	replacePlaceholdersCwrapArray,
+	replacePlaceholdersCwrapIndex,
+} from "./replaceBlueprintJsonPlaceholders.js";
 import getElementPath from "./getElementPath.js";
 import populateSelectBlueprintOptions from "./populateSelectBlueprintOptions.js";
 import reloadBlueprint from "./reloadBlueprint.js";
@@ -2969,9 +2972,18 @@ export const eventHandlers = () => {
 			}
 
 			if (Array.isArray(jsonObj.extend)) {
+				console.log("option3 extend", jsonObj.extend);
 				for (const extension of jsonObj.extend) {
+					let cookedObj = replacePlaceholdersCwrapIndex(extension, 0);
+					cookedObj = replacePlaceholdersCwrapArray(cookedObj, 0);
+					console.log("Cooked Object:", cookedObj);
 					const extendedSelector = `${selector}${extension.extension}`;
-					cssMap.set(extendedSelector, extension.style);
+					console.log("Extended Selector:", extendedSelector);
+					console.log("Extension Style:", extension.style);
+
+					// Ensure the style string is correctly formatted
+					const style = extension.style.replace(/'/g, "\\'");
+					cssMap.set(extendedSelector, style);
 				}
 			}
 

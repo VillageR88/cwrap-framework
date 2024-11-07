@@ -52,8 +52,8 @@ export default function createElementFromJson(jsonObj, isInitialLoad) {
 		global.map.blueprintMap.set(timeStamp, jsonObj.blueprint);
 		const count = jsonObj.blueprint.count;
 		for (let i = 0; i < count; i++) {
-			let blueprintJson = replacePlaceholdersCwrapIndex(jsonObj.blueprint, i);
-			blueprintJson = replacePlaceholdersCwrapArray(blueprintJson, i);
+			const blueprintJson = replacePlaceholdersCwrapArray(jsonObj.blueprint, i);
+			//blueprintJson = replacePlaceholdersCwrapArray(blueprintJson, i);
 			const blueprintElement = createElementFromJson(
 				blueprintJson,
 				isInitialLoad,
