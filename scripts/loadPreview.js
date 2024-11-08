@@ -1,11 +1,10 @@
-import getElementPath from "./getElementPath.js";
-import updateElementInfo from "./updateElementInfo.js";
 import populateSelectOptions from "./populateSelectOptions.js";
 import populateAttributeOptions from "./populateAttributeOptions.js";
 import createElementFromJson from "./createElementFromJson.js";
 import generateClassroomMap from "./generateClassroomMap.js";
 import generateCssSelector from "./generateCssSelector.js";
 import applyStyles from "./applyStyles.js";
+import addRuntimeScripts from "./addRuntimeScripts.js";
 
 /**
  * @typedef {import('./types.js').JsonObject} JsonObject
@@ -23,6 +22,7 @@ export default function loadPreview(jsonObj) {
 		throw new Error("jsonObj is not an object");
 	}
 
+	/* Does better memory cleanup than doc.documentElement.innerHTML = "" at cost of temporal insignificant CPU usage */
 	while (doc.documentElement.firstChild) {
 		doc.documentElement.removeChild(doc.documentElement.firstChild);
 	}
@@ -49,19 +49,14 @@ export default function loadPreview(jsonObj) {
 	metaViewport.setAttribute("content", "width=device-width, initial-scale=1.0");
 	metaKeywords.setAttribute("name", "keywords");
 	metaKeywords.setAttribute("content", jsonObj.head?.meta?.keywords || "");
-
 	if (jsonObj.head) title.textContent = jsonObj.head.title;
-
 	const style = doc.createElement("style");
 	style.id = "custom-styles";
-
 	head.appendChild(metaCharset);
 	head.appendChild(metaViewport);
 	head.appendChild(metaKeywords);
 	head.appendChild(title);
 	head.appendChild(style);
-
-	// Add link elements
 	if (jsonObj.head?.link) {
 		for (let i = 0; i < jsonObj.head.link.length; i++) {
 			const linkObj = jsonObj.head.link[i];
@@ -72,25 +67,14 @@ export default function loadPreview(jsonObj) {
 			head.appendChild(link);
 		}
 	}
-
 	html.appendChild(head);
 	html.appendChild(body);
 	generateClassroomMap(jsonObj);
 	generateCssSelector(jsonObj, "", new Map());
-	const element = createElementFromJson(jsonObj, true);
-	doc.body.replaceWith(element);
-	const mainScript = doc.createElement("script");
-	mainScript.src = "scripts/cwrapFunctions.js";
-	mainScript.type = "module";
-	mainScript.customTag = "cwrapTempScript";
-	doc.body.appendChild(mainScript);
+	doc.body.replaceWith(createElementFromJson(jsonObj, true));
+	addRuntimeScripts();
 	applyStyles();
 	populateSelectOptions(jsonObj);
 	console.log(global.map.cssMap);
 	console.log(global.map.blueprintMap);
-	populateAttributeOptions
-
-	//const bodyPath = getElementPath(doc.body); // commented out for now don't see point of this
-	//updateElementInfo(bodyPath, doc.body); // same with this line
-	// replaceJsonPlaceholders();
 }

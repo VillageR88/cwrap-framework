@@ -5,15 +5,6 @@ import {
 } from "./replaceBlueprintJsonPlaceholders.js";
 
 /**
- * Replaces placeholders in the JSON object with the specified value.
- *
- * @param {Object} jsonObj - The JSON object to process.
- * @param {string} placeholder - The placeholder to replace.
- * @param {number} index - The index to replace the placeholder with.
- * @returns {Object} - The processed JSON object with placeholders replaced.
- */
-
-/**
  * Creates a DOM element from the provided JSON object and adds it to the preview document (iframe).
  *
  * @param {Object} jsonObj - The JSON object representing the element.
@@ -39,21 +30,34 @@ export default function createElementFromJson(jsonObj, isInitialLoad) {
 	// 	element.style.cssText = jsonObj.style;
 	// }
 
-	// Add a custom property if it is the initial load
+	// Add a custom property if it is the initial load // TODO: Validate this
 	if (isInitialLoad && !jsonObj.blueprint) {
 		element.customTag = "cwrapPreloaded";
 	}
 
-	// Handle blueprint property
+	let blueprintCounter = 0;
+
+	/** Function to generate a unique timeStamp */
+	function generateUniqueTimeStamp() {
+		let timeStamp;
+		do {
+			blueprintCounter += 1;
+			timeStamp = `bpm${blueprintCounter}`; // Create index-based value with "bpm"
+		} while (global.map.blueprintMap.has(timeStamp));
+		return timeStamp;
+	}
+
 	if (jsonObj.blueprint) {
+		console.log("blueprint", jsonObj);
 		element.customTag = "cwrapBlueprintContainer";
-		const timeStamp = new Date().getTime();
+
+		const timeStamp = generateUniqueTimeStamp();
 		element.timeStamp = timeStamp;
 		global.map.blueprintMap.set(timeStamp, jsonObj.blueprint);
+
 		const count = jsonObj.blueprint.count;
 		for (let i = 0; i < count; i++) {
 			const blueprintJson = replacePlaceholdersCwrapArray(jsonObj.blueprint, i);
-			//blueprintJson = replacePlaceholdersCwrapArray(blueprintJson, i);
 			const blueprintElement = createElementFromJson(
 				blueprintJson,
 				isInitialLoad,
@@ -66,7 +70,6 @@ export default function createElementFromJson(jsonObj, isInitialLoad) {
 
 	// Add a click event listener to the element
 	eventListenerClickElement(element);
-
 	// Check if the JSON object has children elements
 	if (jsonObj.children) {
 		// Iterate over each child element
