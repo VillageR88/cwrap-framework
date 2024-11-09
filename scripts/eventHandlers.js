@@ -762,7 +762,16 @@ export const eventHandlers = () => {
 
 	global.id.updateText.addEventListener("click", () => {
 		const element = getElementFromPath();
-		element.textContent = global.id.mainTextEditor2.value;
+		const newText = global.id.mainTextEditor2.value;
+		const textNode = Array.from(element.childNodes).find(
+			(node) => node.nodeType === Node.TEXT_NODE
+		);
+	
+		if (textNode) {
+			textNode.nodeValue = newText;
+		} else {
+			element.insertBefore(document.createTextNode(newText), element.firstChild);
+		}
 	});
 
 	global.id.editAttributes.addEventListener("click", () => {
