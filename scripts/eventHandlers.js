@@ -956,8 +956,11 @@ export const eventHandlers = () => {
 		if (targetElement) {
 			targetElement.attributes[blueprintAttributeSelectValue] = attributeValue;
 		}
-		populateBlueprintAttributeOptionsValue(targetElement);
+		rebuildStyleFromBlueprint();
 		reloadBlueprint();
+		//rebuildStyleFromBlueprint();
+		populateBlueprintAttributeOptionsValue(targetElement);
+		//reloadBlueprint();
 		//removeStateFromMap(currentMap, selectedStateTrimmed);
 	});
 
@@ -991,10 +994,10 @@ export const eventHandlers = () => {
 			delete targetElement.attributes[blueprintAttributeSelectValue];
 			console.log("Removed attribute:", blueprintAttributeSelectValue);
 		}
-
+		//rebuildStyleFromBlueprint();
 		populateBlueprintAttributeOptions(targetElement);
 		populateBlueprintAttributeOptionsValue(targetElement);
-		reloadBlueprint();
+		//reloadBlueprint();
 	});
 
 	global.id.openBlueprintAddAttribute.addEventListener("click", () => {
@@ -1052,7 +1055,7 @@ export const eventHandlers = () => {
 		global.id.mainBlueprintAttributeSelector2.style.display = "flex";
 		global.id.mainBlueprintAttributeAdd.style.display = "none";
 		console.log("Navigated back to main blueprint attribute selector");
-		reloadBlueprint();
+		//reloadBlueprint();
 		global.id.blueprintAttributeSelect.value = selectedAttribute;
 	});
 
@@ -1669,38 +1672,47 @@ export const eventHandlers = () => {
 	//TODO updating problem causing all extensions to update with the same value at once
 	global.id.updateBlueprintStateProperty.addEventListener("click", () => {
 		console.log("updateBlueprintStateProperty clicked");
-	
-		const blueprintStyleSelectValue = global.id.stateBlueprintPropertySelect.value.trim();
-		const blueprintStyleInputValue = global.id.blueprintStatePropertyInput.value.trim();
+
+		const blueprintStyleSelectValue =
+			global.id.stateBlueprintPropertySelect.value.trim();
+		const blueprintStyleInputValue =
+			global.id.blueprintStatePropertyInput.value.trim();
 		console.log("blueprintStyleSelectValue:", blueprintStyleSelectValue);
 		console.log("blueprintStyleInputValue:", blueprintStyleInputValue);
-	
+
 		const blueprintMap = global.map.blueprintMap;
 		const selector = getElementFromPath().timeStamp;
 		console.log("selector:", selector);
-	
+
 		const currentMap = blueprintMap.get(selector);
 		console.log("currentMap:", currentMap);
-	
+
 		const selectedBlueprintElement = global.id.blueprintSelect.value;
-		const selectedBlueprintElementTrimmed = selectedBlueprintElement.replace(">", "").trim();
+		const selectedBlueprintElementTrimmed = selectedBlueprintElement
+			.replace(">", "")
+			.trim();
 		console.log("selectedBlueprintElement:", selectedBlueprintElement);
-		console.log("selectedBlueprintElementTrimmed:", selectedBlueprintElementTrimmed);
-	
+		console.log(
+			"selectedBlueprintElementTrimmed:",
+			selectedBlueprintElementTrimmed,
+		);
+
 		function getBlueprintTargetElement(map, elementPath) {
 			const pathParts = elementPath.split(" > ");
 			let currentElement = map;
-	
+
 			for (const part of pathParts) {
 				const [elementName, nthOfType] = part.split(":nth-of-type(");
-				const index = nthOfType ? Number.parseInt(nthOfType.replace(")", ""), 10) - 1 : 0;
-	
+				const index = nthOfType
+					? Number.parseInt(nthOfType.replace(")", ""), 10) - 1
+					: 0;
+
 				if (currentElement.element === elementName) {
 					if (index === 0) {
 						continue;
 					}
 				}
-	
+
 				if (currentElement.children && Array.isArray(currentElement.children)) {
 					const matchingChildren = currentElement.children.filter(
 						(child) => child.element === elementName,
@@ -1714,22 +1726,29 @@ export const eventHandlers = () => {
 					return null;
 				}
 			}
-	
+
 			return currentElement;
 		}
-	
-		const targetElement = getBlueprintTargetElement(currentMap, selectedBlueprintElementTrimmed);
+
+		const targetElement = getBlueprintTargetElement(
+			currentMap,
+			selectedBlueprintElementTrimmed,
+		);
 		console.log("targetElement:", targetElement);
-	
+
 		if (targetElement?.extend && Array.isArray(targetElement.extend)) {
 			console.log("targetElement.extend:", targetElement.extend);
 			for (const extension of targetElement.extend) {
 				console.log("extension:", extension);
-				if (extension.extension === global.id.elementBlueprintStateSelect.value) {
+				if (
+					extension.extension === global.id.elementBlueprintStateSelect.value
+				) {
 					console.log("extension.extension:", extension.extension);
-					const styles = extension.style.split(";").map((style) => style.trim());
+					const styles = extension.style
+						.split(";")
+						.map((style) => style.trim());
 					let propertyFound = false;
-	
+
 					for (let i = 0; i < styles.length; i++) {
 						const [property] = styles[i].split(":").map((s) => s.trim());
 						if (property === blueprintStyleSelectValue) {
@@ -1738,29 +1757,34 @@ export const eventHandlers = () => {
 							break;
 						}
 					}
-	
+
 					if (!propertyFound) {
-						styles.push(`${blueprintStyleSelectValue}: ${blueprintStyleInputValue}`);
+						styles.push(
+							`${blueprintStyleSelectValue}: ${blueprintStyleInputValue}`,
+						);
 					}
-	
+
 					extension.style = styles.join("; ").trim();
 					console.log("Updated extension.style:", extension.style);
 				}
 			}
 		}
-	
+
 		// Apply the style changes to the view
-		const validSelector = selectedBlueprintElement.replace(/ > /g, " ").replace(/:nth-of-type\(\d+\)/g, "");
+		const validSelector = selectedBlueprintElement
+			.replace(/ > /g, " ")
+			.replace(/:nth-of-type\(\d+\)/g, "");
 		console.log("validSelector:", validSelector);
 		const elementInView = document.querySelector(validSelector);
 		if (elementInView) {
 			elementInView.style[blueprintStyleSelectValue] = blueprintStyleInputValue;
 			console.log("Updated elementInView.style:", elementInView.style);
 		}
-	
+
 		// Rebuild the blueprint element
 		const selectedValue = global.id.elementSelect.value;
-		const firstChildrenTag = getElementFromPath(selectedValue).childNodes[0].tagName.toLowerCase();
+		const firstChildrenTag =
+			getElementFromPath(selectedValue).childNodes[0].tagName.toLowerCase();
 		console.log("selectedValue:", selectedValue);
 		console.log("firstChildrenTag:", firstChildrenTag);
 		removeStyle(`${selectedValue} > ${firstChildrenTag}`);
@@ -2910,13 +2934,14 @@ export const eventHandlers = () => {
 		const selector = getElementFromPath().timeStamp;
 		const currentMap = blueprintMap.get(selector);
 		currentMap.count = global.id.mainBlueprintCounterInput.value;
-		reloadBlueprint();
 		const selectedValue = global.id.elementSelect.value;
 		const firstChildrenTag =
 			getElementFromPath(selectedValue).childNodes[0].tagName.toLowerCase();
 		removeStyle(`${selectedValue} > ${firstChildrenTag}`);
 		rebuildStyleFromBlueprint();
 		applyStyles();
+		reloadBlueprint();
+
 	}
 
 	// Attach the event listener
