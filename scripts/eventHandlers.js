@@ -1668,34 +1668,39 @@ export const eventHandlers = () => {
 
 	//TODO updating problem causing all extensions to update with the same value at once
 	global.id.updateBlueprintStateProperty.addEventListener("click", () => {
-		const blueprintStyleSelectValue =
-			global.id.stateBlueprintPropertySelect.value;
-		const blueprintStyleInput = global.id.blueprintStatePropertyInput;
-
+		console.log("updateBlueprintStateProperty clicked");
+	
+		const blueprintStyleSelectValue = global.id.stateBlueprintPropertySelect.value.trim();
+		const blueprintStyleInputValue = global.id.blueprintStatePropertyInput.value.trim();
+		console.log("blueprintStyleSelectValue:", blueprintStyleSelectValue);
+		console.log("blueprintStyleInputValue:", blueprintStyleInputValue);
+	
 		const blueprintMap = global.map.blueprintMap;
 		const selector = getElementFromPath().timeStamp;
+		console.log("selector:", selector);
+	
 		const currentMap = blueprintMap.get(selector);
+		console.log("currentMap:", currentMap);
+	
 		const selectedBlueprintElement = global.id.blueprintSelect.value;
-		const selectedBlueprintElementTrimmed = selectedBlueprintElement
-			.replace(">", "")
-			.trim();
-
+		const selectedBlueprintElementTrimmed = selectedBlueprintElement.replace(">", "").trim();
+		console.log("selectedBlueprintElement:", selectedBlueprintElement);
+		console.log("selectedBlueprintElementTrimmed:", selectedBlueprintElementTrimmed);
+	
 		function getBlueprintTargetElement(map, elementPath) {
 			const pathParts = elementPath.split(" > ");
 			let currentElement = map;
-
+	
 			for (const part of pathParts) {
 				const [elementName, nthOfType] = part.split(":nth-of-type(");
-				const index = nthOfType
-					? Number.parseInt(nthOfType.replace(")", ""), 10) - 1
-					: 0;
-
+				const index = nthOfType ? Number.parseInt(nthOfType.replace(")", ""), 10) - 1 : 0;
+	
 				if (currentElement.element === elementName) {
 					if (index === 0) {
 						continue;
 					}
 				}
-
+	
 				if (currentElement.children && Array.isArray(currentElement.children)) {
 					const matchingChildren = currentElement.children.filter(
 						(child) => child.element === elementName,
@@ -1709,63 +1714,55 @@ export const eventHandlers = () => {
 					return null;
 				}
 			}
-
+	
 			return currentElement;
 		}
-
-		const targetElement = getBlueprintTargetElement(
-			currentMap,
-			selectedBlueprintElementTrimmed,
-		);
-
+	
+		const targetElement = getBlueprintTargetElement(currentMap, selectedBlueprintElementTrimmed);
+		console.log("targetElement:", targetElement);
+	
 		if (targetElement?.extend && Array.isArray(targetElement.extend)) {
+			console.log("targetElement.extend:", targetElement.extend);
 			for (const extension of targetElement.extend) {
-				console.log("Extension:", extension);
-				if (
-					extension.style &&
-					typeof extension.style === "string" &&
-					extension.extension === global.id.stateBlueprintContextInfo.title
-				) {
-					const styles = extension.style
-						.split(";")
-						.map((style) => style.trim());
+				console.log("extension:", extension);
+				if (extension.extension === global.id.elementBlueprintStateSelect.value) {
+					console.log("extension.extension:", extension.extension);
+					const styles = extension.style.split(";").map((style) => style.trim());
 					let propertyFound = false;
-
+	
 					for (let i = 0; i < styles.length; i++) {
-						const [property, value] = styles[i].split(":").map((s) => s.trim());
-						if (property === blueprintStyleSelectValue.trim()) {
-							styles[i] = `${property}: ${blueprintStyleInput.value.trim()}`;
+						const [property] = styles[i].split(":").map((s) => s.trim());
+						if (property === blueprintStyleSelectValue) {
+							styles[i] = `${property}: ${blueprintStyleInputValue}`;
 							propertyFound = true;
 							break;
 						}
 					}
-
+	
 					if (!propertyFound) {
-						styles.push(
-							`${blueprintStyleSelectValue.trim()}: ${blueprintStyleInput.value.trim()}`,
-						);
+						styles.push(`${blueprintStyleSelectValue}: ${blueprintStyleInputValue}`);
 					}
-
+	
 					extension.style = styles.join("; ").trim();
+					console.log("Updated extension.style:", extension.style);
 				}
 			}
 		}
-
+	
 		// Apply the style changes to the view
-		const validSelector = selectedBlueprintElement
-			.replace(/ > /g, " ")
-			.replace(/:nth-of-type\(\d+\)/g, "");
+		const validSelector = selectedBlueprintElement.replace(/ > /g, " ").replace(/:nth-of-type\(\d+\)/g, "");
+		console.log("validSelector:", validSelector);
 		const elementInView = document.querySelector(validSelector);
 		if (elementInView) {
-			elementInView.style[blueprintStyleSelectValue.trim()] =
-				blueprintStyleInput.value.trim();
+			elementInView.style[blueprintStyleSelectValue] = blueprintStyleInputValue;
+			console.log("Updated elementInView.style:", elementInView.style);
 		}
-
+	
 		// Rebuild the blueprint element
-		//reloadBlueprint();
 		const selectedValue = global.id.elementSelect.value;
-		const firstChildrenTag =
-			getElementFromPath(selectedValue).childNodes[0].tagName.toLowerCase();
+		const firstChildrenTag = getElementFromPath(selectedValue).childNodes[0].tagName.toLowerCase();
+		console.log("selectedValue:", selectedValue);
+		console.log("firstChildrenTag:", firstChildrenTag);
 		removeStyle(`${selectedValue} > ${firstChildrenTag}`);
 		rebuildStyleFromBlueprint();
 		applyStyles();
