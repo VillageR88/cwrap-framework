@@ -1243,7 +1243,7 @@ export const eventHandlers = () => {
 			}
 
 			// Rebuild the blueprint element
-			reloadBlueprint();
+			//reloadBlueprint();
 			const selectedValue = global.id.elementSelect.value;
 			const firstChildrenTag =
 				getElementFromPath(selectedValue).childNodes[0].tagName.toLowerCase();
@@ -1762,7 +1762,7 @@ export const eventHandlers = () => {
 		}
 
 		// Rebuild the blueprint element
-		reloadBlueprint();
+		//reloadBlueprint();
 		const selectedValue = global.id.elementSelect.value;
 		const firstChildrenTag =
 			getElementFromPath(selectedValue).childNodes[0].tagName.toLowerCase();
@@ -1953,7 +1953,7 @@ export const eventHandlers = () => {
 		console.log("Valid Selector:", validSelector);
 
 		// Rebuild the blueprint element
-		reloadBlueprint();
+		//reloadBlueprint();
 		const selectedValue = global.id.elementSelect.value;
 		const firstChildrenTag =
 			getElementFromPath(selectedValue).childNodes[0].tagName.toLowerCase();
@@ -3332,7 +3332,7 @@ export const eventHandlers = () => {
 		validateRemoveElement(true);
 		validateParentElement(true);
 		populateBlueprintElementStateOptions();
-		reloadBlueprint();
+		//reloadBlueprint();
 		resolveElementStateSelect(true);
 
 		console.log("Final currentMap:", JSON.stringify(currentMap, null, 2));
