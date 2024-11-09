@@ -25,19 +25,12 @@ export default function createElementFromJson(jsonObj, isInitialLoad) {
 		}
 	}
 
-	// // Set the element's style if specified in the JSON object
-	// if (jsonObj.style) {
-	// 	element.style.cssText = jsonObj.style;
-	// }
-
 	// Add a custom property if it is the initial load // TODO: Validate this
 	if (isInitialLoad && !jsonObj.blueprint) {
 		element.customTag = "cwrapPreloaded";
 	}
 
 	let blueprintCounter = 0;
-
-	/** Function to generate a unique timeStamp */
 	function generateUniqueTimeStamp() {
 		let timeStamp;
 		do {
@@ -48,20 +41,16 @@ export default function createElementFromJson(jsonObj, isInitialLoad) {
 	}
 
 	if (jsonObj.blueprint) {
-		console.log("blueprint", jsonObj);
 		element.customTag = "cwrapBlueprintContainer";
-
 		const timeStamp = generateUniqueTimeStamp();
 		element.timeStamp = timeStamp;
 		global.map.blueprintMap.set(timeStamp, jsonObj.blueprint);
 
 		const count = jsonObj.blueprint.count;
 		for (let i = 0; i < count; i++) {
-			const blueprintJson = replacePlaceholdersCwrapArray(jsonObj.blueprint, i);
-			const blueprintElement = createElementFromJson(
-				blueprintJson,
-				isInitialLoad,
-			);
+			let cookedJson = replacePlaceholdersCwrapArray(jsonObj.blueprint, i);
+			cookedJson = replacePlaceholdersCwrapIndex(cookedJson, i);
+			const blueprintElement = createElementFromJson(cookedJson, isInitialLoad);
 			const clonedElement = blueprintElement.cloneNode(true);
 			clonedElement.customTag = "cwrapBlueprint";
 			element.appendChild(clonedElement);

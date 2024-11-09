@@ -1,3 +1,5 @@
+import { stateNonContextual, stateContextual } from "./_const.js";
+
 /**
  * Populates the select options with the generated CSS selectors.
  * @todo problem is probably related to cssMap
@@ -22,8 +24,9 @@ export default function populateSelectOptions() {
 	selectElement.style.backgroundSize = "24px 24px"; // Adjust size as needed
 	selectElement.style.backgroundRepeat = "no-repeat";
 
+	const fullContext = stateContextual.concat(stateNonContextual);
 	for (const [key, value] of cssMap) {
-		if (key.includes(":has") || key.includes(":hover")) continue;
+		if (fullContext.some((context) => key.includes(context))) continue;
 		if (/(^|\s)li:nth-of-type\(\d+\)(\s|$)/.test(key)) continue;
 		const option = document.createElement("option");
 		option.value = key;

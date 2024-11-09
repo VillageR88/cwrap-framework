@@ -69,12 +69,11 @@ export default function loadPreview(jsonObj) {
 	}
 	html.appendChild(head);
 	html.appendChild(body);
-	generateClassroomMap(jsonObj);
+	generateClassroomMap(jsonObj);	
 	generateCssSelector(jsonObj, "", new Map());
-	doc.body.replaceWith(createElementFromJson(jsonObj, true));
+	doc.body.replaceWith(createElementFromJson(jsonObj, true)); //TODO here blueprint is added
 	addRuntimeScripts();
 	applyStyles();
 	populateSelectOptions(jsonObj);
-	console.log(global.map.cssMap);
-	console.log(global.map.blueprintMap);
+
 }

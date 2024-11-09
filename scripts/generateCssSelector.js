@@ -13,6 +13,7 @@ import {
  * @param {JsonObject} jsonObj - The JSON object representing the element.
  * @param {string} [parentSelector=""] - The CSS selector of the parent element.
  * @param {Map} [siblingCountMap=new Map()] - A Map to keep track of sibling elements count.
+ * @todo Evaluate alternative: this function store all selector including blueprint selectors with additional customTag property.
  */
 export default function generateCssSelector(
 	jsonObj,
@@ -52,9 +53,11 @@ export default function generateCssSelector(
 		// Store the style in the cssMap if present in the JSON object
 		if (jsonObj.style && jsonObj.customTag !== "cwrapBlueprintCSS") {
 			cssMap.set(selector, jsonObj.style);
-		} else {
-			cssMap.set(selector, "");
-		}
+		} 
+		// commented this out, don't see point of this else block
+		// else {
+		// 	cssMap.set(selector, "");
+		// }
 
 		// Handle extensions if present in the JSON object
 		if (Array.isArray(jsonObj.extend)) {

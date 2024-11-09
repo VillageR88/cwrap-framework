@@ -15,8 +15,6 @@ import populateStateSelectAllOptions from "./populateStateSelectAllOptions.js";
 import validateParentElement from "./validateParentElement.js";
 import populateElementSelectAll from "./populateElementSelectAll.js";
 import populateAttributeOptionsValue from "./populateAttributeOptionsValue.js";
-import resolveToggleContext from "./resolveToggleContext.js";
-import initialLoader from "./initialLoader.js";
 import creatorSave from "./creatorSave.js";
 import {
 	loadHeadView,
@@ -26,7 +24,6 @@ import {
 	loadMenuLevelView,
 	loadRoutesView,
 	loadSettingsView,
-	loadThemesView,
 	centralBarCleanup,
 } from "./loadView.js";
 import populateAttributeSelectAll from "./populateAttributeSelectAll.js";
@@ -50,12 +47,6 @@ import createInitialSettings from "./createInitialSettings.js";
 import removeAttribute from "./removeAttribute.js";
 import populateClassroomSelectName from "./populateClassroomSelectName.js";
 import populateClassroomSelectType from "./populateClassroomSelectType.js";
-import createElementFromJson from "./createElementFromJson.js";
-import {
-	replacePlaceholdersCwrapArray,
-	replacePlaceholdersCwrapIndex,
-} from "./replaceBlueprintJsonPlaceholders.js";
-import getElementPath from "./getElementPath.js";
 import populateSelectBlueprintOptions from "./populateSelectBlueprintOptions.js";
 import reloadBlueprint from "./reloadBlueprint.js";
 import populateBlueprintStyleOptions from "./populateBlueprintStyleOptions.js";
@@ -63,6 +54,7 @@ import populateBlueprintStyleOptionsValue from "./populateBlueprintStyleOptionsV
 import getCssProperties from "./getCssProperties.js";
 import checkIfBlueprintEnvironment from "./checkIfBlueprintEnvironment.js";
 import { stateNonContextual, stateContextual } from "./_const.js";
+import rebuildStyleFromBlueprint from "./rebuildStyleFromBlueprint.js";
 
 /**
  * Sets up the event handlers.
@@ -1087,7 +1079,6 @@ export const eventHandlers = () => {
 		const selector = getElementFromPath().timeStamp;
 		const currentMap = blueprintMap.get(selector);
 		const blueprintSelectValue = global.id.blueprintSelect.value;
-
 		const targetElement = getBlueprintTargetElement(
 			currentMap,
 			blueprintSelectValue,
@@ -1310,7 +1301,7 @@ export const eventHandlers = () => {
 				}
 
 				// Rebuild the blueprint element
-				reloadBlueprint();
+				//reloadBlueprint();
 				const selectedValue = global.id.elementSelect.value;
 				const firstChildrenTag =
 					getElementFromPath(selectedValue).childNodes[0].tagName.toLowerCase();
@@ -1631,12 +1622,6 @@ export const eventHandlers = () => {
 	// });
 
 	global.id.updateProperty.addEventListener("click", () => {
-		// const classList = Array.from(
-		// 	global.id.navAdditionalScreen.classList,
-		// ).filter(
-		// 	(className) => className !== "mediumButtons" && className !== "device",
-		// );
-		// const selectedScreen = classList[0]; // Assuming the third class is the one you are always looking for
 		const propertySelect = global.id.propertySelect;
 		const propertyInput = global.id.propertyInput;
 		const fullPath = global.id.elementSelect.value;
@@ -2094,7 +2079,6 @@ export const eventHandlers = () => {
 			.split(";")
 			.map((prop) => prop.trim())
 			.filter(Boolean);
-		const newStyle = styleProperties;
 		const propertyExists = styleProperties.some((prop) =>
 			prop.startsWith(selectedProperty),
 		);
@@ -2920,129 +2904,6 @@ export const eventHandlers = () => {
 		validateRemoveElement(true);
 		validateParentElement(true);
 	});
-
-	/**
-	 * @typedef {import('./types.js').JsonObject} JsonObject
-	 */
-
-	/**
-	 * Generates a CSS selector string based on the provided JSON object.
-	 * @param {JsonObject} jsonObj - The JSON object representing the element.
-	 * @param {string} [parentSelector=""] - The CSS selector of the parent element.
-	 * @param {Map} [siblingCountMap=new Map()] - A Map to keep track of sibling elements count.
-	 */
-	function generateCssSelectorFromBlueprint(
-		jsonObj,
-		parentSelector = "",
-		siblingCountMap = new Map(),
-	) {
-		const cssMap = global.map.cssMap;
-		const mediaQueriesMap = global.map.mediaQueriesMap;
-		let selector = parentSelector;
-
-		if (jsonObj.element) {
-			const element = jsonObj.element;
-			console.log("Processing element:", element);
-
-			if (!siblingCountMap.has(parentSelector)) {
-				console.log("case1");
-				siblingCountMap.set(parentSelector, new Map());
-			}
-			const parentSiblingCount = siblingCountMap.get(parentSelector);
-
-			if (element === "body" || element === "main" || element === "footer") {
-				console.log("case2");
-				selector += (parentSelector ? " > " : "") + element;
-			} else {
-				if (!parentSiblingCount.has(element)) {
-					console.log("case3", element);
-					parentSiblingCount.set(element, 0);
-				}
-				console.log("case4");
-				parentSiblingCount.set(element, parentSiblingCount.get(element) + 1);
-				selector += ` > ${element}:nth-of-type(${parentSiblingCount.get(element)})`;
-			}
-
-			if (jsonObj.style && jsonObj.customTag !== "cwrapBlueprintCSS") {
-				console.log("option1");
-				cssMap.set(selector, jsonObj.style);
-			} else {
-				console.log("option2");
-				cssMap.set(selector, "");
-			}
-
-			if (Array.isArray(jsonObj.extend)) {
-				console.log("option3 extend", jsonObj.extend);
-				for (const extension of jsonObj.extend) {
-					let cookedObj = replacePlaceholdersCwrapIndex(extension, 0);
-					cookedObj = replacePlaceholdersCwrapArray(cookedObj, 0);
-					console.log("Cooked Object:", cookedObj);
-					const extendedSelector = `${selector}${extension.extension}`;
-					console.log("Extended Selector:", extendedSelector);
-					console.log("Extension Style:", extension.style);
-
-					// Ensure the style string is correctly formatted
-					const style = extension.style.replace(/'/g, "\\'");
-					cssMap.set(extendedSelector, style);
-				}
-			}
-
-			if (jsonObj.mediaQueries) {
-				for (const mediaQuery of jsonObj.mediaQueries) {
-					const mediaQuerySelector = `${selector}`;
-					if (!mediaQueriesMap.has(mediaQuery.query)) {
-						mediaQueriesMap.set(mediaQuery.query, new Map());
-					}
-					mediaQueriesMap
-						.get(mediaQuery.query)
-						.set(mediaQuerySelector, mediaQuery.style);
-				}
-			}
-
-			if (jsonObj.children) {
-				for (const child of jsonObj.children) {
-					console.log("Processing child:", child);
-					generateCssSelectorFromBlueprint(child, selector, siblingCountMap);
-				}
-			}
-
-			if (jsonObj.count) {
-				parentSiblingCount.set(element, 0);
-
-				console.log("Processing count:", jsonObj.count);
-				for (let i = 0; i < Number.parseInt(jsonObj.count, 10); i++) {
-					console.log("Processing count iteration:", i);
-					const { count, ...clonedJsonObj } = JSON.parse(
-						JSON.stringify(jsonObj),
-					);
-					console.log("Cloned JSON Object:", clonedJsonObj);
-					const cookedObj = replacePlaceholdersCwrapIndex(clonedJsonObj, i);
-					generateCssSelectorFromBlueprint(
-						cookedObj,
-						parentSelector,
-						siblingCountMap,
-					);
-				}
-			}
-		}
-	}
-
-	/**
-	 * Rebuilds the styles from the blueprint.
-	 */
-	function rebuildStyleFromBlueprint() {
-		const blueprintMap = global.map.blueprintMap;
-		const currentElement = getElementFromPath();
-		const selector = currentElement.timeStamp;
-		const currentMap = blueprintMap.get(selector);
-		if (currentMap) {
-			generateCssSelectorFromBlueprint(
-				currentMap,
-				getElementPath(currentElement),
-				new Map(),
-			);
-		}
-	}
 
 	/**
 	 * Updates the blueprint counter and rebuilds the element.
