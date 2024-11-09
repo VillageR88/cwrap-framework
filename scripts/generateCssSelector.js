@@ -54,10 +54,9 @@ export default function generateCssSelector(
 		if (jsonObj.style && jsonObj.customTag !== "cwrapBlueprintCSS") {
 			cssMap.set(selector, jsonObj.style);
 		} 
-		// commented this out, don't see point of this else block
-		// else {
-		// 	cssMap.set(selector, "");
-		// }
+		else {
+			cssMap.set(selector, "");
+		}
 
 		// Handle extensions if present in the JSON object
 		if (Array.isArray(jsonObj.extend)) {
