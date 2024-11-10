@@ -65,11 +65,7 @@ export default function serializeElement(element, isForBuild) {
 			}
 		}
 	}
-	console.log("very important");
-	console.log(extendMap);
-	console.log(selector);
 	if (extendMap.has(selector)) {
-		console.log("has important");
 		const newSelector = selector + extendMap.get(selector);
 		const newStyle = cssMap.get(newSelector);
 		obj.extend = [{ extension: extendMap.get(selector), style: newStyle }];

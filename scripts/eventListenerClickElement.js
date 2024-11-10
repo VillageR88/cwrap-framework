@@ -5,6 +5,13 @@ import validateRemoveElement from "./validateRemoveElement.js";
 
 export const eventListenerClickElement = (element, options = {}) => {
 	element.addEventListener("click", (event) => {
+		if (
+			global.id.navSelectPreview.classList.contains(
+				global.id.mainInitialSelector.style.display === "none" || "static",
+			)
+		) {
+			return;
+		}
 		event.stopPropagation();
 
 		if (event.target.tagName === "BUTTON") {
