@@ -1490,11 +1490,11 @@ export const eventHandlers = () => {
 			}
 
 			/** @type {HTMLCollection} children */
-			const children = parentElement.children; // Use children to get only element nodes
-
+			const children = parentElement.children; // Use children to get only element nodes\
+			console.log("Children", children);
 			// Filter children by tag name and count them
 			const count = Array.from(children).filter(
-				(child) => child.tagName.toLowerCase() === selectedValue.toLowerCase(),
+				(child) => child.tagName.toLowerCase() === selectedValue.toLowerCase() && child.customTag !== "cwrapTempScript",
 			).length;
 
 			return count + 1;
