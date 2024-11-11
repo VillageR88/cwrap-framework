@@ -74,6 +74,6 @@ export default function loadPreview(jsonObj) {
 	doc.body.replaceWith(createElementFromJson(jsonObj, true)); //TODO here blueprint is added
 	addRuntimeScripts();
 	applyStyles();
-	populateSelectOptions(jsonObj);
+	populateSelectOptions();
 
 }

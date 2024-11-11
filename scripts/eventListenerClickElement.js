@@ -66,7 +66,7 @@ export const eventListenerClickElement = (element, options = {}) => {
 		}
 
 		if (
-			global.id.mainInitialSelector.style.display === "none" ||
+			global.id.mainInitialSelector.style.display === "none" && global.id.mainTemplatesSelector.style.display === "none" ||
 			global.id.preview.classList.contains("cwrap-only")
 		) {
 			return; // Do nothing if some elements are displayed like state

@@ -195,9 +195,16 @@ export const eventHandlers = () => {
 		const selectedValue = global.id.elementSelect.value;
 		const element = getElementFromPath();
 		updateElementInfo(selectedValue, element);
-		//populatePropertySelectAll(cssProperties); // I don't see any necessity for this line
 		highlightSelectedElement();
 	});
+
+	global.id.mainTemplatesSelectorParent.addEventListener("change", () => {
+		const selectedValue = global.id.mainTemplatesSelectorParent.value;
+		const element = getElementFromPath(selectedValue);
+		updateElementInfo(selectedValue, element);
+		highlightSelectedElement();
+	});
+
 	global.id.selectedElementHighlight.addEventListener("mousedown", () => {
 		const nameHelper = global.id.nameHelper;
 		const isBlueprint = checkIfBlueprintEnvironment();
@@ -2258,132 +2265,227 @@ export const eventHandlers = () => {
 		populateTemplatesSelect();
 		global.id.mainInitialSelector.style.display = "none";
 		global.id.mainTemplatesSelector.style.display = "flex";
+		global.id.mainTemplatesSelectorParent.innerHTML =
+			global.id.elementSelect.innerHTML;
 	});
 
+	global.id.mainTemplatesSelectorInject.addEventListener("click", () => {
+		const templateSelect = global.id.mainTemplatesSelectorOptions;
+		const selectedTemplate = templateSelect.value;
+		const template = global.map.templatesMap.get(selectedTemplate);
+		if (!template) {
+			console.error("Template not found");
+			return;
+		}
 
-global.id.mainTemplatesSelectorInject.addEventListener("click", () => {
-    console.log("Inject template button clicked");
+		const templateElement = createElementFromJson(template);
+		const fullPath = global.id.elementSelect.value;
+		const parentElement = getElementFromPath(fullPath);
 
-    const templateSelect = global.id.mainTemplatesSelectorOptions;
-    const selectedTemplate = templateSelect.value;
-    console.log("Selected template:", selectedTemplate);
+		if (!parentElement) {
+			console.error("Parent element not found");
+			return;
+		}
 
-    const template = global.map.templatesMap.get(selectedTemplate);
-    console.log("Template object:", template);
+		// Function to count siblings
+		function countSibling(selectedValue) {
+			const parentElement = getElementFromPath(fullPath);
+			if (!parentElement) {
+				console.error("Parent element not found");
+				return 0;
+			}
 
-    if (!template) {
-        console.error("Template not found");
-        return;
-    }
+			const children = parentElement.children; // Use children to get only element nodes
+			// Filter children by tag name and count them
+			const count = Array.from(children).filter(
+				(child) =>
+					child.tagName.toLowerCase() === selectedValue.toLowerCase() &&
+					child.customTag !== "cwrapTempScript",
+			).length;
 
-    // Create the element from the template JSON
-    const templateElement = createElementFromJson(template);
-    console.log("Created template element:", templateElement);
+			return count + 1;
+		}
 
-    // Get the selected element to inject the template into
-    const fullPath = global.id.elementSelect.value;
-    console.log("Full path of selected element:", fullPath);
+		// Generate the new element path
+		let newElement;
+		if (["main", "header", "footer", "nav"].includes(template.element)) {
+			newElement = `${fullPath} > ${template.element}`;
+		} else {
+			newElement = `${fullPath} > ${template.element}:nth-of-type(${countSibling(template.element)})`;
+		}
 
-    const parentElement = getElementFromPath(fullPath);
-    console.log("Parent element:", parentElement);
+		// Append the template content to the selected element
+		parentElement.appendChild(templateElement);
 
-    if (!parentElement) {
-        console.error("Parent element not found");
-        return;
-    }
+		// Function to recursively add elements to the elementSelect options
+		function addElementToOptions(element, parentPath, insertIndex) {
+			if (!element) {
+				console.error("Element is undefined");
+				return insertIndex;
+			}
 
-    // Function to count siblings
-    function countSibling(selectedValue) {
-        const parentElement = getElementFromPath(fullPath);
-        if (!parentElement) {
-            console.error("Parent element not found");
-            return 0;
-        }
+			const siblingCountMap = new Map();
+			const children = Array.from(element.children);
+			for (const child of children) {
+				const tagName = child.tagName.toLowerCase();
+				if (!siblingCountMap.has(tagName)) {
+					siblingCountMap.set(tagName, 0);
+				}
+				siblingCountMap.set(tagName, siblingCountMap.get(tagName) + 1);
+				const childPath = `${parentPath} > ${tagName}:nth-of-type(${siblingCountMap.get(tagName)})`;
+				const newOption = new Option(childPath, childPath);
+				global.id.elementSelect.add(newOption, insertIndex);
+				let newIndex = insertIndex + 1;
+				newIndex = addElementToOptions(child, childPath, newIndex);
+			}
+			return insertIndex;
+		}
 
-        const children = parentElement.children; // Use children to get only element nodes
-        console.log("Children", children);
-        // Filter children by tag name and count them
-        const count = Array.from(children).filter(
-            (child) =>
-                child.tagName.toLowerCase() === selectedValue.toLowerCase() &&
-                child.customTag !== "cwrapTempScript",
-        ).length;
+		const parentOptionIndex = Array.from(
+			global.id.elementSelect.options,
+		).findIndex((option) => option.value === fullPath);
 
-        return count + 1;
-    }
+		let insertIndex = parentOptionIndex + 1;
+		for (
+			let i = parentOptionIndex + 1;
+			i < global.id.elementSelect.options.length;
+			i++
+		) {
+			if (!global.id.elementSelect.options[i].value.startsWith(fullPath)) {
+				break;
+			}
+			insertIndex = i + 1;
+		}
 
-    // Generate the new element path
-    let newElement;
-    if (["main", "header", "footer", "nav"].includes(template.element)) {
-        newElement = `${fullPath} > ${template.element}`;
-    } else {
-        newElement = `${fullPath} > ${template.element}:nth-of-type(${countSibling(template.element)})`;
-    }
+		const newOption = new Option(newElement, newElement);
+		global.id.elementSelect.add(newOption, insertIndex);
+		insertIndex++;
+		addElementToOptions(templateElement, newElement, insertIndex);
 
-    // Append the template content to the selected element
-    parentElement.appendChild(templateElement);
-    console.log("Template content appended to parent element");
+		generateCssSelector(
+			template,
+			newElement,
+			new Map(),
+			countSibling(template.element),
+		);
 
-    // Function to recursively add elements to the elementSelect options
-    function addElementToOptions(element, parentPath, insertIndex) {
-        if (!element) {
-            console.error("Element is undefined");
-            return insertIndex;
-        }
+		for (const child of global.map.templatesMap.get(selectedTemplate)
+			.children) {
+			generateCssSelector(child, newElement, new Map(), 1);
+		}
 
-        const siblingCountMap = new Map();
-        const children = Array.from(element.children);
-        for (const child of children) {
-            const tagName = child.tagName.toLowerCase();
-            if (!siblingCountMap.has(tagName)) {
-                siblingCountMap.set(tagName, 0);
-            }
-            siblingCountMap.set(tagName, siblingCountMap.get(tagName) + 1);
-            const childPath = `${parentPath} > ${tagName}:nth-of-type(${siblingCountMap.get(tagName)})`;
-            const newOption = new Option(childPath, childPath);
-            global.id.elementSelect.add(newOption, insertIndex);
-            let newIndex = insertIndex + 1;
-            newIndex = addElementToOptions(child, childPath, newIndex);
-        }
-        return insertIndex;
-    }
+		updateElementInfo(fullPath, null);
+		applyStyles();
+		populateTreeView();
+		highlightSelectedElement();
+		global.id.mainTemplatesSelectorParent.innerHTML =
+		global.id.elementSelect.innerHTML;
+	});
 
-    // Add the new element and its children to the elementSelect options
-    const parentOptionIndex = Array.from(global.id.elementSelect.options).findIndex(
-        (option) => option.value === fullPath
-    );
+	global.id.mainTemplatesSelectorPreview.addEventListener("click", () => {
+		const templateSelect = global.id.mainTemplatesSelectorOptions;
+		const selectedTemplate = templateSelect.value;
+		const template = global.map.templatesMap.get(selectedTemplate);
+		const templateElement = createElementFromJson(template);
+		const iframe = document.getElementById("preview");
+		const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
 
-    let insertIndex = parentOptionIndex + 1;
-    for (let i = parentOptionIndex + 1; i < global.id.elementSelect.options.length; i++) {
-        if (!global.id.elementSelect.options[i].value.startsWith(fullPath)) {
-            break;
-        }
-        insertIndex = i + 1;
-    }
+		// Apply styles from JSON directly to the element
+		function applyStylesFromJson(element, jsonObj) {
+			if (jsonObj.style) {
+				element.style.cssText = jsonObj.style;
+			}
+			if (jsonObj.children) {
+				const children = Array.from(element.children);
+				children.forEach((child, index) => {
+					applyStylesFromJson(child, jsonObj.children[index]);
+				});
+			}
+		}
 
-    const newOption = new Option(newElement, newElement);
-    global.id.elementSelect.add(newOption, insertIndex);
-    insertIndex++;
-    addElementToOptions(templateElement, newElement, insertIndex);
-    console.log("New element and its children added to elementSelect options");
+		const intermediateDiv = document.createElement("div");
+		intermediateDiv.style.position = "absolute";
+		intermediateDiv.style.top = "0";
+		intermediateDiv.style.left = "0";
+		intermediateDiv.style.width = "100%";
+		intermediateDiv.style.height = "100%";
+		intermediateDiv.style.display = "flex";
+		intermediateDiv.style.justifyContent = "center";
+		intermediateDiv.style.alignItems = "center";
+		intermediateDiv.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+		intermediateDiv.id = "cwrapPreviewWindow";
+		intermediateDiv.customTag = "cwrapPreviewWindow";
 
-    // Generate CSS selectors for the parent element
-    generateCssSelector(template, newElement, new Map(), countSibling(template.element));
-    console.log("CSS selectors generated for parent element");
+		// Append the template element to the intermediate div
+		const intermediateDiv2 = document.createElement("div");
+		intermediateDiv2.style.position = "relative";
+		intermediateDiv2.style.width = "fit-content";
+		intermediateDiv2.style.height = "fit-content";
+		intermediateDiv2.style.backgroundColor = "rgba(0, 0, 0, 0.80)";
+		intermediateDiv2.style.padding = "2rem";
+		intermediateDiv2.style.borderRadius = "0.5rem";
+		intermediateDiv2.style.pointerEvents = "none";
+		intermediateDiv2.style.overflow = "auto";
+		intermediateDiv.appendChild(intermediateDiv2);
+		intermediateDiv2.appendChild(templateElement);
+		iframeDoc.body.appendChild(intermediateDiv);
+		applyStylesFromJson(templateElement, template);
+		//onclick="this.style.display = 'none';"
+		// Create a close button
+		const closeButton = document.createElement("button");
+		closeButton.textContent = "";
+		closeButton.style.display = "flex";
+		closeButton.style.position = "absolute";
+		closeButton.style.top = "0";
+		closeButton.style.right = "0";
+		closeButton.style.zIndex = "99999";
+		closeButton.style.padding = "0";
+		// closeButton.style.paddingInline = "5px";
+		closeButton.style.minHeight = "40px";
+		closeButton.style.minWidth = "45px";
+		closeButton.style.outline = "none";
+		closeButton.style.backgroundColor = "red";
+		closeButton.style.borderLeft = "2px solid rgba(139, 0, 0, 0.25)";
+		closeButton.style.borderTop = "2px solid rgba(139, 0, 0, 0.25)";
+		closeButton.style.borderRight = "2px solid rgba(139, 0, 0, 0.8)";
+		closeButton.style.borderBottom = "2px solid rgba(139, 0, 0, 0.8)";
+		closeButton.style.margin = "20px";
+		closeButton.style.borderRadius = "6px";
+		closeButton.style.display = "flex";
+		closeButton.style.alignItems = "center";
+		closeButton.style.justifyContent = "center";
+		closeButton.style.boxSizing = "border-box";
+		closeButton.style.color = "white";
+		closeButton.style.cursor = "pointer";
+		closeButton.style.pointerEvents = "auto";
+		closeButton.style.padding = "0";
+		closeButton.customTag = "cwrapPreviewCloseButton";
+		const svgIcon = document.createElementNS(
+			"http://www.w3.org/2000/svg",
+			"svg",
+		);
+		svgIcon.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+		svgIcon.setAttribute("height", "24px");
+		svgIcon.setAttribute("viewBox", "0 -960 960 960");
+		svgIcon.setAttribute("width", "24px");
+		svgIcon.setAttribute("fill", "#e8eaed");
+		const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+		path.setAttribute(
+			"d",
+			"m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z",
+		);
+		svgIcon.appendChild(path);
+		closeButton.appendChild(svgIcon);
 
-    // Generate CSS selectors for the child elements
-    for (const child of global.map.templatesMap.get(selectedTemplate).children) {
-        generateCssSelector(child, newElement, new Map(), 1);
-    }
-    console.log("CSS selectors generated for child elements");
-
-    // Update the element info and styles
-    updateElementInfo(fullPath, null);
-    applyStyles();
-    populateTreeView();
-    highlightSelectedElement();
-    console.log("Element info and styles updated");
-});
+		closeButton.onclick = () => {
+			const previewWindow = iframeDoc.getElementById("cwrapPreviewWindow");
+			console.log(window.document.body);
+			if (previewWindow) {
+				previewWindow.remove();
+			}
+		};
+		intermediateDiv.appendChild(closeButton);
+	});
 
 	global.id.mainClassroomSelectorSelectType.addEventListener("change", () => {
 		populateClassroomSelectName();

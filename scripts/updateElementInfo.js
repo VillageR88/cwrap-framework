@@ -106,4 +106,5 @@ export default function updateElementInfo(fullPath, element) {
 	validateRemoveElement();
 	validateParentElement();
 	global.id.elementSelect.value = nameHelper.textContent;
+	global.id.mainTemplatesSelectorParent.value = nameHelper.textContent;
 }

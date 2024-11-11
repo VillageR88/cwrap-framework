@@ -7,5 +7,4 @@ export default function populateTemplatesSelect() {
         option.textContent = key;
         mainTemplatesSelectorOptions.appendChild(option);
     }
-   
 }

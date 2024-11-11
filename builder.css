@@ -145,7 +145,7 @@ body > div#leftSide {
   transform: translateX(-85%);
   transition: transform 0.5s;
 }
-body > div#leftSide.right  {
+body > div#leftSide.right {
   transform: translateX(85%);
   transition: transform 0.5s;
 }
@@ -689,7 +689,13 @@ body
   > div
   > div
   > div#mainBlueprintSelector
-  > select {
+  > select,
+body
+  > #selectedElementLabelContainer
+  > div
+  > div
+  > div#mainTemplatesSelector
+  select#mainTemplatesSelectorParent {
   width: 45px;
   height: 40px;
   border-radius: 6px;

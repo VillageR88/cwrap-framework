@@ -4,10 +4,10 @@ import { stateNonContextual, stateContextual } from "./_const.js";
  * Serialize the DOM element to JSON. In other words convert the DOM element to a JSON object with styles appended and others like class, attributes.
  *
  * @param {HTMLElement} element - The DOM element to serialize.
- * @param {boolean} isForBuild - Whether the serialization is for the build process.
  * @returns {Object|null} The serialized element or null if the element does not have the customTag property set to cwrapPreloaded.
  */
-export default function serializeElement(element, isForBuild) {
+export default function serializeElement(element) {
+	if (element.customTag === "cwrapPreviewWindow") return null;
 	if (element.customTag === "cwrapTempScript") {
 		return null;
 	}
@@ -90,7 +90,7 @@ export default function serializeElement(element, isForBuild) {
 		obj.children = [];
 		for (const child of element.children) {
 			if (child.customTag === "cwrapBlueprint") continue;
-			const serializedChild = serializeElement(child, isForBuild);
+			const serializedChild = serializeElement(child);
 			if (serializedChild) {
 				obj.children.push(serializedChild);
 			}

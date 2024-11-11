@@ -16,7 +16,9 @@ const global = {
 		addProperty: document.getElementById("addProperty"),
 		addBlueprintProperty: document.getElementById("addBlueprintProperty"),
 		addBlueprintState: document.getElementById("addBlueprintState"),
-		addBlueprintStateProperty: document.getElementById("addBlueprintStateProperty"),
+		addBlueprintStateProperty: document.getElementById(
+			"addBlueprintStateProperty",
+		),
 		addStateProperty: document.getElementById("addStateProperty"),
 		attributeInput: document.getElementById("attributeInput"),
 		attributeSelect: document.getElementById("attributeSelect"),
@@ -60,7 +62,9 @@ const global = {
 		closeAddElement: document.getElementById("closeAddElement"),
 		closeAddScreen: document.getElementById("closeAddScreen"),
 		closeAddState: document.getElementById("closeAddState"),
-		closeBlueprintAddElement: document.getElementById("closeBlueprintAddElement"),
+		closeBlueprintAddElement: document.getElementById(
+			"closeBlueprintAddElement",
+		),
 		closeBlueprintAddState: document.getElementById("closeBlueprintAddState"),
 		closeState: document.getElementById("closeState"),
 		contextSelectAllDiv: document.getElementById("contextSelectAllDiv"),
@@ -76,8 +80,12 @@ const global = {
 		editStateStyle: document.getElementById("editStateStyle"),
 		editStyle: document.getElementById("editStyle"),
 		editText: document.getElementById("editText"),
-		elementBlueprintSelectAll: document.getElementById("elementBlueprintSelectAll"),
-		elementBlueprintStateSelect: document.getElementById("elementBlueprintStateSelect"),
+		elementBlueprintSelectAll: document.getElementById(
+			"elementBlueprintSelectAll",
+		),
+		elementBlueprintStateSelect: document.getElementById(
+			"elementBlueprintStateSelect",
+		),
 		elementHeaderDiv: document.getElementById("elementHeaderDiv"),
 		elementSelect: document.getElementById("elementSelect"),
 		elementSelectAll: document.getElementById("elementSelectAll"),
@@ -171,19 +179,35 @@ const global = {
 			"mainBlueprintTextEditor2",
 		),
 		mainBlueprintElementAdd: document.getElementById("mainBlueprintElementAdd"),
-		mainBlueprintStateSelector: document.getElementById("mainBlueprintStateSelector"),
-		mainBlueprintStateSelectorBack: document.getElementById("mainBlueprintStateSelectorBack"),
+		mainBlueprintStateSelector: document.getElementById(
+			"mainBlueprintStateSelector",
+		),
+		mainBlueprintStateSelectorBack: document.getElementById(
+			"mainBlueprintStateSelectorBack",
+		),
 		mainBlueprintStateAdd: document.getElementById("mainBlueprintStateAdd"),
 		mainClassroomStyleSelectorBack: document.getElementById(
 			"mainClassroomStyleSelectorBack",
 		),
-		mainBlueprintStateStyleContextInfo: document.getElementById("mainBlueprintStateStyleContextInfo"),
+		mainBlueprintStateStyleContextInfo: document.getElementById(
+			"mainBlueprintStateStyleContextInfo",
+		),
 		editBlueprintStateStyle: document.getElementById("editBlueprintStateStyle"),
-		mainBlueprintStateStyleSelector: document.getElementById("mainBlueprintStateStyleSelector"),
-		mainBlueprintStateStyleSelectorBack: document.getElementById("mainBlueprintStateStyleSelectorBack"),
-		mainBlueprintStateStyleAdd: document.getElementById("mainBlueprintStateStyleAdd"),
-		mainBlueprintStateStyleAddBack: document.getElementById("mainBlueprintStateStyleAddBack"),
-		mainBlueprintStateStyleSelector2: document.getElementById("mainBlueprintStateStyleSelector2"),
+		mainBlueprintStateStyleSelector: document.getElementById(
+			"mainBlueprintStateStyleSelector",
+		),
+		mainBlueprintStateStyleSelectorBack: document.getElementById(
+			"mainBlueprintStateStyleSelectorBack",
+		),
+		mainBlueprintStateStyleAdd: document.getElementById(
+			"mainBlueprintStateStyleAdd",
+		),
+		mainBlueprintStateStyleAddBack: document.getElementById(
+			"mainBlueprintStateStyleAddBack",
+		),
+		mainBlueprintStateStyleSelector2: document.getElementById(
+			"mainBlueprintStateStyleSelector2",
+		),
 		mainBody: document.getElementById("mainBody"),
 		mainClassroomSelector: document.getElementById("mainClassroomSelector"),
 		mainClassroomSelectorSelectName: document.getElementById(
@@ -225,8 +249,16 @@ const global = {
 			"mainStateStyleContextInfo",
 		),
 		mainTemplatesSelector: document.getElementById("mainTemplatesSelector"),
-		mainTemplatesSelectorInject: document.getElementById("mainTemplatesSelectorInject"),
-		mainTemplatesSelectorOptions: document.getElementById("mainTemplatesSelectorOptions"),
+		mainTemplatesSelectorInject: document.getElementById(
+			"mainTemplatesSelectorInject",
+		),
+		mainTemplatesSelectorOptions: document.getElementById(
+			"mainTemplatesSelectorOptions",
+		),
+		mainTemplatesSelectorParent: document.getElementById("mainTemplatesSelectorParent"),
+		mainTemplatesSelectorPreview: document.getElementById(
+			"mainTemplatesSelectorPreview",
+		),
 		mainTextEditor: document.getElementById("mainTextEditor"),
 		mainTextEditor2: document.getElementById("mainTextEditor2"),
 		mainTextEditorBack: document.getElementById("mainTextEditorBack"),
@@ -278,7 +310,9 @@ const global = {
 		),
 		openBlueprintState: document.getElementById("openBlueprintState"),
 		openBlueprintAddState: document.getElementById("openBlueprintAddState"),
-		openBlueprintAddStateProperty: document.getElementById("openBlueprintAddStateProperty"),
+		openBlueprintAddStateProperty: document.getElementById(
+			"openBlueprintAddStateProperty",
+		),
 		openBlueprintAddProperty: document.getElementById(
 			"openBlueprintAddProperty",
 		),
@@ -298,6 +332,7 @@ const global = {
 		popupSubmitConfirm: document.getElementById("popupSubmitConfirm"),
 		popupSubmitReject: document.getElementById("popupSubmitReject"),
 		preview: document.getElementById("preview"),
+		previewTemplate: document.getElementById("previewTemplate"),
 		previewTree: document.getElementById("previewTree"),
 		propertyBlueprintInput: document.getElementById("propertyBlueprintInput"),
 		propertyBlueprintSelectAll: document.getElementById(
@@ -318,15 +353,21 @@ const global = {
 			"removePropertyBlueprintSelectProperty",
 		),
 		removeStateProperty: document.getElementById("removeStateProperty"),
-		removeBlueprintStateProperty: document.getElementById("removeBlueprintStateProperty"),
+		removeBlueprintStateProperty: document.getElementById(
+			"removeBlueprintStateProperty",
+		),
 		removeBlueprintState: document.getElementById("removeBlueprintState"),
 		rootInput: document.getElementById("rootInput"),
 		rootSelectVariable: document.getElementById("rootSelectVariable"),
 		routesTree: document.getElementById("routesTree"),
 		sectionsVariables: document.getElementById("sectionsVariables"),
 		selectBlueprintContext: document.getElementById("selectBlueprintContext"),
-		selectBlueprintContextHighlight: document.getElementById("selectBlueprintContextHighlight"),
-		selectBlueprintStateOfContext: document.getElementById("selectBlueprintStateOfContext"),
+		selectBlueprintContextHighlight: document.getElementById(
+			"selectBlueprintContextHighlight",
+		),
+		selectBlueprintStateOfContext: document.getElementById(
+			"selectBlueprintStateOfContext",
+		),
 		selectContext: document.getElementById("selectContext"),
 		selectContextHighlight: document.getElementById("selectContextHighlight"),
 		selectStateOfContext: document.getElementById("selectStateOfContext"),
@@ -346,10 +387,18 @@ const global = {
 			"settingsTreeFirstTimeCreateSettings",
 		),
 		stateBlueprintSelectAll: document.getElementById("stateBlueprintSelectAll"),
-		blueprintStatePropertyInput: document.getElementById("blueprintStatePropertyInput"),
-		stateBlueprintContextInfo: document.getElementById("stateBlueprintContextInfo"),
-		stateBlueprintPropertySelect: document.getElementById("stateBlueprintPropertySelect"),
-		stateBlueprintPropertySelectAll: document.getElementById("stateBlueprintPropertySelectAll"),
+		blueprintStatePropertyInput: document.getElementById(
+			"blueprintStatePropertyInput",
+		),
+		stateBlueprintContextInfo: document.getElementById(
+			"stateBlueprintContextInfo",
+		),
+		stateBlueprintPropertySelect: document.getElementById(
+			"stateBlueprintPropertySelect",
+		),
+		stateBlueprintPropertySelectAll: document.getElementById(
+			"stateBlueprintPropertySelectAll",
+		),
 		stateContextInfo: document.getElementById("stateContextInfo"),
 		statePropertyInput: document.getElementById("statePropertyInput"),
 		statePropertySelect: document.getElementById("statePropertySelect"),
@@ -366,7 +415,9 @@ const global = {
 		updateClassroomProperty: document.getElementById("updateClassroomProperty"),
 		updateProperty: document.getElementById("updateProperty"),
 		updateStateProperty: document.getElementById("updateStateProperty"),
-		updateBlueprintStateProperty: document.getElementById("updateBlueprintStateProperty"),
+		updateBlueprintStateProperty: document.getElementById(
+			"updateBlueprintStateProperty",
+		),
 		updateText: document.getElementById("updateText"),
 		wizard: document.getElementById("wizard"),
 		wizardDiv: document.getElementById("wizardDiv"),
@@ -557,5 +608,3 @@ global.map.mediaQueriesMap.set("max-width: 768px", new Map());
 // global.map.classroomMap
 // 	.get("mediaQueriesMap")
 // 	.set("max-width: 768px", new Map());
-
-

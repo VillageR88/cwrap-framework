@@ -10,7 +10,6 @@
 </head>
 
 <body>
-
   <div id="mask">
     <div id="popupLink">
       <span>Follow the link? <br> (Unsaved progress will be lost)</span>
@@ -176,7 +175,7 @@
           <div id="navBodyToolset">
             <span class="label">Toolset</span>
             <div>
-              <button id="navGlobals" class="mediumButtons" title="globals">
+              <button id="navGlobals" class="mediumButtons" title="globals (TODO)">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                   fill="#e8eaed">
                   <path
@@ -586,6 +585,12 @@
         </div>
 
         <div id="mainTemplatesSelector">
+          <button id="mainTemplatesSelectorAdd" class="mediumButtons" title="add template">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#add"></use>
+            </svg>
+          </button>
+          <select class="mediumButtons" id="mainTemplatesSelectorParent" title="select element"></select>
           <select id="mainTemplatesSelectorOptions" class="mediumButtons" title="select name"></select>
           <button id="mainTemplatesSelectorPreview" class="mediumButtons" title="template preview">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
@@ -601,7 +606,8 @@
           <button id="mainTemplatesSelectorDelete" class="mediumButtons" title="delete template">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#remove"></use>
-            </svg></button>
+            </svg>
+          </button>
         </div>
 
         <div id="mainElementAdd">
@@ -926,6 +932,7 @@
   </div>
   <main>
     <iframe id="preview" title="Preview"></iframe>
+
     <div id="previewTree">
       <div id="treeView"></div>
       <div>
