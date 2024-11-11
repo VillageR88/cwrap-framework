@@ -53,8 +53,7 @@ export default function generateCssSelector(
 		// Store the style in the cssMap if present in the JSON object
 		if (jsonObj.style && jsonObj.customTag !== "cwrapBlueprintCSS") {
 			cssMap.set(selector, jsonObj.style);
-		} 
-		else {
+		} else {
 			cssMap.set(selector, "");
 		}
 
