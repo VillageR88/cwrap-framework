@@ -146,6 +146,14 @@ body > div#leftSide > div#leftSidebarCanvas {
   transform: translateX(-85%);
   transition: transform 0.5s;
 }
+body > div#leftSide.right > div#leftSidebarCanvas {
+  transform: translateX(85%);
+  transition: transform 0.5s;
+}
+
+body > div#leftSide > div#leftSidebarCanvas:hover {
+  transform: translateX(0);
+}
 body > div#leftSide > div#leftSidebarCanvas > div#leftSidebar {
   background-color: var(--colorBackground-lighter);
   padding-block: 12px;

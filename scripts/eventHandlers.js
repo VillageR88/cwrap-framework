@@ -183,21 +183,6 @@ export const eventHandlers = () => {
 		global.id.navPreview.style.display = "none";
 	});
 
-	//document element id onlyLogo on mouse enter display none
-	global.id.leftSidebarCanvas.addEventListener("mouseenter", () => {
-		global.id.leftSidebarCanvas.style.transform = "translateX(0)";
-		global.id.leftSidebarCanvas.style.transition = "transform 0.5s";
-	});
-
-	global.id.leftSidebarCanvas.addEventListener("mouseleave", () => {
-		global.id.navDevice.style.display = "none";
-		global.id.navPreview.style.display = "none";
-
-		if (global.id.leftSide.classList.contains(global.class.right)) {
-			global.id.leftSidebarCanvas.style.transform = "translateX(85%)";
-		} else global.id.leftSidebarCanvas.style.transform = "translateX(-85%)";
-	});
-
 	global.id.leftSidebarSwitchSide.addEventListener("click", () => {
 		global.id.leftSide.classList.toggle(global.class.right);
 		global.id.leftSidebar.style.transition = "none";
@@ -2269,7 +2254,6 @@ export const eventHandlers = () => {
 		centralBarCleanup();
 		global.id.mainInitialSelector.style.display = "none";
 		global.id.selectedElementHighlight.style.display = "none";
-
 	});
 
 	global.id.mainClassroomSelectorSelectType.addEventListener("change", () => {
