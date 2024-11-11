@@ -2248,6 +2248,14 @@ export const eventHandlers = () => {
 		},
 	);
 
+	global.id.navGlobals.addEventListener("click", () => {
+		centralBarCleanup();
+		//debugging (commented out)
+		//centralBarCleanup();
+		//global.id.mainInitialSelector.style.display = "none";
+		//global.id.selectedElementHighlight.style.display = "none";
+	});
+
 	global.id.navClassroom.addEventListener("click", () => {
 		centralBarCleanup();
 		global.id.mainInitialSelector.style.display = "none";
@@ -2255,6 +2263,13 @@ export const eventHandlers = () => {
 		global.id.mainClassroomSelector.style.display = "flex";
 		populateClassroomSelectType();
 		populateClassroomSelectName();
+	});
+
+	global.id.navTemplates.addEventListener("click", () => {
+		centralBarCleanup();
+		global.id.mainInitialSelector.style.display = "none";
+		global.id.selectedElementHighlight.style.display = "none";
+
 	});
 
 	global.id.mainClassroomSelectorSelectType.addEventListener("change", () => {
@@ -2915,14 +2930,6 @@ export const eventHandlers = () => {
 		global.id.mainClassroomStyleSelector.style.display = "flex";
 		global.id.mainClassroomStyleSelector2.style.display = "flex";
 		global.id.mainClassroomStyleAdd.style.display = "none";
-	});
-
-	global.id.navScript.addEventListener("click", () => {
-		console.log("navScript clicked"); // debugging
-		//debugging (commented out)
-		//centralBarCleanup();
-		//global.id.mainInitialSelector.style.display = "none";
-		//global.id.selectedElementHighlight.style.display = "none";
 	});
 
 	global.id.editBlueprint.addEventListener("click", () => {
