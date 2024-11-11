@@ -225,6 +225,7 @@ const global = {
 			"mainStateStyleContextInfo",
 		),
 		mainTemplatesSelector: document.getElementById("mainTemplatesSelector"),
+		mainTemplatesSelectorOptions: document.getElementById("mainTemplatesSelectorOptions"),
 		mainTextEditor: document.getElementById("mainTextEditor"),
 		mainTextEditor2: document.getElementById("mainTextEditor2"),
 		mainTextEditorBack: document.getElementById("mainTextEditorBack"),
@@ -381,6 +382,7 @@ const global = {
 	map: {
 		blueprintMap: new Map(),
 		classroomMap: new Map(),
+		templatesMap: new Map(),
 		cssMap: new Map(),
 		fontMap: new Map(),
 		headMap: new Map(),

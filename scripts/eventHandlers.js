@@ -55,6 +55,7 @@ import getCssProperties from "./getCssProperties.js";
 import checkIfBlueprintEnvironment from "./checkIfBlueprintEnvironment.js";
 import { stateNonContextual, stateContextual } from "./_const.js";
 import rebuildStyleFromBlueprint from "./rebuildStyleFromBlueprint.js";
+import populateTemplatesSelect from "./populateTemplatesSelect.js";
 
 /**
  * Sets up the event handlers.
@@ -2252,6 +2253,7 @@ export const eventHandlers = () => {
 
 	global.id.navTemplates.addEventListener("click", () => {
 		centralBarCleanup();
+		populateTemplatesSelect();
 		global.id.mainInitialSelector.style.display = "none";
 		global.id.selectedElementHighlight.style.display = "none";
 		global.id.mainTemplatesSelector.style.display = "flex";
