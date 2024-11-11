@@ -126,7 +126,7 @@ body > div#mask > div > div > button {
 
 body > div#leftSide {
   display: flex;
-  position: absolute;
+  position: fixed;
   flex-direction: column;
   margin: 0;
   margin-top: 12px;
