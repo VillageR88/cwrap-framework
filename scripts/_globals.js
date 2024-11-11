@@ -225,6 +225,7 @@ const global = {
 			"mainStateStyleContextInfo",
 		),
 		mainTemplatesSelector: document.getElementById("mainTemplatesSelector"),
+		mainTemplatesSelectorInject: document.getElementById("mainTemplatesSelectorInject"),
 		mainTemplatesSelectorOptions: document.getElementById("mainTemplatesSelectorOptions"),
 		mainTextEditor: document.getElementById("mainTextEditor"),
 		mainTextEditor2: document.getElementById("mainTextEditor2"),
