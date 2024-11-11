@@ -764,13 +764,16 @@ export const eventHandlers = () => {
 		const element = getElementFromPath();
 		const newText = global.id.mainTextEditor2.value;
 		const textNode = Array.from(element.childNodes).find(
-			(node) => node.nodeType === Node.TEXT_NODE
+			(node) => node.nodeType === Node.TEXT_NODE,
 		);
-	
+
 		if (textNode) {
 			textNode.nodeValue = newText;
 		} else {
-			element.insertBefore(document.createTextNode(newText), element.firstChild);
+			element.insertBefore(
+				document.createTextNode(newText),
+				element.firstChild,
+			);
 		}
 	});
 
@@ -1481,7 +1484,7 @@ export const eventHandlers = () => {
 	global.id.addElement.addEventListener("click", () => {
 		/** @type {string} */
 		const selectedValue = global.id.elementSelectAll.value;
-	
+
 		function countSibling(selectedValue) {
 			/** @type {Element} parentElement */
 			const parentElement = getElementFromPath();
@@ -1489,18 +1492,20 @@ export const eventHandlers = () => {
 				console.error("Parent element not found");
 				return 0;
 			}
-	
+
 			/** @type {HTMLCollection} children */
 			const children = parentElement.children; // Use children to get only element nodes
 			console.log("Children", children);
 			// Filter children by tag name and count them
 			const count = Array.from(children).filter(
-				(child) => child.tagName.toLowerCase() === selectedValue.toLowerCase() && child.customTag !== "cwrapTempScript",
+				(child) =>
+					child.tagName.toLowerCase() === selectedValue.toLowerCase() &&
+					child.customTag !== "cwrapTempScript",
 			).length;
-	
+
 			return count + 1;
 		}
-	
+
 		const fullPath = global.id.elementSelect.value;
 		let newElement;
 		if (["main", "header", "footer", "nav"].includes(selectedValue)) {
@@ -1508,22 +1513,26 @@ export const eventHandlers = () => {
 		} else {
 			newElement = `${fullPath} > ${selectedValue}:nth-of-type(${countSibling(selectedValue)})`; // this function replaces need of using generateCssSelector.js for total rebuild (possible refractor in the future)
 		}
-	
-		const parentOptionIndex = Array.from(global.id.elementSelect.options).findIndex(
-			(option) => option.value === fullPath
-		);
-	
+
+		const parentOptionIndex = Array.from(
+			global.id.elementSelect.options,
+		).findIndex((option) => option.value === fullPath);
+
 		let insertIndex = parentOptionIndex + 1;
-		for (let i = parentOptionIndex + 1; i < global.id.elementSelect.options.length; i++) {
+		for (
+			let i = parentOptionIndex + 1;
+			i < global.id.elementSelect.options.length;
+			i++
+		) {
 			if (!global.id.elementSelect.options[i].value.startsWith(fullPath)) {
 				break;
 			}
 			insertIndex = i + 1;
 		}
-	
+
 		const newOption = new Option(newElement, newElement);
 		global.id.elementSelect.add(newOption, insertIndex);
-	
+
 		cssMap.set(newElement, "");
 		global.id.elementSelect.value = newElement;
 		const newElementNode = document.createElement(selectedValue);
@@ -1550,6 +1559,7 @@ export const eventHandlers = () => {
 		backToMainInitialSelector();
 	});
 
+	//TODO Must be refactored to update option nth-of-type new value after removing element
 	global.id.removeElement.addEventListener("click", () => {
 		const selectedValue = global.id.elementSelect.value;
 
@@ -2961,7 +2971,6 @@ export const eventHandlers = () => {
 		rebuildStyleFromBlueprint();
 		applyStyles();
 		reloadBlueprint();
-
 	}
 
 	// Attach the event listener
