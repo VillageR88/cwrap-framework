@@ -129,29 +129,28 @@ body > div#leftSide {
   position: absolute;
   flex-direction: column;
   margin: 0;
-  padding-block: 12px;
-  padding-inline: 0px;
-  height: 100%;
+  margin-top: 12px;
+  padding: 0px;
+  height: fit-content;
   box-sizing: border-box;
   justify-content: space-between;
   width: fit-content;
-  pointer-events: none;
 }
 
 body > div#leftSide.right {
   right: 0;
 }
 
-body > div#leftSide > div#leftSidebarCanvas {
+body > div#leftSide {
   transform: translateX(-85%);
   transition: transform 0.5s;
 }
-body > div#leftSide.right > div#leftSidebarCanvas {
+body > div#leftSide.right  {
   transform: translateX(85%);
   transition: transform 0.5s;
 }
 
-body > div#leftSide > div#leftSidebarCanvas:hover {
+body > div#leftSide:hover {
   transform: translateX(0);
 }
 body > div#leftSide > div#leftSidebarCanvas > div#leftSidebar {
