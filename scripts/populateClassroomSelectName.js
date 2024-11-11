@@ -7,7 +7,6 @@ export default function populateClassroomSelectName(selectedName = null) {
 
 	for (const [key, classroom] of classroomMap.entries()) {
 		if (classroom.type === selectedType) {
-			console.log("classroom.type: ", classroom.type);
 			const option = document.createElement("option");
 			option.value = classroom.name;
 			option.textContent = classroom.name;

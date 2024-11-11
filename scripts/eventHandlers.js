@@ -2254,6 +2254,7 @@ export const eventHandlers = () => {
 		centralBarCleanup();
 		global.id.mainInitialSelector.style.display = "none";
 		global.id.selectedElementHighlight.style.display = "none";
+		global.id.mainTemplatesSelector.style.display = "flex";
 	});
 
 	global.id.mainClassroomSelectorSelectType.addEventListener("change", () => {
