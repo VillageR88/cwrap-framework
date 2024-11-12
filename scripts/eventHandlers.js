@@ -426,26 +426,12 @@ export const eventHandlers = () => {
 	 * When the button is clicked, the data from the iframe is saved to skeletonBody.json.
 	 */
 	global.id.menuSave.addEventListener("click", () => {
+		// return; //debug
 		creatorSave();
-		// console.log(global.map.extendMap); //debugging // commented out to confirm extendedMap is not used
-		// for (const [key, _] of cssMap) {
-		// 	if (key.includes(":has")) {
-		// 		const newKey = key.split(":has")[0];
-		// 		const newValue = `:has${key.split(":has")[1]}`;
-		// 		extendMap.set(newKey, newValue);
-		// 	} else if (key.includes(":hover")) {
-		// 		const newKey = key.split(":hover")[0];
-		// 		const newValue = `:hover${key.split(":hover")[1]}`;
-		// 		extendMap.set(newKey, newValue);
-		// 	}
-		// }
-		// console.log(global.map.extendMap); //debugging
-
 		/**
 		 * @type {JsonObject} bodyJson
 		 */
 		let bodyJson = serializeElement(global.id.doc.body);
-		console.log("bodyJson", bodyJson);
 		// let bodyJsonTemp = serializeElement(global.id.doc.body, true);
 
 		function encapsulateJson(jsonObj) {
@@ -505,6 +491,24 @@ export const eventHandlers = () => {
 			})
 			.catch((error) => {
 				console.error("Error saving skeletonBody.json:", error);
+			});
+		fetch("/save-template", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(Array.from(global.map.templatesMap.values())),
+		})
+			.then((response) => response.json())
+			.then((data) => {
+				if (data.success) {
+					console.log("template.json saved successfully!");
+				} else {
+					console.error("Error saving template.json:", data.error);
+				}
+			})
+			.catch((error) => {
+				console.error("Error saving template.json:", error);
 			});
 		// fetch(`/save-skeleton-temp${window.location.pathname}`, {
 		// 	method: "POST",
@@ -2379,7 +2383,7 @@ export const eventHandlers = () => {
 		populateTreeView();
 		highlightSelectedElement();
 		global.id.mainTemplatesSelectorParent.innerHTML =
-		global.id.elementSelect.innerHTML;
+			global.id.elementSelect.innerHTML;
 	});
 
 	global.id.mainTemplatesSelectorPreview.addEventListener("click", () => {

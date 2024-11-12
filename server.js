@@ -54,6 +54,42 @@ app.post("/save-skeleton/:subPath?", (req, res) => {
 		}
 	});
 });
+// fetch("/save-template", {
+// 	method: "POST",
+// 	headers: {
+// 		"Content-Type": "application/json",
+// 	},
+// 	body: JSON.stringify(global.map.templateMap),
+// })
+// 	.then((response) => response.json())
+// 	.then((data) => {
+// 		if (data.success) {
+// 			console.log("template.json saved successfully!");
+// 		} else {
+// 			console.error("Error saving template.json:", data.error);
+// 		}
+// 	})
+// 	.catch((error) => {
+// 		console.error("Error saving template.json:", error);
+// 	}); reference for app.post bellow
+//Endpoint to save template.json
+app.post("/save-template", (req, res) => {
+	const templateJson = req.body;
+	const subPath = req.params.subPath || "";
+
+	const jsonFilePath = subPath
+		? path.join(ROOT_DIR, "routes", subPath, "templates.json")
+		: path.join(ROOT_DIR, "routes", "templates.json");
+	fs.writeFile(jsonFilePath, JSON.stringify(templateJson, null, 2), (err) => {
+		if (err) {
+			console.error("Error saving template.json:", err);
+			res.status(500).json({ success: false, error: err.message });
+		} else {
+			console.log("template.json saved successfully!");
+			res.status(200).json({ success: true });
+		}
+	});
+});
 
 // Endpoint to save skeleton.json to temp
 app.post("/save-skeleton-temp/:subPath?", (req, res) => {
