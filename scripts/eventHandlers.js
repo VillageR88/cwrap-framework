@@ -2387,11 +2387,8 @@ export const eventHandlers = () => {
 	});
 
 	global.id.mainTemplatesSelectorAdd.addEventListener("click", () => {
-		console.log("Add template button clicked");
-	
 		const elementSelect = global.id.elementSelect;
 		const selectedElementPath = elementSelect.value;
-		console.log("Selected element path:", selectedElementPath);
 	
 		const selectedElement = getElementFromPath(selectedElementPath);
 		if (!selectedElement) {
@@ -2399,27 +2396,66 @@ export const eventHandlers = () => {
 			return;
 		}
 	
+		// Function to create a selector for an element
+		function createSelector(element) {
+			if (element.id) {
+				return `#${element.id}`;
+			}
+			const parts = [];
+			let currentElement = element;
+			while (currentElement.parentElement) {
+				if (['body', 'main', 'footer'].includes(currentElement.tagName.toLowerCase())) {
+					parts.unshift(currentElement.tagName.toLowerCase());
+				} else {
+					const siblings = Array.from(currentElement.parentElement.children).filter(e => e.tagName === currentElement.tagName);
+					const index = siblings.indexOf(currentElement) + 1;
+					parts.unshift(`${currentElement.tagName.toLowerCase()}:nth-of-type(${index})`);
+				}
+				currentElement = currentElement.parentElement;
+			}
+			return parts.join(" > ");
+		}
+	
 		// Function to create a template object from an element
-		function createTemplateObject(element) {
+		function createTemplateObject(element, isRoot = false) {
 			const template = {
-				name: element.tagName.toLowerCase(),
 				element: element.tagName.toLowerCase(),
-				style: element.getAttribute("style") || "",
-				children: []
 			};
 	
-			for (const child of Array.from(element.children)) {
-				template.children.push(createTemplateObject(child));
+			if (isRoot) {
+				template.name = element.tagName.toLowerCase();
+			}
+	
+			// Construct the selector for the current element
+			const selector = createSelector(element);
+			const style = global.map.cssMap.get(selector);
+			if (style) {
+				template.style = style;
+			}
+	
+			const attributes = {};
+			for (const attr of element.attributes) {
+				attributes[attr.name] = attr.value;
+			}
+			if (Object.keys(attributes).length > 0) {
+				template.attributes = attributes;
+			}
+	
+			const text = element.childNodes.length === 1 && element.childNodes[0].nodeType === Node.TEXT_NODE ? element.textContent.trim() : "";
+			if (text) {
+				template.text = text;
+			}
+	
+			const children = Array.from(element.children).map(child => createTemplateObject(child));
+			if (children.length > 0) {
+				template.children = children;
 			}
 	
 			return template;
 		}
 	
-		// Create the template object from the selected element
-		const templateObject = createTemplateObject(selectedElement);
-		console.log("Created template object:", templateObject);
+		const templateObject = createTemplateObject(selectedElement, true);
 	
-		// Prompt the user for a unique template name
 		let templateName;
 		do {
 			templateName = prompt("Enter a name for the new template:", templateObject.name);
@@ -2431,11 +2467,9 @@ export const eventHandlers = () => {
 				alert("Template name already exists. Please enter a different name.");
 			}
 		} while (global.map.templatesMap.has(templateName));
-	
-		// Add the template object to the templatesMap
 		templateObject.name = templateName;
 		global.map.templatesMap.set(templateName, templateObject);
-		console.log("Template added to templatesMap:", templateObject);
+		populateTemplatesSelect();
 	});
 
 	global.id.mainTemplatesSelectorPreview.addEventListener("click", () => {
@@ -2445,6 +2479,11 @@ export const eventHandlers = () => {
 		const templateElement = createElementFromJson(template);
 		const iframe = global.id.preview;
 		const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+		//if  		cwrapPreviewWindow already exists, remove it
+		const previewWindow = iframeDoc.getElementById("cwrapPreviewWindow");
+		if (previewWindow) {
+			previewWindow.remove();
+		}
 
 		// Apply styles from JSON directly to the element
 		function applyStylesFromJson(element, jsonObj) {
