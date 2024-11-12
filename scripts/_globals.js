@@ -249,6 +249,7 @@ const global = {
 			"mainStateStyleContextInfo",
 		),
 		mainTemplatesSelector: document.getElementById("mainTemplatesSelector"),
+		mainTemplatesSelectorAdd: document.getElementById("mainTemplatesSelectorAdd"),
 		mainTemplatesSelectorInject: document.getElementById(
 			"mainTemplatesSelectorInject",
 		),

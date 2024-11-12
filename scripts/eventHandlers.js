@@ -2386,6 +2386,58 @@ export const eventHandlers = () => {
 			global.id.elementSelect.innerHTML;
 	});
 
+	global.id.mainTemplatesSelectorAdd.addEventListener("click", () => {
+		console.log("Add template button clicked");
+	
+		const elementSelect = global.id.elementSelect;
+		const selectedElementPath = elementSelect.value;
+		console.log("Selected element path:", selectedElementPath);
+	
+		const selectedElement = getElementFromPath(selectedElementPath);
+		if (!selectedElement) {
+			console.error("Selected element not found");
+			return;
+		}
+	
+		// Function to create a template object from an element
+		function createTemplateObject(element) {
+			const template = {
+				name: element.tagName.toLowerCase(),
+				element: element.tagName.toLowerCase(),
+				style: element.getAttribute("style") || "",
+				children: []
+			};
+	
+			for (const child of Array.from(element.children)) {
+				template.children.push(createTemplateObject(child));
+			}
+	
+			return template;
+		}
+	
+		// Create the template object from the selected element
+		const templateObject = createTemplateObject(selectedElement);
+		console.log("Created template object:", templateObject);
+	
+		// Prompt the user for a unique template name
+		let templateName;
+		do {
+			templateName = prompt("Enter a name for the new template:", templateObject.name);
+			if (!templateName) {
+				console.error("Template name is required");
+				return;
+			}
+			if (global.map.templatesMap.has(templateName)) {
+				alert("Template name already exists. Please enter a different name.");
+			}
+		} while (global.map.templatesMap.has(templateName));
+	
+		// Add the template object to the templatesMap
+		templateObject.name = templateName;
+		global.map.templatesMap.set(templateName, templateObject);
+		console.log("Template added to templatesMap:", templateObject);
+	});
+
 	global.id.mainTemplatesSelectorPreview.addEventListener("click", () => {
 		const templateSelect = global.id.mainTemplatesSelectorOptions;
 		const selectedTemplate = templateSelect.value;
