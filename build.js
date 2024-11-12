@@ -5,92 +5,6 @@ const path = require("node:path");
 const cssMap = new Map();
 const mediaQueriesMap = new Map();
 
-function generateCssSelector(jsonObj, parentSelector, divCountStack = []) {
-	let selector = parentSelector;
-
-	if (Object.prototype.hasOwnProperty.call(jsonObj, "element")) {
-		const element = jsonObj.element;
-
-		if (element === "body" || element === "main" || element === "footer") {
-			selector += (parentSelector ? " > " : "") + element;
-		} else {
-			if (element === "div") {
-				// Increment the div count for the current level
-				const currentLevel = divCountStack.length - 1;
-				divCountStack[currentLevel] = (divCountStack[currentLevel] || 0) + 1;
-				selector += ` > ${element}:nth-of-type(${divCountStack[currentLevel]})`;
-			} else {
-				selector += ` > ${element}`;
-			}
-		}
-
-		if (Object.prototype.hasOwnProperty.call(jsonObj, "class")) {
-			selector += `.${jsonObj.class}`;
-		}
-
-		if (Object.prototype.hasOwnProperty.call(jsonObj, "style")) {
-			cssMap.set(selector, jsonObj.style);
-		}
-
-		if (Object.prototype.hasOwnProperty.call(jsonObj, "extend")) {
-			for (const extension of jsonObj.extend) {
-				const extendedSelector = `${selector}${extension.extension}`;
-				cssMap.set(extendedSelector, extension.style);
-			}
-		}
-
-		if (Object.prototype.hasOwnProperty.call(jsonObj, "mediaQueries")) {
-			for (const mediaQuery of jsonObj.mediaQueries) {
-				if (!mediaQueriesMap.has(mediaQuery.query)) {
-					mediaQueriesMap.set(mediaQuery.query, new Map());
-				}
-				const queryMap = mediaQueriesMap.get(mediaQuery.query);
-				queryMap.set(selector, mediaQuery.style);
-			}
-		}
-
-		if (Object.prototype.hasOwnProperty.call(jsonObj, "blueprint")) {
-			const blueprint = jsonObj.blueprint;
-			const count = blueprint.count;
-			for (let i = 0; i < count; i++) {
-				const blueprintJson = replaceBlueprintJsonPlaceholders(
-					blueprint,
-					"cwrapIndex",
-					i,
-				);
-				generateCssSelector(blueprintJson, selector, divCountStack);
-			}
-		}
-
-		if (Object.prototype.hasOwnProperty.call(jsonObj, "children")) {
-			// Push a new level to the div count stack
-			divCountStack.push(0);
-			for (const child of jsonObj.children) {
-				generateCssSelector(child, selector, divCountStack);
-			}
-			// Pop the current level from the div count stack
-			divCountStack.pop();
-		}
-	}
-
-	return selector;
-}
-
-function replaceBlueprintJsonPlaceholders(jsonObj, placeholder, index) {
-	const jsonString = JSON.stringify(jsonObj);
-	const replacedString = jsonString.replace(
-		new RegExp(`${placeholder}(\\+\\d+)?`, "g"),
-		(match) => {
-			if (match === placeholder) {
-				return index;
-			}
-			const offset = Number.parseInt(match.replace(placeholder, ""), 10);
-			return index + offset;
-		},
-	);
-	return JSON.parse(replacedString);
-}
-
 function generateHtmlFromJson(jsonObj) {
 	let html = "";
 
@@ -122,11 +36,8 @@ function generateHtmlFromJson(jsonObj) {
 				const blueprint = jsonObj.blueprint;
 				const count = blueprint.count;
 				for (let i = 0; i < count; i++) {
-					const blueprintJson = replaceBlueprintJsonPlaceholders(
-						blueprint,
-						"cwrapIndex",
-						i,
-					);
+					let blueprintJson = replacePlaceholdersCwrapIndex(blueprint, i);
+					blueprintJson = replacePlaceholdersCwrapArray(blueprintJson, i);
 					html += generateHtmlFromJson(blueprintJson);
 				}
 			}
@@ -177,7 +88,6 @@ function copyFile(source, destination) {
 }
 
 function copyDirectory(source, destination) {
-	console.log(`Copying directory from ${source} to ${destination}`);
 	if (!fs.existsSync(destination)) {
 		mkdirp.sync(destination);
 		console.log(`Created directory ${destination}`);
@@ -360,8 +270,9 @@ ${bodyContent}
 	});
 
 	// Add media queries to CSS content
-    const reversedMediaQueriesMap = new Map([...mediaQueriesMap.entries()].reverse());
-    console.log("Media reversedMediaQueriesMap : ", reversedMediaQueriesMap);
+	const reversedMediaQueriesMap = new Map(
+		[...mediaQueriesMap.entries()].reverse(),
+	);
 
 	for (const [query, elementsMap] of reversedMediaQueriesMap) {
 		cssContent += `@media (${query}) {\n`;
@@ -446,3 +357,143 @@ function main() {
 }
 
 main();
+
+// functions hard modified from export to use in node.js environment
+function replacePlaceholdersCwrapIndex(jsonObj, index) {
+	const jsonString = JSON.stringify(jsonObj);
+	const replacedString = jsonString.replace(
+		new RegExp(`${"cwrapIndex"}(\\+\\d+)?`, "g"),
+		(match) => {
+			if (match === "cwrapIndex") {
+				return index;
+			}
+			const offset = Number.parseInt(match.replace("cwrapIndex", ""), 10);
+			return index + offset;
+		},
+	);
+	return JSON.parse(replacedString);
+}
+
+function replacePlaceholdersCwrapArray(jsonObj, index) {
+	const jsonString = JSON.stringify(jsonObj);
+
+	// Find all cwrapArray placeholders
+	const arrayMatches = jsonString.match(/cwrapArray\[(.*?)\]/g);
+	if (!arrayMatches) {
+		return jsonObj;
+	}
+
+	// Process each cwrapArray placeholder
+	let replacedString = jsonString;
+	for (const match of arrayMatches) {
+		const arrayString = match.match(/\[(.*?)\]/)[1];
+		const array = arrayString
+			.split(",")
+			.map((item) => item.trim().replace(/['"]/g, ""));
+		replacedString = replacedString.replace(
+			match,
+			array[index] !== undefined ? array[index] : "",
+		);
+	}
+
+	return JSON.parse(replacedString);
+}
+
+function generateCssSelector(
+	jsonObj,
+	parentSelector = "",
+	siblingCountMap = new Map(),
+) {
+	// Start with the parent selector
+	let selector = parentSelector;
+
+	if (jsonObj.element) {
+		const element = jsonObj.element;
+
+		// Initialize sibling count map for the parent selector if not already present
+		if (!siblingCountMap.has(parentSelector)) {
+			siblingCountMap.set(parentSelector, new Map());
+		}
+		const parentSiblingCount = siblingCountMap.get(parentSelector);
+
+		// Handle special elements like 'body', 'main', and 'footer'
+		if (element === "body" || element === "main" || element === "footer") {
+			selector += (parentSelector ? " > " : "") + element;
+		} else {
+			// Initialize sibling count for the element if not already present
+			if (!parentSiblingCount.has(element)) {
+				parentSiblingCount.set(element, 0);
+			}
+			// Increment the sibling count for the element
+			parentSiblingCount.set(element, parentSiblingCount.get(element) + 1);
+
+			// Append the element and its nth-of-type pseudo-class to the selector
+			selector += ` > ${element}:nth-of-type(${parentSiblingCount.get(
+				element,
+			)})`;
+		}
+		// Store the style in the cssMap if present in the JSON object
+		if (jsonObj.style && jsonObj.customTag !== "cwrapBlueprintCSS") {
+			cssMap.set(selector, jsonObj.style);
+		} else {
+			cssMap.set(selector, "");
+		}
+
+		// Handle extensions if present in the JSON object
+		if (Array.isArray(jsonObj.extend)) {
+			for (const extension of jsonObj.extend) {
+				// Generate the extended selector
+				const extendedSelector = `${selector}${extension.extension}`;
+				// Store the extended style in the cssMap
+				cssMap.set(extendedSelector, extension.style);
+			}
+		}
+
+		// Check if the JSON object has media queries
+		if (jsonObj.mediaQueries) {
+			// Iterate over each media query
+			for (const mediaQuery of jsonObj.mediaQueries) {
+				// Create a media query selector
+				const mediaQuerySelector = `${selector}`;
+				// Initialize the media query map if not already present
+				if (!mediaQueriesMap.has(mediaQuery.query)) {
+					mediaQueriesMap.set(mediaQuery.query, new Map());
+				}
+				// Store the media query style in the mediaQueriesMap
+				mediaQueriesMap
+					.get(mediaQuery.query)
+					.set(mediaQuerySelector, mediaQuery.style);
+			}
+		}
+
+		// Check if the JSON object has children elements
+		if (jsonObj.children) {
+			// Recursively generate CSS selectors for each child element
+			for (const child of jsonObj.children) {
+				generateCssSelector(child, selector, siblingCountMap);
+			}
+		}
+
+		// Handle blueprint property
+		if (jsonObj.blueprint) {
+			jsonObj.customTag = "cwrapBlueprintCSS";
+			const blueprint = jsonObj.blueprint;
+			for (let i = 0; i < blueprint.count; i++) {
+				const blueprintChild = JSON.parse(JSON.stringify(blueprint));
+				blueprintChild.element = blueprint.element;
+				blueprintChild.children = blueprint.children;
+				//blueprintChild.customTag = "cwrapBlueprintCSS"; //commenting this house fix the issue (not sure why) with the blueprint elements not being added to the cssMap on the first load
+				let cookedBLueprintChild = replacePlaceholdersCwrapIndex(
+					blueprintChild,
+					i,
+				);
+				cookedBLueprintChild = replacePlaceholdersCwrapArray(
+					cookedBLueprintChild,
+					i,
+				);
+
+				generateCssSelector(cookedBLueprintChild, selector, siblingCountMap);
+			}
+		}
+	}
+}
