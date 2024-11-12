@@ -74,6 +74,7 @@ export default function serializeElement(element) {
 	// Append media queries if they exist in the mediaQueriesMap
 	const mediaQueries = [];
 	for (const [query, elementsMap] of mediaQueriesMap.entries()) {
+		console.log(elementsMap);
 		if (elementsMap.has(selector)) {
 			mediaQueries.push({
 				query: query,

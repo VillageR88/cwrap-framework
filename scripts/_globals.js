@@ -249,15 +249,21 @@ const global = {
 			"mainStateStyleContextInfo",
 		),
 		mainTemplatesSelector: document.getElementById("mainTemplatesSelector"),
-		mainTemplatesSelectorAdd: document.getElementById("mainTemplatesSelectorAdd"),
-		mainTemplatesSelectorDelete: document.getElementById("mainTemplatesSelectorDelete"),
+		mainTemplatesSelectorAdd: document.getElementById(
+			"mainTemplatesSelectorAdd",
+		),
+		mainTemplatesSelectorDelete: document.getElementById(
+			"mainTemplatesSelectorDelete",
+		),
 		mainTemplatesSelectorInject: document.getElementById(
 			"mainTemplatesSelectorInject",
 		),
 		mainTemplatesSelectorOptions: document.getElementById(
 			"mainTemplatesSelectorOptions",
 		),
-		mainTemplatesSelectorParent: document.getElementById("mainTemplatesSelectorParent"),
+		mainTemplatesSelectorParent: document.getElementById(
+			"mainTemplatesSelectorParent",
+		),
 		mainTemplatesSelectorPreview: document.getElementById(
 			"mainTemplatesSelectorPreview",
 		),
@@ -599,9 +605,8 @@ const global = {
 		selectionColor: localStorage.getItem("selectionColor") || "red",
 	},
 };
-
-global.map.mediaQueriesMap.set("max-width: 640px", new Map());
 global.map.mediaQueriesMap.set("max-width: 768px", new Map());
+global.map.mediaQueriesMap.set("max-width: 640px", new Map());
 // global.map.classroomMap.set("cssMap", new Map());
 // global.map.classroomMap.set("mediaQueriesMap", new Map());
 // global.map.classroomMap
