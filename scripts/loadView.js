@@ -149,5 +149,14 @@ export function centralBarCleanup() {
 	global.id.mainBlueprintStyleSelector2.style.display = "none";
 	global.id.mainBlueprintStyleAdd.style.display = "none";
 	global.id.mainTemplatesSelector.style.display = "none";
+	cleanupPreviewEditor();
+}
 
+function cleanupPreviewEditor() {
+	const iframe = global.id.preview;
+	const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+	const previewWindow = iframeDoc.getElementById("cwrapPreviewWindow");
+			if (previewWindow) {
+				previewWindow.remove();
+			}
 }

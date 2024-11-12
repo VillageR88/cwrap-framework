@@ -2391,7 +2391,7 @@ export const eventHandlers = () => {
 		const selectedTemplate = templateSelect.value;
 		const template = global.map.templatesMap.get(selectedTemplate);
 		const templateElement = createElementFromJson(template);
-		const iframe = document.getElementById("preview");
+		const iframe = global.id.preview;
 		const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
 
 		// Apply styles from JSON directly to the element
@@ -2438,7 +2438,6 @@ export const eventHandlers = () => {
 		// Create a close button
 		const closeButton = document.createElement("button");
 		closeButton.textContent = "";
-		closeButton.style.display = "flex";
 		closeButton.style.position = "absolute";
 		closeButton.style.top = "0";
 		closeButton.style.right = "0";
@@ -2464,26 +2463,15 @@ export const eventHandlers = () => {
 		closeButton.style.pointerEvents = "auto";
 		closeButton.style.padding = "0";
 		closeButton.customTag = "cwrapPreviewCloseButton";
-		const svgIcon = document.createElementNS(
-			"http://www.w3.org/2000/svg",
-			"svg",
-		);
-		svgIcon.setAttribute("xmlns", "http://www.w3.org/2000/svg");
-		svgIcon.setAttribute("height", "24px");
-		svgIcon.setAttribute("viewBox", "0 -960 960 960");
-		svgIcon.setAttribute("width", "24px");
-		svgIcon.setAttribute("fill", "#e8eaed");
-		const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-		path.setAttribute(
-			"d",
-			"m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z",
-		);
-		svgIcon.appendChild(path);
-		closeButton.appendChild(svgIcon);
+		const svgIcon = `<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>`;
+		const svgDataUrl = `data:image/svg+xml;utf8,${encodeURIComponent(svgIcon)}`;
+		closeButton.style.backgroundImage = `url("${svgDataUrl}")`;
+		closeButton.style.backgroundSize = "24px 24px"; // Adjust size as needed
+		closeButton.style.backgroundRepeat = "no-repeat";
+		closeButton.style.backgroundPosition = "center";
 
 		closeButton.onclick = () => {
 			const previewWindow = iframeDoc.getElementById("cwrapPreviewWindow");
-			console.log(window.document.body);
 			if (previewWindow) {
 				previewWindow.remove();
 			}
