@@ -92,6 +92,53 @@ body > div#mask {
   z-index: 1;
 }
 
+.modal {
+  display: none;
+  /* display: flex; */
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.modal-content {
+  background-color: var(--colorBackground-lighter);
+  border-left: 2px solid var(--colorBorder-lighter);
+  border-top: 2px solid var(--colorBorder-lighter);
+  border-right: 2px solid var(--colorShadow-regular);
+  border-bottom: 2px solid var(--colorShadow-regular);
+  margin: 15% auto;
+  padding: 20px;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.modal-input {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-around;
+}
+
+.modal-buttons > button {
+  color: var(--colorText-primary);
+  padding-inline: 12px;
+}
+
 body > div#mask > div {
   display: none;
   padding: 24px;

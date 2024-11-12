@@ -2386,6 +2386,29 @@ export const eventHandlers = () => {
 			global.id.elementSelect.innerHTML;
 	});
 
+	function showModal(message, callback, defaultValue = "") {
+		const modal = document.getElementById("customModal");
+		const modalMessage = document.getElementById("modalMessage");
+		const modalInput = document.getElementById("modalInput");
+		const modalConfirm = document.getElementById("modalConfirm");
+		const modalCancel = document.getElementById("modalCancel");
+	
+		modalMessage.textContent = message;
+		modalInput.value = defaultValue;
+	
+		modal.style.display = "block";
+	
+		modalConfirm.onclick = () => {
+			modal.style.display = "none";
+			callback(modalInput.value);
+		};
+	
+		modalCancel.onclick = () => {
+			modal.style.display = "none";
+			callback(null);
+		};
+	}
+	
 	global.id.mainTemplatesSelectorAdd.addEventListener("click", () => {
 		const elementSelect = global.id.elementSelect;
 		const selectedElementPath = elementSelect.value;
@@ -2454,22 +2477,33 @@ export const eventHandlers = () => {
 			return template;
 		}
 	
+		// Create the template object from the selected element
 		const templateObject = createTemplateObject(selectedElement, true);
 	
+		// Prompt the user for a unique template name using the custom modal
+		function promptForTemplateName(defaultName, callback) {
+			showModal("Enter a name for the new template:", callback, defaultName);
+		}
+	
 		let templateName;
-		do {
-			templateName = prompt("Enter a name for the new template:", templateObject.name);
-			if (!templateName) {
+		function getTemplateName(name) {
+			if (!name) {
 				console.error("Template name is required");
 				return;
 			}
-			if (global.map.templatesMap.has(templateName)) {
+			if (global.map.templatesMap.has(name)) {
 				alert("Template name already exists. Please enter a different name.");
+				promptForTemplateName(templateObject.name, getTemplateName);
+			} else {
+				templateName = name;
+				templateObject.name = templateName;
+				global.map.templatesMap.set(templateName, templateObject);
+				console.log("Template added to templatesMap:", templateObject);
+				populateTemplatesSelect();
 			}
-		} while (global.map.templatesMap.has(templateName));
-		templateObject.name = templateName;
-		global.map.templatesMap.set(templateName, templateObject);
-		populateTemplatesSelect();
+		}
+	
+		promptForTemplateName(templateObject.name, getTemplateName);
 	});
 
 	global.id.mainTemplatesSelectorPreview.addEventListener("click", () => {
