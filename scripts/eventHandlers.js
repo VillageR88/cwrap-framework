@@ -2392,33 +2392,33 @@ export const eventHandlers = () => {
 		const modalInput = document.getElementById("modalInput");
 		const modalConfirm = document.getElementById("modalConfirm");
 		const modalCancel = document.getElementById("modalCancel");
-	
+
 		modalMessage.textContent = message;
 		modalInput.value = defaultValue;
-	
+
 		modal.style.display = "block";
-	
+
 		modalConfirm.onclick = () => {
 			modal.style.display = "none";
 			callback(modalInput.value);
 		};
-	
+
 		modalCancel.onclick = () => {
 			modal.style.display = "none";
 			callback(null);
 		};
 	}
-	
+
 	global.id.mainTemplatesSelectorAdd.addEventListener("click", () => {
 		const elementSelect = global.id.elementSelect;
 		const selectedElementPath = elementSelect.value;
-	
+
 		const selectedElement = getElementFromPath(selectedElementPath);
 		if (!selectedElement) {
 			console.error("Selected element not found");
 			return;
 		}
-	
+
 		// Function to create a selector for an element
 		function createSelector(element) {
 			if (element.id) {
@@ -2427,35 +2427,43 @@ export const eventHandlers = () => {
 			const parts = [];
 			let currentElement = element;
 			while (currentElement.parentElement) {
-				if (['body', 'main', 'footer'].includes(currentElement.tagName.toLowerCase())) {
+				if (
+					["body", "main", "footer"].includes(
+						currentElement.tagName.toLowerCase(),
+					)
+				) {
 					parts.unshift(currentElement.tagName.toLowerCase());
 				} else {
-					const siblings = Array.from(currentElement.parentElement.children).filter(e => e.tagName === currentElement.tagName);
+					const siblings = Array.from(
+						currentElement.parentElement.children,
+					).filter((e) => e.tagName === currentElement.tagName);
 					const index = siblings.indexOf(currentElement) + 1;
-					parts.unshift(`${currentElement.tagName.toLowerCase()}:nth-of-type(${index})`);
+					parts.unshift(
+						`${currentElement.tagName.toLowerCase()}:nth-of-type(${index})`,
+					);
 				}
 				currentElement = currentElement.parentElement;
 			}
 			return parts.join(" > ");
 		}
-	
+
 		// Function to create a template object from an element
 		function createTemplateObject(element, isRoot = false) {
 			const template = {
 				element: element.tagName.toLowerCase(),
 			};
-	
+
 			if (isRoot) {
 				template.name = element.tagName.toLowerCase();
 			}
-	
+
 			// Construct the selector for the current element
 			const selector = createSelector(element);
 			const style = global.map.cssMap.get(selector);
 			if (style) {
 				template.style = style;
 			}
-	
+
 			const attributes = {};
 			for (const attr of element.attributes) {
 				attributes[attr.name] = attr.value;
@@ -2463,28 +2471,34 @@ export const eventHandlers = () => {
 			if (Object.keys(attributes).length > 0) {
 				template.attributes = attributes;
 			}
-	
-			const text = element.childNodes.length === 1 && element.childNodes[0].nodeType === Node.TEXT_NODE ? element.textContent.trim() : "";
+
+			const text =
+				element.childNodes.length === 1 &&
+				element.childNodes[0].nodeType === Node.TEXT_NODE
+					? element.textContent.trim()
+					: "";
 			if (text) {
 				template.text = text;
 			}
-	
-			const children = Array.from(element.children).map(child => createTemplateObject(child));
+
+			const children = Array.from(element.children).map((child) =>
+				createTemplateObject(child),
+			);
 			if (children.length > 0) {
 				template.children = children;
 			}
-	
+
 			return template;
 		}
-	
+
 		// Create the template object from the selected element
 		const templateObject = createTemplateObject(selectedElement, true);
-	
+
 		// Prompt the user for a unique template name using the custom modal
 		function promptForTemplateName(defaultName, callback) {
 			showModal("Enter a name for the new template:", callback, defaultName);
 		}
-	
+
 		let templateName;
 		function getTemplateName(name) {
 			if (!name) {
@@ -2502,7 +2516,7 @@ export const eventHandlers = () => {
 				populateTemplatesSelect();
 			}
 		}
-	
+
 		promptForTemplateName(templateObject.name, getTemplateName);
 	});
 
@@ -2602,6 +2616,13 @@ export const eventHandlers = () => {
 			}
 		};
 		intermediateDiv.appendChild(closeButton);
+	});
+
+	global.id.mainTemplatesSelectorDelete.addEventListener("click", () => {
+		const templateSelect = global.id.mainTemplatesSelectorOptions;
+		const selectedTemplate = templateSelect.value;
+		global.map.templatesMap.delete(selectedTemplate);
+		populateTemplatesSelect();
 	});
 
 	global.id.mainClassroomSelectorSelectType.addEventListener("change", () => {

@@ -250,6 +250,7 @@ const global = {
 		),
 		mainTemplatesSelector: document.getElementById("mainTemplatesSelector"),
 		mainTemplatesSelectorAdd: document.getElementById("mainTemplatesSelectorAdd"),
+		mainTemplatesSelectorDelete: document.getElementById("mainTemplatesSelectorDelete"),
 		mainTemplatesSelectorInject: document.getElementById(
 			"mainTemplatesSelectorInject",
 		),
