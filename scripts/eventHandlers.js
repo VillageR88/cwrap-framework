@@ -2271,6 +2271,7 @@ export const eventHandlers = () => {
 		global.id.mainTemplatesSelector.style.display = "flex";
 		global.id.mainTemplatesSelectorParent.innerHTML =
 			global.id.elementSelect.innerHTML;
+		validatePreviewTemplates();
 	});
 
 	global.id.mainTemplatesSelectorInject.addEventListener("click", () => {
@@ -2514,11 +2515,20 @@ export const eventHandlers = () => {
 				global.map.templatesMap.set(templateName, templateObject);
 				console.log("Template added to templatesMap:", templateObject);
 				populateTemplatesSelect();
+				validatePreviewTemplates();
 			}
 		}
 
 		promptForTemplateName(templateObject.name, getTemplateName);
 	});
+
+	function validatePreviewTemplates() {
+		if (global.id.mainTemplatesSelectorOptions.value === "") {
+			global.id.mainTemplatesSelectorPreview.disabled = true;
+		} else {
+			global.id.mainTemplatesSelectorPreview.disabled = false;
+		}
+	}
 
 	global.id.mainTemplatesSelectorPreview.addEventListener("click", () => {
 		const templateSelect = global.id.mainTemplatesSelectorOptions;
@@ -2527,11 +2537,14 @@ export const eventHandlers = () => {
 		const templateElement = createElementFromJson(template);
 		const iframe = global.id.preview;
 		const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-		//if  		cwrapPreviewWindow already exists, remove it
 		const previewWindow = iframeDoc.getElementById("cwrapPreviewWindow");
 		if (previewWindow) {
 			previewWindow.remove();
 		}
+		global.id.leftSide.style.display = "none";
+		global.id.mainTemplatesSelectorParent.disabled = true;
+		global.id.mainTemplatesSelectorAdd.disabled = true;
+		global.id.mainTemplatesSelectorInject.disabled = true;
 
 		// Apply styles from JSON directly to the element
 		function applyStylesFromJson(element, jsonObj) {
@@ -2547,7 +2560,7 @@ export const eventHandlers = () => {
 		}
 
 		const intermediateDiv = document.createElement("div");
-		intermediateDiv.style.position = "absolute";
+		intermediateDiv.style.position = "fixed";
 		intermediateDiv.style.top = "0";
 		intermediateDiv.style.left = "0";
 		intermediateDiv.style.width = "100%";
@@ -2561,9 +2574,9 @@ export const eventHandlers = () => {
 
 		// Append the template element to the intermediate div
 		const intermediateDiv2 = document.createElement("div");
-		intermediateDiv2.style.position = "relative";
 		intermediateDiv2.style.width = "fit-content";
 		intermediateDiv2.style.height = "fit-content";
+		intermediateDiv2.style.overflow = "auto";
 		intermediateDiv2.style.backgroundColor = "rgba(0, 0, 0, 0.80)";
 		intermediateDiv2.style.padding = "2rem";
 		intermediateDiv2.style.borderRadius = "0.5rem";
@@ -2613,6 +2626,10 @@ export const eventHandlers = () => {
 			const previewWindow = iframeDoc.getElementById("cwrapPreviewWindow");
 			if (previewWindow) {
 				previewWindow.remove();
+				global.id.leftSide.removeAttribute("style");
+				global.id.mainTemplatesSelectorParent.disabled = false;
+				global.id.mainTemplatesSelectorAdd.disabled = false;
+				global.id.mainTemplatesSelectorInject.disabled = false;
 			}
 		};
 		intermediateDiv.appendChild(closeButton);
@@ -2621,8 +2638,32 @@ export const eventHandlers = () => {
 	global.id.mainTemplatesSelectorDelete.addEventListener("click", () => {
 		const templateSelect = global.id.mainTemplatesSelectorOptions;
 		const selectedTemplate = templateSelect.value;
+		const iframe = global.id.preview;
+		const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+		const previewWindow = iframeDoc.getElementById("cwrapPreviewWindow");
 		global.map.templatesMap.delete(selectedTemplate);
 		populateTemplatesSelect();
+		if (previewWindow) {
+			if (!global.id.mainTemplatesSelectorOptions.value) {
+				previewWindow.remove();
+				global.id.leftSide.removeAttribute("style");
+				global.id.mainTemplatesSelectorParent.disabled = false;
+				global.id.mainTemplatesSelectorAdd.disabled = false;
+				global.id.mainTemplatesSelectorInject.disabled = false;
+				return;
+			}
+			global.id.mainTemplatesSelectorPreview.click();
+		}
+		validatePreviewTemplates();
+	});
+
+	global.id.mainTemplatesSelectorOptions.addEventListener("change", () => {
+		const iframe = global.id.preview;
+		const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+		const previewWindow = iframeDoc.getElementById("cwrapPreviewWindow");
+		if (previewWindow) {
+			global.id.mainTemplatesSelectorPreview.click();
+		}
 	});
 
 	global.id.mainClassroomSelectorSelectType.addEventListener("change", () => {
