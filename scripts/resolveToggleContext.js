@@ -23,11 +23,14 @@ export default function resolveToggleContext(
 		selectStateOfContext.style.display = "flex";
 		selectContext.style.display = "flex";
 		selectContextHighlight.style.display = "flex";
-		console.log("mapContextual", mapContextual);
 		if (mapContextual) populateContextSelectAll(mapContextual, isBlueprint);
 	} else {
 		selectStateOfContext.style.display = "none";
 		selectContext.style.display = "none";
 		selectContextHighlight.style.display = "none";
+	}
+	if (stateSelectAllValue === "custom") {
+	//TODO
+	console.log("custom");
 	}
 }

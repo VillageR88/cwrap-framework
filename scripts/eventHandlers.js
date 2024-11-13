@@ -1398,6 +1398,7 @@ export const eventHandlers = () => {
 
   global.id.openAddState.addEventListener("click", () => {
     populateStateSelectAllOptions();
+    global.id.stateSelectAll.value = "hover";
     global.id.mainStateSelector.style.display = "none";
     global.id.mainStateAdd.style.display = "flex";
     global.id.mainStateStyleContextInfo.style.display = "none";
@@ -2102,9 +2103,11 @@ export const eventHandlers = () => {
     if (currentScreen === "screenDesktop") {
       currentStyle = cssMap.get(fullPath) || "";
     } else if (currentScreen === "screenTablet") {
-      currentStyle = mediaQueriesMap.get("max-width: 768px")?.get(fullPath) || "";
+      currentStyle =
+        mediaQueriesMap.get("max-width: 768px")?.get(fullPath) || "";
     } else if (currentScreen === "screenMobile") {
-      currentStyle = mediaQueriesMap.get("max-width: 640px")?.get(fullPath) || "";
+      currentStyle =
+        mediaQueriesMap.get("max-width: 640px")?.get(fullPath) || "";
     }
     const styleProperties = currentStyle
       .split(";")
@@ -3935,91 +3938,128 @@ export const eventHandlers = () => {
   }
 
   global.id.treeViewEdit.addEventListener("change", () => {
-    const selectedElementPath = document
-      .getElementById("treeView")
-      .querySelector(".cwrapHighlight").value;
+    console.log(global.id.treeViewEdit.value);
+    const treeViewEditValue = global.id.treeViewEdit.value;
     /** @type {Element} */
-    const selectedElement = getElementFromPath(selectedElementPath);
-    const newType = global.id.treeViewEdit.value;
+    const currentElement = getElementFromPath(global.id.elementSelect.value);
 
-    if (selectedElement && newType) {
-      const newElement = document.createElement(newType);
+    // Fail-safe 1: If the element you want to change is already that tag, return and don't do anything
+    if (currentElement.tagName.toLowerCase() === treeViewEditValue.toLowerCase()) {
+        console.log("Element is already of the specified tag. No changes made.");
+        return;
+    }
 
-      // Copy attributes from the old element to the new element
-      for (const attr of selectedElement.attributes) {
-        newElement.setAttribute(attr.name, attr.value);
-      }
+    const parentOfCurrentElement = currentElement.parentElement;
+    const countNumberOfDirectChildrenContainingCurrentElementTag = Array.from(
+      parentOfCurrentElement.children
+    ).filter((child) => child.tagName.toLowerCase() === treeViewEditValue).length + 1; // Increment by 1 to get the correct nth-of-type index
+    console.log("Count Number of Direct Children Containing Current Element Tag:", countNumberOfDirectChildrenContainingCurrentElementTag);
+    console.log(parentOfCurrentElement);
+    const selectedElementPath = global.id.elementSelect.value;
+    const selectedElementPathArray = selectedElementPath.split(" > ");
+    console.log("Selected Element Path Array:", selectedElementPathArray);
+    const selectedElement = selectedElementPathArray[selectedElementPathArray.length - 1];
+    console.log("Selected Element:", selectedElement);
+    const selectedElementBeforeNthPart = selectedElement.split(":nth-of-type")[0];
+    console.log("Selected Element Before nth-of-type:", selectedElementBeforeNthPart);
 
-      // Move children from the old element to the new element
-      while (selectedElement.firstChild) {
-        newElement.appendChild(selectedElement.firstChild);
-      }
-      newElement.customTag = selectedElement.customTag;
+    // Fail-safe 2: If the element is like main, footer, or nav, it does not have nth-of-type because they are unique
+    const uniqueTags = ["main", "footer", "nav"];
+    let newElementPath;
+    if (uniqueTags.includes(treeViewEditValue.toLowerCase())) {
+        newElementPath = selectedElementPath.replace(selectedElement, treeViewEditValue);
+    } else {
+        newElementPath = selectedElementPath.replace(selectedElement, `${treeViewEditValue}:nth-of-type(${countNumberOfDirectChildrenContainingCurrentElementTag})`);
+    }
+    console.log("New Element Path:", newElementPath);
 
-      // Replace the old element with the new element
-      const parent = selectedElement.parentNode;
-      if (parent) {
-        parent.replaceChild(newElement, selectedElement);
+    // Replace the old element with the new element in the DOM
+    if (currentElement && treeViewEditValue) {
+        const newElement = document.createElement(treeViewEditValue);
 
-        // Optionally, reapply the 'cwrapHighlight' class to the new element
-        newElement.classList.add("cwrapHighlight");
+        // Copy attributes from the old element to the new element
+        for (const attr of currentElement.attributes) {
+            newElement.setAttribute(attr.name, attr.value);
+        }
 
-        // Function to get the nth-of-type index
-        const getNthOfTypeIndex = (element, newType) => {
-          let index = 1;
-          let sibling = element.previousElementSibling;
-          while (sibling) {
-            if (sibling.tagName.toLowerCase() === newType.toLowerCase()) {
-              index++;
-            }
-            sibling = sibling.previousElementSibling;
-          }
-          return index;
-        };
+        // Move children from the old element to the new element
+        while (currentElement.firstChild) {
+            newElement.appendChild(currentElement.firstChild);
+        }
+        newElement.customTag = currentElement.customTag;
 
-        // Function to update selectors
-        const updateSelectors = (map) => {
-          for (const [key, value] of map) {
-            if (key.includes(selectedElementPath)) {
-              const parts = key.split(">");
-              for (let i = 0; i < parts.length; i++) {
-                if (parts[i].trim() === selectedElement.tagName.toLowerCase()) {
-                  const nthOfTypeIndex = getNthOfTypeIndex(newElement, newType);
-                  parts[i] = ` ${newType}:nth-of-type(${nthOfTypeIndex}) `;
+        // Replace the old element with the new element
+        const parent = currentElement.parentNode;
+        if (parent) {
+            parent.replaceChild(newElement, currentElement);
+
+            // Optionally, reapply the 'cwrapHighlight' class to the new element
+            //newElement.classList.add("cwrapHighlight");
+        }
+    }
+
+    /** @type {Map <string,string>} */
+    const cssMap = global.map.cssMap;
+    console.log("Selected Element Path:", selectedElementPath);
+
+    // Create a new Map to preserve the order
+    const updatedCssMap = new Map();
+
+        // Update media queries
+        const mediaQueriesMap = global.map.mediaQueriesMap;
+        console.log("Updating Media Queries Map");
+    
+        for (const [query, elementsMap] of mediaQueriesMap) {
+            const updatedElementsMap = new Map();
+            for (const [key, value] of elementsMap) {
+                if (key.includes(selectedElementPath)) {
+                  const newKey = key.replace(selectedElementPath, newElementPath);
+                    updatedElementsMap.set(newKey, value);
+                    console.log("Updated Media Query Key:", newKey);
+    
+                    // Update the corresponding option in elementSelect
+                    const option = document.querySelector(`#elementSelect option[value="${key}"]`);
+                    if (option) {
+                        option.value = newKey;
+                        option.textContent = newKey;
+                        console.log("Updated elementSelect Option:", option);
+                    }
+                } else {
+                    updatedElementsMap.set(key, value);
                 }
-              }
-              const newKey = parts.join(">");
-              map.set(newKey, value);
-              map.delete(key);
+            }
+            mediaQueriesMap.set(query, updatedElementsMap);
+        }
 
-              // Update the corresponding option in elementSelect
-              const option = document.querySelector(
-                `#elementSelect option[value="${key}"]`
-              );
-              if (option) {
+    for (const [key, value] of cssMap) {
+        if (key.includes(selectedElementPath)) {
+            const newKey = key.replace(selectedElementPath, newElementPath);
+            updatedCssMap.set(newKey, value);
+            console.log("Updated CSS Map Key:", newKey);
+
+            // Update the corresponding option in elementSelect
+            const option = document.querySelector(`#elementSelect option[value="${key}"]`);
+            if (option) {
                 option.value = newKey;
                 option.textContent = newKey;
-              }
+                console.log("Updated elementSelect Option:", option);
             }
-          }
-        };
-
-        // Update CSS selectors in cssMap
-        updateSelectors(global.map.cssMap);
-
-        // Update CSS selectors in mediaQueriesMap
-        for (const [query, elementsMap] of global.map.mediaQueriesMap) {
-          updateSelectors(elementsMap);
+        } else {
+            updatedCssMap.set(key, value);
         }
-      }
     }
+
+    // Replace the old cssMap with the updated one
+    global.map.cssMap = updatedCssMap;
+    console.log("CSS Map:", global.map.cssMap);
+
+
 
     applyStyles();
     populateTreeView();
     highlightSelectedElement();
-
-    global.id.treeViewEdit.value = "";
-  });
+});
+  console.log("CSS Map:", global.map.cssMap);
 
   global.id.treeViewMoveUp.addEventListener("click", () => {
     moveTreeViewElement("up");
