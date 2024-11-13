@@ -16,6 +16,7 @@ export default function loadTemplatesSource() {
             }
         })
         .catch((error) => {
-            console.error("Error loading templates source:", error);
+            console.warn("No templates source found, creating an empty map");
+            templatesMap.clear();
         });
 }
