@@ -175,6 +175,7 @@ export const eventHandlers = () => {
     // global.id.mainInitialSelector.style.display = "none";
     global.id.selectedElementHighlight.style.display = "none";
     populateTreeView();
+    populateElementSelectAll(global.id.treeViewEdit);
     highlightSelectedElement();
     resolveNavSelectPreview(); //TODO: estimate is it needed
   });

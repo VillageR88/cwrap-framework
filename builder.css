@@ -364,11 +364,17 @@ body > main > #previewTree {
 
 body > main > #previewTree > div:nth-of-type(2) {
   padding: 20px 24px;
-  flex-direction: column;
-  gap: 2px;
   position: fixed;
+  display: flex;
+  flex-direction: row;
   align-self: flex-end;
+  gap: 2px;
 }
+
+body > main > #previewTree > div:nth-of-type(2) > div {
+  gap: 2px;
+}
+
 body > main:has(#routesTree[style="display: flex;"]),
 body > main:has(#settingsTree[style="display: flex;"]),
 body > main:has(#themesTree[style="display: flex;"]) {
@@ -755,7 +761,8 @@ body
   > div
   > div
   > div#mainTemplatesSelector
-  select#mainTemplatesSelectorParent {
+  select#mainTemplatesSelectorParent,
+body > main > div > div > div > select#treeViewEdit {
   width: 45px;
   height: 40px;
   border-radius: 6px;
@@ -782,7 +789,8 @@ body
   > div
   > div#mainStyleSelector2
   > select
-  > option {
+  > option,
+body > main > div > div > div > select#treeViewEdit > option {
   color: var(--colorFill-regular);
 }
 
