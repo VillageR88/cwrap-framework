@@ -2097,7 +2097,15 @@ export const eventHandlers = () => {
     const propertySelect = global.id.propertySelect;
     let styleSpan = global.variable.style;
     const selectedProperty = propertySelect.value;
-    const currentStyle = cssMap.get(fullPath) || "";
+    const currentScreen = getCurrentScreen(global.id.navAdditionalScreen);
+    let currentStyle;
+    if (currentScreen === "screenDesktop") {
+      currentStyle = cssMap.get(fullPath) || "";
+    } else if (currentScreen === "screenTablet") {
+      currentStyle = mediaQueriesMap.get("max-width: 768px")?.get(fullPath) || "";
+    } else if (currentScreen === "screenMobile") {
+      currentStyle = mediaQueriesMap.get("max-width: 640px")?.get(fullPath) || "";
+    }
     const styleProperties = currentStyle
       .split(";")
       .map((prop) => prop.trim())
@@ -2106,8 +2114,6 @@ export const eventHandlers = () => {
       .filter((prop) => !prop.startsWith(selectedProperty))
       .join("; ")
       .concat(";");
-
-    const currentScreen = getCurrentScreen(global.id.navAdditionalScreen);
 
     if (currentScreen === "screenDesktop") {
       cssMap.set(fullPath, newStyle);
@@ -2119,7 +2125,7 @@ export const eventHandlers = () => {
       mediaQueries.set(fullPath, newStyle);
     }
 
-    applyStyles(rootMap, cssMap, mediaQueriesMap);
+    applyStyles();
     styleSpan = newStyle;
     updatePropertySelectOptions();
   });
@@ -3018,19 +3024,19 @@ export const eventHandlers = () => {
     const className = global.id.mainAddClassroomSelectorInputName.value;
     const ok = classNameRegex.test(className);
     if (ok) {
-        global.id.mainAddClassroomSelectorAdd.removeAttribute("disabled");
-        global.id.mainAddClassroomSelectorAdd.title = "add tag";
-        global.id.mainAddClassroomSelectorInputName.classList.remove("error");
+      global.id.mainAddClassroomSelectorAdd.removeAttribute("disabled");
+      global.id.mainAddClassroomSelectorAdd.title = "add tag";
+      global.id.mainAddClassroomSelectorInputName.classList.remove("error");
     } else {
-        global.id.mainAddClassroomSelectorAdd.setAttribute("disabled", true);
-        global.id.mainAddClassroomSelectorAdd.title = "invalid tag";
-        if (global.id.mainAddClassroomSelectorInputName.value !== "") {
-            global.id.mainAddClassroomSelectorInputName.classList.add("error");
-        } else {
-            global.id.mainAddClassroomSelectorInputName.classList.remove("error");
-        }
+      global.id.mainAddClassroomSelectorAdd.setAttribute("disabled", true);
+      global.id.mainAddClassroomSelectorAdd.title = "invalid tag";
+      if (global.id.mainAddClassroomSelectorInputName.value !== "") {
+        global.id.mainAddClassroomSelectorInputName.classList.add("error");
+      } else {
+        global.id.mainAddClassroomSelectorInputName.classList.remove("error");
+      }
     }
-}
+  }
 
   global.id.mainAddClassroomSelectorAdd.addEventListener("click", () => {
     if (global.id.mainAddClassroomSelectorInputName.value === "") return;
