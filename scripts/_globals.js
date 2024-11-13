@@ -36,6 +36,7 @@ const global = {
 		),
 		blueprintPropertySelect: document.getElementById("blueprintPropertySelect"),
 		blueprintSelect: document.getElementById("blueprintSelect"),
+		classroomExtensionInput: document.getElementById("classroomExtensionInput"),
 		classroomPropertySelect: document.getElementById("classroomPropertySelect"),
 		classroomPropertyInput: document.getElementById("classroomPropertyInput"),
 		mainClassroomSelectorDelete: document.getElementById(

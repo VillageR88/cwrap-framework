@@ -2994,7 +2994,7 @@ export const eventHandlers = () => {
     global.id.mainClassroomSelector.style.display = "none";
     global.id.mainAddClassroomSelector.style.display = "flex";
     global.id.mainAddClassroomSelectorSelectType.innerHTML = "Add Classroom";
-    const options = ["element", "id", "class", "pseudo :", "pseudo ::"];
+    const options = ["element", "id", "class", "pseudo:", "pseudo::"];
     for (const option of options) {
       const opt = document.createElement("option");
       opt.value = option;
@@ -3014,30 +3014,33 @@ export const eventHandlers = () => {
   });
 
   function isValidCSSClassName() {
-    const classNameRegex = /^[a-zA-Z_-][a-zA-Z0-9_-]*$/;
+    const classNameRegex = /^(?:\*|[a-zA-Z_-])[a-zA-Z0-9_-]*$/;
     const className = global.id.mainAddClassroomSelectorInputName.value;
     const ok = classNameRegex.test(className);
     if (ok) {
-      global.id.mainAddClassroomSelectorAdd.removeAttribute("disabled");
-      global.id.mainAddClassroomSelectorAdd.title = "add tag";
-      global.id.mainAddClassroomSelectorInputName.classList.remove("error");
-    } else {
-      global.id.mainAddClassroomSelectorAdd.setAttribute("disabled", true);
-      global.id.mainAddClassroomSelectorAdd.title = "invalid tag";
-      if (global.id.mainAddClassroomSelectorInputName.value !== "") {
-        global.id.mainAddClassroomSelectorInputName.classList.add("error");
-      } else {
+        global.id.mainAddClassroomSelectorAdd.removeAttribute("disabled");
+        global.id.mainAddClassroomSelectorAdd.title = "add tag";
         global.id.mainAddClassroomSelectorInputName.classList.remove("error");
-      }
+    } else {
+        global.id.mainAddClassroomSelectorAdd.setAttribute("disabled", true);
+        global.id.mainAddClassroomSelectorAdd.title = "invalid tag";
+        if (global.id.mainAddClassroomSelectorInputName.value !== "") {
+            global.id.mainAddClassroomSelectorInputName.classList.add("error");
+        } else {
+            global.id.mainAddClassroomSelectorInputName.classList.remove("error");
+        }
     }
-  }
+}
 
   global.id.mainAddClassroomSelectorAdd.addEventListener("click", () => {
+    if (global.id.mainAddClassroomSelectorInputName.value === "") return;
     const classroomMap = global.map.classroomMap;
     const selectedType = global.id.mainAddClassroomSelectorSelectType.value;
-    const selectedName = global.id.mainAddClassroomSelectorInputName.value;
+    const selectedName =
+      global.id.mainAddClassroomSelectorInputName.value +
+      global.id.classroomExtensionInput.value;
     const newClassroom = {
-      name: selectedName,
+      name: selectedName.trim(),
       type: selectedType,
       style: "",
     };
@@ -3927,80 +3930,82 @@ export const eventHandlers = () => {
 
   global.id.treeViewEdit.addEventListener("change", () => {
     const selectedElementPath = document
-        .getElementById("treeView")
-        .querySelector(".cwrapHighlight").value;
+      .getElementById("treeView")
+      .querySelector(".cwrapHighlight").value;
     /** @type {Element} */
     const selectedElement = getElementFromPath(selectedElementPath);
     const newType = global.id.treeViewEdit.value;
 
     if (selectedElement && newType) {
-        const newElement = document.createElement(newType);
+      const newElement = document.createElement(newType);
 
-        // Copy attributes from the old element to the new element
-        for (const attr of selectedElement.attributes) {
-            newElement.setAttribute(attr.name, attr.value);
-        }
+      // Copy attributes from the old element to the new element
+      for (const attr of selectedElement.attributes) {
+        newElement.setAttribute(attr.name, attr.value);
+      }
 
-        // Move children from the old element to the new element
-        while (selectedElement.firstChild) {
-            newElement.appendChild(selectedElement.firstChild);
-        }
-        newElement.customTag = selectedElement.customTag;
+      // Move children from the old element to the new element
+      while (selectedElement.firstChild) {
+        newElement.appendChild(selectedElement.firstChild);
+      }
+      newElement.customTag = selectedElement.customTag;
 
-        // Replace the old element with the new element
-        const parent = selectedElement.parentNode;
-        if (parent) {
-            parent.replaceChild(newElement, selectedElement);
+      // Replace the old element with the new element
+      const parent = selectedElement.parentNode;
+      if (parent) {
+        parent.replaceChild(newElement, selectedElement);
 
-            // Optionally, reapply the 'cwrapHighlight' class to the new element
-            newElement.classList.add("cwrapHighlight");
+        // Optionally, reapply the 'cwrapHighlight' class to the new element
+        newElement.classList.add("cwrapHighlight");
 
-            // Function to get the nth-of-type index
-            const getNthOfTypeIndex = (element, newType) => {
-                let index = 1;
-                let sibling = element.previousElementSibling;
-                while (sibling) {
-                    if (sibling.tagName.toLowerCase() === newType.toLowerCase()) {
-                        index++;
-                    }
-                    sibling = sibling.previousElementSibling;
-                }
-                return index;
-            };
-
-            // Function to update selectors
-            const updateSelectors = (map) => {
-                for (const [key, value] of map) {
-                    if (key.includes(selectedElementPath)) {
-                        const parts = key.split(">");
-                        for (let i = 0; i < parts.length; i++) {
-                            if (parts[i].trim() === selectedElement.tagName.toLowerCase()) {
-                                const nthOfTypeIndex = getNthOfTypeIndex(newElement, newType);
-                                parts[i] = ` ${newType}:nth-of-type(${nthOfTypeIndex}) `;
-                            }
-                        }
-                        const newKey = parts.join(">");
-                        map.set(newKey, value);
-                        map.delete(key);
-
-                        // Update the corresponding option in elementSelect
-                        const option = document.querySelector(`#elementSelect option[value="${key}"]`);
-                        if (option) {
-                            option.value = newKey;
-                            option.textContent = newKey;
-                        }
-                    }
-                }
-            };
-
-            // Update CSS selectors in cssMap
-            updateSelectors(global.map.cssMap);
-
-            // Update CSS selectors in mediaQueriesMap
-            for (const [query, elementsMap] of global.map.mediaQueriesMap) {
-                updateSelectors(elementsMap);
+        // Function to get the nth-of-type index
+        const getNthOfTypeIndex = (element, newType) => {
+          let index = 1;
+          let sibling = element.previousElementSibling;
+          while (sibling) {
+            if (sibling.tagName.toLowerCase() === newType.toLowerCase()) {
+              index++;
             }
+            sibling = sibling.previousElementSibling;
+          }
+          return index;
+        };
+
+        // Function to update selectors
+        const updateSelectors = (map) => {
+          for (const [key, value] of map) {
+            if (key.includes(selectedElementPath)) {
+              const parts = key.split(">");
+              for (let i = 0; i < parts.length; i++) {
+                if (parts[i].trim() === selectedElement.tagName.toLowerCase()) {
+                  const nthOfTypeIndex = getNthOfTypeIndex(newElement, newType);
+                  parts[i] = ` ${newType}:nth-of-type(${nthOfTypeIndex}) `;
+                }
+              }
+              const newKey = parts.join(">");
+              map.set(newKey, value);
+              map.delete(key);
+
+              // Update the corresponding option in elementSelect
+              const option = document.querySelector(
+                `#elementSelect option[value="${key}"]`
+              );
+              if (option) {
+                option.value = newKey;
+                option.textContent = newKey;
+              }
+            }
+          }
+        };
+
+        // Update CSS selectors in cssMap
+        updateSelectors(global.map.cssMap);
+
+        // Update CSS selectors in mediaQueriesMap
+        for (const [query, elementsMap] of global.map.mediaQueriesMap) {
+          updateSelectors(elementsMap);
         }
+      }
     }
 
     applyStyles();
@@ -4008,7 +4013,7 @@ export const eventHandlers = () => {
     highlightSelectedElement();
 
     global.id.treeViewEdit.value = "";
-});
+  });
 
   global.id.treeViewMoveUp.addEventListener("click", () => {
     moveTreeViewElement("up");
