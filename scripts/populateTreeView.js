@@ -16,7 +16,7 @@ export default function populateTreeView() {
     // Function to create tree structure recursively
     function createTree(element, parentListItem) {
         if (
-            element.customTag === "cwrapBlueprintContainer" ||
+            element.customTag === "cwrapBlueprint" ||
             element.customTag === "cwrapTempScript"
         )
             return null;
@@ -24,7 +24,7 @@ export default function populateTreeView() {
             const subList = document.createElement("ul");
             for (const child of element.children) {
                 if (
-                    child.customTag === "cwrapBlueprintContainer" ||
+                    child.customTag === "cwrapBlueprint" ||
                     child.customTag === "cwrapTempScript"
                 )
                     continue;

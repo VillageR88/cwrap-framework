@@ -3924,6 +3924,88 @@ export const eventHandlers = () => {
     populateSelectOptions();
   }
 
+  global.id.treeViewEdit.addEventListener("change", () => {
+    const selectedElementPath = document
+        .getElementById("treeView")
+        .querySelector(".cwrapHighlight").value;
+    /** @type {Element} */
+    const selectedElement = getElementFromPath(selectedElementPath);
+    const newType = global.id.treeViewEdit.value;
+
+    if (selectedElement && newType) {
+        const newElement = document.createElement(newType);
+
+        // Copy attributes from the old element to the new element
+        for (const attr of selectedElement.attributes) {
+            newElement.setAttribute(attr.name, attr.value);
+        }
+
+        // Move children from the old element to the new element
+        while (selectedElement.firstChild) {
+            newElement.appendChild(selectedElement.firstChild);
+        }
+        newElement.customTag = selectedElement.customTag;
+
+        // Replace the old element with the new element
+        selectedElement.parentNode.replaceChild(newElement, selectedElement);
+
+        // Optionally, reapply the 'cwrapHighlight' class to the new element
+        newElement.classList.add("cwrapHighlight");
+
+        // Update CSS selectors in cssMap
+        for (const [key, value] of global.map.cssMap) {
+            if (key.includes(selectedElementPath)) {
+                const parts = key.split(">");
+                for (let i = 0; i < parts.length; i++) {
+                    if (parts[i].trim() === selectedElement.tagName.toLowerCase()) {
+                        parts[i] = " " + newType + " ";
+                    }
+                }
+                const newKey = parts.join(">");
+                global.map.cssMap.set(newKey, value);
+                global.map.cssMap.delete(key);
+
+                // Update the corresponding option in elementSelect
+                const option = document.querySelector(`#elementSelect option[value="${key}"]`);
+                if (option) {
+                    option.value = newKey;
+                    option.textContent = newKey;
+                }
+            }
+        }
+
+        // Update CSS selectors in mediaQueriesMap
+        for (const [query, elementsMap] of global.map.mediaQueriesMap) {
+            for (const [key, value] of elementsMap) {
+                if (key.includes(selectedElementPath)) {
+                    const parts = key.split(">");
+                    for (let i = 0; i < parts.length; i++) {
+                        if (parts[i].trim() === selectedElement.tagName.toLowerCase()) {
+                            parts[i] = " " + newType + " ";
+                        }
+                    }
+                    const newKey = parts.join(">");
+                    elementsMap.set(newKey, value);
+                    elementsMap.delete(key);
+
+                    // Update the corresponding option in elementSelect
+                    const option = document.querySelector(`#elementSelect option[value="${key}"]`);
+                    if (option) {
+                        option.value = newKey;
+                        option.textContent = newKey;
+                    }
+                }
+            }
+        }
+    }
+
+    applyStyles();
+    populateTreeView();
+    highlightSelectedElement();
+
+    global.id.treeViewEdit.value = "";
+});
+
   global.id.treeViewMoveUp.addEventListener("click", () => {
     moveTreeViewElement("up");
   });
@@ -3932,9 +4014,7 @@ export const eventHandlers = () => {
     moveTreeViewElement("down");
   });
 };
-// populateRoutesView();
-// loadMenuLevelView();
-// loadRoutesView();
+
 if (new URLSearchParams(window.location.search).has("param")) {
   const param = new URLSearchParams(window.location.search).get("param");
   //TODO Refractor code to not use LoadBodyView() before any view
