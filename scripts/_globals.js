@@ -47,6 +47,7 @@ const global = {
 		mainAddClassroomSelector: document.getElementById(
 			"mainAddClassroomSelector",
 		),
+		mainAddClassroomSelector2: document.getElementById("mainAddClassroomSelector2"),
 		mainAddClassroomSelectorBack: document.getElementById(
 			"mainAddClassroomSelectorBack",
 		),
@@ -216,6 +217,7 @@ const global = {
 		mainClassroomSelectorSelectType: document.getElementById(
 			"mainClassroomSelectorSelectType",
 		),
+		mainClassroomSelectorSelectExtend: document.getElementById("mainClassroomSelectorSelectExtend"),
 		mainClassroomSelectorEditStyle: document.getElementById(
 			"mainClassroomSelectorEditStyle",
 		),
