@@ -1405,6 +1405,7 @@ export const eventHandlers = () => {
 	global.id.addState.addEventListener("click", () => {
 		console.log("Add state clicked"); // debugging
 		const stateSelectAll = global.id.stateSelectAll;
+		const elementStateSelect = global.id.elementStateSelect;
 		const elementSelect = global.id.elementSelect;
 		const selectedState = stateSelectAll.value;
 		const selectedElement = elementSelect.value;
@@ -1450,6 +1451,7 @@ export const eventHandlers = () => {
 		global.id.mainStateSelector.style.display = "flex";
 		global.id.mainStateAdd.style.display = "none";
 		populateElementStateOptions();
+		elementStateSelect.value = fullPath;
 		resolveElementStateSelect();
 	});
 
@@ -2393,19 +2395,16 @@ export const eventHandlers = () => {
 		const modalInput = document.getElementById("modalInput");
 		const modalConfirm = document.getElementById("modalConfirm");
 		const modalCancel = document.getElementById("modalCancel");
-
 		modalMessage.textContent = message;
 		modalInput.value = defaultValue;
 
 		modal.style.display = "block";
 
 		modalConfirm.onclick = () => {
-			modal.style.display = "none";
 			callback(modalInput.value);
 		};
 
 		modalCancel.onclick = () => {
-			modal.style.display = "none";
 			callback(null);
 		};
 	}
@@ -2496,30 +2495,48 @@ export const eventHandlers = () => {
 		const templateObject = createTemplateObject(selectedElement, true);
 
 		// Prompt the user for a unique template name using the custom modal
-		function promptForTemplateName(defaultName, callback) {
-			showModal("Enter a name for the new template:", callback, defaultName);
+		function promptForTemplateName(callback, defaultName) {
+			showModal(
+				"Enter a name for the new template:",
+				(callback) => {
+					if (callback === null) {
+						global.id.modalError.style.display = "none";
+						global.id.customModal.style.display = "none";
+						return;
+					}
+					if (callback === "") {
+						global.id.modalError.style.display = "block";
+						global.id.modalError.textContent = "Name cannot be empty";
+						return;
+					}
+					if (callback !== "")
+						for (const options of global.id.mainTemplatesSelectorOptions) {
+							if (options.value === callback) {
+								global.id.modalError.style.display = "block";
+								global.id.modalError.textContent = "Name already exists";
+								return;
+							}
+						}
+					global.id.modalError.style.display = "none";
+					global.id.customModal.style.display = "none";
+					getTemplateName(callback);
+				},
+				defaultName,
+			);
 		}
 
 		let templateName;
 		function getTemplateName(name) {
-			if (!name) {
-				console.error("Template name is required");
-				return;
-			}
-			if (global.map.templatesMap.has(name)) {
-				alert("Template name already exists. Please enter a different name.");
-				promptForTemplateName(templateObject.name, getTemplateName);
-			} else {
-				templateName = name;
-				templateObject.name = templateName;
-				global.map.templatesMap.set(templateName, templateObject);
-				console.log("Template added to templatesMap:", templateObject);
-				populateTemplatesSelect();
-				validatePreviewTemplates();
-			}
+			console.log("Name entered:", name);
+			templateName = name;
+			templateObject.name = templateName;
+			global.map.templatesMap.set(templateName, templateObject);
+			console.log("Template added to templatesMap:", templateObject);
+			populateTemplatesSelect();
+			validatePreviewTemplates();
 		}
 
-		promptForTemplateName(templateObject.name, getTemplateName);
+		promptForTemplateName(getTemplateName, templateObject.name);
 	});
 
 	function validatePreviewTemplates() {
@@ -2670,13 +2687,61 @@ export const eventHandlers = () => {
 		populateClassroomSelectName();
 	});
 
-	//TODO FOUND problem with populating different values for different types
 	global.id.mainClassroomSelectorEditStyle.addEventListener("click", () => {
 		global.id.mainClassroomSelector.style.display = "none";
 		global.id.mainClassroomStyleSelector.style.display = "flex";
 		global.id.mainClassroomStyleSelector2.style.display = "flex";
 		populateClassroomStyleOptions();
 		populateClassroomStyleOptionsValue();
+	});
+
+	global.id.mainClassroomSelectorEditName.addEventListener("click", () => {
+		const classroomMap = global.map.classroomMap;
+		const selectedType = global.id.mainClassroomSelectorSelectType.value;
+		const selectedName = global.id.mainClassroomSelectorSelectName.value;
+
+		function promptForClassroomName(callback, defaultName) {
+			showModal(
+				"Enter a new name for the classroom:",
+				(newName) => {
+					if (newName === null) {
+						global.id.modalError.style.display = "none";
+						global.id.customModal.style.display = "none";
+						return;
+					}
+					if (newName === "") {
+						global.id.modalError.style.display = "block";
+						global.id.modalError.textContent = "Name cannot be empty";
+						return;
+					}
+					for (const [, value] of classroomMap) {
+						if (value.name === newName) {
+							global.id.modalError.style.display = "block";
+							global.id.modalError.textContent = "Name already exists";
+							return;
+						}
+					}
+					global.id.modalError.style.display = "none";
+					global.id.customModal.style.display = "none";
+					callback(newName);
+				},
+				defaultName,
+			);
+		}
+
+		function updateClassroomName(newName) {
+			for (const [key, value] of classroomMap) {
+				if (value.type === selectedType && value.name === selectedName) {
+					classroomMap.delete(key);
+					value.name = newName;
+					classroomMap.set(newName, value);
+					break;
+				}
+			}
+			populateClassroomSelectName();
+		}
+
+		promptForClassroomName(updateClassroomName, selectedName);
 	});
 
 	function populateClassroomStyleOptions(valueToSet) {

@@ -219,6 +219,7 @@ const global = {
 		mainClassroomSelectorEditStyle: document.getElementById(
 			"mainClassroomSelectorEditStyle",
 		),
+		mainClassroomSelectorEditName: document.getElementById("mainClassroomSelectorEditName"),
 		mainClassroomStyleSelector: document.getElementById(
 			"mainClassroomStyleSelector",
 		),
@@ -270,6 +271,9 @@ const global = {
 		mainTextEditor: document.getElementById("mainTextEditor"),
 		mainTextEditor2: document.getElementById("mainTextEditor2"),
 		mainTextEditorBack: document.getElementById("mainTextEditorBack"),
+		customModal: document.getElementById("customModal"),
+		modalInput: document.getElementById("modalInput"),
+		modalError: document.getElementById("modalError"),
 		mask: document.getElementById("mask"),
 		menuReload: document.getElementById("menuReload"),
 		menuSave: document.getElementById("menuSave"),

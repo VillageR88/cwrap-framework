@@ -10,13 +10,13 @@ export default function loadTemplatesSource() {
             return response.json();
         })
         .then((jsonArray) => {
-            templatesMap.clear(); // Clear the existing map
+            templatesMap.clear();
             for (const template of jsonArray) {
                 templatesMap.set(template.name, template);
             }
         })
         .catch((error) => {
-            console.warn("No templates source found, creating an empty map");
+            console.info("%c info: No templates source found, creating an empty map", "color:skyBlue");
             templatesMap.clear();
         });
 }
