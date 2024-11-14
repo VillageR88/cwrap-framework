@@ -1418,11 +1418,12 @@ export const eventHandlers = () => {
     const mainStateAddCustomInput = global.id.mainStateAddCustomInput;
     let currentMap;
 
-    if (
-      stateSelectAll.value === "custom" &&
-      mainStateAddCustomInput.value === ""
-    )
-      return;
+    if (stateSelectAll.value === "custom") {
+      const customInputValue = mainStateAddCustomInput.value.trim();
+      const isValidCustomInput = /^[:.#]/.test(customInputValue);
+      if (customInputValue === "") return;
+      if (!isValidCustomInput) return;
+    }
 
     if (global.id.navAdditionalScreen.classList.contains("screenDesktop")) {
       currentMap = cssMap;
@@ -1454,9 +1455,9 @@ export const eventHandlers = () => {
     } else if (selectedState === "before" || selectedState === "after") {
       console.log("before or after"); // debugging
       fullPath = `${selectedElement}::${selectedState}`;
-    } else {
-      console.log("default case"); // debugging
-      fullPath = `${selectedElement}:${selectedState}`;
+    } else if (selectedState === "custom") {
+      console.log("custom case"); // debugging
+      fullPath = `${selectedElement}${mainStateAddCustomInput.value}`;
     }
 
     console.log("fullPath", fullPath); // debugging
@@ -4090,7 +4091,6 @@ export const eventHandlers = () => {
     populateTreeView();
     highlightSelectedElement();
   });
-  console.log("CSS Map:", global.map.cssMap);
 
   global.id.treeViewMoveUp.addEventListener("click", () => {
     moveTreeViewElement("up");
@@ -4189,4 +4189,6 @@ if (iframe) {
 // global.id.sectionsVariables.value = "root";
 // localStorage.setItem("hideArrow", "true");
 // document.body.style.display = "flex";
+console.log("CSS Map:", global.map.cssMap);
+
 export default eventHandlers;

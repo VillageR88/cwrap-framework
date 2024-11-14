@@ -64,8 +64,9 @@ export default function generateCssSelector(
 				const extendedSelector = `${selector}${extension.extension}`;
 				// Store the extended style in the cssMap
 				cssMap.set(extendedSelector, extension.style);
+			}		
 			}
-		}
+		
 
 		// Check if the JSON object has media queries
 		if (jsonObj.mediaQueries) {

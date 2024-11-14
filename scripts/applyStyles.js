@@ -65,7 +65,10 @@ export default function applyStyles() {
   }
 
   cssMap.forEach((value, key) => {
-    customStyles += `${key} {${value}}\n`;
+    //type of value is object or string
+    cssMap.forEach((value, key) => {
+      customStyles += `${key} {${value}}\n`;
+    });
   });
 
   // customStyles = addCustomClasses(customStyles);
