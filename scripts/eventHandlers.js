@@ -432,8 +432,19 @@ export const eventHandlers = () => {
     /**
      * @type {JsonObject} bodyJson
      */
-    let bodyJson = serializeElement(global.id.doc.body);
-    // let bodyJsonTemp = serializeElement(global.id.doc.body, true);
+    function getAllExtensions() {
+      const cssMap = global.map.cssMap;
+      const extendMap = new Map();
+      for (const [key, value] of cssMap) {
+        const regExp = /[:.#]+(?!nth-of-type)/;
+        if (key.match(regExp)) {
+          extendMap.set(key, value);
+        }
+      }
+      return extendMap;
+    }
+    const extendMap = getAllExtensions();
+    let bodyJson = serializeElement(global.id.doc.body, extendMap);
 
     function encapsulateJson(jsonObj) {
       let newJsonObj = JSON.parse(JSON.stringify(jsonObj));
@@ -511,24 +522,6 @@ export const eventHandlers = () => {
       .catch((error) => {
         console.error("Error saving template.json:", error);
       });
-    // fetch(`/save-skeleton-temp${window.location.pathname}`, {
-    // 	method: "POST",
-    // 	headers: {
-    // 		"Content-Type": "application/json",
-    // 	},
-    // 	body: JSON.stringify(bodyJsonTemp),
-    // })
-    // 	.then((response) => response.json())
-    // 	.then((data) => {
-    // 		if (data.success) {
-    // 			console.log("skeletonBody.json saved successfully to dist!");
-    // 		} else {
-    // 			console.error("Error saving skeletonBody.json:", data.error);
-    // 		}
-    // 	})
-    // 	.catch((error) => {
-    // 		console.error("Error saving skeletonBody.json:", error);
-    // 	});
   });
 
   /**
@@ -4022,9 +4015,6 @@ export const eventHandlers = () => {
       const parent = currentElement.parentNode;
       if (parent) {
         parent.replaceChild(newElement, currentElement);
-
-        // Optionally, reapply the 'cwrapHighlight' class to the new element
-        //newElement.classList.add("cwrapHighlight");
       }
     }
 
@@ -4118,7 +4108,6 @@ if (new URLSearchParams(window.location.search).has("param")) {
   loadBodyView();
 }
 
-// Function to handle keydown events
 const iframe = global.id.preview;
 function handleKeydown(event) {
   const keyMap = {
@@ -4144,7 +4133,6 @@ function handleKeydown(event) {
   }
 }
 
-// Function to handle keydown events for changing selection color
 function handleChangeSelectionColor(event) {
   const keyMap = {
     ctrl: event.ctrlKey,
@@ -4173,7 +4161,6 @@ function handleChangeSelectionColor(event) {
   }
 }
 
-// Add event listener to the document
 document.addEventListener("keydown", handleKeydown);
 if (iframe) {
   try {
@@ -4186,9 +4173,5 @@ if (iframe) {
     console.error("Cannot access iframe content: ", e);
   }
 }
-// global.id.sectionsVariables.value = "root";
-// localStorage.setItem("hideArrow", "true");
-// document.body.style.display = "flex";
-console.log("CSS Map:", global.map.cssMap);
 
 export default eventHandlers;
