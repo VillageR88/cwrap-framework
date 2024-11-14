@@ -2447,9 +2447,6 @@ export const eventHandlers = () => {
 
     // Function to create a selector for an element
     function createSelector(element) {
-      if (element.id) {
-        return `#${element.id}`;
-      }
       const parts = [];
       let currentElement = element;
       while (currentElement.parentElement) {
@@ -2506,6 +2503,7 @@ export const eventHandlers = () => {
       if (text) {
         template.text = text;
       }
+      
 
       const children = Array.from(element.children).map((child) =>
         createTemplateObject(child)
@@ -2553,11 +2551,9 @@ export const eventHandlers = () => {
 
     let templateName;
     function getTemplateName(name) {
-      console.log("Name entered:", name);
       templateName = name;
       templateObject.name = templateName;
       global.map.templatesMap.set(templateName, templateObject);
-      console.log("Template added to templatesMap:", templateObject);
       populateTemplatesSelect();
       validatePreviewTemplates();
     }
