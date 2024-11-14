@@ -427,7 +427,6 @@ export const eventHandlers = () => {
    * When the button is clicked, the data from the iframe is saved to skeletonBody.json.
    */
   global.id.menuSave.addEventListener("click", () => {
-    // return; //debug
     creatorSave();
     /**
      * @type {JsonObject} bodyJson
@@ -444,7 +443,13 @@ export const eventHandlers = () => {
       return extendMap;
     }
     const extendMap = getAllExtensions();
-    let bodyJson = serializeElement(global.id.doc.body, extendMap);
+    const extendMapFilteredOutUl = new Map();
+    for (const [key, value] of extendMap) {
+      if (!key.includes("ul")) {
+        extendMapFilteredOutUl.set(key, value);
+      }
+    }
+    let bodyJson = serializeElement(global.id.doc.body, extendMapFilteredOutUl);
 
     function encapsulateJson(jsonObj) {
       let newJsonObj = JSON.parse(JSON.stringify(jsonObj));
@@ -484,7 +489,6 @@ export const eventHandlers = () => {
       return newJsonObj;
     }
     bodyJson = encapsulateJson(bodyJson);
-    // bodyJsonTemp = encapsulateJson(bodyJsonTemp);
 
     fetch(`/save-skeleton${window.location.pathname}`, {
       method: "POST",
