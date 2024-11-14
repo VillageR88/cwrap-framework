@@ -30,7 +30,10 @@ export default function resolveToggleContext(
 		selectContextHighlight.style.display = "none";
 	}
 	if (stateSelectAllValue === "custom") {
-	//TODO
-	console.log("custom");
+	global.id.mainStateAdd2.style.display = "flex";
 	}
+	else {
+	global.id.mainStateAdd2.style.display = "none";
+	}
+
 }
