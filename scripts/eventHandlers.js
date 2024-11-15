@@ -1401,9 +1401,9 @@ export const eventHandlers = () => {
 		global.id.mainStateSelector.style.display = "none";
 		global.id.mainStateAdd.style.display = "flex";
 		global.id.mainStateStyleContextInfo.style.display = "none";
-		global.id.selectContext.style.display = "none";
+		global.id.selectContextContainer.style.display = "none";
 		global.id.selectContextHighlight.style.display = "none";
-		global.id.selectStateOfContext.style.display = "none";
+		global.id.selectStateOfContextContainer.style.display = "none";
 		global.id.mainStateAdd2.style.display = "none";
 	});
 
@@ -2571,6 +2571,21 @@ export const eventHandlers = () => {
 	}
 
 	global.id.mainTemplatesSelectorPreview.addEventListener("click", () => {
+		const iframe = global.id.preview;
+		const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+		const previewWindow = iframeDoc.getElementById("cwrapPreviewWindow");
+		if (previewWindow) {
+			previewWindow.remove();
+			global.id.leftSide.removeAttribute("style");
+			global.id.mainTemplatesSelectorParent.disabled = false;
+			global.id.mainTemplatesSelectorAdd.disabled = false;
+			global.id.mainTemplatesSelectorInject.disabled = false;
+		} else {
+			loadTemplatePreview();
+		}
+	});
+
+	function loadTemplatePreview() {
 		const templateSelect = global.id.mainTemplatesSelectorOptions;
 		const selectedTemplate = templateSelect.value;
 		const template = global.map.templatesMap.get(selectedTemplate);
@@ -2578,9 +2593,6 @@ export const eventHandlers = () => {
 		const iframe = global.id.preview;
 		const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
 		const previewWindow = iframeDoc.getElementById("cwrapPreviewWindow");
-		if (previewWindow) {
-			previewWindow.remove();
-		}
 		global.id.leftSide.style.display = "none";
 		global.id.mainTemplatesSelectorParent.disabled = true;
 		global.id.mainTemplatesSelectorAdd.disabled = true;
@@ -2673,7 +2685,7 @@ export const eventHandlers = () => {
 			}
 		};
 		intermediateDiv.appendChild(closeButton);
-	});
+	}
 
 	global.id.mainTemplatesSelectorDelete.addEventListener("click", () => {
 		const templateSelect = global.id.mainTemplatesSelectorOptions;
@@ -2681,18 +2693,21 @@ export const eventHandlers = () => {
 		const iframe = global.id.preview;
 		const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
 		const previewWindow = iframeDoc.getElementById("cwrapPreviewWindow");
+
 		global.map.templatesMap.delete(selectedTemplate);
 		populateTemplatesSelect();
 		if (previewWindow) {
+			previewWindow.remove();
+
 			if (!global.id.mainTemplatesSelectorOptions.value) {
-				previewWindow.remove();
 				global.id.leftSide.removeAttribute("style");
 				global.id.mainTemplatesSelectorParent.disabled = false;
 				global.id.mainTemplatesSelectorAdd.disabled = false;
 				global.id.mainTemplatesSelectorInject.disabled = false;
+				global.id.mainTemplatesSelectorPreview.disabled = true;
 				return;
 			}
-			global.id.mainTemplatesSelectorPreview.click();
+			loadTemplatePreview();
 		}
 		validatePreviewTemplates();
 	});
@@ -2702,7 +2717,8 @@ export const eventHandlers = () => {
 		const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
 		const previewWindow = iframeDoc.getElementById("cwrapPreviewWindow");
 		if (previewWindow) {
-			global.id.mainTemplatesSelectorPreview.click();
+			previewWindow.remove();
+			loadTemplatePreview();
 		}
 	});
 
@@ -3631,9 +3647,12 @@ export const eventHandlers = () => {
 
 	global.id.elementBlueprintStateSelect.addEventListener("change", () => {
 		resolveElementStateSelect(true);
+		global.id.elementBlueprintStateSelect.title =
+			global.id.elementBlueprintStateSelect.value;
 	});
 
 	function populateBlueprintElementStateOptions() {
+		global.id.elementBlueprintStateSelect.title = "";
 		// console.log("populateBlueprintElementStateOptions");
 		const blueprintMap = global.map.blueprintMap;
 		const currentElement = getElementFromPath();
@@ -3685,6 +3704,8 @@ export const eventHandlers = () => {
 			opt.textContent = pseudo;
 			opt.title = extension.extension;
 			global.id.elementBlueprintStateSelect.appendChild(opt);
+			if (global.id.elementBlueprintStateSelect.title === "")
+				global.id.elementBlueprintStateSelect.title = extension.extension;
 		}
 	}
 
@@ -3793,6 +3814,7 @@ export const eventHandlers = () => {
 
 	global.id.closeBlueprintAddState.addEventListener("click", () => {
 		global.id.mainBlueprintStateAdd.style.display = "none";
+		global.id.mainStateAdd2.style.display = "none";
 		global.id.mainBlueprintStateSelector.style.display = "flex";
 	});
 
@@ -3805,9 +3827,11 @@ export const eventHandlers = () => {
 			"global.id.selectStateOfContext.value",
 			global.id.selectBlueprintStateOfContext.value,
 		);
-		let selectedState = `:${global.id.stateBlueprintSelectAll.value}`;
-		if (selectedState === ":has") {
-			selectedState = `${selectedState}(${global.id.selectBlueprintContext.value}:${global.id.selectBlueprintStateOfContext.value})`;
+		let selectedState = `${global.id.stateBlueprintSelectAll.value}`;
+		if (selectedState === "has") {
+			selectedState = `:${selectedState}(${global.id.selectBlueprintContext.value}:${global.id.selectBlueprintStateOfContext.value})`;
+		} else if (selectedState === "custom") {
+			selectedState = `${global.id.mainStateAddCustomInput.value}`;
 		}
 		// const selectedStateTrimmed = selectedState.replace(">", "").trim();
 		// const formattedSelectedStateArray = selectedStateTrimmed.split(">");
@@ -3879,6 +3903,7 @@ export const eventHandlers = () => {
 		console.log("Final currentMap:", JSON.stringify(currentMap, null, 2));
 
 		global.id.mainBlueprintStateAdd.style.display = "none";
+		global.id.mainStateAdd2.style.display = "none";
 		global.id.mainBlueprintStateSelector.style.display = "flex";
 	});
 

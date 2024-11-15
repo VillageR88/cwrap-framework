@@ -43,6 +43,8 @@ export function onLoadPopulateRootCreator() {
 
 		removeButton.classList.add(global.class.mediumButtons);
 		removeButton.type = "button";
+		removeButton.ariaLabel = "remove variable";
+		removeButton.dataset.title = "remove variable";
 		removeButton.addEventListener("click", () => {
 			global.map.rootMap.delete(key);
 			onLoadPopulateRootCreator();

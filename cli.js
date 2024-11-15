@@ -41,7 +41,7 @@ rl.question("Enter project name (default: my-new-cwrap-project): ", (input) => {
 			build: "node build.js",
 		},
 		devDependencies: {
-			// "cwrap-framework": "file:../cwrap-framework-0.1.0-alpha.202411031705.tgz",
+			// "cwrap-framework": "file:../cwrap-framework-0.1.0-alpha.202411161416.tgz",
 			"cwrap-framework": cwrapFrameworkVersion,
 			"body-parser": "^1.20.2",
 			express: "^4.17.1",

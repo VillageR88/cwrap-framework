@@ -96,6 +96,8 @@ export function onLoadPopulateHeadCreator() {
 			removeButton.innerHTML = removeSvg;
 			removeButton.classList.add(global.class.mediumButtons);
 			removeButton.type = "button";
+			removeButton.ariaLabel = "remove link";
+			removeButton.dataset.title = "remove link";
 			removeButton.addEventListener("click", () => {
 				links.splice(index, 1); // Remove the link from the array
 				onLoadPopulateHeadCreator(); // Re-render the links

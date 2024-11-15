@@ -1,18 +1,74 @@
-/* :root {
-  --colorText-primary: #fbfcfb;
-  --colorText-placeholder: #8b949e;
-  --colorBorder-darker: #2e3339b3;
-  --colorBorder-lighter: #3d444d;
-  --colorBackground-body: #0d1117;
-  --colorBackground-darker: #10151c;
-  --colorBackground-lighter: #151b23;
-  --colorShadow-regular: #0c0f13;
-  --colorBackground-textField: #151e2a;
-} */
+[data-title]:hover:after {
+  opacity: 1;
+}
+[data-title]:after {
+  content: attr(data-title);
+  color: var(--colorText-secondary);
+  position: absolute;
+  padding-block: 14px;
+  padding-inline: 8px;
+  bottom: -36px;
+  white-space: nowrap;
+  /* box-shadow: 1px 1px 3px red; */
+  opacity: 0;
+  background-color: var(--colorBackground-lighter);
+  border-left: 2px solid var(--colorBorder-lighter);
+  border-top: 2px solid var(--colorBorder-lighter);
+  border-right: 2px solid var(--colorShadow-regular);
+  border-bottom: 2px solid var(--colorShadow-regular);
+  border-radius: 6px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial;
+  letter-spacing: 0.1px;
+  font-size: 13px;
+  font-weight: 600;
+  z-index: 99999;
+  transition: opacity 0.1s;
+  pointer-events: none;
+}
 
-/* TODO full path on these 2 select */
+div[data-title]:after {
+  padding-block: 5px;
+  padding-inline: 8px;
+  bottom: -33px;
+}
 
-/* Hide the arrows in number input fields */
+#selectedElementLabelContainer.bottom [data-title]:after {
+  bottom: 110%;
+}
+[data-title] {
+  position: relative;
+}
+
+/* this is for data-title positioning (starts here) */
+
+#elementBlueprintStateSelect,
+#stateBlueprintSelectAll,
+#elementStateSelect,
+#stateSelectAll,
+#selectContext,#selectStateOfContext {
+  display: flex;
+  height: 40px;
+  margin: 0;
+  padding: 0 6px 0 6px;
+}
+
+#mainBlueprintCounterInput,
+#mainAddClassroomSelectorInputName {
+  display: flex;
+  height: 40px;
+  margin: 0;
+  padding: 0 8px 0 10px;
+}
+
+/* added here separately */
+body > #selectedElementLabelContainer > div > #mainAddClassroomSelector2,
+body > #selectedElementLabelContainer > div > #mainStateAdd2 {
+  display: none;
+  width: 100%;
+}
+
+/* this is for data-title positioning (ends here) */
+
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
@@ -146,15 +202,15 @@ body > div#mask {
 
 .modal-buttons > button {
   color: var(--colorText-primary);
-  padding-inline: 12px;
 }
 
 body > div#mask > div {
+  position: relative;
   display: none;
-  padding: 24px;
+  padding: 20px 20px;
   border-radius: 10px;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
   align-items: center;
   justify-content: center;
   text-align: center;
@@ -165,14 +221,23 @@ body > div#mask > div {
   border-bottom: 2px solid var(--colorShadow-regular);
 }
 
-body > div#mask > div span {
-  font-size: 18px;
+body > div#mask > div > div:nth-of-type(1) {
+  display: flex;
+  flex-direction: column;
   font-weight: 500;
   line-height: 32px;
   color: var(--colorText-secondary);
 }
 
-body > div#mask > div > div {
+body > div#mask > div > div:nth-of-type(1) > span:nth-of-type(1) {
+  font-size: 20px;
+}
+body > div#mask > div > div:nth-of-type(1) > span:nth-of-type(2) {
+  font-size: 15px;
+  opacity: 0.85;
+}
+
+body > div#mask > div > div:nth-of-type(2) {
   display: flex;
   gap: 24px;
 }
@@ -367,7 +432,7 @@ body > main > #previewTree > div:nth-of-type(2) {
   padding: 20px 24px;
   position: fixed;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-self: flex-end;
   gap: 2px;
 }
@@ -593,11 +658,16 @@ h3 {
 }
 #wizardDiv
   > form:has(#wizardHeadDiv[style="display: none;"])
-  select#creatorHeadExtend {
+  > div
+  div#creatorHeadExtendContainer {
   display: none;
 }
 
-#wizardDiv > form:has(#wizardHeadDiv) select {
+#wizardDiv
+  > form:has(#wizardHeadDiv)
+  > div
+  > div#creatorHeadExtendContainer
+  > select {
   appearance: none;
 }
 
@@ -730,6 +800,7 @@ body > div#selectedElementLabelContainer > div {
 }
 
 body > #selectedElementLabelContainer > div#nameHelper {
+  color: var(--colorText-secondary);
   display: none;
 }
 
@@ -741,7 +812,19 @@ body > #selectedElementLabelContainer > div > div {
   gap: 12px;
 }
 
-body > #selectedElementLabelContainer select {
+body
+  > #selectedElementLabelContainer
+  > div
+  > div
+  > div#mainInitialSelector
+  > div {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+/* Veryfi is it needed */
+body > #selectedElementLabelContainer > select {
   padding-block: 0;
 }
 
@@ -750,12 +833,14 @@ body
   > div
   > div
   > div#mainInitialSelector
+  > div
   > select,
 body
   > #selectedElementLabelContainer
   > div
   > div
   > div#mainBlueprintSelector
+  > div
   > select,
 body
   > #selectedElementLabelContainer
@@ -784,7 +869,7 @@ body
   display: none;
 }
 
-body > #selectedElementLabelContainer > div > div > div > select > option,
+body > #selectedElementLabelContainer > div > div > div > div > select > option,
 body
   > #selectedElementLabelContainer
   > div
@@ -839,9 +924,7 @@ body > #selectedElementLabelContainer > div > div > #mainBlueprintTextEditor {
 }
 
 body > #selectedElementLabelContainer > div > #mainStyleSelector2,
-body > #selectedElementLabelContainer > div > #mainAddClassroomSelector2,
 body > #selectedElementLabelContainer > div > #mainClassroomStyleSelector2,
-body > #selectedElementLabelContainer > div > #mainStateAdd2,
 body > #selectedElementLabelContainer > div > #mainStateStyleSelector2,
 body > #selectedElementLabelContainer > div > #mainBlueprintStateStyleSelector2,
 body > #selectedElementLabelContainer > div > #mainAttributeSelector2,
@@ -1053,6 +1136,7 @@ input::-webkit-autofill:focus,
 input::-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 30px var(--colorBackground-textField) inset;
   -webkit-text-fill-color: var(--colorText-primary);
+  transition: background-color 5000s ease-in-out 0s;
 }
 
 /* Base scrollbar styles */

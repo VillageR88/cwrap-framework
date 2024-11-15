@@ -43,6 +43,8 @@ export function onLoadPopulateFontsCreator() {
 					removeButton.innerHTML = removeSvg;
 					removeButton.classList.add("mediumButtons");
 					removeButton.type = "button";
+					removeButton.ariaLabel = "remove font";
+					removeButton.dataset.title = "remove font";
 					removeButton.addEventListener("click", () => {
 						global.map.fontMap.get("fonts").splice(Number(subKey), 1);
 						onLoadPopulateFontsCreator();

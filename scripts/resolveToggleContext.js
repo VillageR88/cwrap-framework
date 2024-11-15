@@ -11,14 +11,14 @@ export default function resolveToggleContext(
 		? global.id.stateBlueprintSelectAll.value
 		: global.id.stateSelectAll.value;
 	const selectContext = isBlueprint
-		? global.id.selectBlueprintContext
-		: global.id.selectContext;
+		? global.id.selectBlueprintContextContainer
+		: global.id.selectContextContainer;
 	const selectContextHighlight = isBlueprint
 		? global.id.selectBlueprintContextHighlight
 		: global.id.selectContextHighlight;
 	const selectStateOfContext = isBlueprint
-		? global.id.selectBlueprintStateOfContext
-		: global.id.selectStateOfContext;
+		? global.id.selectBlueprintStateOfContextContainer
+		: global.id.selectStateOfContextContainer;
 	if (stateSelectAllValue === "has") {
 		selectStateOfContext.style.display = "flex";
 		selectContext.style.display = "flex";
@@ -28,12 +28,12 @@ export default function resolveToggleContext(
 		selectStateOfContext.style.display = "none";
 		selectContext.style.display = "none";
 		selectContextHighlight.style.display = "none";
+		
 	}
 	if (stateSelectAllValue === "custom") {
-	global.id.mainStateAdd2.style.display = "flex";
-	}
-	else {
-	global.id.mainStateAdd2.style.display = "none";
-	}
+		global.id.mainStateAdd2.style.display = "flex";
+	} else {
+		global.id.mainStateAdd2.style.display = "none";
 
+	}
 }

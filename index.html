@@ -17,23 +17,32 @@
       <input type="text" id="modalInput" class="modal-input" aria-label="Modal Input" />
       <span id="modalError"></span>
       <div class="modal-buttons">
-        <button id="modalConfirm" class="mediumButtons">Confirm</button>
-        <button id="modalCancel" class="mediumButtons">Cancel</button>
+        <button id="modalConfirm" class="mediumButtons" aria-label="confirm">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+            <use href="#confirm" />
+          </svg></button>
+        <button id="modalCancel" class="mediumButtons" aria-label="reject">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+            <use href="#reject" />
+          </svg></button>
       </div>
     </div>
   </div>
 
   <div id="mask">
     <div id="popupLink">
-      <span>Follow the link? <br> (Unsaved progress will be lost)</span>
       <div>
-        <button id="popupLinkConfirm" class="mediumButtons" title="confirm">
+        <span>Switch to backend?</span>
+        <span>(unsaved progress will be lost)</span>
+      </div>
+      <div>
+        <button id="popupLinkConfirm" class="mediumButtons" aria-label="confirm">
           <svg id="confirm" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
             <path
               d="m424-296 282-282-56-56-226 226-114-114-56 56 170 170Zm56 216q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z" />
           </svg>
         </button>
-        <button id="popupLinkReject" class="mediumButtons" title="reject">
+        <button id="popupLinkReject" class="mediumButtons" aria-label="reject">
           <svg id="reject" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
             <path
               d="m336-280 144-144 144 144 56-56-144-144 144-144-56-56-144 144-144-144-56 56 144 144-144 144 56 56ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z" />
@@ -43,14 +52,17 @@
     </div>
 
     <div id="popupSubmit">
-      <span>Submit form? <br> (Unsaved progress will be lost)</span>
       <div>
-        <button id="popupSubmitConfirm" class="mediumButtons" title="confirm">
+        <span>Switch to backend?</span>
+        <span>(unsaved progress will be lost)</span>
+      </div>
+      <div>
+        <button id="popupSubmitConfirm" class="mediumButtons" aria-label="confirm">
           <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
             <use href="#confirm" />
           </svg>
         </button>
-        <button id="popupSubmitReject" class="mediumButtons" title="reject">
+        <button id="popupSubmitReject" class="mediumButtons" aria-label="reject">
           <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
             <use href="#reject" />
           </svg>
@@ -59,14 +71,17 @@
     </div>
 
     <div id="popupBackend">
-      <span>Switch to backend? <br> (Unsaved progress will be lost)</span>
       <div>
-        <button id="popupBackendConfirm" class="mediumButtons" title="confirm">
+        <span>Switch to backend?</span>
+        <span>(unsaved progress will be lost)</span>
+      </div>
+      <div>
+        <button id="popupBackendConfirm" class="mediumButtons confirm" aria-label="confirm">
           <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
             <use href="#confirm" />
           </svg>
         </button>
-        <button id="popupBackendReject" class="mediumButtons" title="reject">
+        <button id="popupBackendReject" class="mediumButtons" aria-label="reject">
           <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
             <use href="#reject" />
           </svg>
@@ -83,14 +98,17 @@
             <span class="label">Navigation</span>
             <div>
               <div id="navLvlMenu">
-                <button id="navLvlMenuSettings" class="mediumButtons" title="settings">
+                <button id="navLvlMenuSettings" class="mediumButtons" aria-label="settings" data-title="settings">
                   <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
                     <path
                       d="m370-80-16-128q-13-5-24.5-12T307-235l-119 50L78-375l103-78q-1-7-1-13.5v-27q0-6.5 1-13.5L78-585l110-190 119 50q11-8 23-15t24-12l16-128h220l16 128q13 5 24.5 12t22.5 15l119-50 110 190-103 78q1 7 1 13.5v27q0 6.5-2 13.5l103 78-110 190-118-50q-11 8-23 15t-24 12L590-80H370Zm70-80h79l14-106q31-8 57.5-23.5T639-327l99 41 39-68-86-65q5-14 7-29.5t2-31.5q0-16-2-31.5t-7-29.5l86-65-39-68-99 42q-22-23-48.5-38.5T533-694l-13-106h-79l-14 106q-31 8-57.5 23.5T321-633l-99-41-39 68 86 64q-5 15-7 30t-2 32q0 16 2 31t7 30l-86 65 39 68 99-42q22 23 48.5 38.5T427-266l13 106Zm42-180q58 0 99-41t41-99q0-58-41-99t-99-41q-59 0-99.5 41T342-480q0 58 40.5 99t99.5 41Zm-2-140Z" />
                   </svg>
                 </button>
-                <select id="navLvlMenuTheme" class="mediumButtons" title="theme"></select>
-                <button class="mediumButtons" title="documentation (Not available yet)">
+                <div data-title="theme">
+                  <select id="navLvlMenuTheme" class="mediumButtons" aria-label="theme"></select>
+                </div>
+                <button id="navLvlMenuDocumentation" class="mediumButtons" aria-label="documentation N/A"
+                  data-title="documentation N/A">
                   <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
                     <path
                       d="M478-240q21 0 35.5-14.5T528-290q0-21-14.5-35.5T478-340q-21 0-35.5 14.5T428-290q0 21 14.5 35.5T478-240Zm-36-154h74q0-33 7.5-52t42.5-52q26-26 41-49.5t15-56.5q0-56-41-86t-97-30q-57 0-92.5 30T342-618l66 26q5-18 22.5-39t53.5-21q32 0 48 17.5t16 38.5q0 20-12 37.5T506-526q-44 39-54 59t-10 73Zm38 314q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z" />
@@ -98,19 +116,19 @@
                 </button>
               </div>
               <div id="navLvlRoute">
-                <button id="navLvlRouteBack" class="mediumButtons" title="backend">
+                <button id="navLvlRouteBack" class="mediumButtons" aria-label="backend" data-title="backend">
                   <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
                     <path
                       d="M160-120q-33 0-56.5-23.5T80-200v-560q0-33 23.5-56.5T160-840h200q33 0 56.5 23.5T440-760v560q0 33-23.5 56.5T360-120H160Zm440 0q-33 0-56.5-23.5T520-200v-560q0-33 23.5-56.5T600-840h200q33 0 56.5 23.5T880-760v560q0 33-23.5 56.5T800-120H600Zm-440-80h200v-560H160v560Zm440 0h200v-560H600v560ZM200-360h120v-80H200v80Zm440 0h120v-80H640v80ZM200-480h120v-80H200v80Zm440 0h120v-80H640v80ZM200-600h120v-80H200v80Zm440 0h120v-80H640v80ZM160-200h200-200Zm440 0h200-200Z" />
                   </svg>
                 </button>
-                <button class="mediumButtons" title="save project" id="menuSave">
+                <button id="menuSave" class="mediumButtons" aria-label="save project" data-title="save project">
                   <svg id="save" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
                     <path
                       d="M840-680v480q0 33-23.5 56.5T760-120H200q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h480l160 160Zm-80 34L646-760H200v560h560v-446ZM480-240q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35ZM240-560h360v-160H240v160Zm-40-86v446-560 114Z" />
                   </svg>
                 </button>
-                <button class="mediumButtons" title="reload project" id="menuReload">
+                <button id="menuReload" class="mediumButtons" aria-label="reload project" data-title="reload project">
                   <svg id="reload" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
                     width="24px">
                     <path
@@ -118,7 +136,8 @@
                   </svg>
                 </button>
               </div>
-              <button class="mediumButtons switchRight" id="leftSidebarSwitchSide" title="switch sidebar side">
+              <button class="mediumButtons switchRight" id="leftSidebarSwitchSide" aria-label="switch sidebar side"
+                data-title="switch sidebar side">
                 <svg id="switch" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
                   <path d="M400-200 120-480l280-280v560Zm-60-145v-270L205-480l135 135Zm220 145v-560l280 280-280 280Z" />
                 </svg>
@@ -128,25 +147,27 @@
           <div id="navSelection">
             <span class="label">Selection</span>
             <div>
-              <button id="navSelectionBuild" class="mediumButtons" title="build">
+              <button id="navSelectionBuild" class="mediumButtons" aria-label="build" data-title="build">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
                   <path
                     d="m620-284 56-56q6-6 6-14t-6-14L540-505q4-11 6-22t2-25q0-57-40.5-97.5T410-690q-17 0-34 4.5T343-673l94 94-56 56-94-94q-8 16-12.5 33t-4.5 34q0 57 40.5 97.5T408-412q13 0 24.5-2t22.5-6l137 136q6 6 14 6t14-6ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z" />
                 </svg>
               </button>
-              <button id="navSelectionDatabase" class="mediumButtons" title="CWrap codebase (Not available yet)">
+              <button id="navSelectionDatabase" class="mediumButtons" aria-label="codebase N/A"
+                data-title="codebase N/A">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
                   <path
                     d="M480-120q-151 0-255.5-46.5T120-280v-400q0-66 105.5-113T480-840q149 0 254.5 47T840-680v400q0 67-104.5 113.5T480-120Zm0-479q89 0 179-25.5T760-679q-11-29-100.5-55T480-760q-91 0-178.5 25.5T200-679q14 30 101.5 55T480-599Zm0 199q42 0 81-4t74.5-11.5q35.5-7.5 67-18.5t57.5-25v-120q-26 14-57.5 25t-67 18.5Q600-528 561-524t-81 4q-42 0-82-4t-75.5-11.5Q287-543 256-554t-56-25v120q25 14 56 25t66.5 18.5Q358-408 398-404t82 4Zm0 200q46 0 93.5-7t87.5-18.5q40-11.5 67-26t32-29.5v-98q-26 14-57.5 25t-67 18.5Q600-328 561-324t-81 4q-42 0-82-4t-75.5-11.5Q287-343 256-354t-56-25v99q5 15 31.5 29t66.5 25.5q40 11.5 88 18.5t94 7Z" />
                 </svg>
               </button>
-              <button id="navSelectionStatic" class="mediumButtons" title="static data"><svg
-                  xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
+              <button id="navSelectionStatic" class="mediumButtons" aria-label="static data"
+                data-title="static data"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
+                  width="24px">
                   <path
                     d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h240l80 80h320q33 0 56.5 23.5T880-640v400q0 33-23.5 56.5T800-160H160Zm0-80h640v-400H447l-80-80H160v480Zm0 0v-480 480Z" />
                 </svg>
               </button>
-              <button id="navSelectionBuildRoutes" class="mediumButtons" title="routes">
+              <button id="navSelectionBuildRoutes" class="mediumButtons" aria-label="routes" data-title="routes">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
                   <path
                     d="M320-360h80v-120h140v100l140-140-140-140v100H360q-17 0-28.5 11.5T320-520v160ZM480-80q-15 0-29.5-6T424-104L104-424q-12-12-18-26.5T80-480q0-15 6-29.5t18-26.5l320-320q12-12 26.5-18t29.5-6q15 0 29.5 6t26.5 18l320 320q12 12 18 26.5t6 29.5q0 15-6 29.5T856-424L536-104q-12 12-26.5 18T480-80ZM320-320l160 160 320-320-320-320-320 320 160 160Zm160-160Z" />
@@ -157,19 +178,19 @@
           <div id="navSections">
             <span class="label">Sections</span>
             <div>
-              <button id="navHead" class="mediumButtons" title="head">
+              <button id="navHead" class="mediumButtons" aria-label="head" data-title="head">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
                   <path
                     d="M360-390q-21 0-35.5-14.5T310-440q0-21 14.5-35.5T360-490q21 0 35.5 14.5T410-440q0 21-14.5 35.5T360-390Zm240 0q-21 0-35.5-14.5T550-440q0-21 14.5-35.5T600-490q21 0 35.5 14.5T650-440q0 21-14.5 35.5T600-390ZM480-160q134 0 227-93t93-227q0-24-3-46.5T786-570q-21 5-42 7.5t-44 2.5q-91 0-172-39T390-708q-32 78-91.5 135.5T160-486v6q0 134 93 227t227 93Zm0 80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm-54-715q42 70 114 112.5T700-640q14 0 27-1.5t27-3.5q-42-70-114-112.5T480-800q-14 0-27 1.5t-27 3.5ZM177-581q51-29 89-75t57-103q-51 29-89 75t-57 103Zm249-214Zm-103 36Z" />
                 </svg>
               </button>
-              <button id="navFonts" class="mediumButtons" title="fonts">
+              <button id="navFonts" class="mediumButtons" aria-label="fonts" data-title="fonts">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
                   <path
                     d="M186-80q-54 0-80-22t-26-66q0-58 49-74t116-16h21v-56q0-34-1-55.5t-6-35.5q-5-14-11.5-19.5T230-430q-9 0-16.5 3t-12.5 8q-4 5-5 10.5t1 11.5q6 11 14 21.5t8 24.5q0 25-17.5 42.5T159-291q-25 0-42.5-17.5T99-351q0-27 12-44t32.5-27q20.5-10 47.5-14t58-4q85 0 118 30.5T400-302v147q0 19 4.5 28t15.5 9q12 0 19.5-18t9.5-56h11q-3 62-23.5 87T368-80q-43 0-67.5-13.5T269-134q-10 29-29.5 41.5T186-80Zm373 0q-20 0-32.5-16.5T522-132l102-269q7-17 22-28t34-11q19 0 34 11t22 28l102 269q8 19-4.5 35.5T801-80q-12 0-22-7t-15-19l-20-58H616l-20 58q-4 11-14 18.5T559-80Zm-324-29q13 0 22-20.5t9-49.5v-67q-26 0-38 15.5T216-180v11q0 36 4 48t15 12Zm407-125h77l-39-114-38 114Zm-37-285q-48 0-76.5-33.5T500-643q0-104 66-170.5T735-880q42 0 68 9.5t26 24.5q0 6-2 12t-7 11q-5 7-12.5 10t-15.5 1q-14-4-32-7t-33-3q-71 0-114 48t-43 127q0 22 8 46t36 24q11 0 21.5-5t18.5-14q17-18 31.5-60T712-758q2-13 10.5-18.5T746-782q18 0 27.5 9.5T779-749q-12 43-17.5 75t-5.5 58q0 20 5.5 29t16.5 9q11 0 21.5-8t29.5-30q2-3 15-7 8 0 12 6t4 17q0 28-32 54t-67 26q-26 0-44.5-14T691-574q-15 26-37 40.5T605-519Zm-485-1v-220q0-58 41-99t99-41q58 0 99 41t41 99v220h-80v-80H200v80h-80Zm80-160h120v-60q0-25-17.5-42.5T260-800q-25 0-42.5 17.5T200-740v60Z" />
                 </svg>
               </button>
-              <button id="navRoot" class="mediumButtons" title="root">
+              <button id="navRoot" class="mediumButtons" aria-label="root" data-title="root">
                 <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
                   class="icon line-color">
                   <path d="M3,12H4.31a1,1,0,0,1,.93.65L8,20,10.85,4.82a1,1,0,0,1,1-.82H21" fill="none"
@@ -177,7 +198,7 @@
                   </path>
                 </svg>
               </button>
-              <button id="navBody" class="mediumButtons" title="body">
+              <button id="navBody" class="mediumButtons" aria-label="body" data-title="body">
                 <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 -960 960 960" width="30px">
                   <path
                     d="M480-660q-29 0-49.5-20.5T410-730q0-29 20.5-49.5T480-800q29 0 49.5 20.5T550-730q0 29-20.5 49.5T480-660Zm-80 500v-200h-40v-180q0-33 23.5-56.5T440-620h80q33 0 56.5 23.5T600-540v180h-40v200H400Z" />
@@ -188,20 +209,19 @@
           <div id="navBodyToolset">
             <span class="label">Toolset</span>
             <div>
-              <button id="navGlobals" class="mediumButtons" title="globals (Not available yet)">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
-                  fill="#e8eaed">
+              <button id="navGlobals" class="mediumButtons" aria-label="globals N/A" data-title="globals N/A">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
                   <path
                     d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm-40-82v-78q-33 0-56.5-23.5T360-320v-40L168-552q-3 18-5.5 36t-2.5 36q0 121 79.5 212T440-162Zm276-102q20-22 36-47.5t26.5-53q10.5-27.5 16-56.5t5.5-59q0-98-54.5-179T600-776v16q0 33-23.5 56.5T520-680h-80v80q0 17-11.5 28.5T400-560h-80v80h240q17 0 28.5 11.5T600-440v120h40q26 0 47 15.5t29 40.5Z" />
                 </svg>
               </button>
-              <button id="navClassroom" class="mediumButtons" title="classroom">
+              <button id="navClassroom" class="mediumButtons" aria-label="classroom" data-title="classroom">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
                   <path
                     d="M480-120 200-272v-240L40-600l440-240 440 240v320h-80v-276l-80 44v240L480-120Zm0-332 274-148-274-148-274 148 274 148Zm0 241 200-108v-151L480-360 280-470v151l200 108Zm0-241Zm0 90Zm0 0Z" />
                 </svg>
               </button>
-              <button id="navTemplates" class="mediumButtons" title="templates">
+              <button id="navTemplates" class="mediumButtons" aria-label="templates" data-title="templates">
                 <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
                   <path
                     d="M160-80q-33 0-56.5-23.5T80-160v-360q0-33 23.5-56.5T160-600h80v-200q0-33 23.5-56.5T320-880h480q33 0 56.5 23.5T880-800v360q0 33-23.5 56.5T800-360h-80v200q0 33-23.5 56.5T640-80H160Zm0-80h480v-280H160v280Zm560-280h80v-280H320v120h320q33 0 56.5 23.5T720-520v80Z" />
@@ -212,28 +232,31 @@
           <div id="navBodyAdditional">
             <span class="label">Display</span>
             <div>
-              <button id="navAdditionalScreen" class="mediumButtons screenDesktop" title="select display"></button>
-              <button id="navSelectPreview" class="mediumButtons preview" title="select preview"></button>
+              <button id="navAdditionalScreen" class="mediumButtons screenDesktop" aria-label="select display"
+                data-title="select display"></button>
+              <button id="navSelectPreview" class="mediumButtons preview" aria-label="select preview"
+                data-title="select preview"></button>
             </div>
           </div>
           <div id="navDevice">
             <span class="label">Device</span>
             <div>
-              <button id="navScreenDesktop" class="mediumButtons screenDesktop" title="desktop computer">
+              <button id="navScreenDesktop" class="mediumButtons screenDesktop" aria-label="desktop"
+                data-title="desktop">
                 <svg id="iconDesktop" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
                   width="24px">
                   <path
                     d="M240-120v-80l40-40H160q-33 0-56.5-23.5T80-320v-440q0-33 23.5-56.5T160-840h640q33 0 56.5 23.5T880-760v440q0 33-23.5 56.5T800-240H680l40 40v80H240Zm-80-200h640v-440H160v440Zm0 0v-440 440Z" />
                 </svg>
               </button>
-              <button id="navScreenTablet" class="mediumButtons screenTablet" title="tablet">
+              <button id="navScreenTablet" class="mediumButtons screenTablet" aria-label="tablet" data-title="tablet">
                 <svg id="iconTablet" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
                   width="24px">
                   <path
                     d="M200-40q-33 0-56.5-23.5T120-120v-720q0-33 23.5-56.5T200-920h560q33 0 56.5 23.5T840-840v720q0 33-23.5 56.5T760-40H200Zm0-200v120h560v-120H200Zm200 80h160v-40H400v40ZM200-320h560v-400H200v400Zm0-480h560v-40H200v40Zm0 0v-40 40Zm0 560v120-120Z" />
                 </svg>
               </button>
-              <button id="navScreenMobile" class="mediumButtons screenMobile" title="mobile phone">
+              <button id="navScreenMobile" class="mediumButtons screenMobile" aria-label="mobile" data-title="mobile">
                 <svg id="iconMobile" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
                   width="24px">
                   <path
@@ -245,21 +268,21 @@
           <div id="navPreview">
             <span class="label">Preview</span>
             <div>
-              <button id="navPreviewNormal" class="mediumButtons preview" title="normal preview">
+              <button id="navPreviewNormal" class="mediumButtons preview" aria-label="live" data-title="live">
                 <svg id="iconPreview" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
                   width="24px">
                   <path
                     d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-480H200v480Zm280-80q-82 0-146.5-44.5T240-440q29-71 93.5-115.5T480-600q82 0 146.5 44.5T720-440q-29 71-93.5 115.5T480-280Zm0-60q56 0 102-26.5t72-73.5q-26-47-72-73.5T480-540q-56 0-102 26.5T306-440q26 47 72 73.5T480-340Zm0-100Zm0 60q25 0 42.5-17.5T540-440q0-25-17.5-42.5T480-500q-25 0-42.5 17.5T420-440q0 25 17.5 42.5T480-380Z" />
                 </svg>
               </button>
-              <button id="navPreviewStatic" class="mediumButtons static" title="static preview">
+              <button id="navPreviewStatic" class="mediumButtons static" aria-label="static" data-title="static">
                 <svg id="iconStatic" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
                   width="24px">
                   <path
                     d="M480-520Zm0 440q-116 0-198-82t-82-198v-240q0-116 82-198t198-82q116 0 198 82t82 198v124q-20-4-40-4t-40 4v-44H280v160q0 83 58.5 141.5T480-160q11 0 20.5-1t19.5-3v81q-10 2-19.5 2.5T480-80ZM280-600h160v-196q-69 14-114.5 69T280-600Zm240 0h160q0-72-45.5-127T520-796v196ZM634-80q-14 0-24-10t-10-24v-132q0-14 10-24t24-10h6v-40q0-33 23.5-56.5T720-400q33 0 56.5 23.5T800-320v40h6q14 0 24 10t10 24v132q0 14-10 24t-24 10H634Zm46-200h80v-40q0-17-11.5-28.5T720-360q-17 0-28.5 11.5T680-320v40ZM480-520Zm40-80Zm-80 0Z" />
                 </svg>
               </button>
-              <button id="navPreviewTree" class="mediumButtons tree" title="tree view">
+              <button id="navPreviewTree" class="mediumButtons tree" aria-label="tree" data-title="tree">
                 <svg id="iconTree" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
                   width="24px">
                   <path
@@ -276,44 +299,44 @@
     <div>
       <div>
         <div id="mainInitialSelector">
-          <button id="openAddElement" type="button" class=" mediumButtons" title=" element">
+          <button id="openAddElement" type="button" class=" mediumButtons" aria-label="add element"
+            data-title="add element">
             <svg id="add" xmlns="http://www.w3.org/2000/svg" height="24px" width="24px" viewBox="0 -960 960 960">
               <path
                 d="M440-280h80v-160h160v-80H520v-160h-80v160H280v80h160v160Zm40 200q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z" />
             </svg>
           </button>
-          <select class="mediumButtons" id="elementSelect" title="select element"></select>
-          <button id="editBlueprint" class="mediumButtons" title="edit blueprint">
+
+          <div data-title="select element">
+            <select id="elementSelect" class="mediumButtons" aria-label="select element"></select>
+          </div>
+
+
+          <button id="editBlueprint" class="mediumButtons" aria-label="edit blueprint" data-title="edit blueprint">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
               <path
                 d="M160-40v-240h100v-80H160v-240h100v-80H160v-240h280v240H340v80h100v80h120v-80h280v240H560v-80H440v80H340v80h100v240H160Zm80-80h120v-80H240v80Zm0-320h120v-80H240v80Zm400 0h120v-80H640v80ZM240-760h120v-80H240v80Zm60-40Zm0 320Zm400 0ZM300-160Z" />
             </svg>
           </button>
-          <button id="editText" class="mediumButtons" title="edit text content">
+          <button id="editText" class="mediumButtons" aria-label="edit text content" data-title="edit text content">
             <svg id="iconText" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
               <path d="M280-160v-520H80v-120h520v120H400v520H280Zm360 0v-320H520v-120h360v120H760v320H640Z" />
             </svg>
           </button>
-          <button id="editAttributes" class="mediumButtons" title="edit attributes">
+          <button id="editAttributes" class="mediumButtons" aria-label="edit attributes" data-title="edit attributes">
             <svg id="iconAttributes" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
               width="24px">
               <path
                 d="M160-400v-80h280v80H160Zm0-160v-80h440v80H160Zm0-160v-80h440v80H160Zm360 560v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q8 9 12.5 20t4.5 22q0 11-4 22.5T863-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
             </svg>
           </button>
-          <button id="editStyle" class="mediumButtons" title="edit style">
+          <button id="editStyle" class="mediumButtons" aria-label="edit style" data-title="edit style">
             <svg id="style" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
               <path
                 d="M440-80q-33 0-56.5-23.5T360-160v-160H240q-33 0-56.5-23.5T160-400v-280q0-66 47-113t113-47h480v440q0 33-23.5 56.5T720-320H600v160q0 33-23.5 56.5T520-80h-80ZM240-560h480v-200h-40v160h-80v-160h-40v80h-80v-80H320q-33 0-56.5 23.5T240-680v120Zm0 160h480v-80H240v80Zm0 0v-80 80Z" />
             </svg>
           </button>
-          <!-- <button id="editTag" class="mediumButtons" title="tag element">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
-              <path
-                d="m240-160 40-160H120l20-80h160l40-160H180l20-80h160l40-160h80l-40 160h160l40-160h80l-40 160h160l-20 80H660l-40 160h160l-20 80H600l-40 160h-80l40-160H360l-40 160h-80Zm140-240h160l40-160H420l-40 160Z" />
-            </svg>
-          </button> -->
-          <button id="removeElement" class="mediumButtons" title="remove element">
+          <button id="removeElement" class="mediumButtons" aria-label="remove element" data-title="remove element">
             <svg id="remove" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
               <path
                 d="m376-300 104-104 104 104 56-56-104-104 104-104-56-56-104 104-104-104-56 56 104 104-104 104 56 56Zm-96 180q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520Zm-400 0v520-520Z" />
@@ -322,38 +345,47 @@
         </div>
 
         <div id="mainBlueprintSelector">
-          <button id="mainBlueprintSelectorBack" class="mediumButtons" title="return to select element">
+          <button id="mainBlueprintSelectorBack" class="mediumButtons" aria-label="return to element selector"
+            data-title="return to element selector">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#back"></use>
             </svg>
           </button>
-          <button id="mainBlueprintSelectorAdd" class="mediumButtons" title="add new blueprint element">
+          <button id="mainBlueprintSelectorAdd" class="mediumButtons" aria-label="add new blueprint element"
+            data-title="add new blueprint element">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#add"></use>
             </svg>
           </button>
-          <select id="blueprintSelect" class="mediumButtons" title="select blueprint element"></select>
-          <button id="mainBlueprintSelectorCounter" class="mediumButtons" title="number of elements">
+          <div data-title="select blueprint element">
+            <select id="blueprintSelect" class="mediumButtons" aria-label="select blueprint element"></select>
+          </div>
+          <button id="mainBlueprintSelectorCounter" class="mediumButtons" aria-label="number of elements"
+            data-title="number of elements">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
               <path d="M240-160v-80l260-240-260-240v-80h480v120H431l215 200-215 200h289v120H240Z" />
             </svg>
           </button>
-          <button id="mainBlueprintSelectorEditText" class="mediumButtons" title="edit blueprint element text">
+          <button id="mainBlueprintSelectorEditText" class="mediumButtons" aria-label="edit blueprint element text"
+            data-title="edit blueprint element text">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#iconText"></use>
             </svg>
           </button>
-          <button id="mainBlueprintSelectorAttributes" class="mediumButtons" title="edit blueprint attributes">
+          <button id="mainBlueprintSelectorAttributes" class="mediumButtons" aria-label="edit blueprint attributes"
+            data-title="edit blueprint attributes">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#iconAttributes"></use>
             </svg>
           </button>
-          <button id="mainBlueprintSelectorEditStyle" class="mediumButtons" title="edit blueprint style">
+          <button id="mainBlueprintSelectorEditStyle" class="mediumButtons" aria-label="edit blueprint style"
+            data-title="edit blueprint style">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#style"></use>
             </svg>
           </button>
-          <button id="mainBlueprintSelectorDelete" class="mediumButtons" title="delete blueprint element">
+          <button id="mainBlueprintSelectorDelete" class="mediumButtons" aria-label="delete blueprint element"
+            data-title="delete blueprint element">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#remove"></use>
             </svg>
@@ -361,12 +393,14 @@
         </div>
 
         <div id="mainBlueprintTextEditor">
-          <button id="mainBlueprintTextEditorBack" class="mediumButtons" title="back to element selector">
+          <button id="mainBlueprintTextEditorBack" class="mediumButtons" aria-label="back to element selector"
+            data-title="back to element selector">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#back"></use>
             </svg>
           </button>
-          <button id="mainBlueprintTextEditorUpdateBlueprintText" class="mediumButtons" title="update text content">
+          <button id="mainBlueprintTextEditorUpdateBlueprintText" class="mediumButtons" aria-label="update text content"
+            data-title="update text content">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#update"></use>
             </svg>
@@ -375,18 +409,23 @@
 
         <div id="mainBlueprintAttributeSelector">
           <button id="mainBlueprintAttributeSelectorBack" class="mediumButtons"
-            title="back to blueprint element selector">
+            aria-label="back to blueprint element selector" data-title="back to blueprint element selector">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#back"></use>
             </svg>
           </button>
-          <button id="openBlueprintAddAttribute" class="mediumButtons" title="open add attribute">
+          <button id="openBlueprintAddAttribute" class="mediumButtons" aria-label="open add attribute"
+            data-title="open add attribute">
             <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#add"></use>
             </svg>
           </button>
-          <select id="blueprintAttributeSelect" class="mediumButtons"></select>
-          <button id="blueprintRemoveAttribute" class="mediumButtons" title="remove attribute">
+          <div data-title="select blueprint attribute">
+            <select id="blueprintAttributeSelect" class="mediumButtons"
+              aria-label="select blueprint attribute"></select>
+          </div>
+          <button id="blueprintRemoveAttribute" class="mediumButtons" aria-label="remove attribute"
+            data-title="remove attribute">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#remove"></use>
             </svg>
@@ -394,13 +433,18 @@
         </div>
 
         <div id="mainBlueprintAttributeAdd">
-          <button id="mainBlueprintAttributeAddBack" class="mediumButtons" title="back to blueprint attribute selector">
+          <button id="mainBlueprintAttributeAddBack" class="mediumButtons"
+            aria-label="back to blueprint attribute selector" data-title="back to blueprint attribute selector">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#back"></use>
             </svg>
           </button>
-          <select id="blueprintAttributeSelectAll" class="mediumButtons"></select>
-          <button id="blueprintAddAttribute" class="mediumButtons" title="add attribute">
+          <div data-title="select blueprint attribute">
+            <select id="blueprintAttributeSelectAll" class="mediumButtons"
+              aria-label="select blueprint attribute"></select>
+          </div>
+          <button id="blueprintAddAttribute" class="mediumButtons" aria-label="add attribute"
+            data-title="add attribute">
             <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#add"></use>
             </svg>
@@ -409,13 +453,17 @@
 
 
         <div id="mainBlueprintCounter">
-          <button id="mainBlueprintCounterBack" class="mediumButtons" title="return to select blueprint">
+          <button id="mainBlueprintCounterBack" class="mediumButtons" aria-label="return to select blueprint"
+            data-title="return to select blueprint">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#back"></use>
             </svg>
           </button>
-          <input aria-label="blueprint counter" id="mainBlueprintCounterInput" type="number">
-          <button id="mainBlueprintCounterUpdate" class="mediumButtons" title="update counter">
+          <div data-title="blueprint counter">
+            <input id="mainBlueprintCounterInput" type="number" aria-label="blueprint counter">
+          </div>
+          <button id="mainBlueprintCounterUpdate" class="mediumButtons" aria-label="update counter"
+            data-title="update counter">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#update"></use>
             </svg>
@@ -423,23 +471,28 @@
         </div>
 
         <div id="mainBlueprintStyleSelector">
-          <button id="mainBlueprintStyleSelectorBack" class="mediumButtons" title="back to element selector">
+          <button id="mainBlueprintStyleSelectorBack" class="mediumButtons" aria-label="back to element selector"
+            data-title="back to element selector">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#back"></use>
             </svg>
           </button>
-          <button id="openBlueprintState" class="mediumButtons" title="manage state">
+          <button id="openBlueprintState" class="mediumButtons" aria-label="manage state" data-title="manage state">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#iconState"></use>
             </svg>
           </button>
-          <button id="openBlueprintAddProperty" class="mediumButtons" title="open  property">
+          <button id="openBlueprintAddProperty" class="mediumButtons" aria-label="open property"
+            data-title="open property">
             <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#add"></use>
             </svg>
           </button>
-          <select id="blueprintPropertySelect" class="mediumButtons"></select>
-          <button id="removePropertyBlueprintSelectProperty" class="mediumButtons" title="remove property">
+          <div data-title="select property">
+            <select id="blueprintPropertySelect" class="mediumButtons" aria-label="select property"></select>
+          </div>
+          <button id="removePropertyBlueprintSelectProperty" class="mediumButtons" aria-label="remove property"
+            data-title="remove property">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#remove"></use>
             </svg>
@@ -447,54 +500,65 @@
         </div>
 
         <div id="mainBlueprintStateSelector">
-          <button id="mainBlueprintStateSelectorBack" class="mediumButtons" title="back to element selector">
+          <button id="mainBlueprintStateSelectorBack" class="mediumButtons" aria-label="back to element selector"
+            data-title="back to element selector">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#back"></use>
             </svg>
           </button>
-          <button id="openBlueprintAddState" class="mediumButtons" title="add state">
+          <button id="openBlueprintAddState" class="mediumButtons" aria-label="open add state"
+            data-title="open add state">
             <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#add"></use>
             </svg>
           </button>
-          <select id="elementBlueprintStateSelect"></select>
+          <div data-title="select state">
+            <select id="elementBlueprintStateSelect" aria-label="select state"></select>
+          </div>
           <div id="mainBlueprintStateStyleContextInfo">
             <button id="stateBlueprintContextInfo" class="mediumButtons" readonly
-              aria-label="state property context info" type="text">
+              aria-label="state property context info" data-title="state property context info" type="text">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
                 <use href="#iconHighlight"></use>
               </svg>
             </button>
           </div>
-          <button id="editBlueprintStateStyle" class="mediumButtons" title="edit state style">
+          <button id="editBlueprintStateStyle" class="mediumButtons" aria-label="edit state style"
+            data-title="edit state style">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#style"></use>
             </svg>
           </button>
-          <button id="removeBlueprintState" class="mediumButtons" title="remove state">
+          <button id="removeBlueprintState" class="mediumButtons" aria-label="remove state" data-title="remove state">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#remove"></use>
             </svg>
           </button>
         </div>
 
-
-
         <div id="mainBlueprintStateAdd">
-          <button class="mediumButtons" id="closeBlueprintAddState" title="return to select state">
+          <button class="mediumButtons" id="closeBlueprintAddState" aria-label="return to select state"
+            data-title="return to select state">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#back"></use>
             </svg>
           </button>
-          <select id="stateBlueprintSelectAll"></select>
-          <select id="selectBlueprintContext"></select>
-          <button id="selectBlueprintContextHighlight" class="mediumButtons">
+          <div id="stateBlueprintSelectAllContainer" data-title="select new state">
+            <select id="stateBlueprintSelectAll" aria-label="select new state"></select>
+          </div>
+          <div id="selectBlueprintContextContainer" data-title="select new context">
+            <select id="selectBlueprintContext" aria-label="select new context"></select>
+          </div>
+          <button id="selectBlueprintContextHighlight" class="mediumButtons" aria-label="highlight new context"
+            data-title="highlight new context">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#iconHighlight"></use>
             </svg>
           </button>
-          <select id="selectBlueprintStateOfContext"></select>
-          <button class="mediumButtons" id="addBlueprintState" title="add state">
+          <div id="selectBlueprintStateOfContextContainer" data-title="select new context state">
+            <select id="selectBlueprintStateOfContext" aria-label="select new context state"></select>
+          </div>
+          <button id="addBlueprintState" class="mediumButtons" aria-label="add state" data-title="add state">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#add"></use>
             </svg>
@@ -502,18 +566,23 @@
         </div>
 
         <div id="mainBlueprintStateStyleSelector">
-          <button id="mainBlueprintStateStyleSelectorBack" class="mediumButtons" title="back to element state selector">
+          <button id="mainBlueprintStateStyleSelectorBack" class="mediumButtons"
+            aria-label="back to element state selector" data-title="back to element state selector">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#back"></use>
             </svg>
           </button>
-          <button id="openBlueprintAddStateProperty" class="mediumButtons" title="open add state property">
+          <button id="openBlueprintAddStateProperty" class="mediumButtons" aria-label="open add state property"
+            data-title="open add state property">
             <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#add"></use>
             </svg>
           </button>
-          <select id="stateBlueprintPropertySelect" class="mediumButtons"></select>
-          <button id="removeBlueprintStateProperty" class="mediumButtons" title="remove state property">
+          <div data-title="select state property">
+            <select id="stateBlueprintPropertySelect" class="mediumButtons" aria-label="select state property"></select>
+          </div>
+          <button id="removeBlueprintStateProperty" class="mediumButtons" aria-label="remove state property"
+            data-title="remove state property">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#remove"></use>
             </svg>
@@ -521,13 +590,18 @@
         </div>
 
         <div id="mainBlueprintStateStyleAdd">
-          <button id="mainBlueprintStateStyleAddBack" class="mediumButtons" title="back to property selector">
+          <button id="mainBlueprintStateStyleAddBack" class="mediumButtons" aria-label="back to property selector"
+            data-title="back to property selector">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#back"></use>
             </svg>
           </button>
-          <select id="stateBlueprintPropertySelectAll" class="mediumButtons"></select>
-          <button id="addBlueprintStateProperty" class="mediumButtons" title="add property">
+          <div data-title="select state property">
+            <select id="stateBlueprintPropertySelectAll" class="mediumButtons"
+              aria-label="select state property"></select>
+          </div>
+          <button id="addBlueprintStateProperty" class="mediumButtons" aria-label="add state property"
+            data-title="add state property">
             <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#add"></use>
             </svg>
@@ -536,13 +610,18 @@
 
 
         <div id="mainBlueprintStyleAdd">
-          <button id="mainBlueprintStyleAddBack" class="mediumButtons" title="back to blueprint property selector">
+          <button id="mainBlueprintStyleAddBack" class="mediumButtons" aria-label="back to blueprint property selector"
+            data-title="back to blueprint property selector">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#back"></use>
             </svg>
           </button>
-          <select id="propertyBlueprintSelectAll" class="mediumButtons"></select>
-          <button id="addBlueprintProperty" class="mediumButtons" title="add blueprint property">
+          <div data-title="select blueprint property">
+            <select id="propertyBlueprintSelectAll" class="mediumButtons"
+              aria-label="select blueprint property"></select>
+          </div>
+          <button id="addBlueprintProperty" class="mediumButtons" aria-label="add blueprint property"
+            data-title="add blueprint property">
             <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#add"></use>
             </svg>
@@ -550,26 +629,34 @@
         </div>
 
         <div id="mainClassroomSelector">
-          <button id="mainClassroomSelectorAdd" class="mediumButtons" title="add tag">
+          <button id="mainClassroomSelectorAdd" class="mediumButtons" aria-label="open add tag"
+            data-title="open add tag">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#add"></use>
             </svg>
           </button>
-          <select id="mainClassroomSelectorSelectType" class="mediumButtons" title="select type"></select>
-          <select id="mainClassroomSelectorSelectName" class="mediumButtons" title="select name"></select>
-          <button id="mainClassroomSelectorEditName" class="mediumButtons" title="edit name">
+          <div data-title="select type">
+            <select id="mainClassroomSelectorSelectType" class="mediumButtons" aria-label="select type"></select>
+          </div>
+          <div data-title="select name">
+            <select id="mainClassroomSelectorSelectName" class="mediumButtons" aria-label="select name"></select>
+          </div>
+          <button id="mainClassroomSelectorEditName" class="mediumButtons" aria-label="edit name"
+            data-title="edit name">
             <svg id="iconEdit" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
               <path
                 d="M200-200h57l391-391-57-57-391 391v57Zm-80 80v-170l528-527q12-11 26.5-17t30.5-6q16 0 31 6t26 18l55 56q12 11 17.5 26t5.5 30q0 16-5.5 30.5T817-647L290-120H120Zm640-584-56-56 56 56Zm-141 85-28-29 57 57-29-28Z" />
             </svg>
           </button>
 
-          <button id="mainClassroomSelectorEditStyle" class="mediumButtons">
+          <button id="mainClassroomSelectorEditStyle" class="mediumButtons" aria-label="edit style"
+            data-title="edit style">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#style"></use>
             </svg>
           </button>
-          <button id="mainClassroomSelectorDelete" class="mediumButtons">
+          <button id="mainClassroomSelectorDelete" class="mediumButtons" aria-label="remove style"
+            data-title="remove style">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#remove"></use>
             </svg>
@@ -577,50 +664,61 @@
         </div>
 
         <div id="mainAddClassroomSelector">
-          <button id="mainAddClassroomSelectorBack" class="mediumButtons" title="back to classroom">
+          <button id="mainAddClassroomSelectorBack" class="mediumButtons" aria-label="back to classroom selector"
+            data-title="back to classroom selector">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#back"></use>
             </svg>
           </button>
-
-          <select id="mainAddClassroomSelectorSelectType" class="mediumButtons" title="select type"></select>
-          <input id="mainAddClassroomSelectorInputName" aria-label="name input" />
-
+          <div data-title="select new type">
+            <select id="mainAddClassroomSelectorSelectType" class="mediumButtons" aria-label="select new type"></select>
+          </div>
+          <div data-title="name">
+            <input id="mainAddClassroomSelectorInputName" aria-label="name" />
+          </div>
           <button id="mainClassroomSelectorSelectExtend" type="button" class="mediumButtons"
-            title="expand selector with extension">
+            aria-label="expand selector with extension" data-title="expand selector with extension">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#iconExtend"></use>
             </svg>
           </button>
-          <button id="mainAddClassroomSelectorAdd" class="mediumButtons" title="add tag">
+          <button id="mainAddClassroomSelectorAdd" class="mediumButtons" aria-label="add tag" data-title="add tag">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#add"></use>
             </svg>
           </button>
-
         </div>
 
         <div id="mainTemplatesSelector">
-          <select class="mediumButtons" id="mainTemplatesSelectorParent" title="select element"></select>
-          <button id="mainTemplatesSelectorAdd" class="mediumButtons" title="add template">
+          <div data-title="select element for template">
+            <select class="mediumButtons" id="mainTemplatesSelectorParent"
+              aria-label="select element for template"></select>
+          </div>
+          <button id="mainTemplatesSelectorAdd" class="mediumButtons" aria-label="add template"
+            data-title="add template">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#add"></use>
             </svg>
           </button>
-          <select id="mainTemplatesSelectorOptions" class="mediumButtons" title="select name"></select>
-          <button id="mainTemplatesSelectorPreview" class="mediumButtons" title="template preview">
+          <div data-title="select template">
+            <select id="mainTemplatesSelectorOptions" class="mediumButtons" aria-label="select template"></select>
+          </div>
+          <button id="mainTemplatesSelectorPreview" class="mediumButtons" aria-label="preview template"
+            data-title="preview template">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#iconPreview"></use>
             </svg>
           </button>
-          <button id="mainTemplatesSelectorInject" class="mediumButtons" title="inject template">
+          <button id="mainTemplatesSelectorInject" class="mediumButtons" aria-label="inject template"
+            data-title="inject template">
 
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
               <path
                 d="M440-280h80v-160h160v-80H520v-160h-80v160H280v80h160v160ZM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm0-560v560-560Z" />
             </svg>
           </button>
-          <button id="mainTemplatesSelectorDelete" class="mediumButtons" title="delete template">
+          <button id="mainTemplatesSelectorDelete" class="mediumButtons" aria-label="delete template"
+            data-title="delete template">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#remove"></use>
             </svg>
@@ -628,37 +726,44 @@
         </div>
 
         <div id="mainElementAdd">
-          <button class="mediumButtons" id="closeAddElement" title="return to select element">
+          <button class="mediumButtons" id="closeAddElement" aria-label="return to element selector"
+            data-title="return to element selector">
             <svg id="back" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
               <path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" />
             </svg>
           </button>
-          <select class="mediumButtons" id="elementSelectAll"></select>
-          <button class="mediumButtons add" id="addElement" title="element">
+          <div data-title="select new element">
+            <select class="mediumButtons" id="elementSelectAll" aria-label="select new element"></select>
+          </div>
+          <button class="mediumButtons add" id="addElement" aria-label="add element" data-title="add element">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#add"></use>
             </svg>
           </button>
         </div>
         <div id="mainStyleSelector">
-          <button id="mainStyleSelectorBack" class="mediumButtons" title="back to element selector">
+          <button id="mainStyleSelectorBack" class="mediumButtons" aria-label="return to element selector"
+            data-title="return to element selector">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#back"></use>
             </svg>
           </button>
-          <button class="mediumButtons" id="openState" title="manage state">
+          <button class="mediumButtons" id="openState" aria-label="manage state" data-title="manage state">
             <svg id="iconState" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
               <path
                 d="M320-240h60v-200h100l40 80h200v-240H600l-40-80H320v440Zm237-180-40-80H380v-120h143l40 80h97v120H557ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z" />
             </svg>
           </button>
-          <button class="mediumButtons" id="openAddProperty" title="open  property">
+          <button class="mediumButtons" id="openAddProperty" aria-label="open add property"
+            data-title="open add property">
             <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#add"></use>
             </svg>
           </button>
-          <select class="mediumButtons" id="propertySelect"></select>
-          <button class="mediumButtons" id="removeProperty" title="remove property">
+          <div data-title="select property">
+            <select class="mediumButtons" id="propertySelect" aria-label="select property"></select>
+          </div>
+          <button class="mediumButtons" id="removeProperty" aria-label="remove property" data-title="remove property">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#remove"></use>
             </svg>
@@ -666,13 +771,17 @@
         </div>
 
         <div id="mainBlueprintElementAdd">
-          <button class="mediumButtons" id="closeBlueprintAddElement" title="return to select element">
+          <button class="mediumButtons" id="closeBlueprintAddElement" aria-label="return to element selector"
+            data-title="return to element selector">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#back"></use>
             </svg>
           </button>
-          <select class="mediumButtons" id="elementBlueprintSelectAll"></select>
-          <button class="mediumButtons add" id="addBlueprintElement" title="element">
+          <div data-title="select new blueprint element">
+            <select class="mediumButtons" id="elementBlueprintSelectAll"
+              aria-label="select new blueprint element"></select>
+          </div>
+          <button class="mediumButtons add" id="addBlueprintElement" aria-label="add element" data-title="add element">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#add"></use>
             </svg>
@@ -680,19 +789,24 @@
         </div>
 
         <div id="mainClassroomStyleSelector">
-          <button id="mainClassroomStyleSelectorBack" class="mediumButtons" title="back to element selector">
+          <button id="mainClassroomStyleSelectorBack" class="mediumButtons" aria-label="return to classroom selector"
+            data-title="return to classroom selector">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#back"></use>
             </svg>
           </button>
 
-          <button class="mediumButtons" id="openClassroomAddProperty" title="open  property">
+          <button class="mediumButtons" id="openClassroomAddProperty" aria-label="open add property"
+            data-title="open add property">
             <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#add"></use>
             </svg>
           </button>
-          <select class="mediumButtons" id="classroomPropertySelect"></select>
-          <button class="mediumButtons" id="removeClassroomProperty" title="remove property">
+          <div data-title="select property">
+            <select class="mediumButtons" id="classroomPropertySelect" aria-label="select property"></select>
+          </div>
+          <button class="mediumButtons" id="removeClassroomProperty" aria-label="remove property"
+            data-title="remove property">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#remove"></use>
             </svg>
@@ -700,13 +814,16 @@
         </div>
 
         <div id="mainStyleAdd">
-          <button id="mainStyleAddBack" class="mediumButtons" title="back to property selector">
+          <button id="mainStyleAddBack" class="mediumButtons" aria-label="back to property selector"
+            data-title="back to property selector">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#back"></use>
             </svg>
           </button>
-          <select id="propertySelectAll" class="mediumButtons"></select>
-          <button id="addProperty" class="mediumButtons" title="add property">
+          <div data-title="select new property">
+            <select id="propertySelectAll" class="mediumButtons" aria-label="select new property"></select>
+          </div>
+          <button id="addProperty" class="mediumButtons" aria-label="add property" data-title="add property">
             <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#add"></use>
             </svg>
@@ -715,13 +832,16 @@
 
 
         <div id="mainStateStyleAdd">
-          <button id="mainStateStyleAddBack" class="mediumButtons" title="back to property selector">
+          <button id="mainStateStyleAddBack" class="mediumButtons" aria-label="back to property selector"
+            data-title="back to property selector">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#back"></use>
             </svg>
           </button>
-          <select id="statePropertySelectAll" class="mediumButtons"></select>
-          <button id="addStateProperty" class="mediumButtons" title="add property">
+          <div data-title="select new property">
+            <select id="statePropertySelectAll" class="mediumButtons" aria-label="select new property"></select>
+          </div>
+          <button id="addStateProperty" class="mediumButtons" aria-label="add property" data-title="add property">
             <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#add"></use>
             </svg>
@@ -729,141 +849,172 @@
         </div>
 
         <div id="mainClassroomStyleAdd">
-          <button id="mainClassroomStyleAddBack" class="mediumButtons" title="back to property selector">
+          <button id="mainClassroomStyleAddBack" class="mediumButtons" aria-label="back to property selector"
+            data-title="back to property selector">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#back"></use>
             </svg>
           </button>
-          <select id="propertyClassroomSelectAll" class="mediumButtons"></select>
-          <button id="addClassroomProperty" class="mediumButtons" title="add property">
+          <div data-title="select new property">
+            <select id="propertyClassroomSelectAll" class="mediumButtons" aria-label="select new property"></select>
+          </div>
+          <button id="addClassroomProperty" class="mediumButtons" aria-label="add property" data-title="add property">
             <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#add"></use>
             </svg>
           </button>
         </div>
 
-
-
         <div id="mainStateSelector">
-          <button id="mainStateSelectorBack" class="mediumButtons" title="back to element selector">
+          <button id="mainStateSelectorBack" class="mediumButtons" aria-label="back to element selector"
+            data-title="back to element selector">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#back"></use>
             </svg>
           </button>
-          <button id="openAddState" class="mediumButtons" title="add state">
+          <button id="openAddState" class="mediumButtons" aria-label="open add state" data-title="open add state">
             <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#add"></use>
             </svg>
           </button>
-          <select id="elementStateSelect"></select>
+          <div data-title="select state">
+            <select id="elementStateSelect" aria-label="select state"></select>
+          </div>
           <div id="mainStateStyleContextInfo">
             <button id="stateContextInfo" class="mediumButtons" readonly aria-label="state property context info"
-              type="text">
+              data-title="state property context info" type="text">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
                 <use href="#iconHighlight"></use>
               </svg>
             </button>
           </div>
-          <button id="editStateStyle" class="mediumButtons" title="edit state style">
+          <button id="editStateStyle" class="mediumButtons" aria-label="edit state style" data-title="edit state style">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#style"></use>
             </svg>
           </button>
-          <button id="removeState" class="mediumButtons" title="remove state">
+          <button id="removeState" class="mediumButtons" aria-label="remove state" data-title="remove state">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#remove"></use>
             </svg>
           </button>
         </div>
 
-
         <div id="mainStateStyleSelector">
-          <button id="mainStateStyleSelectorBack" class="mediumButtons" title="back to element state selector">
+          <button id="mainStateStyleSelectorBack" class="mediumButtons" aria-label="back to element state selector"
+            data-title="back to element state selector">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#back"></use>
             </svg>
           </button>
-          <button id="openAddStateProperty" class="mediumButtons" title="open add state property">
+          <button id="openAddStateProperty" class="mediumButtons" aria-label="open add state property"
+            data-title="open add state property">
             <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#add"></use>
             </svg>
           </button>
-          <select id="statePropertySelect" class="mediumButtons"></select>
-          <button id="removeStateProperty" class="mediumButtons" title="remove state property">
+          <div data-title="select new property">
+            <select id="statePropertySelect" class="mediumButtons" aria-label="select new property"></select>
+          </div>
+          <button id="removeStateProperty" class="mediumButtons" aria-label="remove state property"
+            data-title="remove state property">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#remove"></use>
             </svg>
           </button>
         </div>
 
-
         <div id="mainStateAdd">
-          <button class="mediumButtons" id="closeAddState" title="return to select state">
+          <button class="mediumButtons" id="closeAddState" aria-label="return to state selector"
+            data-title="return to state selector">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#back"></use>
             </svg>
           </button>
-          <select id="stateSelectAll"></select>
-          <select id="selectContext"></select>
-          <button id="selectContextHighlight" class="mediumButtons">
+          <div id="stateSelectAllContainer" data-title="select new state">
+            <select id="stateSelectAll" aria-label="select new state"></select>
+          </div>
+          <div id="selectContextContainer" data-title="select context">
+            <select id="selectContext" aria-label="select context"></select>
+          </div>
+          <button id="selectContextHighlight" class="mediumButtons" aria-label="highlight context"
+            data-title="highlight context">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#iconHighlight"></use>
             </svg>
           </button>
-          <select id="selectStateOfContext"></select>
-          <button class="mediumButtons" id="addState" title="add state">
+          <div id="selectStateOfContextContainer" data-title="select state of context">
+            <select id="selectStateOfContext" aria-label="select state of context"></select>
+          </div>
+          <button class="mediumButtons" id="addState" aria-label="add state" data-title="add state">
             <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#add"></use>
             </svg>
           </button>
         </div>
+
         <div id="mainTextEditor">
-          <button id="mainTextEditorBack" class="mediumButtons" title="back to element selector">
+          <button id="mainTextEditorBack" class="mediumButtons" aria-label="return to element selector"
+            data-title="return to element selector">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#back"></use>
             </svg>
           </button>
-          <button id="updateText" class="mediumButtons" title="update text content">
+          <button id="updateText" class="mediumButtons" aria-label="update text content"
+            data-title="update text content">
             <svg id="update" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
               <path
                 d="M480-120q-75 0-140.5-28.5t-114-77q-48.5-48.5-77-114T120-480q0-75 28.5-140.5t77-114q48.5-48.5 114-77T480-840q82 0 155.5 35T760-706v-94h80v240H600v-80h110q-41-56-101-88t-129-32q-117 0-198.5 81.5T200-480q0 117 81.5 198.5T480-200q105 0 183.5-68T756-440h82q-15 137-117.5 228.5T480-120Zm112-192L440-464v-216h80v184l128 128-56 56Z" />
             </svg>
           </button>
         </div>
+
         <div id="mainAttributeSelector">
-          <button id="mainAttributeSelectorBack" class="mediumButtons" title="back to element selector">
+          <button id="mainAttributeSelectorBack" class="mediumButtons" aria-label="return to element selector"
+            data-title="return to element selector">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#back"></use>
             </svg>
           </button>
-          <button id="openAddAttribute" class="mediumButtons" title="open add attribute">
+          <button id="openAddAttribute" class="mediumButtons" aria-label="open add attribute"
+            data-title="open add attribute">
             <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#add"></use>
             </svg>
           </button>
-          <select class="mediumButtons" id="attributeSelect"></select>
-          <button class="mediumButtons" id="removeAttribute" title="remove attribute">
+          <div data-title="select attribute">
+            <select class="mediumButtons" id="attributeSelect" aria-label="select attribute">
+            </select>
+          </div>
+          <button class="mediumButtons" id="removeAttribute" aria-label="remove attribute"
+            data-title="remove attribute">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#remove"></use>
             </svg>
           </button>
         </div>
+
         <div id="mainAttributeAdd">
-          <button id="mainAttributeAddBack" class="mediumButtons" title="back to attribute selector">
+          <button id="mainAttributeAddBack" class="mediumButtons" aria-label="return to attribute selector"
+            data-title="return to attribute selector">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#back"></use>
             </svg>
           </button>
-          <select id="attributeSelectAll" class="mediumButtons"></select>
-          <button id="addAttribute" class="mediumButtons" title="add attribute">
+          <div data-title="select new attribute">
+            <select id="attributeSelectAll" class="mediumButtons" aria-label="select new attribute"></select>
+          </div>
+          <button id="addAttribute" class="mediumButtons" aria-label="add attribute" data-title="add attribute">
             <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#add"></use>
             </svg>
           </button>
         </div>
+
         <div>
           <div class="separatorVertical"></div>
-          <button id="selectedElementHighlight" class="mediumButtons" title="highlight selected element">
+          <button id="selectedElementHighlight" class="mediumButtons" aria-label="highlight selected element"
+            data-title="highlight selected element">
             <svg id="iconHighlight" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
               width="24px">
               <path
@@ -871,7 +1022,7 @@
             </svg>
           </button>
           <button id="selectedElementLabelContainerSwitchSide" class="removeAttribute switch mediumButtons"
-            title="switch side">
+            aria-label="switch side" data-title="switch side">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#switch"></use>
             </svg>
@@ -882,7 +1033,8 @@
       <textarea id="mainBlueprintTextEditor2" aria-label="edit text content"></textarea>
       <div id="mainAttributeSelector2">
         <input aria-label="attribute input" type="text" id="attributeInput" />
-        <button class="mediumButtons " id="updateAttribute" title="update attribute value">
+        <button class="mediumButtons" id="updateAttribute" aria-label="update attribute value"
+          data-title="update attribute value">
           <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
             <use href="#update"></use>
           </svg>
@@ -891,7 +1043,8 @@
 
       <div id="mainBlueprintAttributeSelector2">
         <input id="blueprintAttributeInput" aria-label="attribute input" type="text" />
-        <button id="updateBlueprintAttribute" class="mediumButtons " title="update attribute value">
+        <button id="updateBlueprintAttribute" class="mediumButtons " aria-label="update attribute value"
+          data-title="update attribute value">
           <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
             <use href="#update"></use>
           </svg>
@@ -900,7 +1053,8 @@
 
       <div id="mainBlueprintStyleSelector2">
         <input aria-label="property input" type="text" id="propertyBlueprintInput" />
-        <button id="updateBlueprintProperty" class="mediumButtons" title="update blueprint property value">
+        <button id="updateBlueprintProperty" class="mediumButtons" aria-label="update property value"
+          data-title="update property value">
           <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
             <use href="#update"></use>
           </svg>
@@ -909,33 +1063,36 @@
 
       <div id="mainStyleSelector2">
         <input aria-label="property input" type="text" id="propertyInput" />
-        <button class="mediumButtons" id="updateProperty" title="update property value">
+        <button class="mediumButtons" id="updateProperty" aria-label="update property value"
+          data-title="update property value">
           <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
             <use href="#update"></use>
           </svg>
         </button>
       </div>
 
-      <div id="mainAddClassroomSelector2">
-        <input id="classroomExtensionInput" aria-label="extension input" type="text">
+      <div id="mainAddClassroomSelector2" data-title="extension">
+        <input id="classroomExtensionInput" aria-label="extension" type="text">
       </div>
 
       <div id="mainClassroomStyleSelector2">
         <input id="classroomPropertyInput" aria-label="property input" type="text" />
-        <button class="mediumButtons" id="updateClassroomProperty" title="update property value">
+        <button class="mediumButtons" id="updateClassroomProperty" aria-label="update property value"
+          data-title="update property value">
           <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
             <use href="#update"></use>
           </svg>
         </button>
       </div>
 
-      <div id="mainStateAdd2">
-        <input id="mainStateAddCustomInput" aria-label="state input" type="text" />
+      <div id="mainStateAdd2" data-title="custom state value">
+        <input id="mainStateAddCustomInput" aria-label="custom state value" type="text" />
       </div>
 
       <div id="mainStateStyleSelector2">
         <input aria-label="state property input" type="text" id="statePropertyInput" />
-        <button class="mediumButtons" id="updateStateProperty" title="update state property value">
+        <button class="mediumButtons" id="updateStateProperty" aria-label="update state property value"
+          data-title="update state property value">
           <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
             <use href="#update"></use>
           </svg>
@@ -944,7 +1101,8 @@
 
       <div id="mainBlueprintStateStyleSelector2">
         <input aria-label="state property input" type="text" id="blueprintStatePropertyInput" />
-        <button class="mediumButtons" id="updateBlueprintStateProperty" title="update state property value">
+        <button class="mediumButtons" id="updateBlueprintStateProperty" aria-label="update state property value"
+          data-title="update state property value">
           <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
             <use href="#update"></use>
           </svg>
@@ -953,7 +1111,7 @@
 
 
     </div>
-    <div class="mediumButtons" id="nameHelper">nameHelper</div>
+    <div class="mediumButtons" id="nameHelper" aria-label="selected element name">nameHelper</div>
   </div>
   <main>
     <iframe id="preview" title="Preview"></iframe>
@@ -961,17 +1119,18 @@
     <div id="previewTree">
       <div id="treeView"></div>
       <div id="treeViewButtons">
-        <div>
-          <select id="treeViewEdit" class="mediumButtons" title="replace current element with another"></select>
+        <div data-title="replace current element with another">
+          <select id="treeViewEdit" class="mediumButtons" aria-label="replace current element with another"></select>
         </div>
         <div>
-          <button id="treeViewMoveUp" class="mediumButtons" title="move element up">
+          <button id="treeViewMoveUp" class="mediumButtons" aria-label="move element up" data-title="move element up">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
               <path
                 d="M120-120v-80h720v80H120Zm320-160v-247l-64 63-56-56 160-160 160 160-56 56-64-63v247h-80ZM120-760v-80h720v80H120Z" />
             </svg>
           </button>
-          <button id="treeViewMoveDown" class="mediumButtons" title="move element down">
+          <button id="treeViewMoveDown" class="mediumButtons" aria-label="move element down"
+            data-title="move element down">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
               <path
                 d="M120-760v-80h720v80H120Zm360 480L320-440l56-56 64 63v-247h80v247l64-63 56 56-160 160ZM120-120v-80h720v80H120Z" />
@@ -996,15 +1155,15 @@
       <form id="wizard">
         <div>
           <h3 id="wizardTitle">Wizard Title</h3>
-          <button id="creatorExtend" type="button" class="mediumButtons" title="extend">
+          <button id="creatorExtend" type="button" class="mediumButtons" aria-label="extend" data-title="extend">
             <svg id="iconExtend" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px">
               <path
                 d="M352-120H200q-33 0-56.5-23.5T120-200v-152q48 0 84-30.5t36-77.5q0-47-36-77.5T120-568v-152q0-33 23.5-56.5T200-800h160q0-42 29-71t71-29q42 0 71 29t29 71h160q33 0 56.5 23.5T800-720v160q42 0 71 29t29 71q0 42-29 71t-71 29v160q0 33-23.5 56.5T720-120H568q0-50-31.5-85T460-240q-45 0-76.5 35T352-120Zm-152-80h85q24-66 77-93t98-27q45 0 98 27t77 93h85v-240h80q8 0 14-6t6-14q0-8-6-14t-14-6h-80v-240H480v-80q0-8-6-14t-14-6q-8 0-14 6t-6 14v80H200v88q54 20 87 67t33 105q0 57-33 104t-87 68v88Zm260-260Z" />
             </svg>
           </button>
-          <select id="creatorHeadExtend" class="mediumButtons" title="extend">
-
-          </select>
+          <div id="creatorHeadExtendContainer" data-title="extend">
+            <select id="creatorHeadExtend" class="mediumButtons" aria-label="extend"></select>
+          </div>
         </div>
         <div id="wizardHeadDiv">
           <div>
