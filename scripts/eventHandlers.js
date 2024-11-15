@@ -444,6 +444,7 @@ export const eventHandlers = () => {
 			return extendMap;
 		}
 		const extendMap = getAllExtensions();
+		console.log(global.map.blueprintMap);
 		const extendMapFilteredOutUl = new Map();
 		for (const [key, value] of extendMap) {
 			if (!key.includes("ul")) {
@@ -3638,7 +3639,7 @@ export const eventHandlers = () => {
 		const currentElement = getElementFromPath();
 		const selector = currentElement.timeStamp;
 		const currentMap = blueprintMap.get(selector);
-		// console.log("currentMap:", JSON.stringify(currentMap, null, 2));
+		global.id.elementBlueprintStateSelect.innerHTML = "";
 
 		const selectedElement = global.id.blueprintSelect.value.trim();
 		const formattedSelectedElement = selectedElement
@@ -3648,8 +3649,6 @@ export const eventHandlers = () => {
 			.split(">")
 			.map((e) => e.trim())
 			.slice(1);
-		// console.log("selectedElement:", selectedElement);
-		// console.log("Formatted Selected Element Array:", formattedSelectedElementArray);
 
 		let targetMap = currentMap;
 		for (let i = 0; i < formattedSelectedElementArray.length; i++) {
@@ -3658,19 +3657,13 @@ export const eventHandlers = () => {
 			const nthMatch = element.match(/:nth-of-type\((\d+)\)/);
 			const index = nthMatch ? Number.parseInt(nthMatch[1], 10) - 1 : 0;
 
-			// console.log(`Processing part: ${element}`);
-			// console.log(`Element Name: ${elementName}, Index: ${index}`);
-
 			if (!targetMap.children) {
-				// console.log("No children found for", elementName);
 				return null;
 			}
 
 			const matchingChildren = targetMap.children.filter(
 				(child) => child.element === elementName,
 			);
-
-			// console.log("Matching Children:", matchingChildren);
 
 			if (matchingChildren.length > index) {
 				targetMap = matchingChildren[index];
@@ -3681,12 +3674,9 @@ export const eventHandlers = () => {
 			}
 		}
 
-		// console.log("Final targetMap:", targetMap);
-		// console.log("Extend:", targetMap.extend);
 		if (!targetMap.extend) {
 			return;
 		}
-		global.id.elementBlueprintStateSelect.innerHTML = "";
 		for (const extension of targetMap.extend) {
 			const opt = document.createElement("option");
 			const pseudo = extension.extension.match(/\w+/);
@@ -3933,8 +3923,6 @@ export const eventHandlers = () => {
 				console.log("No DOM element found for path:", elementPath);
 			}
 		}
-
-		// Rebuild CSS selectors and apply styles
 		rebuildCssSelector();
 		applyStyles();
 		validateRemoveElement();
@@ -3949,7 +3937,6 @@ export const eventHandlers = () => {
 		/** @type {Element} */
 		const currentElement = getElementFromPath(global.id.elementSelect.value);
 
-		// Fail-safe 1: If the element you want to change is already that tag, return and don't do anything
 		if (
 			currentElement.tagName.toLowerCase() === treeViewEditValue.toLowerCase()
 		) {
@@ -3961,7 +3948,7 @@ export const eventHandlers = () => {
 		const countNumberOfDirectChildrenContainingCurrentElementTag =
 			Array.from(parentOfCurrentElement.children).filter(
 				(child) => child.tagName.toLowerCase() === treeViewEditValue,
-			).length + 1; // Increment by 1 to get the correct nth-of-type index
+			).length + 1;
 		console.log(
 			"Count Number of Direct Children Containing Current Element Tag:",
 			countNumberOfDirectChildrenContainingCurrentElementTag,
@@ -3980,7 +3967,6 @@ export const eventHandlers = () => {
 			selectedElementBeforeNthPart,
 		);
 
-		// Fail-safe 2: If the element is like main, footer, or nav, it does not have nth-of-type because they are unique
 		const uniqueTags = ["main", "footer", "nav"];
 		let newElementPath;
 		if (uniqueTags.includes(treeViewEditValue.toLowerCase())) {
