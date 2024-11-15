@@ -210,6 +210,7 @@ body > div#leftSide.right {
 body > div#leftSide:hover {
   transform: translateX(0);
 }
+
 body > div#leftSide > div#leftSidebarCanvas > div#leftSidebar {
   background-color: var(--colorBackground-lighter);
   padding-block: 12px;
