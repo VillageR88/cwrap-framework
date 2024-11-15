@@ -3677,6 +3677,7 @@ export const eventHandlers = () => {
 		if (!targetMap.extend) {
 			return;
 		}
+		//TODO rebuild this method
 		for (const extension of targetMap.extend) {
 			const opt = document.createElement("option");
 			const pseudo = extension.extension.match(/\w+/);
