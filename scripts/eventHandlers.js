@@ -1371,7 +1371,7 @@ export const eventHandlers = () => {
 		global.id.mainStateStyleAdd.style.display = "flex";
 		global.id.mainStateStyleSelector2.style.display = "none";
 		populatePropertySelectAll(cssProperties, true);
-		resolveElementStateSelect();
+		resolveElementStateSelect(); // validate if necessary
 	});
 
 	global.id.mainStateSelectorBack.addEventListener("click", () => {
@@ -1840,30 +1840,21 @@ export const eventHandlers = () => {
 	});
 
 	global.id.removeBlueprintStateProperty.addEventListener("click", () => {
-		console.log("removeBlueprintStateProperty clicked");
 
 		const blueprintMap = global.map.blueprintMap;
 		const selector = getElementFromPath().timeStamp;
-		console.log("Selector:", selector);
 
 		const currentMap = blueprintMap.get(selector);
-		console.log("Current Map:", JSON.stringify(currentMap, null, 2));
 
 		const blueprintSelectValue = global.id.blueprintSelect.value;
-		console.log("Blueprint Select Value:", blueprintSelectValue);
 
 		const targetElement = getBlueprintTargetElement(
 			currentMap,
 			blueprintSelectValue,
 		);
-		console.log("Target Element:", targetElement);
 
 		const blueprintPropertySelect = global.id.stateBlueprintPropertySelect;
 		const blueprintPropertySelectValue = blueprintPropertySelect.value;
-		console.log(
-			"Blueprint Property Select Value:",
-			blueprintPropertySelectValue,
-		);
 
 		if (targetElement?.extend && Array.isArray(targetElement.extend)) {
 			for (const extension of targetElement.extend) {
@@ -1876,7 +1867,6 @@ export const eventHandlers = () => {
 					if (extension.style === ";") {
 						extension.style = "";
 					}
-					console.log("Updated Styles:", extension.style);
 				}
 			}
 		}
@@ -1885,10 +1875,8 @@ export const eventHandlers = () => {
 		const validSelector = blueprintSelectValue
 			.replace(/ > /g, " ")
 			.replace(/:nth-of-type\(\d+\)/g, "");
-		console.log("Valid Selector:", validSelector);
 
 		const elementInView = document.querySelector(validSelector);
-		console.log("Element in View:", elementInView);
 
 		if (elementInView) {
 			elementInView.style[blueprintPropertySelectValue.trim()] = "";
@@ -1904,8 +1892,11 @@ export const eventHandlers = () => {
 		rebuildStyleFromBlueprint();
 		applyStyles();
 		populateBlueprintStyleOptions(true);
-		populateBlueprintStyleOptionsValue(true);
-		console.log("Rebuilt blueprint element and applied styles");
+		if (global.id.stateBlueprintPropertySelect.value !== "") {
+			populateBlueprintStyleOptionsValue(true);
+		} else {
+			global.id.blueprintStatePropertyInput = "";
+		}
 	});
 
 	global.id.openBlueprintAddStateProperty.addEventListener("click", () => {
@@ -2029,6 +2020,8 @@ export const eventHandlers = () => {
 		rebuildStyleFromBlueprint();
 		applyStyles();
 		populateBlueprintStyleOptions(true);
+		global.id.stateBlueprintPropertySelect.value =
+			global.id.stateBlueprintPropertySelectAll.value;
 		// global.id.stateBlueprintPropertySelect.value =
 		// 	global.id.stateBlueprintPropertySelectAll.value;
 		populateBlueprintStyleOptionsValue(true);

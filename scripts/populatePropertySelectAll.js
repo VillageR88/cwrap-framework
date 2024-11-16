@@ -45,15 +45,27 @@ export default function populatePropertySelectAll(
 		);
 		console.log("Target Element:", targetElement);
 
-		if (targetElement?.style && typeof targetElement.style === "string" && targetElement.extension === global.id.stateBlueprintContextInfo.title) {
-			currentStyle = targetElement.style;
+		if (targetElement?.style && typeof targetElement.style === "string") {
+			if (!isState) {
+				currentStyle = targetElement.style;
+			} else {
+				for (const state of targetElement.extend) {
+					console.log("Current State:", state);
+					console.log("Selected State:", global.id.elementStateSelect.value);
+					if (state.extension === global.id.elementBlueprintStateSelect.value) {
+						console.log("Current State:", state);
+						currentStyle = state.style;
+						break;
+					}
+				}
+			}
 		}
 	} else {
 		if (global.id.navAdditionalScreen.classList.contains("screenDesktop")) {
 			if (!isState) {
 				currentStyle = cssMap?.get(fullPath) || "";
 			} else {
-				currentStyle = cssMap?.get(global.id.stateContextInfo.title) || "";
+				currentStyle = cssMap?.get(global.id.elementStateSelect.value) || "";
 			}
 		} else if (
 			global.id.navAdditionalScreen.classList.contains("screenTablet")
@@ -65,7 +77,7 @@ export default function populatePropertySelectAll(
 				currentStyle =
 					mediaQueriesMap
 						.get("max-width: 768px")
-						?.get(global.id.stateContextInfo.title) || "";
+						?.get(global.id.elementStateSelect.value) || "";
 			}
 		} else if (
 			global.id.navAdditionalScreen.classList.contains("screenMobile")
@@ -77,12 +89,13 @@ export default function populatePropertySelectAll(
 				currentStyle =
 					mediaQueriesMap
 						.get("max-width: 640px")
-						?.get(global.id.stateContextInfo.title) || "";
+						?.get(global.id.elementStateSelect.value) || "";
 			}
 		}
 	}
 	console.log("Current Style:", currentStyle);
 
+	console.log("Applied Properties:", currentStyle);
 	const appliedProperties = currentStyle
 		.split(";")
 		.filter(Boolean)
