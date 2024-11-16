@@ -376,6 +376,7 @@ const global = {
 		removePropertyBlueprintSelectProperty: document.getElementById(
 			"removePropertyBlueprintSelectProperty",
 		),
+		removeState: document.getElementById("removeState"),
 		removeStateProperty: document.getElementById("removeStateProperty"),
 		removeBlueprintStateProperty: document.getElementById(
 			"removeBlueprintStateProperty",

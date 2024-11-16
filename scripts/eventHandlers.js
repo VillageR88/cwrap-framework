@@ -1840,7 +1840,6 @@ export const eventHandlers = () => {
 	});
 
 	global.id.removeBlueprintStateProperty.addEventListener("click", () => {
-
 		const blueprintMap = global.map.blueprintMap;
 		const selector = getElementFromPath().timeStamp;
 
@@ -2136,6 +2135,15 @@ export const eventHandlers = () => {
 		applyStyles();
 		styleSpan = newStyle;
 		updatePropertySelectOptions();
+	});
+
+	global.id.removeState.addEventListener("click", () => {
+		console.log("removeState clicked"); // debugging
+		const selectedState = global.id.elementStateSelect.value;
+		console.log("selectedState", selectedState); // debugging
+		cssMap.delete(selectedState) || "";
+		applyStyles();
+		populateElementStateOptions();
 	});
 
 	global.id.removeStateProperty.addEventListener("click", () => {
