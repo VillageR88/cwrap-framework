@@ -97,7 +97,7 @@ function rebuildBlueprintCssSelectorFromBlueprint(
 			}
 		}
 
-		if (Array.isArray(jsonObj.extend)) {
+		if (jsonObj.extend) {
 			for (const extension of jsonObj.extend) {
 				const cookedObj = replacePlaceholdersCwrapArray(
 					replacePlaceholdersCwrapIndex(extension, 0),

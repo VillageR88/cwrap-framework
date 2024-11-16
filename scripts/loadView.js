@@ -151,6 +151,7 @@ export function centralBarCleanup() {
 	global.id.mainTemplatesSelector.style.display = "none";
 	global.id.mainAddClassroomSelector2.style.display = "none";
 	global.id.mainClassroomStyleAdd.style.display = "none";
+	global.id.mainBlueprintStateSelector.style.display = "none";
 	cleanupPreviewEditor();
 }
 
@@ -158,7 +159,7 @@ function cleanupPreviewEditor() {
 	const iframe = global.id.preview;
 	const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
 	const previewWindow = iframeDoc.getElementById("cwrapPreviewWindow");
-			if (previewWindow) {
-				previewWindow.remove();
-			}
+	if (previewWindow) {
+		previewWindow.remove();
+	}
 }

@@ -27,6 +27,24 @@ export default function populatePropertySelectAll(
 	let currentStyle = "";
 
 	if (isBlueprint) {
+		//should do this for all methods but came to this idea after writing the code (17.11.2024)
+		if (isState) {
+			global.id.stateBlueprintPropertySelectAll.innerHTML = "";
+			const options = [];
+			for (const item of global.id.stateBlueprintPropertySelect)
+				options.push(item.value);
+
+			console.log("options", options);
+			for (const option of cssProperties) {
+				if (!options.includes(option)) {
+					const newOption = document.createElement("option");
+					newOption.value = option;
+					newOption.textContent = option;
+					global.id.stateBlueprintPropertySelectAll.appendChild(newOption);
+				}
+			}
+			return;
+		}
 		const selector = getElementFromPath().timeStamp;
 		console.log("Blueprint Selector:", selector);
 
@@ -49,13 +67,18 @@ export default function populatePropertySelectAll(
 			if (!isState) {
 				currentStyle = targetElement.style;
 			} else {
-				for (const state of targetElement.extend) {
-					console.log("Current State:", state);
-					console.log("Selected State:", global.id.elementStateSelect.value);
-					if (state.extension === global.id.elementBlueprintStateSelect.value) {
+				console.log("targetElement:", targetElement);
+				if (targetElement.extend) {
+					for (const state of targetElement.extend) {
 						console.log("Current State:", state);
-						currentStyle = state.style;
-						break;
+						console.log("Selected State:", global.id.elementStateSelect.value);
+						if (
+							state.extension === global.id.elementBlueprintStateSelect.value
+						) {
+							console.log("Current State:", state);
+							currentStyle = state.style;
+							break;
+						}
 					}
 				}
 			}
@@ -133,18 +156,23 @@ export default function populatePropertySelectAll(
 
 function getTargetElement(currentMap, blueprintSelectValue) {
 	const blueprintSelectValueTrimmed = blueprintSelectValue.replace(">", "");
+	console.log("Blueprint Select Value Trimmed:", blueprintSelectValueTrimmed);
 	const blueprintSelectorsArray = blueprintSelectValueTrimmed.split(">");
+	console.log("Blueprint Selectors Array:", blueprintSelectorsArray);
 	const searchedArray = [];
 
 	for (const i in blueprintSelectorsArray) {
+		console.log("Blueprint Selector:", blueprintSelectorsArray[i]);
 		const trimmedElement = blueprintSelectorsArray[i].trim();
 		const counter = trimmedElement.match(/(?<=nth-of-type\()\d+/) ?? 1;
 		if (Number(i) + 1 !== blueprintSelectorsArray.length)
 			searchedArray.push(`children[${counter - 1}]`);
 		else searchedArray.push(`[${counter - 1}]`);
 	}
+	console.log("Searched Array:", searchedArray);
 
 	let targetElement = currentMap;
+	console.log("Blueprint Selectors Array:", blueprintSelectorsArray);
 	try {
 		for (let j = 0; j < searchedArray.length - 1; j++) {
 			const path = searchedArray[j];
