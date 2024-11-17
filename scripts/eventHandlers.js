@@ -1577,38 +1577,82 @@ export const eventHandlers = () => {
 	});
 
 	//TODO Must be refactored to update option nth-of-type new value after removing element
-	global.id.removeElement.addEventListener("click", () => {
-		const selectedValue = global.id.elementSelect.value;
-
-		if (selectedValue !== "none") {
-			const element = getElementFromPath();
-			if (element) {
-				element.remove();
-				// console.log(`Element ${selectedValue} removed from iframe.`);
-			} else {
-				// console.log(`Element ${selectedValue} not found in iframe.`);
-			}
-			// Remove all options that contain the selected value
-			/**
-			 * @type {HTMLOptionsCollection} options
-			 */
-			const options = global.id.elementSelect.options;
-			for (let i = options.length - 1; i >= 0; i--) {
-				if (options[i].value.includes(selectedValue)) {
-					// console.log(`Option ${options[i].value} removed from selector.`);
-					removeStyle(options[i].value);
-					options[i].remove();
+	global.id.mainBlueprintSelectorDelete.addEventListener("click", () => {
+		const blueprintMap = global.map.blueprintMap;
+		const currentMap = blueprintMap.get(getElementFromPath().timeStamp);
+		const formattedSelector = global.id.blueprintSelect.value.trim().replace("> li", "");
+		const count = currentMap.count;
+		const arrayIntermediate = [];
+		const arrayFull = [];
+		for (let i = 0; i < count; i++) {
+			const intermediateSelector = `li:nth-of-type(${i + 1})${formattedSelector}`;
+			const fullSelector = `${global.id.elementSelect.value} > ${intermediateSelector}`;
+			arrayIntermediate.push(intermediateSelector);
+			arrayFull.push(fullSelector);
+		}
+		for (const [key, value] of global.map.cssMap) {
+			for (const item of arrayFull) {
+				if (key.startsWith(item)) {
+					console.log("deleted key", key); // debugging
+					global.map.cssMap.delete(key);
 				}
 			}
 		}
-		rebuildCssSelector();
-		populateSelectOptions();
-		applyStyles();
-		validateRemoveElement();
-		if (global.id.navSelectPreview.classList.contains("tree")) {
-			populateTreeView();
-			highlightSelectedElement();
+	
+		function removeElementFromMap(map, elementPath) {
+			const pathParts = elementPath.split(" > ").filter(Boolean);
+			let currentElement = map;
+	
+			// Skip the first part if it is "li"
+			if (pathParts[0] === "li") {
+				pathParts.shift();
+			}
+	
+			for (let i = 0; i < pathParts.length; i++) {
+				const part = pathParts[i].trim();
+				const elementName = part.replace(/:nth-of-type\(\d+\)/, "").trim();
+				const nthMatch = part.match(/:nth-of-type\((\d+)\)/);
+				const index = nthMatch ? Number.parseInt(nthMatch[1], 10) - 1 : 0;
+	
+				console.log(`Processing part: ${part}`);
+				console.log(`Element Name: ${elementName}, Index: ${index}`);
+	
+				if (i === pathParts.length - 1) {
+					// Remove the element from the children array
+					if (currentElement.children) {
+						currentElement.children = currentElement.children.filter(
+							(child, idx) => !(child.element === elementName && idx === index)
+						);
+						console.log("Updated Children Array:", currentElement.children);
+					}
+				} else {
+					if (!currentElement.children) {
+						console.log("No children found for", elementName);
+						return;
+					}
+	
+					const matchingChildren = currentElement.children.filter(
+						(child) => child.element === elementName
+					);
+	
+					console.log("Matching Children:", matchingChildren);
+	
+					if (matchingChildren.length > index) {
+						currentElement = matchingChildren[index];
+						console.log("Updated Current Element:", currentElement);
+					} else {
+						console.log("No matching child found for", elementName, "at index", index);
+						return;
+					}
+				}
+			}
 		}
+	
+		removeElementFromMap(currentMap, global.id.blueprintSelect.value.trim().replace(/^>\s*/, ""));
+		// rebuildStyleFromBlueprint();
+		reloadBlueprint();
+		applyStyles();
+
 	});
 
 	// global.id.openAddScreen.addEventListener("click", () => {
@@ -1889,17 +1933,27 @@ export const eventHandlers = () => {
 					const newValue = key.replace(selectedValue, "").split(" > ")[1];
 					if (
 						!array.includes(
-							newValue + (lastPart.trim() === ">" ? "" : lastPart) + elementBlueprintStateSelectValue,
+							newValue +
+								(lastPart.trim() === ">" ? "" : lastPart) +
+								elementBlueprintStateSelectValue,
 						)
 					) {
-						array.push(newValue + (lastPart.trim() === ">" ? "" : lastPart) + elementBlueprintStateSelectValue);
+						array.push(
+							newValue +
+								(lastPart.trim() === ">" ? "" : lastPart) +
+								elementBlueprintStateSelectValue,
+						);
 					}
 				}
 			}
 			console.log("array:", array);
 
 			for (const [key, value] of cssMap) {
-				if (array.includes(key.replace(selectedValue, "").split(" > ").slice(1).join(" > "))) {
+				if (
+					array.includes(
+						key.replace(selectedValue, "").split(" > ").slice(1).join(" > "),
+					)
+				) {
 					console.log("deleting", key);
 					cssMap.delete(key);
 				}

@@ -43,9 +43,12 @@ div[data-title]:after {
 
 #elementBlueprintStateSelect,
 #stateBlueprintSelectAll,
+#selectBlueprintStateOfContext,
+#selectBlueprintContext,
 #elementStateSelect,
 #stateSelectAll,
-#selectContext,#selectStateOfContext {
+#selectContext,
+#selectStateOfContext {
   display: flex;
   height: 40px;
   margin: 0;
