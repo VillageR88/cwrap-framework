@@ -1576,6 +1576,40 @@ export const eventHandlers = () => {
 		backToMainInitialSelector();
 	});
 
+	global.id.removeElement.addEventListener("click", () => {
+		const selectedValue = global.id.elementSelect.value;
+
+		if (selectedValue !== "none") {
+			const element = getElementFromPath();
+			if (element) {
+				element.remove();
+				// console.log(`Element ${selectedValue} removed from iframe.`);
+			} else {
+				// console.log(`Element ${selectedValue} not found in iframe.`);
+			}
+			// Remove all options that contain the selected value
+			/**
+			 * @type {HTMLOptionsCollection} options
+			 */
+			const options = global.id.elementSelect.options;
+			for (let i = options.length - 1; i >= 0; i--) {
+				if (options[i].value.includes(selectedValue)) {
+					// console.log(`Option ${options[i].value} removed from selector.`);
+					removeStyle(options[i].value);
+					options[i].remove();
+				}
+			}
+		}
+		rebuildCssSelector();
+		populateSelectOptions();
+		applyStyles();
+		validateRemoveElement();
+		if (global.id.navSelectPreview.classList.contains("tree")) {
+			populateTreeView();
+			highlightSelectedElement();
+		}
+	});
+
 	//TODO Must be refactored to update option nth-of-type new value after removing element
 	global.id.mainBlueprintSelectorDelete.addEventListener("click", () => {
 		const blueprintMap = global.map.blueprintMap;
