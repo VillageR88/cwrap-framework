@@ -444,7 +444,6 @@ export const eventHandlers = () => {
 			return extendMap;
 		}
 		const extendMap = getAllExtensions();
-		console.log(global.map.blueprintMap);
 		const extendMapFilteredOutUl = new Map();
 		for (const [key, value] of extendMap) {
 			if (!key.includes("ul")) {
@@ -1500,7 +1499,7 @@ export const eventHandlers = () => {
 	global.id.addElement.addEventListener("click", () => {
 		/** @type {string} */
 		const selectedValue = global.id.elementSelectAll.value;
-
+	
 		function countSibling(selectedValue) {
 			/** @type {Element} parentElement */
 			const parentElement = getElementFromPath();
@@ -1508,34 +1507,33 @@ export const eventHandlers = () => {
 				console.error("Parent element not found");
 				return 0;
 			}
-
+	
 			/** @type {HTMLCollection} children */
 			const children = parentElement.children; // Use children to get only element nodes
-			console.log("Children", children);
-			// Filter children by tag name and count them
+			// Filter children by tag name and count them, excluding cwrapTempScript
 			const count = Array.from(children).filter(
 				(child) =>
 					child.tagName.toLowerCase() === selectedValue.toLowerCase() &&
-					child.customTag !== "cwrapTempScript",
+					child.customTag !== "cwrapTempScript"
 			).length;
-
+	
 			return count + 1;
 		}
-
+	
 		const fullPath = global.id.elementSelect.value;
 		let newElement;
 		if (["main", "header", "footer", "nav"].includes(selectedValue)) {
 			newElement = `${fullPath} > ${selectedValue}`;
 		} else {
 			newElement = `${fullPath} > ${selectedValue}:nth-of-type(${countSibling(
-				selectedValue,
+				selectedValue
 			)})`; // this function replaces need of using generateCssSelector.js for total rebuild (possible refractor in the future)
 		}
-
+	
 		const parentOptionIndex = Array.from(
-			global.id.elementSelect.options,
+			global.id.elementSelect.options
 		).findIndex((option) => option.value === fullPath);
-
+	
 		let insertIndex = parentOptionIndex + 1;
 		for (
 			let i = parentOptionIndex + 1;
@@ -1547,10 +1545,10 @@ export const eventHandlers = () => {
 			}
 			insertIndex = i + 1;
 		}
-
+	
 		const newOption = new Option(newElement, newElement);
 		global.id.elementSelect.add(newOption, insertIndex);
-
+	
 		cssMap.set(newElement, "");
 		global.id.elementSelect.value = newElement;
 		const newElementNode = document.createElement(selectedValue);
@@ -1567,7 +1565,17 @@ export const eventHandlers = () => {
 				children: [],
 			});
 		}
-		parentElement.appendChild(newElementNode);
+	
+		// Append the new element before any cwrapTempScript element
+		const tempScript = Array.from(parentElement.children).find(
+			(child) => child.customTag === "cwrapTempScript"
+		);
+		if (tempScript) {
+			parentElement.insertBefore(newElementNode, tempScript);
+		} else {
+			parentElement.appendChild(newElementNode);
+		}
+	
 		if (newElementNode.tagName === "UL") reloadBlueprint();
 		eventListenerClickElement(newElementNode);
 		updateElementInfo(newElement, null);
