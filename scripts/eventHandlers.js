@@ -949,19 +949,23 @@ export const eventHandlers = () => {
 		populateBlueprintAttributeOptionsValue(targetElement);
 	});
 
+	//Should do nothing if global.id.blueprintAttributeSelect.value is empty
 	global.id.updateBlueprintAttribute.addEventListener("click", () => {
 		const blueprintMap = global.map.blueprintMap;
 		const selector = getElementFromPath().timeStamp;
 		const currentMap = blueprintMap.get(selector);
 		const blueprintSelectValue = global.id.blueprintSelect.value;
+		const blueprintAttributeSelect = global.id.blueprintAttributeSelect;
+		const blueprintAttributeSelectValue = blueprintAttributeSelect.value;
+		if (blueprintAttributeSelectValue === "") {
+			return;
+		}
 
 		const targetElement = getBlueprintTargetElement(
 			currentMap,
 			blueprintSelectValue,
 		);
 
-		const blueprintAttributeSelect = global.id.blueprintAttributeSelect;
-		const blueprintAttributeSelectValue = blueprintAttributeSelect.value;
 		const blueprintAttributeInput = global.id.blueprintAttributeInput;
 		const attributeValue = blueprintAttributeInput.value;
 		if (targetElement) {
@@ -969,10 +973,7 @@ export const eventHandlers = () => {
 		}
 		rebuildStyleFromBlueprint();
 		reloadBlueprint();
-		//rebuildStyleFromBlueprint();
 		populateBlueprintAttributeOptionsValue(targetElement);
-		//reloadBlueprint();
-		//removeStateFromMap(currentMap, selectedStateTrimmed);
 	});
 
 	global.id.mainStyleSelectorBack.addEventListener("click", () => {
@@ -1005,10 +1006,10 @@ export const eventHandlers = () => {
 			delete targetElement.attributes[blueprintAttributeSelectValue];
 			console.log("Removed attribute:", blueprintAttributeSelectValue);
 		}
-		//rebuildStyleFromBlueprint();
+		rebuildStyleFromBlueprint();
+		reloadBlueprint();
 		populateBlueprintAttributeOptions(targetElement);
 		populateBlueprintAttributeOptionsValue(targetElement);
-		//reloadBlueprint();
 	});
 
 	global.id.openBlueprintAddAttribute.addEventListener("click", () => {
@@ -2317,6 +2318,7 @@ export const eventHandlers = () => {
 		const attributeInput = global.id.attributeInput;
 		const selectedAttribute = attributeSelect.value;
 		const newValue = attributeInput.value;
+		if (attributeSelect.value === "") return;
 
 		const element = getElementFromPath();
 		if (element) {
