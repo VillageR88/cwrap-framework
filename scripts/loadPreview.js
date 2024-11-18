@@ -1,10 +1,11 @@
 import populateSelectOptions from "./populateSelectOptions.js";
-import populateAttributeOptions from "./populateAttributeOptions.js";
 import createElementFromJson from "./createElementFromJson.js";
 import generateClassroomMap from "./generateClassroomMap.js";
 import generateCssSelector from "./generateCssSelector.js";
 import applyStyles from "./applyStyles.js";
 import addRuntimeScripts from "./addRuntimeScripts.js";
+import validateParentElement from "./validateParentElement.js";
+import validateRemoveElement from "./validateRemoveElement.js";
 
 /**
  * @typedef {import('./types.js').JsonObject} JsonObject
@@ -69,11 +70,12 @@ export default function loadPreview(jsonObj) {
 	}
 	html.appendChild(head);
 	html.appendChild(body);
-	generateClassroomMap(jsonObj);	
+	generateClassroomMap(jsonObj);
 	generateCssSelector(jsonObj, "", new Map());
 	doc.body.replaceWith(createElementFromJson(jsonObj, true)); //TODO here blueprint is added
 	addRuntimeScripts();
 	applyStyles();
 	populateSelectOptions();
-
+	validateRemoveElement();
+	validateParentElement();
 }
