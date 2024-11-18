@@ -1614,7 +1614,9 @@ export const eventHandlers = () => {
 	global.id.mainBlueprintSelectorDelete.addEventListener("click", () => {
 		const blueprintMap = global.map.blueprintMap;
 		const currentMap = blueprintMap.get(getElementFromPath().timeStamp);
-		const formattedSelector = global.id.blueprintSelect.value.trim().replace("> li", "");
+		const formattedSelector = global.id.blueprintSelect.value
+			.trim()
+			.replace("> li", "");
 		const count = currentMap.count;
 		const arrayIntermediate = [];
 		const arrayFull = [];
@@ -1632,30 +1634,30 @@ export const eventHandlers = () => {
 				}
 			}
 		}
-	
+
 		function removeElementFromMap(map, elementPath) {
 			const pathParts = elementPath.split(" > ").filter(Boolean);
 			let currentElement = map;
-	
+
 			// Skip the first part if it is "li"
 			if (pathParts[0] === "li") {
 				pathParts.shift();
 			}
-	
+
 			for (let i = 0; i < pathParts.length; i++) {
 				const part = pathParts[i].trim();
 				const elementName = part.replace(/:nth-of-type\(\d+\)/, "").trim();
 				const nthMatch = part.match(/:nth-of-type\((\d+)\)/);
 				const index = nthMatch ? Number.parseInt(nthMatch[1], 10) - 1 : 0;
-	
+
 				console.log(`Processing part: ${part}`);
 				console.log(`Element Name: ${elementName}, Index: ${index}`);
-	
+
 				if (i === pathParts.length - 1) {
 					// Remove the element from the children array
 					if (currentElement.children) {
 						currentElement.children = currentElement.children.filter(
-							(child, idx) => !(child.element === elementName && idx === index)
+							(child, idx) => !(child.element === elementName && idx === index),
 						);
 						console.log("Updated Children Array:", currentElement.children);
 					}
@@ -1664,29 +1666,36 @@ export const eventHandlers = () => {
 						console.log("No children found for", elementName);
 						return;
 					}
-	
+
 					const matchingChildren = currentElement.children.filter(
-						(child) => child.element === elementName
+						(child) => child.element === elementName,
 					);
-	
+
 					console.log("Matching Children:", matchingChildren);
-	
+
 					if (matchingChildren.length > index) {
 						currentElement = matchingChildren[index];
 						console.log("Updated Current Element:", currentElement);
 					} else {
-						console.log("No matching child found for", elementName, "at index", index);
+						console.log(
+							"No matching child found for",
+							elementName,
+							"at index",
+							index,
+						);
 						return;
 					}
 				}
 			}
 		}
-	
-		removeElementFromMap(currentMap, global.id.blueprintSelect.value.trim().replace(/^>\s*/, ""));
+
+		removeElementFromMap(
+			currentMap,
+			global.id.blueprintSelect.value.trim().replace(/^>\s*/, ""),
+		);
 		// rebuildStyleFromBlueprint();
 		reloadBlueprint();
 		applyStyles();
-
 	});
 
 	// global.id.openAddScreen.addEventListener("click", () => {
@@ -1918,29 +1927,42 @@ export const eventHandlers = () => {
 	});
 
 	global.id.removeBlueprintStateProperty.addEventListener("click", () => {
+		console.log("removeBlueprintStateProperty clicked");
+
 		const blueprintMap = global.map.blueprintMap;
 		const selector = getElementFromPath().timeStamp;
+		console.log("Selector:", selector);
 
 		const currentMap = blueprintMap.get(selector);
+		console.log("Current Map:", JSON.stringify(currentMap, null, 2));
 
 		const blueprintSelectValue = global.id.blueprintSelect.value;
+		console.log("Blueprint Select Value:", blueprintSelectValue);
 
 		const targetElement = getBlueprintTargetElement(
 			currentMap,
 			blueprintSelectValue,
 		);
+		console.log("Target Element:", targetElement);
 
 		const blueprintPropertySelect = global.id.stateBlueprintPropertySelect;
 		const blueprintPropertySelectValue = blueprintPropertySelect.value;
+		console.log(
+			"Blueprint Property Select Value:",
+			blueprintPropertySelectValue,
+		);
 
 		if (targetElement?.extend && Array.isArray(targetElement.extend)) {
+			console.log("Target Element Extend:", targetElement.extend);
 			for (const extension of targetElement.extend) {
+				console.log("Extension:", extension);
 				if (extension.style && typeof extension.style === "string") {
 					const styles = extension.style
 						.split(";")
 						.map((style) => style.trim())
 						.filter((style) => !style.startsWith(blueprintPropertySelectValue));
 					extension.style = styles.join("; ").concat(";").trim();
+					console.log("Updated Extension Style:", extension.style);
 					if (extension.style === ";") {
 						extension.style = "";
 					}
@@ -1952,8 +1974,10 @@ export const eventHandlers = () => {
 		const validSelector = blueprintSelectValue
 			.replace(/ > /g, " ")
 			.replace(/:nth-of-type\(\d+\)/g, "");
+		console.log("Valid Selector:", validSelector);
 
 		const elementInView = document.querySelector(validSelector);
+		console.log("Element in View:", elementInView);
 
 		if (elementInView) {
 			elementInView.style[blueprintPropertySelectValue.trim()] = "";
@@ -1961,19 +1985,22 @@ export const eventHandlers = () => {
 		}
 
 		// Rebuild the blueprint element
-		reloadBlueprint();
+		// reloadBlueprint();
 		const selectedValue = global.id.elementSelect.value;
 		const firstChildrenTag =
 			getElementFromPath(selectedValue).childNodes[0].tagName.toLowerCase();
+		console.log("Selected Value:", selectedValue);
+		console.log("First Children Tag:", firstChildrenTag);
 		removeStyle(`${selectedValue} > ${firstChildrenTag}`);
 		rebuildStyleFromBlueprint();
 		applyStyles();
 		populateBlueprintStyleOptions(true);
-		if (global.id.stateBlueprintPropertySelect.value !== "") {
-			populateBlueprintStyleOptionsValue(true);
+		if (global.id.stateBlueprintPropertySelect.value.match(/^\s*;*\s*$/)) {
+			global.id.blueprintStatePropertyInput.value = "";
 		} else {
-			global.id.blueprintStatePropertyInput = "";
+			populateBlueprintStyleOptionsValue(true);
 		}
+		console.log("Finished removeBlueprintStateProperty");
 	});
 
 	global.id.removeBlueprintState.addEventListener("click", () => {
