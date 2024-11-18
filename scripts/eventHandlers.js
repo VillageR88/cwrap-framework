@@ -1917,6 +1917,65 @@ export const eventHandlers = () => {
 		applyStyles();
 	});
 
+	global.id.removeBlueprintStateProperty.addEventListener("click", () => {
+		const blueprintMap = global.map.blueprintMap;
+		const selector = getElementFromPath().timeStamp;
+
+		const currentMap = blueprintMap.get(selector);
+
+		const blueprintSelectValue = global.id.blueprintSelect.value;
+
+		const targetElement = getBlueprintTargetElement(
+			currentMap,
+			blueprintSelectValue,
+		);
+
+		const blueprintPropertySelect = global.id.stateBlueprintPropertySelect;
+		const blueprintPropertySelectValue = blueprintPropertySelect.value;
+
+		if (targetElement?.extend && Array.isArray(targetElement.extend)) {
+			for (const extension of targetElement.extend) {
+				if (extension.style && typeof extension.style === "string") {
+					const styles = extension.style
+						.split(";")
+						.map((style) => style.trim())
+						.filter((style) => !style.startsWith(blueprintPropertySelectValue));
+					extension.style = styles.join("; ").concat(";").trim();
+					if (extension.style === ";") {
+						extension.style = "";
+					}
+				}
+			}
+		}
+
+		// Apply the style changes to the view
+		const validSelector = blueprintSelectValue
+			.replace(/ > /g, " ")
+			.replace(/:nth-of-type\(\d+\)/g, "");
+
+		const elementInView = document.querySelector(validSelector);
+
+		if (elementInView) {
+			elementInView.style[blueprintPropertySelectValue.trim()] = "";
+			console.log("Cleared style from element in view");
+		}
+
+		// Rebuild the blueprint element
+		reloadBlueprint();
+		const selectedValue = global.id.elementSelect.value;
+		const firstChildrenTag =
+			getElementFromPath(selectedValue).childNodes[0].tagName.toLowerCase();
+		removeStyle(`${selectedValue} > ${firstChildrenTag}`);
+		rebuildStyleFromBlueprint();
+		applyStyles();
+		populateBlueprintStyleOptions(true);
+		if (global.id.stateBlueprintPropertySelect.value !== "") {
+			populateBlueprintStyleOptionsValue(true);
+		} else {
+			global.id.blueprintStatePropertyInput = "";
+		}
+	});
+
 	global.id.removeBlueprintState.addEventListener("click", () => {
 		const blueprintMap = global.map.blueprintMap;
 		const selector = getElementFromPath().timeStamp;
