@@ -444,13 +444,14 @@ export const eventHandlers = () => {
 			return extendMap;
 		}
 		const extendMap = getAllExtensions();
+		//TODO good idea with extendMapFilteredOutUl but for future
 		const extendMapFilteredOutUl = new Map();
 		for (const [key, value] of extendMap) {
 			if (!key.includes("ul")) {
 				extendMapFilteredOutUl.set(key, value);
 			}
 		}
-		let bodyJson = serializeElement(global.id.doc.body, extendMapFilteredOutUl);
+		let bodyJson = serializeElement(global.id.doc.body, extendMap);
 
 		function encapsulateJson(jsonObj) {
 			let newJsonObj = JSON.parse(JSON.stringify(jsonObj));
@@ -1415,14 +1416,16 @@ export const eventHandlers = () => {
 		const selectedState = stateSelectAll.value;
 		const selectedElement = elementSelect.value;
 		const mainStateAddCustomInput = global.id.mainStateAddCustomInput;
-		let currentMap;
 
+		let currentMap;
 		if (stateSelectAll.value === "custom") {
-			const customInputValue = mainStateAddCustomInput.value.trim();
-			const isValidCustomInput = /^[:.#]/.test(customInputValue);
+			const customInputValue = mainStateAddCustomInput.value.trimEnd();
+			const isValidCustomInput = /^[\s:.#]/.test(customInputValue);
+			console.log("isValidCustomInput", isValidCustomInput);
 			if (customInputValue === "") return;
 			if (!isValidCustomInput) return;
 		}
+		console.log("looking for breakpoint");
 
 		if (global.id.navAdditionalScreen.classList.contains("screenDesktop")) {
 			currentMap = cssMap;
@@ -1464,6 +1467,7 @@ export const eventHandlers = () => {
 		global.id.mainStateSelector.style.display = "flex";
 		global.id.mainStateAdd.style.display = "none";
 		global.id.mainStateAdd2.style.display = "none";
+		console.log("populateElementStateOptions");
 		populateElementStateOptions();
 		elementStateSelect.value = fullPath;
 		resolveElementStateSelect();
