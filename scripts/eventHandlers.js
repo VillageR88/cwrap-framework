@@ -1499,7 +1499,7 @@ export const eventHandlers = () => {
 	global.id.addElement.addEventListener("click", () => {
 		/** @type {string} */
 		const selectedValue = global.id.elementSelectAll.value;
-	
+
 		function countSibling(selectedValue) {
 			/** @type {Element} parentElement */
 			const parentElement = getElementFromPath();
@@ -1507,33 +1507,33 @@ export const eventHandlers = () => {
 				console.error("Parent element not found");
 				return 0;
 			}
-	
+
 			/** @type {HTMLCollection} children */
 			const children = parentElement.children; // Use children to get only element nodes
 			// Filter children by tag name and count them, excluding cwrapTempScript
 			const count = Array.from(children).filter(
 				(child) =>
 					child.tagName.toLowerCase() === selectedValue.toLowerCase() &&
-					child.customTag !== "cwrapTempScript"
+					child.customTag !== "cwrapTempScript",
 			).length;
-	
+
 			return count + 1;
 		}
-	
+
 		const fullPath = global.id.elementSelect.value;
 		let newElement;
 		if (["main", "header", "footer", "nav"].includes(selectedValue)) {
 			newElement = `${fullPath} > ${selectedValue}`;
 		} else {
 			newElement = `${fullPath} > ${selectedValue}:nth-of-type(${countSibling(
-				selectedValue
+				selectedValue,
 			)})`; // this function replaces need of using generateCssSelector.js for total rebuild (possible refractor in the future)
 		}
-	
+
 		const parentOptionIndex = Array.from(
-			global.id.elementSelect.options
+			global.id.elementSelect.options,
 		).findIndex((option) => option.value === fullPath);
-	
+
 		let insertIndex = parentOptionIndex + 1;
 		for (
 			let i = parentOptionIndex + 1;
@@ -1545,10 +1545,10 @@ export const eventHandlers = () => {
 			}
 			insertIndex = i + 1;
 		}
-	
+
 		const newOption = new Option(newElement, newElement);
 		global.id.elementSelect.add(newOption, insertIndex);
-	
+
 		cssMap.set(newElement, "");
 		global.id.elementSelect.value = newElement;
 		const newElementNode = document.createElement(selectedValue);
@@ -1565,17 +1565,17 @@ export const eventHandlers = () => {
 				children: [],
 			});
 		}
-	
+
 		// Append the new element before any cwrapTempScript element
 		const tempScript = Array.from(parentElement.children).find(
-			(child) => child.customTag === "cwrapTempScript"
+			(child) => child.customTag === "cwrapTempScript",
 		);
 		if (tempScript) {
 			parentElement.insertBefore(newElementNode, tempScript);
 		} else {
 			parentElement.appendChild(newElementNode);
 		}
-	
+
 		if (newElementNode.tagName === "UL") reloadBlueprint();
 		eventListenerClickElement(newElementNode);
 		updateElementInfo(newElement, null);
@@ -1936,33 +1936,21 @@ export const eventHandlers = () => {
 	});
 
 	global.id.removeBlueprintStateProperty.addEventListener("click", () => {
-		console.log("removeBlueprintStateProperty clicked");
-
 		const blueprintMap = global.map.blueprintMap;
 		const selector = getElementFromPath().timeStamp;
-		console.log("Selector:", selector);
 
 		const currentMap = blueprintMap.get(selector);
-		console.log("Current Map:", JSON.stringify(currentMap, null, 2));
 
 		const blueprintSelectValue = global.id.blueprintSelect.value;
-		console.log("Blueprint Select Value:", blueprintSelectValue);
 
 		const targetElement = getBlueprintTargetElement(
 			currentMap,
 			blueprintSelectValue,
 		);
-		console.log("Target Element:", targetElement);
-
 		const blueprintPropertySelect = global.id.stateBlueprintPropertySelect;
 		const blueprintPropertySelectValue = blueprintPropertySelect.value;
-		console.log(
-			"Blueprint Property Select Value:",
-			blueprintPropertySelectValue,
-		);
 
 		if (targetElement?.extend && Array.isArray(targetElement.extend)) {
-			console.log("Target Element Extend:", targetElement.extend);
 			for (const extension of targetElement.extend) {
 				console.log("Extension:", extension);
 				if (extension.style && typeof extension.style === "string") {
@@ -1993,13 +1981,10 @@ export const eventHandlers = () => {
 			console.log("Cleared style from element in view");
 		}
 
-		// Rebuild the blueprint element
-		// reloadBlueprint();
 		const selectedValue = global.id.elementSelect.value;
 		const firstChildrenTag =
 			getElementFromPath(selectedValue).childNodes[0].tagName.toLowerCase();
-		console.log("Selected Value:", selectedValue);
-		console.log("First Children Tag:", firstChildrenTag);
+
 		removeStyle(`${selectedValue} > ${firstChildrenTag}`);
 		rebuildStyleFromBlueprint();
 		applyStyles();
@@ -2009,7 +1994,6 @@ export const eventHandlers = () => {
 		} else {
 			populateBlueprintStyleOptionsValue(true);
 		}
-		console.log("Finished removeBlueprintStateProperty");
 	});
 
 	global.id.removeBlueprintState.addEventListener("click", () => {
@@ -2055,7 +2039,6 @@ export const eventHandlers = () => {
 			//remove styles from cssMap below
 
 			const lastPart = ` > ${blueprintSelectValue.split(" > ").slice(2).join(" > ")}`;
-			console.log("lastPart:", lastPart);
 			const array = [];
 			for (const [key, value] of cssMap) {
 				if (key.includes(selectedValue) && key !== selectedValue) {
@@ -2075,7 +2058,6 @@ export const eventHandlers = () => {
 					}
 				}
 			}
-			console.log("array:", array);
 
 			for (const [key, value] of cssMap) {
 				if (
@@ -2083,67 +2065,14 @@ export const eventHandlers = () => {
 						key.replace(selectedValue, "").split(" > ").slice(1).join(" > "),
 					)
 				) {
-					console.log("deleting", key);
 					cssMap.delete(key);
 				}
-				// if (key.includes(selectedValue)) {
-				// 	const newKey = key.replace(selectedValue, "");
-				// 	const firstMatch = key.replace(selectedValue, "");
-				// 	console.log("firstMatch:", firstMatch);
-				// 	const secondMatch = firstMatch.split(" > ")[0];
-				// 	console.log("secondMatch:", secondMatch);
-				// 	console.log(
-				// 		"elementBlueprintStateSelectValue:",
-				// 		elementBlueprintStateSelectValue,
-				// 	);
-				// 	const secondMatchIncludesElementBlueprintStateSelectValue =
-				// 		secondMatch.includes(elementBlueprintStateSelectValue);
-				// 	console.log(
-				// 		"secondMatchIncludesElementBlueprintStateSelectValue:",
-				// 		secondMatchIncludesElementBlueprintStateSelectValue,
-				// 	);
-				// 	if (secondMatchIncludesElementBlueprintStateSelectValue)
-				// 		console.log("deleting", key);
-				// 	cssMap.delete(key);
-				// }
 			}
 			rebuildStyleFromBlueprint();
 			applyStyles();
 		}
 
 		populateBlueprintElementStateOptions();
-	});
-
-	global.id.openBlueprintAddStateProperty.addEventListener("click", () => {
-		console.log("openBlueprintAddStateProperty clicked"); // debugging
-		global.id.mainBlueprintStateStyleSelector.style.display = "none";
-		global.id.mainBlueprintStateStyleSelector2.style.display = "none";
-		global.id.mainBlueprintStateStyleAdd.style.display = "flex";
-		//TODO Problem with adding another prop to the same extension aka populatePropertySelectAll TODO
-		populatePropertySelectAll(cssProperties, true, true);
-	});
-
-	global.id.mainBlueprintStateStyleAddBack.addEventListener("click", () => {
-		console.log("mainBlueprintStateStyleAddBack clicked"); // debugging
-		global.id.mainBlueprintStateStyleAdd.style.display = "none";
-		global.id.mainBlueprintStateStyleSelector.style.display = "flex";
-		global.id.mainBlueprintStateStyleSelector2.style.display = "flex";
-	});
-
-	global.id.addBlueprintStateProperty.addEventListener("click", () => {
-		console.log("addBlueprintStateProperty clicked"); // debugging
-
-		const blueprintStyleSelectValue =
-			global.id.stateBlueprintPropertySelectAll.value;
-		const blueprintMap = global.map.blueprintMap;
-		const selector = getElementFromPath().timeStamp;
-		console.log("Selector:", selector);
-
-		const currentMap = blueprintMap.get(selector);
-		console.log("Current Map:", JSON.stringify(currentMap, null, 2));
-
-		const blueprintSelectValue = global.id.blueprintSelect.value;
-		console.log("Blueprint Select Value:", blueprintSelectValue);
 	});
 
 	global.id.openBlueprintAddStateProperty.addEventListener("click", () => {
