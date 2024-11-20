@@ -436,21 +436,25 @@ export const eventHandlers = () => {
 			const cssMap = global.map.cssMap;
 			const extendMap = new Map();
 			for (const [key, value] of cssMap) {
-				const regExp = /[:.#]+(?!nth-of-type)/;
-				if (key.match(regExp)) {
+				const regExp1 = /[:.#]+(?!nth-of-type)/;
+				const regExp2 = /(?!>)\S\s\S+$/;
+				if (key.match(regExp1)) {
+					extendMap.set(key, value);
+				} else if (key.match(regExp2)) {
 					extendMap.set(key, value);
 				}
 			}
 			return extendMap;
 		}
 		const extendMap = getAllExtensions();
-		//TODO good idea with extendMapFilteredOutUl but for future
-		const extendMapFilteredOutUl = new Map();
-		for (const [key, value] of extendMap) {
-			if (!key.includes("ul")) {
-				extendMapFilteredOutUl.set(key, value);
-			}
-		}
+		// TODO good idea with extendMapFilteredOutUl but does not work all the time. Commented out for the future.
+		// Possible resolve of this TODO will probably be to filter out beyond UL excluding UL so UL will count as last positive and then all children will be filtered out
+		// const extendMapFilteredOutUl = new Map();
+		// for (const [key, value] of extendMap) {
+		// 	if (!key.includes("ul")) {
+		// 		extendMapFilteredOutUl.set(key, value);
+		// 	}
+		// }
 		let bodyJson = serializeElement(global.id.doc.body, extendMap);
 
 		function encapsulateJson(jsonObj) {
@@ -501,9 +505,7 @@ export const eventHandlers = () => {
 		})
 			.then((response) => response.json())
 			.then((data) => {
-				if (data.success) {
-					console.log("skeletonBody.json saved successfully!");
-				} else {
+				if (!data.success) {
 					console.error("Error saving skeletonBody.json:", data.error);
 				}
 			})
@@ -519,9 +521,7 @@ export const eventHandlers = () => {
 		})
 			.then((response) => response.json())
 			.then((data) => {
-				if (data.success) {
-					console.log("template.json saved successfully!");
-				} else {
+				if (!data.success) {
 					console.error("Error saving template.json:", data.error);
 				}
 			})

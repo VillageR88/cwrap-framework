@@ -24,11 +24,6 @@ export default function populateElementStateOptions() {
 	const elementSelectValue = global.id.elementSelect.value;
 
 	for (const [key, value] of currentMap) {
-		console.log("key", key);
-		console.log("elementSelectValue", elementSelectValue);
-		console.log("replacement");
-		console.log(key.replace(elementSelectValue, ""));
-
 		if (
 			key.includes(`${elementSelectValue}:`) ||
 			key.includes(`${elementSelectValue}::`) ||
@@ -40,23 +35,16 @@ export default function populateElementStateOptions() {
 			optionsMap.set(key, value);
 		}
 	}
-	console.log("optionsMap", optionsMap);
 
 	elementStateSelect.innerHTML = "";
 	for (const [key, _] of optionsMap) {
-		console.log("breakpoint");
-		console.log("key", key);
 		const option = document.createElement("option");
 		option.value = key;
-		console.log("key", key);
 		if (key.includes("has")) {
 			option.textContent = "has";
 		} else if (key.startsWith(" ")) {
-			// Handle leading whitespace case
-			console.log("case where empty space at start");
 			option.textContent = key;
 		} else {
-			console.log("case where :.#");
 			const splitKey = key.split(/[:.#]/);
 			option.textContent = splitKey[splitKey.length - 1];
 		}

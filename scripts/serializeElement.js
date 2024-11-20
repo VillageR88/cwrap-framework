@@ -49,6 +49,7 @@ export default function serializeElement(element, extendMap) {
 
 	// Handle extended styles
 	//TODO Getting back to this function i noticed it picks only non ul (blueprint) elements so we can filter it out of ul elements which improves the performance, so this is later TODO
+	console.log("checkpoint");
 	for (const [key, value] of extendMap.entries()) {
 		const keyBase = key.split(/[:.#]+(?!nth-of-type)/)[0];
 		const keySelector = key.split(/[:.#]+(?!nth-of-type)/)[1];
