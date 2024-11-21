@@ -48,23 +48,20 @@ export default function serializeElement(element, extendMap) {
 	}
 
 	// Handle extended styles
-	//TODO Getting back to this function i noticed it picks only non ul (blueprint) elements so we can filter it out of ul elements which improves the performance, so this is later TODO
-	console.log("checkpoint");
 	for (const [key, value] of extendMap.entries()) {
 		const regExp2 = /(?!>)\S\s(\S+)$/;
 		if (key.match(regExp2)) {
-			console.log("key", key);
-			console.log("regExp2 match", key.match(regExp2)[1]);
-			obj.extend = [{ extension: key.match(regExp2)[1], style: value }];
+			const selectorWithoutElementSelectedTrimmed = selector
+				.replace(global.id.elementSelect.value, "")
+				.trim();
+			if (selectorWithoutElementSelectedTrimmed.length === 0) {
+				obj.extend = [{ extension: ` ${key.match(regExp2)[1]}`, style: value }];
+			}
 		} else {
 			const keyBase = key.split(/[:.#]+(?!nth-of-type)/)[0];
-			console.log("keyBase", keyBase);
 			const keySelector = key.split(/[:.#]+(?!nth-of-type)/)[1];
-			console.log("keySelector", keySelector);
 			const selectorBase = selector.split(/[:.#]+(?!nth-of-type)/)[0];
-			console.log("selectorBase", selectorBase);
 			const selectorSymbol = key.replace(keyBase, "").replace(keySelector, "");
-			console.log("selectorSymbol", selectorSymbol);
 			if (keyBase === selectorBase) {
 				obj.extend = [
 					{ extension: selectorSymbol + keySelector, style: value },
