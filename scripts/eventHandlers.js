@@ -1415,17 +1415,20 @@ export const eventHandlers = () => {
 		const elementSelect = global.id.elementSelect;
 		const selectedState = stateSelectAll.value;
 		const selectedElement = elementSelect.value;
-		const mainStateAddCustomInput = global.id.mainStateAddCustomInput;
+		let mainStateAddCustomInputValue =
+			global.id.mainStateAddCustomInput.value.trimEnd();
 
 		let currentMap;
 		if (stateSelectAll.value === "custom") {
-			const customInputValue = mainStateAddCustomInput.value.trimEnd();
-			const isValidCustomInput = /^[\s:.#]/.test(customInputValue);
-			console.log("isValidCustomInput", isValidCustomInput);
-			if (customInputValue === "") return;
-			if (!isValidCustomInput) return;
+			if (mainStateAddCustomInputValue === "") return;
+			if (!/^[\s:.#]|\w\S+/.test(mainStateAddCustomInputValue)) return;
+			if (
+				mainStateAddCustomInputValue.trimStart().length ===
+				mainStateAddCustomInputValue.length
+			) {
+				mainStateAddCustomInputValue = ` ${mainStateAddCustomInputValue}`;
+			}
 		}
-		console.log("looking for breakpoint");
 
 		if (global.id.navAdditionalScreen.classList.contains("screenDesktop")) {
 			currentMap = cssMap;
@@ -1459,7 +1462,7 @@ export const eventHandlers = () => {
 			fullPath = `${selectedElement}::${selectedState}`;
 		} else if (selectedState === "custom") {
 			console.log("custom case"); // debugging
-			fullPath = `${selectedElement}${mainStateAddCustomInput.value}`;
+			fullPath = `${selectedElement}${mainStateAddCustomInputValue}`;
 		}
 
 		console.log("fullPath", fullPath); // debugging
@@ -1467,7 +1470,6 @@ export const eventHandlers = () => {
 		global.id.mainStateSelector.style.display = "flex";
 		global.id.mainStateAdd.style.display = "none";
 		global.id.mainStateAdd2.style.display = "none";
-		console.log("populateElementStateOptions");
 		populateElementStateOptions();
 		elementStateSelect.value = fullPath;
 		resolveElementStateSelect();

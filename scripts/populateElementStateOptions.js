@@ -24,39 +24,43 @@ export default function populateElementStateOptions() {
 	const elementSelectValue = global.id.elementSelect.value;
 
 	for (const [key, value] of currentMap) {
-		if (
-			key.includes(`${elementSelectValue}:`) ||
-			key.includes(`${elementSelectValue}::`) ||
-			key.includes(`${elementSelectValue}.`) ||
-			key.includes(`${elementSelectValue}#`) ||
-			key.replace(elementSelectValue, "").match(/^\s[a-z]/)
-		) {
+		const match = key.match(
+			/(?!>)\S\s(\S+)$|(?!:nth-of-type\(\d+\))([:.#]\S+)/,
+		);
+		if (match) {
+			console.log("matched");
 			if (!firstKey) firstKey = key;
-			optionsMap.set(key, value);
+			optionsMap.set(key);
 		}
 	}
-
+	console.log("optionsMap", optionsMap);
+	// (?!>)\S+\s(\S+)$
 	elementStateSelect.innerHTML = "";
 	for (const [key, _] of optionsMap) {
+		console.log("key1", key);
+
 		const option = document.createElement("option");
 		option.value = key;
-		if (key.includes("has")) {
-			option.textContent = "has";
-		} else if (key.startsWith(" ")) {
-			option.textContent = key;
-		} else {
-			const splitKey = key.split(/[:.#]/);
-			option.textContent = splitKey[splitKey.length - 1];
-		}
+		const match = key.match(
+			/(?!>)\S\s(\S+)$|(?!:nth-of-type\(\d+\))([:.#]\S+)/,
+		);
+		option.textContent = match?.[1] ?? match?.[2];
+		console.log("ttthis key", key);
+		option.value = key;
+
 		elementStateSelect.appendChild(option);
 	}
 
 	if (firstKey) {
+		console.log("is first key");
+		console.log(firstKey);
 		updateElementInfo(firstKey, getElementFromPath(firstKey));
+		global.id.elementStateSelect.value = firstKey;
 		global.id.elementSelect.value = global.variable.memoryElement;
 		global.id.nameHelper.textContent = global.variable.memoryElement;
 		global.id.editStateStyle.disabled = false;
 	} else {
+		console.log("no first key");
 		global.id.editStateStyle.disabled = true;
 	}
 }
