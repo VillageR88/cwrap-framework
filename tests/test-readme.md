@@ -1,3 +1,3 @@
-# Project Overview
+# Project Tests
 
-this is only part of github source code not npm package
+This part is excluded from npm package.

@@ -1409,27 +1409,12 @@ export const eventHandlers = () => {
 	});
 
 	global.id.addState.addEventListener("click", () => {
-		console.log("Add state clicked"); // debugging
 		const stateSelectAll = global.id.stateSelectAll;
 		const elementStateSelect = global.id.elementStateSelect;
 		const elementSelect = global.id.elementSelect;
 		const selectedState = stateSelectAll.value;
 		const selectedElement = elementSelect.value;
-		let mainStateAddCustomInputValue =
-			global.id.mainStateAddCustomInput.value.trimEnd();
-
 		let currentMap;
-		if (stateSelectAll.value === "custom") {
-			if (mainStateAddCustomInputValue === "") return;
-			if (!/^[\s:.#]|\w\S+/.test(mainStateAddCustomInputValue)) return;
-			if (
-				mainStateAddCustomInputValue.trimStart().length ===
-				mainStateAddCustomInputValue.length
-			) {
-				mainStateAddCustomInputValue = ` ${mainStateAddCustomInputValue}`;
-			}
-		}
-
 		if (global.id.navAdditionalScreen.classList.contains("screenDesktop")) {
 			currentMap = cssMap;
 		} else if (
@@ -1458,14 +1443,18 @@ export const eventHandlers = () => {
 		) {
 			fullPath = `${selectedElement}:${selectedState}`;
 		} else if (selectedState === "before" || selectedState === "after") {
-			console.log("before or after"); // debugging
 			fullPath = `${selectedElement}::${selectedState}`;
 		} else if (selectedState === "custom") {
-			console.log("custom case"); // debugging
-			fullPath = `${selectedElement}${mainStateAddCustomInputValue}`;
+			const mainStateAddCustomInputValue =
+				global.id.mainStateAddCustomInput.value.trim();
+			if (mainStateAddCustomInputValue === "") return;
+			if (/\S+/g.test(mainStateAddCustomInputValue)) {
+				fullPath = `${selectedElement} ${mainStateAddCustomInputValue}`;
+			} else {
+				fullPath = `${selectedElement}${mainStateAddCustomInputValue}`;
+			}
 		}
 
-		console.log("fullPath", fullPath); // debugging
 		currentMap.set(fullPath, "");
 		global.id.mainStateSelector.style.display = "flex";
 		global.id.mainStateAdd.style.display = "none";
