@@ -6,6 +6,7 @@ export default function checkIfBlueprintEnvironment() {
 		global.id.mainBlueprintStateSelector.style.display === "flex" ||
 		global.id.mainBlueprintStateAdd.style.display === "flex" ||
 		global.id.mainBlueprintStateStyleSelector.style.display === "flex" ||
-		global.id.mainBlueprintAttributeSelector.style.display === "flex";
+		global.id.mainBlueprintAttributeSelector.style.display === "flex" ||
+		global.id.mainBlueprintAttributeAdd.style.display === "flex";
 	return isBlueprint;
 }
