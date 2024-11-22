@@ -553,6 +553,7 @@ export const eventHandlers = () => {
 		global.id.mainInitialSelector.style.display = "none";
 		global.id.mainStyleSelector.style.display = "flex";
 		global.id.mainStyleSelector2.style.display = "flex";
+		global.id.propertyInput.removeAttribute("style");
 		populatePropertyValue();
 	});
 
@@ -609,6 +610,7 @@ export const eventHandlers = () => {
 	}
 
 	global.id.mainStyleAddBack.addEventListener("click", () => {
+		global.id.propertyInput.removeAttribute("style");
 		backToMainStyleSelector();
 	});
 
@@ -661,6 +663,7 @@ export const eventHandlers = () => {
 
 	//TODO This function need refactor badly
 	global.id.addProperty.addEventListener("click", () => {
+		global.id.propertyInput.removeAttribute("style");
 		const propertySelectAll = global.id.propertySelectAll;
 		const fullPath = global.id.elementSelect.value;
 		const selectedProperty = propertySelectAll.value;
@@ -1072,6 +1075,7 @@ export const eventHandlers = () => {
 	});
 
 	global.id.mainBlueprintSelectorEditStyle.addEventListener("click", () => {
+		global.id.propertyBlueprintInput.removeAttribute("style");
 		global.id.mainBlueprintSelector.style.display = "none";
 		global.id.mainBlueprintStyleSelector.style.display = "flex";
 		global.id.mainBlueprintStyleSelector2.style.display = "flex";
@@ -1215,12 +1219,14 @@ export const eventHandlers = () => {
 	});
 
 	global.id.mainBlueprintStyleAddBack.addEventListener("click", () => {
+		global.id.propertyBlueprintInput.removeAttribute("style");
 		global.id.mainBlueprintStyleSelector.style.display = "flex";
 		global.id.mainBlueprintStyleSelector2.style.display = "flex";
 		global.id.mainBlueprintStyleAdd.style.display = "none";
 	});
 
 	global.id.addBlueprintProperty.addEventListener("click", () => {
+		global.id.propertyBlueprintInput.removeAttribute("style");
 		const blueprintMap = global.map.blueprintMap;
 		const selector = getElementFromPath().timeStamp;
 		const currentMap = blueprintMap.get(selector);
@@ -1382,6 +1388,7 @@ export const eventHandlers = () => {
 		global.id.mainStateStyleContextInfo.style.display = "none";
 		global.id.elementSelect.value = global.variable.memoryElement;
 		global.id.nameHelper.textContent = global.variable.memoryElement;
+		global.id.propertyInput.removeAttribute("style");
 		populatePropertyValue(undefined, false);
 
 		// const selectedValue = global.id.stateOf.textContent;
@@ -3884,6 +3891,7 @@ export const eventHandlers = () => {
 	}
 
 	global.id.mainBlueprintStateSelectorBack.addEventListener("click", () => {
+		global.id.propertyBlueprintInput.removeAttribute("style");
 		global.id.mainBlueprintStyleSelector.style.display = "flex";
 		global.id.mainBlueprintStyleSelector2.style.display = "flex";
 		global.id.mainBlueprintStateSelector.style.display = "none";

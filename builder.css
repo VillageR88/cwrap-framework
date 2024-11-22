@@ -885,6 +885,16 @@ body > main > div > div > div > select#treeViewEdit > option {
   color: var(--colorFill-regular);
 }
 
+body > #selectedElementLabelContainer > div > div#mainStyleSelector2 > textarea,
+textarea#propertyBlueprintInput {
+  min-height: 42px;
+  height: 42px;
+  min-width: 344px;
+  resize: both;
+  max-width: 800px;
+  max-height: 600px;
+}
+
 body > #selectedElementLabelContainer > div > div > #mainBlueprintSelector,
 body
   > #selectedElementLabelContainer
