@@ -12,10 +12,6 @@
  * @property {string} head.meta.charset - The character encoding for the document.
  * @property {Object} root - The root styles for the document.
  * @property {Object} fonts - The font styles for the document.
- * @property {Array<Object>} classroom - Array of classroom elements.
- * @property {string} classroom.name - The name of the classroom element.
- * @property {string} classroom.type - The type of the classroom element (e.g., 'element', 'class').
- * @property {string} classroom.style - The CSS styles for the classroom element.
  * @property {string} element - The HTML element type (e.g., 'div', 'span').
  * @property {Object} [style] - The CSS styles for the element.
  * @property {Array<Object>} [extend] - Array of extensions for the element.
@@ -35,6 +31,12 @@
  * @property {Array<Object>} blueprint.extend - Array of extensions for the blueprint element.
  * @property {string} blueprint.extend.extension - The CSS extension for the blueprint element.
  * @property {string} blueprint.extend.style - The CSS styles for the blueprint extension.
+ * @property {string} [blueprint.text] - The text content for the blueprint element.
+ * @property {Object} [blueprint.attributes] - The attributes for the blueprint element.
+ * @property {Array<{nth: string, text?: string}>} [blueprint.enum] - Array of enumerations for the blueprint element.
+ * @property {string} blueprint.enum.nth - The nth value for the enumeration.
+ * @property {string} blueprint.enum.text - The text content for the enumeration.
+ * @property {string} [blueprint.alter] - The alter property for the blueprint element.
  */
 
 export const Types = {};
