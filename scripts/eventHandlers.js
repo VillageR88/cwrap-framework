@@ -254,29 +254,32 @@ export const eventHandlers = () => {
 					}
 				}
 				element.style.boxShadow = "";
+				const nameHelper = global.id.nameHelper;
+				if (element) {
+					element.classList.remove("cwrap-glowing");
+				}
+				nameHelper.style.display = "none";
 
-				document.removeEventListener("mouseup", removeGlow);
+				global.id.selectedElementHighlight.removeEventListener(
+					"mouseup",
+					removeGlow,
+				);
+				global.id.selectedElementHighlight.removeEventListener(
+					"mouseleave",
+					removeGlow,
+				);
 			};
-			document.addEventListener("mouseup", removeGlow);
+			global.id.selectedElementHighlight.addEventListener(
+				"mouseup",
+				removeGlow,
+			);
+			global.id.selectedElementHighlight.addEventListener(
+				"mouseleave",
+				removeGlow,
+			);
 		}
 		nameHelper.style.display = "flex";
 	});
-
-	const handleEventStopGlowing = (path) => {
-		const nameHelper = global.id.nameHelper;
-		const element = getElementFromPath(path);
-		if (element) {
-			element.classList.remove("cwrap-glowing");
-		}
-		nameHelper.style.display = "none";
-	};
-
-	global.id.selectedElementHighlight.addEventListener("mouseleave", () =>
-		handleEventStopGlowing(),
-	);
-	global.id.selectedElementHighlight.addEventListener("mouseup", () =>
-		handleEventStopGlowing(),
-	);
 
 	global.id.selectContextHighlight.addEventListener("mousedown", () => {
 		const element = getElementFromPath(
