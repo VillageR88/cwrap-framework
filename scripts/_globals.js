@@ -150,6 +150,9 @@ const global = {
 		mainBlueprintSelectorCounter: document.getElementById(
 			"mainBlueprintSelectorCounter",
 		),
+		mainBlueprintSelectorAlter: document.getElementById(
+			"mainBlueprintSelectorAlter",
+		),
 		mainBlueprintSelectorDelete: document.getElementById(
 			"mainBlueprintSelectorDelete",
 		),
@@ -406,7 +409,9 @@ const global = {
 		selectedElementHighlight: document.getElementById(
 			"selectedElementHighlight",
 		),
-		selectStateOfContextContainer: document.getElementById("selectStateOfContextContainer"),
+		selectStateOfContextContainer: document.getElementById(
+			"selectStateOfContextContainer",
+		),
 		selectedElementLabel: document.getElementById("selectedElementLabel"),
 		selectedElementLabelContainer: document.getElementById(
 			"selectedElementLabelContainer",

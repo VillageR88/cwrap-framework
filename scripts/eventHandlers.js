@@ -1364,6 +1364,7 @@ export const eventHandlers = () => {
 		// populateBlueprintStyleOptions();
 		// populateBlueprintStyleOptionsValue();
 	});
+	
 	global.id.mainBlueprintStateStyleSelectorBack.addEventListener(
 		"click",
 		() => {
