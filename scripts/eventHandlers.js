@@ -219,11 +219,20 @@ export const eventHandlers = () => {
 			? global.id.elementSelect.value + global.id.blueprintSelect.value
 			: global.id.elementSelect.value;
 
+		/** @type Element */
 		const element = isBlueprint
 			? getElementFromPath(
 					global.id.elementSelect.value + global.id.blueprintSelect.value,
 				)
 			: getElementFromPath();
+		if (isBlueprint) {
+			const rootElement = global.id.elementSelect.value;
+			const blueprintElements = global.id.blueprintSelect.value
+				.replace(" > ", "")
+				.split(" > ");
+			console.log("rootElement", rootElement);
+			console.log("blueprintElements", blueprintElements);
+		}
 		if (element) {
 			const selectionColor = {
 				red: "rgba(255, 0, 0, 1)",
@@ -231,9 +240,21 @@ export const eventHandlers = () => {
 				blue: "rgba(0, 0, 255, 1)",
 			};
 			const selected = global.localSettings.selectionColor;
-			element.style.boxShadow = `0 0 10px ${selectionColor[selected]} inset, 0 0 10px ${selectionColor[selected]}`;
+			if (isBlueprint) {
+				for (const blueprintElement of element.parentElement.children) {
+					blueprintElement.style.boxShadow = `0 0 10px ${selectionColor[selected]} inset, 0 0 10px ${selectionColor[selected]}`;
+				}
+			} else {
+				element.style.boxShadow = `0 0 10px ${selectionColor[selected]} inset, 0 0 10px ${selectionColor[selected]}`;
+			}
 			const removeGlow = () => {
+				if (isBlueprint) {
+					for (const blueprintElement of element.parentElement.children) {
+						blueprintElement.style.boxShadow = "";
+					}
+				}
 				element.style.boxShadow = "";
+
 				document.removeEventListener("mouseup", removeGlow);
 			};
 			document.addEventListener("mouseup", removeGlow);
@@ -1364,7 +1385,7 @@ export const eventHandlers = () => {
 		// populateBlueprintStyleOptions();
 		// populateBlueprintStyleOptionsValue();
 	});
-	
+
 	global.id.mainBlueprintStateStyleSelectorBack.addEventListener(
 		"click",
 		() => {
