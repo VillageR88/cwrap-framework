@@ -1,6 +1,7 @@
 /**
  * Get the element from the path in the elementSelect input field
  * @param {string} [path] - The path to the element in the preview document.
+ * @returns {Element}
  */
 export default function getElementFromPath(path) {
 	// console.log("Function getElementFromPath called with path:", path);

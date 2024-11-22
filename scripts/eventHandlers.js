@@ -198,6 +198,7 @@ export const eventHandlers = () => {
 	});
 
 	global.id.elementSelect.addEventListener("change", () => {
+		/** @type {string} */
 		const selectedValue = global.id.elementSelect.value;
 		const element = getElementFromPath();
 		updateElementInfo(selectedValue, element);
@@ -214,25 +215,28 @@ export const eventHandlers = () => {
 	global.id.selectedElementHighlight.addEventListener("mousedown", () => {
 		const nameHelper = global.id.nameHelper;
 		const isBlueprint = checkIfBlueprintEnvironment();
+		/** @type {Element?} */
+		let rootElement;
+		/** @type {Element[]?} */
+		let blueprintElements;
 
 		global.id.nameHelper.textContent = isBlueprint
 			? global.id.elementSelect.value + global.id.blueprintSelect.value
 			: global.id.elementSelect.value;
 
-		/** @type Element */
+		/** @type {Element} */
 		const element = isBlueprint
 			? getElementFromPath(
 					global.id.elementSelect.value + global.id.blueprintSelect.value,
 				)
 			: getElementFromPath();
 		if (isBlueprint) {
-			const rootElement = global.id.elementSelect.value;
-			const blueprintElements = global.id.blueprintSelect.value
+			rootElement = global.id.elementSelect.value;
+			blueprintElements = global.id.blueprintSelect.value
 				.replace(" > ", "")
 				.split(" > ");
-			console.log("rootElement", rootElement);
-			console.log("blueprintElements", blueprintElements);
 		}
+		let processedArray = [getElementFromPath(rootElement)];
 		if (element) {
 			const selectionColor = {
 				red: "rgba(255, 0, 0, 1)",
@@ -241,7 +245,45 @@ export const eventHandlers = () => {
 			};
 			const selected = global.localSettings.selectionColor;
 			if (isBlueprint) {
-				for (const blueprintElement of element.parentElement.children) {
+				///WIP
+				/**
+				 *
+				 * @param {Element} parentElement
+				 * @param {string} searchedChildren
+				 * @returns {Element[]}
+				 */
+				function getChildren(parentElement, searchedChildren) {
+					const arrayOfChildren = [];
+					let enumerator = 1;
+					for (const blueprintElement of parentElement.children) {
+						if (searchedChildren.split(":")[0] !== blueprintElement.tagName.toLowerCase()) continue;
+				
+						const nth = searchedChildren.split(":")[1];
+						const match = nth?.match(/nth-of-type\((\d+)\)/)[1];
+						if (
+							searchedChildren.split(":")[0] ===
+								blueprintElement.tagName.toLowerCase() && match
+								? enumerator === Number(match)
+								: true
+						) {
+							arrayOfChildren.push(blueprintElement);
+						}
+						enumerator++;
+					}
+					return arrayOfChildren;
+				}
+
+				for (const elementName of blueprintElements) {
+					const tempArray = [];
+					for (const arrayElement of processedArray) {
+						const children = getChildren(arrayElement, elementName);
+						for (const item of children) tempArray.push(item);
+					}
+					processedArray = tempArray;
+				}
+
+				///
+				for (const blueprintElement of processedArray) {
 					blueprintElement.style.boxShadow = `0 0 10px ${selectionColor[selected]} inset, 0 0 10px ${selectionColor[selected]}`;
 				}
 			} else {
@@ -249,7 +291,7 @@ export const eventHandlers = () => {
 			}
 			const removeGlow = () => {
 				if (isBlueprint) {
-					for (const blueprintElement of element.parentElement.children) {
+					for (const blueprintElement of processedArray) {
 						blueprintElement.style.boxShadow = "";
 					}
 				}
