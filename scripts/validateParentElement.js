@@ -76,10 +76,10 @@ export default function validateParentElement(validationForBlueprint = false) {
 	} else {
 		if (parentType === "li") {
 			global.id.mainBlueprintSelectorCounter.style.display = "flex";
-			global.id.mainBlueprintSelectorAlter.style.display = "flex";
+			global.id.mainBlueprintSelectorAlter.style.display = "none";
 		} else {
 			global.id.mainBlueprintSelectorCounter.style.display = "none";
-			global.id.mainBlueprintSelectorAlter.style.display = "none";
+			global.id.mainBlueprintSelectorAlter.style.display = "flex";
 		}
 	}
 }

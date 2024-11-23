@@ -89,7 +89,6 @@ export default function createElementFromJson(
 			);
 			const clonedElement = blueprintElement.cloneNode(true);
 			clonedElement.customTag = "cwrapBlueprint";
-			console.log(clonedElement);
 			element.appendChild(clonedElement);
 		}
 	}

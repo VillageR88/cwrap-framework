@@ -256,8 +256,12 @@ export const eventHandlers = () => {
 					const arrayOfChildren = [];
 					let enumerator = 1;
 					for (const blueprintElement of parentElement.children) {
-						if (searchedChildren.split(":")[0] !== blueprintElement.tagName.toLowerCase()) continue;
-				
+						if (
+							searchedChildren.split(":")[0] !==
+							blueprintElement.tagName.toLowerCase()
+						)
+							continue;
+
 						const nth = searchedChildren.split(":")[1];
 						const match = nth?.match(/nth-of-type\((\d+)\)/)[1];
 						if (
@@ -1772,6 +1776,10 @@ export const eventHandlers = () => {
 			global.id.blueprintSelect.value.trim().replace(/^>\s*/, ""),
 		);
 		// rebuildStyleFromBlueprint();
+		// rebuildCssSelector();
+		populateSelectBlueprintOptions();
+		validateParentElement(true);
+		validateRemoveElement(true);
 		reloadBlueprint();
 		applyStyles();
 	});
