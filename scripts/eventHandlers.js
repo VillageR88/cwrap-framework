@@ -223,7 +223,7 @@ export const eventHandlers = () => {
 			const alterSelectorArray = global.id.blueprintSelect.value
 				.split(" > ")
 				.filter(Boolean);
-			alterSelectorArray[0] = `${alterSelectorArray[0]}:nth-of-type(${global.id.mainBlueprintAlterSelectorSelect.value})`;
+			alterSelectorArray[0] = `${alterSelectorArray[0]}:nth-of-type(${global.id.mainBlueprintAlterSelectorSelectOrdinal.value})`;
 			alterSelector = ` > ${alterSelectorArray.join(" > ")}`;
 		}
 

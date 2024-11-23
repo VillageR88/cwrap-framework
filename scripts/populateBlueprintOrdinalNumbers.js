@@ -4,11 +4,11 @@ export default function populateBlueprintOrdinalNumbers() {
 	const selector = getElementFromPath().timeStamp;
 	const currentMap = blueprintMap.get(selector);
 	const count = currentMap.count;
-    global.id.mainBlueprintAlterSelectorSelect.innerHTML = "";
+    global.id.mainBlueprintAlterSelectorSelectOrdinal.innerHTML = "";
 	for (let i = 1; i <= count; i++) {
        const option = document.createElement("option");
        option.value = i;
        option.textContent = i;
-       global.id.mainBlueprintAlterSelectorSelect.append(option);
+       global.id.mainBlueprintAlterSelectorSelectOrdinal.append(option);
     }
 }
