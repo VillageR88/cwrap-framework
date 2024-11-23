@@ -27,6 +27,8 @@ export default function createElementFromJson(
 
 	function setJsonObjToEnumItem() {
 		for (const enumItem of jsonObj.enum) {
+			// console.log(Number(enumItem.nth));
+
 			if (blueprintElementCounter === Number(enumItem.nth)) {
 				selectedJsonObj = enumItem;
 				return false;
@@ -45,10 +47,10 @@ export default function createElementFromJson(
 			abandonItem = setJsonObjToEnumItem();
 			break;
 	}
+
 	// Set the element's text content if specified in the JSON object
 	if (!abandonItem) {
 		if (selectedJsonObj.text) element.textContent = selectedJsonObj.text;
-
 		// Set additional attributes if specified in the JSON object
 		if (selectedJsonObj.attributes) {
 			for (const [key, value] of Object.entries(selectedJsonObj.attributes)) {
