@@ -929,7 +929,8 @@ body > #selectedElementLabelContainer > div > div > #mainBlueprintStyleAdd,
 body > #selectedElementLabelContainer > div > div > #mainStateStyleAdd,
 body > #selectedElementLabelContainer > div > div > #mainBlueprintStateStyleAdd,
 body > #selectedElementLabelContainer > div > div > #mainAttributeAdd,
-body > #selectedElementLabelContainer > div > div > #mainBlueprintAttributeAdd {
+body > #selectedElementLabelContainer > div > div > #mainBlueprintAttributeAdd,
+body > #selectedElementLabelContainer > div > div > #mainStateSelector {
   display: none;
 }
 

@@ -118,40 +118,10 @@ function leftSidebarCleanup() {
 }
 
 export function centralBarCleanup() {
-	global.id.mainInitialSelector.style.display = "flex";
-	global.id.selectedElementHighlight.style.display = "flex";
-	// global.id.editStyle.style.display = "flex";
-	global.id.mainElementAdd.style.display = "none";
-	global.id.mainTextEditor.style.display = "none";
-	global.id.mainTextEditor2.style.display = "none";
-	global.id.mainAttributeAdd.style.display = "none";
-	global.id.mainAttributeSelector.style.display = "none";
-	global.id.mainAttributeSelector2.style.display = "none";
-	global.id.mainStyleAdd.style.display = "none";
-	global.id.mainStyleSelector.style.display = "none";
-	global.id.mainStyleSelector2.style.display = "none";
-	global.id.mainStateSelector.style.display = "none";
-	global.id.mainStateAdd.style.display = "none";
-	global.id.mainStateStyleSelector.style.display = "none";
-	global.id.mainStateStyleSelector2.style.display = "none";
-	global.id.mainClassroomSelector.style.display = "none";
-	global.id.mainBlueprintSelector.style.display = "none";
-	global.id.mainBlueprintCounter.style.display = "none";
-	global.id.mainAddClassroomSelector.style.display = "none";
-	global.id.mainClassroomStyleSelector.style.display = "none";
-	global.id.mainClassroomStyleSelector2.style.display = "none";
-	global.id.mainBlueprintTextEditor.style.display = "none";
-	global.id.mainBlueprintTextEditor2.style.display = "none";
-	global.id.mainBlueprintAttributeSelector.style.display = "none";
-	global.id.mainBlueprintAttributeSelector2.style.display = "none";
-	global.id.mainBlueprintAttributeAdd.style.display = "none";
-	global.id.mainBlueprintStyleSelector.style.display = "none";
-	global.id.mainBlueprintStyleSelector2.style.display = "none";
-	global.id.mainBlueprintStyleAdd.style.display = "none";
-	global.id.mainTemplatesSelector.style.display = "none";
-	global.id.mainAddClassroomSelector2.style.display = "none";
-	global.id.mainClassroomStyleAdd.style.display = "none";
-	global.id.mainBlueprintStateSelector.style.display = "none";
+	const elements = document.querySelectorAll("#selectedElementLabelContainer div");
+	for (const element of elements) {
+		element.removeAttribute("style");
+	}
 	cleanupPreviewEditor();
 }
 
