@@ -53,6 +53,7 @@ import populateBlueprintStyleOptions from "./populateBlueprintStyleOptions.js";
 import populateBlueprintStyleOptionsValue from "./populateBlueprintStyleOptionsValue.js";
 import getCssProperties from "./getCssProperties.js";
 import checkIfBlueprintEnvironment from "./checkIfBlueprintEnvironment.js";
+import checkIfAlterEnvironment from "./checkIfAlterEnvironment.js";
 import { stateNonContextual, stateContextual } from "./_const.js";
 import rebuildStyleFromBlueprint from "./rebuildStyleFromBlueprint.js";
 import populateTemplatesSelect from "./populateTemplatesSelect.js";
@@ -215,6 +216,7 @@ export const eventHandlers = () => {
 	global.id.selectedElementHighlight.addEventListener("mousedown", () => {
 		const nameHelper = global.id.nameHelper;
 		const isBlueprint = checkIfBlueprintEnvironment();
+		const isAlter = checkIfAlterEnvironment();
 		/** @type {Element?} */
 		let rootElement;
 		/** @type {Element[]?} */
