@@ -153,6 +153,12 @@ const global = {
 		mainBlueprintSelectorAlter: document.getElementById(
 			"mainBlueprintSelectorAlter",
 		),
+		mainBlueprintAlterSelector: document.getElementById(
+			"mainBlueprintAlterSelector",
+		),
+		mainBlueprintAlterSelectorBack: document.getElementById(
+			"mainBlueprintAlterSelectorBack",
+		),
 		mainBlueprintSelectorDelete: document.getElementById(
 			"mainBlueprintSelectorDelete",
 		),

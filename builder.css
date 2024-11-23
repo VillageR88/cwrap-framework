@@ -920,6 +920,7 @@ body
   > div
   > #mainBlueprintStateStyleSelector,
 body > #selectedElementLabelContainer > div > div > #mainTextEditor,
+body > #selectedElementLabelContainer > div > div > #mainBlueprintAlterSelector,
 body > #selectedElementLabelContainer > div > div > #mainBlueprintTextEditor,
 body > #selectedElementLabelContainer > div > div > #mainAttributeSelector,
 body > #selectedElementLabelContainer > div > div > #mainStyleAdd,

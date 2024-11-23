@@ -859,18 +859,28 @@ export const eventHandlers = () => {
 
 	global.id.mainBlueprintAttributeSelectorBack.addEventListener("click", () => {
 		global.id.mainBlueprintSelector.style.display = "flex";
-		global.id.mainBlueprintAttributeSelector.style.display = "none";
-		global.id.mainBlueprintAttributeSelector2.style.display = "none";
+		global.id.mainBlueprintAttributeSelector.removeAttribute("style");
+		global.id.mainBlueprintAttributeSelector2.removeAttribute("style");
 	});
 
 	global.id.mainBlueprintTextEditorBack.addEventListener("click", () => {
 		global.id.mainBlueprintSelector.style.display = "flex";
-		global.id.mainBlueprintTextEditor.style.display = "none";
-		global.id.mainBlueprintTextEditor2.style.display = "none";
+		global.id.mainBlueprintTextEditor.removeAttribute("style");
+		global.id.mainBlueprintTextEditor2.removeAttribute("style");
+	});
+
+	global.id.mainBlueprintSelectorAlter.addEventListener("click", () => {
+		global.id.mainBlueprintSelector.removeAttribute("style");
+		global.id.mainBlueprintAlterSelector.style.display = "flex";
+	});
+
+	global.id.mainBlueprintAlterSelectorBack.addEventListener("click", () => {
+		global.id.mainBlueprintSelector.style.display = "flex";
+		global.id.mainBlueprintAlterSelector.removeAttribute("style");
 	});
 
 	global.id.mainBlueprintSelectorEditText.addEventListener("click", () => {
-		global.id.mainBlueprintSelector.style.display = "none";
+		global.id.mainBlueprintSelector.removeAttribute("style");
 		global.id.mainBlueprintTextEditor.style.display = "flex";
 		global.id.mainBlueprintTextEditor2.style.display = "flex";
 
