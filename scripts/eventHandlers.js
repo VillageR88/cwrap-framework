@@ -49,6 +49,7 @@ import populateClassroomSelectName from "./populateClassroomSelectName.js";
 import populateClassroomSelectType from "./populateClassroomSelectType.js";
 import populateSelectBlueprintOptions from "./populateSelectBlueprintOptions.js";
 import reloadBlueprint from "./reloadBlueprint.js";
+import populateBlueprintOrdinalNumbers from "./populateBlueprintOrdinalNumbers.js";
 import populateBlueprintStyleOptions from "./populateBlueprintStyleOptions.js";
 import populateBlueprintStyleOptionsValue from "./populateBlueprintStyleOptionsValue.js";
 import getCssProperties from "./getCssProperties.js";
@@ -217,6 +218,15 @@ export const eventHandlers = () => {
 		const nameHelper = global.id.nameHelper;
 		const isBlueprint = checkIfBlueprintEnvironment();
 		const isAlter = checkIfAlterEnvironment();
+		let alterSelector;
+		if (isAlter) {
+			const alterSelectorArray = global.id.blueprintSelect.value
+				.split(" > ")
+				.filter(Boolean);
+			alterSelectorArray[0] = `${alterSelectorArray[0]}:nth-of-type(${global.id.mainBlueprintAlterSelectorSelect.value})`;
+			alterSelector = ` > ${alterSelectorArray.join(" > ")}`;
+		}
+
 		/** @type {Element?} */
 		let rootElement;
 		/** @type {Element[]?} */
@@ -224,14 +234,18 @@ export const eventHandlers = () => {
 
 		global.id.nameHelper.textContent = isBlueprint
 			? global.id.elementSelect.value + global.id.blueprintSelect.value
-			: global.id.elementSelect.value;
+			: isAlter
+				? global.id.elementSelect.value + alterSelector
+				: global.id.elementSelect.value;
 
 		/** @type {Element} */
 		const element = isBlueprint
 			? getElementFromPath(
 					global.id.elementSelect.value + global.id.blueprintSelect.value,
 				)
-			: getElementFromPath();
+			: isAlter
+				? getElementFromPath(global.id.elementSelect.value + alterSelector)
+				: getElementFromPath();
 		if (isBlueprint) {
 			rootElement = global.id.elementSelect.value;
 			blueprintElements = global.id.blueprintSelect.value
@@ -872,6 +886,7 @@ export const eventHandlers = () => {
 	});
 
 	global.id.mainBlueprintSelectorAlter.addEventListener("click", () => {
+		populateBlueprintOrdinalNumbers();
 		global.id.mainBlueprintSelector.removeAttribute("style");
 		global.id.mainBlueprintAlterSelector.style.display = "flex";
 	});

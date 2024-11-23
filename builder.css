@@ -48,7 +48,8 @@ div[data-title]:after {
 #elementStateSelect,
 #stateSelectAll,
 #selectContext,
-#selectStateOfContext {
+#selectStateOfContext,
+#mainBlueprintAlterSelectorSelect {
   display: flex;
   height: 40px;
   margin: 0;
