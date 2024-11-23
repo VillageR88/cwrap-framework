@@ -61,6 +61,7 @@ import rebuildStyleFromBlueprint from "./rebuildStyleFromBlueprint.js";
 import populateTemplatesSelect from "./populateTemplatesSelect.js";
 import createElementFromJson from "./createElementFromJson.js";
 import generateCssSelector from "./generateCssSelector.js";
+import getAlter from "./getAlter.js";
 
 /**
  * Sets up the event handlers.
@@ -896,7 +897,9 @@ export const eventHandlers = () => {
 	global.id.mainBlueprintAlterSelectorSelectAlter.addEventListener(
 		"change",
 		() => {
-			console.log("mainBlueprintAlterSelectorSelectAlter change occurred");
+			const alter = getAlter();
+			alter.alterSelectedReference.alter =
+				global.id.mainBlueprintAlterSelectorSelectAlter.value;
 		},
 	);
 
