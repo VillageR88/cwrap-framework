@@ -49,6 +49,7 @@ import populateClassroomSelectName from "./populateClassroomSelectName.js";
 import populateClassroomSelectType from "./populateClassroomSelectType.js";
 import populateSelectBlueprintOptions from "./populateSelectBlueprintOptions.js";
 import reloadBlueprint from "./reloadBlueprint.js";
+import populateBlueprintAlterOptions from "./populateBlueprintAlterOptions.js";
 import populateBlueprintOrdinalNumbers from "./populateBlueprintOrdinalNumbers.js";
 import populateBlueprintStyleOptions from "./populateBlueprintStyleOptions.js";
 import populateBlueprintStyleOptionsValue from "./populateBlueprintStyleOptionsValue.js";
@@ -886,10 +887,18 @@ export const eventHandlers = () => {
 	});
 
 	global.id.mainBlueprintSelectorAlter.addEventListener("click", () => {
+		populateBlueprintAlterOptions();
 		populateBlueprintOrdinalNumbers();
 		global.id.mainBlueprintSelector.removeAttribute("style");
 		global.id.mainBlueprintAlterSelector.style.display = "flex";
 	});
+
+	global.id.mainBlueprintAlterSelectorSelectAlter.addEventListener(
+		"change",
+		() => {
+			console.log("mainBlueprintAlterSelectorSelectAlter change occurred");
+		},
+	);
 
 	global.id.mainBlueprintAlterSelectorBack.addEventListener("click", () => {
 		global.id.mainBlueprintSelector.style.display = "flex";

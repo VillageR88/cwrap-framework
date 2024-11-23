@@ -1,4 +1,5 @@
 import getElementFromPath from "./getElementFromPath.js";
+
 export default function populateBlueprintOrdinalNumbers() {
 	const blueprintMap = global.map.blueprintMap;
 	const selector = getElementFromPath().timeStamp;
