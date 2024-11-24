@@ -914,10 +914,10 @@ export const eventHandlers = () => {
 		const enumReference = getAlter();
 		if (!enumReference.enumReference) {
 			enumReference.alterSelectedReference.enum.push({
+				filter: "include",
 				nth: global.id.mainBlueprintAlterSelectorSelectOrdinal.value,
-				test: "",
+				text: "",
 			});
-			console.log(enumReference);
 		} else {
 			global.id.mainBlueprintTextEditor2.value =
 				enumReference.enumReference.text;
