@@ -50,7 +50,9 @@ export default function createElementFromJson(
 
 	// Set the element's text content if specified in the JSON object
 	if (!abandonItem) {
-		if (selectedJsonObj.text) element.textContent = selectedJsonObj.text;
+		element.textContent = selectedJsonObj.text
+			? selectedJsonObj.text
+			: jsonObj.text;
 		// Set additional attributes if specified in the JSON object
 		if (selectedJsonObj.attributes) {
 			for (const [key, value] of Object.entries(selectedJsonObj.attributes)) {
