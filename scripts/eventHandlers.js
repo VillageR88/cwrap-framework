@@ -947,6 +947,61 @@ export const eventHandlers = () => {
 		global.id.mainBlueprintAlterSelector.removeAttribute("style");
 	});
 
+	global.id.mainBlueprintAlterSelectorAttributes.addEventListener(
+		"click",
+		() => {
+			global.id.mainBlueprintAlterSelector.removeAttribute("style");
+			for (const item of [
+				global.id.mainBlueprintAlterAttributeSelector,
+				global.id.mainBlueprintAlterAttributeSelector2,
+			])
+				item.style.display = "flex";
+		},
+	);
+
+	global.id.mainBlueprintAlterAttributeSelectorBack.addEventListener(
+		"click",
+		() => {
+			for (const item of [
+				global.id.mainBlueprintAlterAttributeSelector,
+				global.id.mainBlueprintAlterAttributeSelector2,
+			])
+				item.removeAttribute("style");
+
+			global.id.mainBlueprintAlterSelector.style.display = "flex";
+		},
+	);
+
+	global.id.mainBlueprintAlterAttributeSelectorOpenAddAttribute.addEventListener(
+		"click",
+		() => {
+			for (const item of [
+				global.id.mainBlueprintAlterAttributeSelector,
+				global.id.mainBlueprintAlterAttributeSelector2,
+			])
+				item.removeAttribute("style");
+			global.id.mainBlueprintAlterAttributeSelectorAttributeAdd.style.display =
+				"flex";
+			global.id.mainBlueprintAlterAttributeSelectorAttributeSelectAll.innerHTML =
+				"";
+			populateAttributeSelectAll(false, true);
+		},
+	);
+
+	global.id.mainBlueprintAlterAttributeSelectorAttributeAddBack.addEventListener(
+		"click",
+		() => {
+			global.id.mainBlueprintAlterAttributeSelectorAttributeAdd.removeAttribute(
+				"style",
+			);
+			for (const item of [
+				global.id.mainBlueprintAlterAttributeSelector,
+				global.id.mainBlueprintAlterAttributeSelector2,
+			])
+				item.style.display = "flex";
+		},
+	);
+
 	global.id.mainBlueprintSelectorEditText.addEventListener("click", () => {
 		global.id.mainBlueprintSelector.removeAttribute("style");
 		global.id.mainBlueprintTextEditor.style.display = "flex";

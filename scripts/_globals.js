@@ -177,6 +177,33 @@ const global = {
 		mainBlueprintAlterSelectorTextEditorUpdateText: document.getElementById(
 			"mainBlueprintAlterSelectorTextEditorUpdateText",
 		),
+		mainBlueprintAlterSelectorAttributes: document.getElementById(
+			"mainBlueprintAlterSelectorAttributes",
+		),
+		mainBlueprintAlterAttributeSelector: document.getElementById(
+			"mainBlueprintAlterAttributeSelector",
+		),
+		mainBlueprintAlterAttributeSelectorBack: document.getElementById(
+			"mainBlueprintAlterAttributeSelectorBack",
+		),
+		mainBlueprintAlterAttributeSelector2: document.getElementById(
+			"mainBlueprintAlterAttributeSelector2",
+		),
+		mainBlueprintAlterAttributeSelectorOpenAddAttribute:
+			document.getElementById(
+				"mainBlueprintAlterAttributeSelectorOpenAddAttribute",
+			),
+		mainBlueprintAlterAttributeSelectorAttributeAdd: document.getElementById(
+			"mainBlueprintAlterAttributeSelectorAttributeAdd",
+		),
+		mainBlueprintAlterAttributeSelectorAttributeAddBack:
+			document.getElementById(
+				"mainBlueprintAlterAttributeSelectorAttributeAddBack",
+			),
+		mainBlueprintAlterAttributeSelectorAttributeSelectAll:
+			document.getElementById(
+				"mainBlueprintAlterAttributeSelectorAttributeSelectAll",
+			),
 		mainBlueprintSelectorDelete: document.getElementById(
 			"mainBlueprintSelectorDelete",
 		),

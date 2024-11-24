@@ -432,6 +432,49 @@
           </button>
         </div>
 
+        <div id="mainBlueprintAlterAttributeSelector">
+          <button id="mainBlueprintAlterAttributeSelectorBack" class="mediumButtons"
+            aria-label="return to element selector" data-title="return to element selector">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#back"></use>
+            </svg>
+          </button>
+          <button id="mainBlueprintAlterAttributeSelectorOpenAddAttribute" class="mediumButtons"
+            aria-label="open add attribute" data-title="open add attribute">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#add"></use>
+            </svg>
+          </button>
+          <div data-title="select attribute">
+            <select class="mediumButtons" id="mainBlueprintAlterAttributeSelectorSelect" aria-label="select attribute">
+            </select>
+          </div>
+          <button class="mediumButtons" id="mainBlueprintAlterAttributeSelectorRemoveAttribute"
+            aria-label="remove attribute" data-title="remove attribute">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#remove"></use>
+            </svg>
+          </button>
+        </div>
+
+        <div id="mainBlueprintAlterAttributeSelectorAttributeAdd">
+          <button id="mainBlueprintAlterAttributeSelectorAttributeAddBack" class="mediumButtons" aria-label="return to attribute selector"
+            data-title="return to attribute selector">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#back"></use>
+            </svg>
+          </button>
+          <div data-title="select new attribute">
+            <select id="mainBlueprintAlterAttributeSelectorAttributeSelectAll" class="mediumButtons" aria-label="select new attribute"></select>
+          </div>
+          <button id="mainBlueprintAlterAttributeSelectorAddAttribute" class="mediumButtons" aria-label="add attribute" data-title="add attribute">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#add"></use>
+            </svg>
+          </button>
+        </div>
+
+
         <div id="mainBlueprintTextEditor">
           <button id="mainBlueprintTextEditorBack" class="mediumButtons" aria-label="back to element selector"
             data-title="back to element selector">
@@ -1087,10 +1130,21 @@
       </div>
       <textarea id="mainTextEditor2" aria-label="edit text content"></textarea>
       <textarea id="mainBlueprintTextEditor2" aria-label="edit text content"></textarea>
+
       <div id="mainAttributeSelector2">
         <input aria-label="attribute input" type="text" id="attributeInput" />
         <button class="mediumButtons" id="updateAttribute" aria-label="update attribute value"
           data-title="update attribute value">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+            <use href="#update"></use>
+          </svg>
+        </button>
+      </div>
+
+      <div id="mainBlueprintAlterAttributeSelector2">
+        <input aria-label="attribute input" type="text" id="mainBlueprintAlterAttributeSelector2AttributeInput" />
+        <button class="mediumButtons" id="mainBlueprintAlterAttributeSelector2UpdateAttribute"
+          aria-label="update attribute value" data-title="update attribute value">
           <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
             <use href="#update"></use>
           </svg>

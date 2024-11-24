@@ -928,6 +928,16 @@ body
   > div
   > #mainBlueprintAlterSelectorTextEditor,
 body > #selectedElementLabelContainer > div > div > #mainBlueprintAlterSelector,
+body
+  > #selectedElementLabelContainer
+  > div
+  > div
+  > #mainBlueprintAlterAttributeSelector,
+body
+  > #selectedElementLabelContainer
+  > div
+  > div
+  > #mainBlueprintAlterAttributeSelectorAttributeAdd,
 body > #selectedElementLabelContainer > div > div > #mainBlueprintTextEditor,
 body > #selectedElementLabelContainer > div > div > #mainAttributeSelector,
 body > #selectedElementLabelContainer > div > div > #mainStyleAdd,
@@ -952,6 +962,10 @@ body > #selectedElementLabelContainer > div > #mainClassroomStyleSelector2,
 body > #selectedElementLabelContainer > div > #mainStateStyleSelector2,
 body > #selectedElementLabelContainer > div > #mainBlueprintStateStyleSelector2,
 body > #selectedElementLabelContainer > div > #mainAttributeSelector2,
+body
+  > #selectedElementLabelContainer
+  > div
+  > #mainBlueprintAlterAttributeSelector2,
 body > #selectedElementLabelContainer > div > #mainBlueprintAttributeSelector2,
 body > #selectedElementLabelContainer > div > #mainBlueprintStyleSelector2,
 body > #selectedElementLabelContainer > div > #mainTextEditor2,
