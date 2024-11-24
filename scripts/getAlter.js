@@ -6,13 +6,13 @@ import getElementFromPath from "./getElementFromPath.js";
 
 /**
  *
- * @returns {{alterSelectedValue: string | undefined, alterSelectedReference: JsonObject | null}}
+ * @returns {{alterSelectedValue: string | undefined, alterSelectedReference: JsonObject | null, enumReference: JsonObject | null}}
  */
 export default function getAlter() {
 	const blueprintMap = global.map.blueprintMap;
 	const selector = getElementFromPath().timeStamp;
 	const currentMap = blueprintMap.get(selector);
-	const selectedElementValue = global.id.elementSelect.value;
+	const ordinalNth = global.id.mainBlueprintAlterSelectorSelectOrdinal.value;
 	const selectedBlueprintElementValue = global.id.blueprintSelect.value;
 	const regexNthOfTypeOrdinal = /(?<=nth-of-type\()\d+/;
 	/** @type {string[]} */
@@ -25,7 +25,8 @@ export default function getAlter() {
 	let alterSelectedValue;
 	/** @type {JsonObject | null} */
 	let alterSelectedReference = null;
-
+	/** @type {JsonObject | null} */
+	let enumReference = null;
 	for (const elementName of selectedBlueprintElementValueArray) {
 		/** @type {string} */
 		const elementNameTag = elementName.split(":")[0];
@@ -53,7 +54,11 @@ export default function getAlter() {
 			if (item.alter) {
 				alterSelectedValue = item.alter;
 				alterSelectedReference = item;
-				break;
+				for (const enumElement of item.enum) {
+					if (Number(enumElement.nth) === Number(ordinalNth)) {
+						enumReference = enumElement;
+					}
+				}
 			}
 			if (
 				item.element === elementNameTag &&
@@ -67,5 +72,5 @@ export default function getAlter() {
 		return null;
 	}
 
-	return { alterSelectedValue, alterSelectedReference };
+	return { alterSelectedValue, alterSelectedReference, enumReference };
 }

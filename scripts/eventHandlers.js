@@ -902,7 +902,43 @@ export const eventHandlers = () => {
 				global.id.mainBlueprintAlterSelectorSelectAlter.value;
 			// rebuildStyleFromBlueprint();
 			reloadBlueprint();
-			applyStyles();
+			//applyStyles();
+		},
+	);
+
+	global.id.mainBlueprintAlterSelectorEditText.addEventListener("click", () => {
+		global.id.mainBlueprintAlterSelector.removeAttribute("style");
+		global.id.mainBlueprintTextEditor2.style.display = "flex";
+		global.id.mainBlueprintAlterSelectorTextEditor.style.display = "flex";
+		global.id.mainBlueprintTextEditor2.value = "";
+		const enumReference = getAlter();
+		if (!enumReference.enumReference) {
+			enumReference.alterSelectedReference.enum.push({
+				nth: global.id.mainBlueprintAlterSelectorSelectOrdinal.value,
+				test: "",
+			});
+			console.log(enumReference);
+		} else {
+			global.id.mainBlueprintTextEditor2.value =
+				enumReference.enumReference.text;
+		}
+	});
+
+	global.id.mainBlueprintAlterSelectorTextEditorBack.addEventListener(
+		"click",
+		() => {
+			global.id.mainBlueprintAlterSelector.style.display = "flex";
+			global.id.mainBlueprintTextEditor2.removeAttribute("style");
+			global.id.mainBlueprintAlterSelectorTextEditor.removeAttribute("style");
+		},
+	);
+
+	global.id.mainBlueprintAlterSelectorTextEditorUpdateText.addEventListener(
+		"click",
+		() => {
+			getAlter().enumReference.text = global.id.mainBlueprintTextEditor2.value;
+			reloadBlueprint();
+			//applyStyles();
 		},
 	);
 

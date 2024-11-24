@@ -10,9 +10,7 @@ export default function reloadBlueprint() {
     const selector = getElementFromPath().timeStamp;
     const currentMap = blueprintMap.get(selector);
     const currentElement = getElementFromPath();
-    console.log("currentElement", currentElement);
     currentElement.innerHTML = "";
-
     // Wrap the JSON object in a blueprint key
     const blueprintWrapper = {
         element: currentElement.tagName.toLowerCase(),

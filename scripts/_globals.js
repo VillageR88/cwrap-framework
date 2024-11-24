@@ -165,6 +165,18 @@ const global = {
 		mainBlueprintAlterSelectorSelectAlter: document.getElementById(
 			"mainBlueprintAlterSelectorSelectAlter",
 		),
+		mainBlueprintAlterSelectorEditText: document.getElementById(
+			"mainBlueprintAlterSelectorEditText",
+		),
+		mainBlueprintAlterSelectorTextEditor: document.getElementById(
+			"mainBlueprintAlterSelectorTextEditor",
+		),
+		mainBlueprintAlterSelectorTextEditorBack: document.getElementById(
+			"mainBlueprintAlterSelectorTextEditorBack",
+		),
+		mainBlueprintAlterSelectorTextEditorUpdateText: document.getElementById(
+			"mainBlueprintAlterSelectorTextEditorUpdateText",
+		),
 		mainBlueprintSelectorDelete: document.getElementById(
 			"mainBlueprintSelectorDelete",
 		),
