@@ -31,13 +31,16 @@ function rebuildBlueprintCssSelectorFromBlueprint(
 	jsonObj,
 	parentSelector = "",
 	siblingCountMap = new Map(),
+	blueprintCounter = undefined,
 ) {
 	const cssMap = global.map.cssMap;
 	const mediaQueriesMap = global.map.mediaQueriesMap;
 	let selector = parentSelector;
 
 	if (jsonObj.element) {
+		console.log(jsonObj.element);
 		const element = jsonObj.element;
+
 		if (!siblingCountMap.has(parentSelector)) {
 			siblingCountMap.set(parentSelector, new Map());
 		}
@@ -50,36 +53,33 @@ function rebuildBlueprintCssSelectorFromBlueprint(
 				parentSiblingCount.set(element, 0);
 			}
 			parentSiblingCount.set(element, parentSiblingCount.get(element) + 1);
+
 			selector += ` > ${element}:nth-of-type(${parentSiblingCount.get(element)})`;
 		}
-
-		if (jsonObj.style && jsonObj.customTag !== "cwrapBlueprintCSS") {
-			let cookedObj = replacePlaceholdersCwrapIndex(jsonObj, 0);
-			cookedObj = replacePlaceholdersCwrapArray(cookedObj, 0);
-			cssMap.set(selector, cookedObj.style);
-		} else {
-			cssMap.set(selector, "");
-		}
-
-		if (jsonObj.mediaQueries) {
-			for (const mediaQuery of jsonObj.mediaQueries) {
-				const mediaQuerySelector = `${selector}`;
-				if (!mediaQueriesMap.has(mediaQuery.query)) {
-					mediaQueriesMap.set(mediaQuery.query, new Map());
-				}
-				mediaQueriesMap
-					.get(mediaQuery.query)
-					.set(mediaQuerySelector, mediaQuery.style);
+		if (blueprintCounter) {
+			if (
+				jsonObj.enum?.[blueprintCounter - 1]?.style &&
+				jsonObj.alter !== "none"
+			) {
+				cssMap.set(selector, jsonObj.enum[blueprintCounter - 1]?.style);
+			} else if (jsonObj.style && jsonObj.customTag !== "cwrapBlueprintCSS") {
+				let cookedObj = replacePlaceholdersCwrapIndex(jsonObj, 0);
+				cookedObj = replacePlaceholdersCwrapArray(cookedObj, 0);
+				cssMap.set(selector, cookedObj.style);
+			} else {
+				cssMap.set(selector, "");
 			}
-		}
 
-		if (jsonObj.children) {
-			for (const child of jsonObj.children) {
-				rebuildBlueprintCssSelectorFromBlueprint(
-					child,
-					selector,
-					siblingCountMap,
-				);
+			if (jsonObj.mediaQueries) {
+				for (const mediaQuery of jsonObj.mediaQueries) {
+					const mediaQuerySelector = `${selector}`;
+					if (!mediaQueriesMap.has(mediaQuery.query)) {
+						mediaQueriesMap.set(mediaQuery.query, new Map());
+					}
+					mediaQueriesMap
+						.get(mediaQuery.query)
+						.set(mediaQuerySelector, mediaQuery.style);
+				}
 			}
 		}
 
@@ -93,6 +93,18 @@ function rebuildBlueprintCssSelectorFromBlueprint(
 					cookedObj,
 					parentSelector,
 					siblingCountMap,
+					i + 1,
+				);
+			}
+		}
+
+		if (jsonObj.children) {
+			for (const child of jsonObj.children) {
+				rebuildBlueprintCssSelectorFromBlueprint(
+					child,
+					selector,
+					siblingCountMap,
+					blueprintCounter,
 				);
 			}
 		}
@@ -108,4 +120,6 @@ function rebuildBlueprintCssSelectorFromBlueprint(
 			}
 		}
 	}
+	console.log(selector);
+	console.log(blueprintCounter);
 }

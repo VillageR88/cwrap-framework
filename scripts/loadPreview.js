@@ -72,7 +72,6 @@ export default function loadPreview(jsonObj) {
 	html.appendChild(body);
 	generateClassroomMap(jsonObj);
 	generateCssSelector(jsonObj, "", new Map());
-	console.log(global.map.cssMap);
 	doc.body.replaceWith(createElementFromJson(jsonObj, true)); //TODO here blueprint is added
 	addRuntimeScripts();
 	applyStyles();

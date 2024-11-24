@@ -900,9 +900,9 @@ export const eventHandlers = () => {
 			const alter = getAlter();
 			alter.alterSelectedReference.alter =
 				global.id.mainBlueprintAlterSelectorSelectAlter.value;
-			// rebuildStyleFromBlueprint();
 			reloadBlueprint();
-			//applyStyles();
+			rebuildStyleFromBlueprint();
+			applyStyles();
 		},
 	);
 

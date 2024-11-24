@@ -52,7 +52,10 @@ export default function generateCssSelector(
 				element,
 			)})`;
 		}
-		if (jsonObj.enum?.[blueprintCounter - 1]?.style) {
+		if (
+			jsonObj.enum?.[blueprintCounter - 1]?.style &&
+			jsonObj.alter !== "none"
+		) {
 			cssMap.set(selector, jsonObj.enum[blueprintCounter - 1]?.style);
 		} else if (jsonObj.style && jsonObj.customTag !== "cwrapBlueprintCSS") {
 			cssMap.set(selector, jsonObj.style);
