@@ -202,6 +202,10 @@ const global = {
 			document.getElementById(
 				"mainBlueprintAlterStyleSelectorStyleAddPropertyBlueprintSelectAll",
 			),
+		mainBlueprintAlterStyleSelectorStyleAddBlueprintProperty:
+			document.getElementById(
+				"mainBlueprintAlterStyleSelectorStyleAddBlueprintProperty",
+			),
 		mainBlueprintAlterStyleSelectorPropertySelect: document.getElementById(
 			"mainBlueprintAlterStyleSelectorPropertySelect",
 		),

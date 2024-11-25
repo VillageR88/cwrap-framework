@@ -68,6 +68,7 @@ import populateBlueprintAlterStyleOptionsSelectAll from "./populateBlueprintAlte
 import populateBlueprintAlterStyleOptions from "./populateBlueprintAlterStyleOptions.js";
 import populateBlueprintAlterStyleOptionsValue from "./populateBlueprintAlterStyleOptionsValue.js";
 import removeBlueprintAlterStyleOption from "./removeBlueprintAlterStyleOption.js";
+import addBlueprintAlterStyleOption from "./addBlueprintAlterStyleOption.js";
 
 /**
  * Sets up the event handlers.
@@ -968,6 +969,15 @@ export const eventHandlers = () => {
 		},
 	);
 
+	global.id.mainBlueprintAlterStyleSelectorStyleAddBlueprintProperty.addEventListener(
+		"click",
+		() => {
+			addBlueprintAlterStyleOption();
+			populateBlueprintAlterStyleOptions();
+			getBackToMainBlueprintAlterStyleSelector();
+		},
+	);
+
 	global.id.mainBlueprintAlterStyleSelectorPropertySelect.addEventListener(
 		"change",
 		() => {
@@ -978,6 +988,8 @@ export const eventHandlers = () => {
 	global.id.mainBlueprintAlterStyleSelectorRemoveSelectProperty.addEventListener(
 		"click",
 		() => {
+			if (global.id.mainBlueprintAlterStyleSelectorPropertySelect.value === "")
+				return;
 			removeBlueprintAlterStyleOption();
 			populateBlueprintAlterStyleOptions();
 			// reloadBlueprint();
@@ -986,17 +998,19 @@ export const eventHandlers = () => {
 		},
 	);
 
+	function getBackToMainBlueprintAlterStyleSelector() {
+		global.id.mainBlueprintAlterStyleSelectorStyleAdd.removeAttribute("style");
+		for (const item of [
+			global.id.mainBlueprintAlterStyleSelector,
+			global.id.mainBlueprintAlterStyleSelector2,
+		])
+			item.style.display = "flex";
+	}
+
 	global.id.mainBlueprintAlterStyleSelectorStyleAddBack.addEventListener(
 		"click",
 		() => {
-			global.id.mainBlueprintAlterStyleSelectorStyleAdd.removeAttribute(
-				"style",
-			);
-			for (const item of [
-				global.id.mainBlueprintAlterStyleSelector,
-				global.id.mainBlueprintAlterStyleSelector2,
-			])
-				item.style.display = "flex";
+			getBackToMainBlueprintAlterStyleSelector();
 		},
 	);
 
