@@ -12,11 +12,11 @@ export default function validateRemoveElement(validationForBlueprint = false) {
 		: global.id.removeElement;
 	if (selectedElementValue !== (validationForBlueprint ? " > li" : "body")) {
 		removeElement.removeAttribute("disabled");
-		removeElement.setAttribute("title", "remove selected element");
+		removeElement.setAttribute("data-title", "remove selected element");
 	} else {
 		removeElement.setAttribute("disabled", true);
 		removeElement.setAttribute(
-			"title",
+			"data-title",
 			validationForBlueprint
 				? "Cannot remove the leading li element"
 				: "Cannot remove the body element",

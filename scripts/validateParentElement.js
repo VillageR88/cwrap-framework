@@ -18,9 +18,10 @@ export default function validateParentElement(validationForBlueprint = false) {
 	const hasCheck = selectedElementValue.split(">").pop().includes("has(");
 	const hoverCheck = selectedElementValue.split(">").pop().includes("hover");
 
-	function setElementAttributes(element, title) {
-		element.setAttribute("disabled", true);
-		element.setAttribute("title", title);
+	function setElementAttributes(element, title, enabled) {
+		if (enabled) openAddElement.removeAttribute("disabled");
+		else element.setAttribute("disabled", true);
+		element.setAttribute("data-title", title);
 	}
 	if (hasCheck) {
 		setElementAttributes(
@@ -31,6 +32,11 @@ export default function validateParentElement(validationForBlueprint = false) {
 		setElementAttributes(
 			openAddElement,
 			"Appending child elements to the element with hover pseudo-class is not allowed",
+		);
+	} else if (parentType === "ul") {
+		setElementAttributes(
+			openAddElement,
+			"Cannot directly append child elements to the ul element, use blueprint button instead",
 		);
 	} else if (
 		[
@@ -50,6 +56,7 @@ export default function validateParentElement(validationForBlueprint = false) {
 			"wbr",
 			"has(a",
 			"script",
+			"ul",
 		].includes(parentType)
 	) {
 		setElementAttributes(
@@ -57,8 +64,7 @@ export default function validateParentElement(validationForBlueprint = false) {
 			`Cannot append child elements to the ${parentType} element`,
 		);
 	} else {
-		openAddElement.removeAttribute("disabled");
-		openAddElement.setAttribute("title", "add element");
+		setElementAttributes(openAddElement, "add element", true);
 	}
 	if (!validationForBlueprint) {
 		if (parentType === "ul" || parentType === "ol") {
@@ -66,11 +72,9 @@ export default function validateParentElement(validationForBlueprint = false) {
 		} else {
 			global.id.editBlueprint.style.display = "none";
 		}
-		if (parentType ==="script")
-		{
+		if (parentType === "script") {
 			global.id.editStyle.style.display = "none";
-		}
-		else {
+		} else {
 			global.id.editStyle.style.display = "flex";
 		}
 	} else {

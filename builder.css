@@ -578,10 +578,14 @@ h3 {
 ::placeholder {
   color: var(--colorText-placeholder);
 }
-:disabled {
+:disabled > * {
   opacity: 0.5;
   cursor: not-allowed;
 }
+/* :disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+} */
 
 .logo {
   background-repeat: no-repeat;
