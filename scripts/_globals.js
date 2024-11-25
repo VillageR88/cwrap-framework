@@ -208,6 +208,10 @@ const global = {
 		mainBlueprintAlterStyleSelectorInput: document.getElementById(
 			"mainBlueprintAlterStyleSelectorInput",
 		),
+		mainBlueprintAlterStyleSelectorRemoveSelectProperty:
+			document.getElementById(
+				"mainBlueprintAlterStyleSelectorRemoveSelectProperty",
+			),
 		mainBlueprintAlterAttributeSelector: document.getElementById(
 			"mainBlueprintAlterAttributeSelector",
 		),

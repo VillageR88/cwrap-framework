@@ -66,7 +66,8 @@ import populateBlueprintAttributeOptions from "./populateBlueprintAttributeOptio
 import populateBlueprintAttributeOptionsValue from "./populateBlueprintAttributeOptionsValue.js";
 import populateBlueprintAlterStyleOptionsSelectAll from "./populateBlueprintAlterStyleOptionsSelectAll.js";
 import populateBlueprintAlterStyleOptions from "./populateBlueprintAlterStyleOptions.js";
-import populateBlueprintAlterStyleOptionsValue from "./populateBlueprintAlterStyleOptionsValue.js"
+import populateBlueprintAlterStyleOptionsValue from "./populateBlueprintAlterStyleOptionsValue.js";
+import removeBlueprintAlterStyleOption from "./removeBlueprintAlterStyleOption.js";
 
 /**
  * Sets up the event handlers.
@@ -971,6 +972,17 @@ export const eventHandlers = () => {
 		"change",
 		() => {
 			populateBlueprintAlterStyleOptionsValue();
+		},
+	);
+
+	global.id.mainBlueprintAlterStyleSelectorRemoveSelectProperty.addEventListener(
+		"click",
+		() => {
+			removeBlueprintAlterStyleOption();
+			populateBlueprintAlterStyleOptions();
+			// reloadBlueprint();
+			rebuildStyleFromBlueprint();
+			applyStyles();
 		},
 	);
 
