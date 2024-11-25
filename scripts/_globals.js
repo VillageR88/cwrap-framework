@@ -216,6 +216,9 @@ const global = {
 			document.getElementById(
 				"mainBlueprintAlterStyleSelectorRemoveSelectProperty",
 			),
+		mainBlueprintAlterStyleSelectorUpdateProperty: document.getElementById(
+			"mainBlueprintAlterStyleSelectorUpdateProperty",
+		),
 		mainBlueprintAlterAttributeSelector: document.getElementById(
 			"mainBlueprintAlterAttributeSelector",
 		),

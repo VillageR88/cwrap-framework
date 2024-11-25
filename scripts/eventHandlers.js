@@ -69,6 +69,7 @@ import populateBlueprintAlterStyleOptions from "./populateBlueprintAlterStyleOpt
 import populateBlueprintAlterStyleOptionsValue from "./populateBlueprintAlterStyleOptionsValue.js";
 import removeBlueprintAlterStyleOption from "./removeBlueprintAlterStyleOption.js";
 import addBlueprintAlterStyleOption from "./addBlueprintAlterStyleOption.js";
+import updateBlueprintAlterStyleOptionValue from "./updateBlueprintAlterStyleOptionValue.js";
 
 /**
  * Sets up the event handlers.
@@ -993,6 +994,18 @@ export const eventHandlers = () => {
 			removeBlueprintAlterStyleOption();
 			populateBlueprintAlterStyleOptions();
 			// reloadBlueprint();
+			rebuildStyleFromBlueprint();
+			applyStyles();
+		},
+	);
+
+	global.id.mainBlueprintAlterStyleSelectorUpdateProperty.addEventListener(
+		"click",
+		() => {
+			if (global.id.mainBlueprintAlterStyleSelectorPropertySelect.value === "")
+				return;
+			console.log("clicked");
+			updateBlueprintAlterStyleOptionValue();
 			rebuildStyleFromBlueprint();
 			applyStyles();
 		},

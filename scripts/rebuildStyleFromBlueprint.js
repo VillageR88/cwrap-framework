@@ -121,6 +121,4 @@ function rebuildBlueprintCssSelectorFromBlueprint(
 			}
 		}
 	}
-	console.log(selector);
-	console.log(blueprintCounter);
 }
