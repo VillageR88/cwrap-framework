@@ -189,6 +189,25 @@ const global = {
 		mainBlueprintAlterStyleSelectorBack: document.getElementById(
 			"mainBlueprintAlterStyleSelectorBack",
 		),
+		mainBlueprintAlterStyleSelectorOpenAddProperty: document.getElementById(
+			"mainBlueprintAlterStyleSelectorOpenAddProperty",
+		),
+		mainBlueprintAlterStyleSelectorStyleAdd: document.getElementById(
+			"mainBlueprintAlterStyleSelectorStyleAdd",
+		),
+		mainBlueprintAlterStyleSelectorStyleAddBack: document.getElementById(
+			"mainBlueprintAlterStyleSelectorStyleAddBack",
+		),
+		mainBlueprintAlterStyleSelectorStyleAddPropertyBlueprintSelectAll:
+			document.getElementById(
+				"mainBlueprintAlterStyleSelectorStyleAddPropertyBlueprintSelectAll",
+			),
+		mainBlueprintAlterStyleSelectorPropertySelect: document.getElementById(
+			"mainBlueprintAlterStyleSelectorPropertySelect",
+		),
+		mainBlueprintAlterStyleSelectorInput: document.getElementById(
+			"mainBlueprintAlterStyleSelectorInput",
+		),
 		mainBlueprintAlterAttributeSelector: document.getElementById(
 			"mainBlueprintAlterAttributeSelector",
 		),

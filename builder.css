@@ -943,6 +943,15 @@ body
   > div
   > div
   > #mainBlueprintAlterStyleSelector,
+
+
+  body
+  > #selectedElementLabelContainer
+  > div
+  > div
+  > #mainBlueprintAlterStyleSelectorStyleAdd,
+
+
 body > #selectedElementLabelContainer > div > div > #mainBlueprintTextEditor,
 body > #selectedElementLabelContainer > div > div > #mainAttributeSelector,
 body > #selectedElementLabelContainer > div > div > #mainStyleAdd,

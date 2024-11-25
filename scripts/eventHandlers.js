@@ -64,6 +64,9 @@ import generateCssSelector from "./generateCssSelector.js";
 import getAlter from "./getAlter.js";
 import populateBlueprintAttributeOptions from "./populateBlueprintAttributeOptions.js";
 import populateBlueprintAttributeOptionsValue from "./populateBlueprintAttributeOptionsValue.js";
+import populateBlueprintAlterStyleOptionsSelectAll from "./populateBlueprintAlterStyleOptionsSelectAll.js";
+import populateBlueprintAlterStyleOptions from "./populateBlueprintAlterStyleOptions.js";
+import populateBlueprintAlterStyleOptionsValue from "./populateBlueprintAlterStyleOptionsValue.js"
 
 /**
  * Sets up the event handlers.
@@ -935,6 +938,7 @@ export const eventHandlers = () => {
 				global.id.mainBlueprintAlterStyleSelector2,
 			])
 				item.style.display = "flex";
+			populateBlueprintAlterStyleOptions();
 		},
 	);
 
@@ -947,6 +951,40 @@ export const eventHandlers = () => {
 				global.id.mainBlueprintAlterStyleSelector2,
 			])
 				item.removeAttribute("style");
+		},
+	);
+
+	global.id.mainBlueprintAlterStyleSelectorOpenAddProperty.addEventListener(
+		"click",
+		() => {
+			for (const item of [
+				global.id.mainBlueprintAlterStyleSelector,
+				global.id.mainBlueprintAlterStyleSelector2,
+			])
+				item.removeAttribute("style");
+			global.id.mainBlueprintAlterStyleSelectorStyleAdd.style.display = "flex";
+			populateBlueprintAlterStyleOptionsSelectAll(cssProperties);
+		},
+	);
+
+	global.id.mainBlueprintAlterStyleSelectorPropertySelect.addEventListener(
+		"change",
+		() => {
+			populateBlueprintAlterStyleOptionsValue();
+		},
+	);
+
+	global.id.mainBlueprintAlterStyleSelectorStyleAddBack.addEventListener(
+		"click",
+		() => {
+			global.id.mainBlueprintAlterStyleSelectorStyleAdd.removeAttribute(
+				"style",
+			);
+			for (const item of [
+				global.id.mainBlueprintAlterStyleSelector,
+				global.id.mainBlueprintAlterStyleSelector2,
+			])
+				item.style.display = "flex";
 		},
 	);
 
