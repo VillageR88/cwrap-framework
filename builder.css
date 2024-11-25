@@ -888,7 +888,16 @@ body > main > div > div > div > select#treeViewEdit > option {
 }
 
 body > #selectedElementLabelContainer > div > div#mainStyleSelector2 > textarea,
-textarea#propertyBlueprintInput {
+body
+  > #selectedElementLabelContainer
+  > div
+  > div#mainBlueprintStyleSelector2
+  > textarea#propertyBlueprintInput,
+body
+  > #selectedElementLabelContainer
+  > div
+  > div#mainBlueprintAlterStyleSelector2
+  > textarea#mainBlueprintAlterStyleSelectorInput {
   min-height: 42px;
   height: 42px;
   min-width: 344px;
@@ -943,15 +952,11 @@ body
   > div
   > div
   > #mainBlueprintAlterStyleSelector,
-
-
-  body
+body
   > #selectedElementLabelContainer
   > div
   > div
   > #mainBlueprintAlterStyleSelectorStyleAdd,
-
-
 body > #selectedElementLabelContainer > div > div > #mainBlueprintTextEditor,
 body > #selectedElementLabelContainer > div > div > #mainAttributeSelector,
 body > #selectedElementLabelContainer > div > div > #mainStyleAdd,
@@ -980,15 +985,7 @@ body
   > #selectedElementLabelContainer
   > div
   > #mainBlueprintAlterAttributeSelector2,
-
-
-  body
-  > #selectedElementLabelContainer
-  > div
-  > #mainBlueprintAlterStyleSelector2,
-
-
-
+body > #selectedElementLabelContainer > div > #mainBlueprintAlterStyleSelector2,
 body > #selectedElementLabelContainer > div > #mainBlueprintAttributeSelector2,
 body > #selectedElementLabelContainer > div > #mainBlueprintStyleSelector2,
 body > #selectedElementLabelContainer > div > #mainTextEditor2,
