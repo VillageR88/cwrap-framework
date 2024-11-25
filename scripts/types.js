@@ -21,7 +21,7 @@
  * @property {string} mediaQueries.query - The media query condition (e.g., 'max-width: 640px').
  * @property {string} mediaQueries.style - The CSS styles for the media query.
  * @property {Array<JsonObject>} [children] - Array of child elements.
- * @property {Object} [attributes] - The attributes for the element.
+ * @property {{[key: string]: string}} [attributes] - The attributes for the element.
  * @property {string} [text] - The text content for the element.
  * @property {Object} [blueprint] - The blueprint for the element.
  * @property {string} blueprint.element - The HTML element type for the blueprint.

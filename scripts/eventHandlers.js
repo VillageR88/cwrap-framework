@@ -974,9 +974,14 @@ export const eventHandlers = () => {
 		},
 	);
 
-	function populateAlterAttributesSelectAndFillInput() {
+	/**
+	 *
+	 * @param {string} [selectedAttribute]
+	 */
+	function populateAlterAttributesSelectAndFillInput(
+		selectedAttribute = undefined,
+	) {
 		const alter = getAlter();
-		console.log(alter);
 		global.id.mainBlueprintAlterAttributeSelectorSelect.innerHTML = "";
 		for (const attribute in alter.enumReference.attributes) {
 			const option = document.createElement("option");
@@ -984,6 +989,9 @@ export const eventHandlers = () => {
 			option.textContent = attribute;
 			global.id.mainBlueprintAlterAttributeSelectorSelect.append(option);
 		}
+		if (selectedAttribute)
+			global.id.mainBlueprintAlterAttributeSelectorSelect.value =
+				selectedAttribute;
 		if (alter.enumReference.attributes)
 			global.id.mainBlueprintAlterAttributeSelector2AttributeInput.value =
 				alter.enumReference.attributes[
@@ -1031,17 +1039,37 @@ export const eventHandlers = () => {
 		},
 	);
 
+	function returnToMainBlueprintAlterSelector() {
+		global.id.mainBlueprintAlterAttributeSelectorAttributeAdd.removeAttribute(
+			"style",
+		);
+		for (const item of [
+			global.id.mainBlueprintAlterAttributeSelector,
+			global.id.mainBlueprintAlterAttributeSelector2,
+		])
+			item.style.display = "flex";
+	}
+
 	global.id.mainBlueprintAlterAttributeSelectorAttributeAddBack.addEventListener(
 		"click",
 		() => {
-			global.id.mainBlueprintAlterAttributeSelectorAttributeAdd.removeAttribute(
-				"style",
-			);
-			for (const item of [
-				global.id.mainBlueprintAlterAttributeSelector,
-				global.id.mainBlueprintAlterAttributeSelector2,
-			])
-				item.style.display = "flex";
+			returnToMainBlueprintAlterSelector();
+		},
+	);
+
+	global.id.mainBlueprintAlterAttributeSelectorAddAttribute.addEventListener(
+		"click",
+		() => {
+			const alter = getAlter();
+			const selectedAttribute =
+				global.id.mainBlueprintAlterAttributeSelectorAttributeSelectAll.value;
+
+			if (!alter.enumReference.attributes) {
+				alter.enumReference.attributes = {};
+			}
+			alter.enumReference.attributes[selectedAttribute] = "";
+			returnToMainBlueprintAlterSelector();
+			populateAlterAttributesSelectAndFillInput(selectedAttribute);
 		},
 	);
 
@@ -3420,7 +3448,20 @@ export const eventHandlers = () => {
 		}
 	}
 
-	global.id.mainClassroomSelectorDelete.addEventListener("click", () => {});
+	global.id.mainClassroomSelectorDelete.addEventListener("click", () => {
+		for (const [key, value] of classroomMap) {
+			if (
+				value.type === global.id.mainClassroomSelectorSelectType.value &&
+				value.name === global.id.mainClassroomSelectorSelectName.value
+			) {
+				classroomMap.delete(key);
+				break;
+			}
+		}
+		populateClassroomSelectType();
+		populateClassroomSelectName();
+		applyStyles();
+	});
 
 	global.id.classroomPropertySelect.addEventListener("change", () => {
 		populateClassroomStyleOptionsValue();

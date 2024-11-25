@@ -213,6 +213,9 @@ const global = {
 		mainBlueprintAlterAttributeSelectorRemoveAttribute: document.getElementById(
 			"mainBlueprintAlterAttributeSelectorRemoveAttribute",
 		),
+		mainBlueprintAlterAttributeSelectorAddAttribute: document.getElementById(
+			"mainBlueprintAlterAttributeSelectorAddAttribute",
+		),
 		mainBlueprintSelectorDelete: document.getElementById(
 			"mainBlueprintSelectorDelete",
 		),
@@ -535,6 +538,7 @@ const global = {
 	},
 	map: {
 		blueprintMap: new Map(),
+		/** @type {Map<string, object>} */
 		classroomMap: new Map(),
 		templatesMap: new Map(),
 		cssMap: new Map(),
