@@ -7,6 +7,7 @@ import {
 
 /**
  * Rebuilds the styles from the blueprint.
+ * @todo I don't appreciate how this function works. I have issue with recursive cut off method of leftovers that shouldn't be applied to styles. This function after update also requires further monitoring of overall impact on code.
  */
 export default function rebuildStyleFromBlueprint() {
 	const blueprintMap = global.map.blueprintMap;

@@ -3,6 +3,7 @@ import getHtmlAttributes from "./getHtmlAttributes.js";
 /**
  * Populates the attribute select all dropdown with all the attributes of the HTML elements.
  * @param {boolean} areBlueprintAttributes - If the attributes are blueprint attributes.
+ * @param {boolean} areAlterAttributes
  */
 export default function populateAttributeSelectAll(
 	areBlueprintAttributes = false,

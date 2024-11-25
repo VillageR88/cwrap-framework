@@ -189,6 +189,9 @@ const global = {
 		mainBlueprintAlterAttributeSelector2: document.getElementById(
 			"mainBlueprintAlterAttributeSelector2",
 		),
+		mainBlueprintAlterAttributeSelector2AttributeInput: document.getElementById(
+			"mainBlueprintAlterAttributeSelector2AttributeInput",
+		),
 		mainBlueprintAlterAttributeSelectorOpenAddAttribute:
 			document.getElementById(
 				"mainBlueprintAlterAttributeSelectorOpenAddAttribute",
@@ -204,6 +207,12 @@ const global = {
 			document.getElementById(
 				"mainBlueprintAlterAttributeSelectorAttributeSelectAll",
 			),
+		mainBlueprintAlterAttributeSelectorSelect: document.getElementById(
+			"mainBlueprintAlterAttributeSelectorSelect",
+		),
+		mainBlueprintAlterAttributeSelectorRemoveAttribute: document.getElementById(
+			"mainBlueprintAlterAttributeSelectorRemoveAttribute",
+		),
 		mainBlueprintSelectorDelete: document.getElementById(
 			"mainBlueprintSelectorDelete",
 		),

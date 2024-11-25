@@ -62,6 +62,8 @@ import populateTemplatesSelect from "./populateTemplatesSelect.js";
 import createElementFromJson from "./createElementFromJson.js";
 import generateCssSelector from "./generateCssSelector.js";
 import getAlter from "./getAlter.js";
+import populateBlueprintAttributeOptions from "./populateBlueprintAttributeOptions.js";
+import populateBlueprintAttributeOptionsValue from "./populateBlueprintAttributeOptionsValue.js";
 
 /**
  * Sets up the event handlers.
@@ -956,6 +958,47 @@ export const eventHandlers = () => {
 				global.id.mainBlueprintAlterAttributeSelector2,
 			])
 				item.style.display = "flex";
+			populateAlterAttributesSelectAndFillInput();
+		},
+	);
+
+	global.id.mainBlueprintAlterAttributeSelectorRemoveAttribute.addEventListener(
+		"click",
+		() => {
+			const alter = getAlter();
+			const selectedAttribute =
+				global.id.mainBlueprintAlterAttributeSelectorSelect.value;
+			delete alter.enumReference.attributes[selectedAttribute];
+			populateAlterAttributesSelectAndFillInput();
+			reloadBlueprint();
+		},
+	);
+
+	function populateAlterAttributesSelectAndFillInput() {
+		const alter = getAlter();
+		console.log(alter);
+		global.id.mainBlueprintAlterAttributeSelectorSelect.innerHTML = "";
+		for (const attribute in alter.enumReference.attributes) {
+			const option = document.createElement("option");
+			option.value = attribute;
+			option.textContent = attribute;
+			global.id.mainBlueprintAlterAttributeSelectorSelect.append(option);
+		}
+		if (alter.enumReference.attributes)
+			global.id.mainBlueprintAlterAttributeSelector2AttributeInput.value =
+				alter.enumReference.attributes[
+					global.id.mainBlueprintAlterAttributeSelectorSelect.value
+				] ?? "";
+	}
+
+	global.id.mainBlueprintAlterAttributeSelectorSelect.addEventListener(
+		"change",
+		() => {
+			const alter = getAlter();
+			global.id.mainBlueprintAlterAttributeSelector2AttributeInput.value =
+				alter.enumReference.attributes[
+					global.id.mainBlueprintAlterAttributeSelectorSelect.value
+				];
 		},
 	);
 
@@ -1069,26 +1112,6 @@ export const eventHandlers = () => {
 			global.id.mainBlueprintTextEditor2.value = textValue || "";
 		}
 	});
-
-	function populateBlueprintAttributeOptions(targetElement) {
-		const blueprintAttributeSelect = global.id.blueprintAttributeSelect;
-		blueprintAttributeSelect.innerHTML = "";
-		if (targetElement?.attributes) {
-			for (const attribute in targetElement.attributes) {
-				const newOption = new Option(attribute, attribute);
-				blueprintAttributeSelect.appendChild(newOption);
-			}
-		}
-	}
-
-	function populateBlueprintAttributeOptionsValue(targetElement) {
-		const blueprintAttributeSelectValue =
-			global.id.blueprintAttributeSelect.value;
-		const attributeValue = blueprintAttributeSelectValue
-			? targetElement.attributes[blueprintAttributeSelectValue]
-			: "";
-		global.id.blueprintAttributeInput.value = attributeValue || "";
-	}
 
 	function getBlueprintTargetElement(currentMap, blueprintSelectValue) {
 		const blueprintSelectValueTrimmed = blueprintSelectValue
