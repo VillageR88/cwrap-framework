@@ -926,6 +926,30 @@ export const eventHandlers = () => {
 		}
 	});
 
+	global.id.mainBlueprintAlterSelectorEditStyle.addEventListener(
+		"click",
+		() => {
+			global.id.mainBlueprintAlterSelector.removeAttribute("style");
+			for (const item of [
+				global.id.mainBlueprintAlterStyleSelector,
+				global.id.mainBlueprintAlterStyleSelector2,
+			])
+				item.style.display = "flex";
+		},
+	);
+
+	global.id.mainBlueprintAlterStyleSelectorBack.addEventListener(
+		"click",
+		() => {
+			global.id.mainBlueprintAlterSelector.style.display = "flex";
+			for (const item of [
+				global.id.mainBlueprintAlterStyleSelector,
+				global.id.mainBlueprintAlterStyleSelector2,
+			])
+				item.removeAttribute("style");
+		},
+	);
+
 	global.id.mainBlueprintAlterSelectorTextEditorBack.addEventListener(
 		"click",
 		() => {

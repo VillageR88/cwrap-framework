@@ -938,6 +938,11 @@ body
   > div
   > div
   > #mainBlueprintAlterAttributeSelectorAttributeAdd,
+body
+  > #selectedElementLabelContainer
+  > div
+  > div
+  > #mainBlueprintAlterStyleSelector,
 body > #selectedElementLabelContainer > div > div > #mainBlueprintTextEditor,
 body > #selectedElementLabelContainer > div > div > #mainAttributeSelector,
 body > #selectedElementLabelContainer > div > div > #mainStyleAdd,
@@ -966,6 +971,15 @@ body
   > #selectedElementLabelContainer
   > div
   > #mainBlueprintAlterAttributeSelector2,
+
+
+  body
+  > #selectedElementLabelContainer
+  > div
+  > #mainBlueprintAlterStyleSelector2,
+
+
+
 body > #selectedElementLabelContainer > div > #mainBlueprintAttributeSelector2,
 body > #selectedElementLabelContainer > div > #mainBlueprintStyleSelector2,
 body > #selectedElementLabelContainer > div > #mainTextEditor2,

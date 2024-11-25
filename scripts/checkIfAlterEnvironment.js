@@ -4,6 +4,7 @@ export default function checkIfAlterEnvironment() {
 		global.id.mainBlueprintAlterSelectorTextEditor,
 		global.id.mainBlueprintAlterAttributeSelector,
 		global.id.mainBlueprintAlterAttributeSelectorAttributeAdd,
+		global.id.mainBlueprintAlterStyleSelector,
 	])
 		if (item.style.display === "flex") return true;
 	return false;

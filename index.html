@@ -458,18 +458,51 @@
         </div>
 
         <div id="mainBlueprintAlterAttributeSelectorAttributeAdd">
-          <button id="mainBlueprintAlterAttributeSelectorAttributeAddBack" class="mediumButtons" aria-label="return to attribute selector"
-            data-title="return to attribute selector">
+          <button id="mainBlueprintAlterAttributeSelectorAttributeAddBack" class="mediumButtons"
+            aria-label="return to attribute selector" data-title="return to attribute selector">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#back"></use>
             </svg>
           </button>
           <div data-title="select new attribute">
-            <select id="mainBlueprintAlterAttributeSelectorAttributeSelectAll" class="mediumButtons" aria-label="select new attribute"></select>
+            <select id="mainBlueprintAlterAttributeSelectorAttributeSelectAll" class="mediumButtons"
+              aria-label="select new attribute"></select>
           </div>
-          <button id="mainBlueprintAlterAttributeSelectorAddAttribute" class="mediumButtons" aria-label="add attribute" data-title="add attribute">
+          <button id="mainBlueprintAlterAttributeSelectorAddAttribute" class="mediumButtons" aria-label="add attribute"
+            data-title="add attribute">
             <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#add"></use>
+            </svg>
+          </button>
+        </div>
+
+        <div id="mainBlueprintAlterStyleSelector">
+          <button id="mainBlueprintAlterStyleSelectorBack" class="mediumButtons" aria-label="back to element selector"
+            data-title="back to element selector">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#back"></use>
+            </svg>
+          </button>
+          <button id="mainBlueprintAlterStyleSelectorOpenState" class="mediumButtons" aria-label="manage state"
+            data-title="manage state">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#iconState"></use>
+            </svg>
+          </button>
+          <button id="mainBlueprintAlterStyleSelectorOpenAddProperty" class="mediumButtons"
+            aria-label="open add property" data-title="open add property">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#add"></use>
+            </svg>
+          </button>
+          <div data-title="select property">
+            <select id="mainBlueprintAlterStyleSelectorPropertySelect" class="mediumButtons"
+              aria-label="select property"></select>
+          </div>
+          <button id="mainBlueprintAlterStyleSelectorRemoveSelectProperty" class="mediumButtons"
+            aria-label="remove property" data-title="remove property">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+              <use href="#remove"></use>
             </svg>
           </button>
         </div>
@@ -565,8 +598,8 @@
               <use href="#iconState"></use>
             </svg>
           </button>
-          <button id="openBlueprintAddProperty" class="mediumButtons" aria-label="open property"
-            data-title="open property">
+          <button id="openBlueprintAddProperty" class="mediumButtons" aria-label="open add property"
+            data-title="open add property">
             <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
               <use href="#add"></use>
             </svg>
@@ -581,6 +614,7 @@
             </svg>
           </button>
         </div>
+
 
         <div id="mainBlueprintStateSelector">
           <button id="mainBlueprintStateSelectorBack" class="mediumButtons" aria-label="back to element selector"
@@ -1145,6 +1179,16 @@
         <input aria-label="attribute input" type="text" id="mainBlueprintAlterAttributeSelector2AttributeInput" />
         <button class="mediumButtons" id="mainBlueprintAlterAttributeSelector2UpdateAttribute"
           aria-label="update attribute value" data-title="update attribute value">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
+            <use href="#update"></use>
+          </svg>
+        </button>
+      </div>
+
+      <div id="mainBlueprintAlterStyleSelector2">
+        <textarea aria-label="property input" id="mainBlueprintAlterStyleSelectorInput"></textarea>
+        <button id="mainBlueprintAlterStyleSelectorUpdateProperty" class="mediumButtons"
+          aria-label="update property value" data-title="update property value">
           <svg xmlns="http://www.w3.org/2000/svg" height="24px" width="24px">
             <use href="#update"></use>
           </svg>

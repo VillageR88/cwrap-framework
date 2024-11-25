@@ -168,6 +168,9 @@ const global = {
 		mainBlueprintAlterSelectorEditText: document.getElementById(
 			"mainBlueprintAlterSelectorEditText",
 		),
+		mainBlueprintAlterSelectorEditStyle: document.getElementById(
+			"mainBlueprintAlterSelectorEditStyle",
+		),
 		mainBlueprintAlterSelectorTextEditor: document.getElementById(
 			"mainBlueprintAlterSelectorTextEditor",
 		),
@@ -179,6 +182,12 @@ const global = {
 		),
 		mainBlueprintAlterSelectorAttributes: document.getElementById(
 			"mainBlueprintAlterSelectorAttributes",
+		),
+		mainBlueprintAlterStyleSelector: document.getElementById(
+			"mainBlueprintAlterStyleSelector",
+		),
+		mainBlueprintAlterStyleSelectorBack: document.getElementById(
+			"mainBlueprintAlterStyleSelectorBack",
 		),
 		mainBlueprintAlterAttributeSelector: document.getElementById(
 			"mainBlueprintAlterAttributeSelector",
@@ -215,6 +224,12 @@ const global = {
 		),
 		mainBlueprintAlterAttributeSelectorAddAttribute: document.getElementById(
 			"mainBlueprintAlterAttributeSelectorAddAttribute",
+		),
+		mainBlueprintSelectorStyleSelector: document.getElementById(
+			"mainBlueprintSelectorStyleSelector",
+		),
+		mainBlueprintAlterStyleSelector2: document.getElementById(
+			"mainBlueprintAlterStyleSelector2",
 		),
 		mainBlueprintSelectorDelete: document.getElementById(
 			"mainBlueprintSelectorDelete",
