@@ -90,25 +90,6 @@ app.post("/save-config", (req, res) => {
 	});
 });
 
-// Endpoint to save skeleton.json to temp
-app.post("/save-skeleton-temp/:subPath?", (req, res) => {
-	const skeletonJson = req.body;
-	const subPath = req.params.subPath || "";
-
-	const jsonFilePath = subPath
-		? path.join(ROOT_DIR, "dist", subPath, "skeleton.json")
-		: path.join(ROOT_DIR, "dist", "skeleton.json");
-	fs.writeFile(jsonFilePath, JSON.stringify(skeletonJson, null, 2), (err) => {
-		if (err) {
-			console.error("Error saving skeletonBody.json:", err);
-			res.status(500).json({ success: false, error: err.message });
-		} else {
-			console.log("skeletonBody.json dist variant saved successfully to dist!");
-			res.status(200).json({ success: true });
-		}
-	});
-});
-
 // API endpoint to fetch skeleton.json
 app.get("/api/skeleton", (req, res) => {
 	console.log("fetching skeleton.json");
