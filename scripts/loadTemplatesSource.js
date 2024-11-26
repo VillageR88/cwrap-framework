@@ -16,7 +16,7 @@ export default function loadTemplatesSource() {
             }
         })
         .catch((error) => {
-            console.info("%c info: No templates source found, creating an empty map", "color:skyBlue");
+            console.info("%c\u200Binfo: no templates source found", "color:skyBlue");
             templatesMap.clear();
         });
 }

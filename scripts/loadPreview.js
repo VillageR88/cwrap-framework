@@ -8,7 +8,7 @@ import validateParentElement from "./validateParentElement.js";
 import validateRemoveElement from "./validateRemoveElement.js";
 import clearDocumentFromPlaceholders from "./clearDocumentFromPlaceholders.js";
 import loadCustomVisualsForCwrapEnvironment from "./loadCustomVisualsForCwrapEnvironment.js";
-import populateAllSelectCwrapEnvironment from "./populateAllSelectCwrapEnvironment.js";
+import populateAllCustomDevices from "./populateAllCustomDevices.js";
 
 /**
  * @typedef {import('./types.js').JsonObject} JsonObject
@@ -80,7 +80,7 @@ export default function loadPreview(jsonObj) {
 	addRuntimeScripts();
 	applyStyles();
 	loadCustomVisualsForCwrapEnvironment();
-	populateAllSelectCwrapEnvironment();
+	populateAllCustomDevices();
 	populateSelectOptions();
 	validateRemoveElement();
 	validateParentElement();

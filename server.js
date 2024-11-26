@@ -54,24 +54,7 @@ app.post("/save-skeleton/:subPath?", (req, res) => {
 		}
 	});
 });
-// fetch("/save-template", {
-// 	method: "POST",
-// 	headers: {
-// 		"Content-Type": "application/json",
-// 	},
-// 	body: JSON.stringify(global.map.templateMap),
-// })
-// 	.then((response) => response.json())
-// 	.then((data) => {
-// 		if (data.success) {
-// 			console.log("template.json saved successfully!");
-// 		} else {
-// 			console.error("Error saving template.json:", data.error);
-// 		}
-// 	})
-// 	.catch((error) => {
-// 		console.error("Error saving template.json:", error);
-// 	}); reference for app.post bellow
+
 //Endpoint to save template.json
 app.post("/save-template", (req, res) => {
 	const templateJson = req.body;
