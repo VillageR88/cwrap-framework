@@ -624,6 +624,24 @@ export const eventHandlers = () => {
 			.catch((error) => {
 				console.error("Error saving template.json:", error);
 			});
+		fetch("/save-config", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				customDevices: global.localSettings.customDevices,
+			}),
+		})
+			.then((response) => response.json())
+			.then((data) => {
+				if (!data.success) {
+					console.error("Error saving config.json:", data.error);
+				}
+			})
+			.catch((error) => {
+				console.error("Error saving config.json:", error);
+			});
 	});
 
 	/**
@@ -834,8 +852,8 @@ export const eventHandlers = () => {
 			 */
 			const element = getElementFromPath();
 			// Get the value of the custom data attribute
-			const originalText = element.getAttribute('data-cwrap-text');
-	
+			const originalText = element.getAttribute("data-cwrap-text");
+
 			global.id.mainTextEditor2.value = originalText || "";
 		}
 	});
@@ -858,26 +876,26 @@ export const eventHandlers = () => {
 	global.id.updateText.addEventListener("click", () => {
 		const element = getElementFromPath();
 		const newText = global.id.mainTextEditor2.value;
-	
+
 		// Update the data-cwrap-text attribute
 		element.cwrapText = newText;
-	
+
 		// Build an array of existing spans and their positions
-		const spans = Array.from(element.querySelectorAll("span")).map(span => ({
+		const spans = Array.from(element.querySelectorAll("span")).map((span) => ({
 			html: span.outerHTML,
-			text: span.textContent
+			text: span.textContent,
 		}));
-	
+
 		// Clear the current content of the element
 		element.innerHTML = "";
-	
+
 		// Split the new text by cwrapSpan and create text nodes and span elements
 		const parts = newText.split("cwrapSpan");
 		element.append(document.createTextNode(parts[0]));
 		for (let i = 1; i < parts.length; i++) {
 			if (spans[i - 1]) {
-				element.insertAdjacentHTML('beforeend', spans[i - 1].html);
-			} 
+				element.insertAdjacentHTML("beforeend", spans[i - 1].html);
+			}
 			element.append(document.createTextNode(parts[i]));
 		}
 	});

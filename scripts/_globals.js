@@ -747,6 +747,7 @@ const global = {
 	settings: { empty: true },
 	localSettings: {
 		selectionColor: localStorage.getItem("selectionColor") || "red",
+		customDevices: []
 	},
 };
 global.map.mediaQueriesMap.set("max-width: 768px", new Map());

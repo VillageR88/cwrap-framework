@@ -74,6 +74,22 @@ app.post("/save-template", (req, res) => {
 	});
 });
 
+// Endpoint to save config.json
+app.post("/save-config", (req, res) => {
+	const configJson = req.body;
+	const jsonFilePath = path.join(ROOT_DIR, "config.json");
+
+	fs.writeFile(jsonFilePath, JSON.stringify(configJson, null, 2), (err) => {
+		if (err) {
+			console.error("Error saving config.json:", err);
+			res.status(500).json({ success: false, error: err.message });
+		} else {
+			console.log("config.json saved successfully!");
+			res.status(200).json({ success: true });
+		}
+	});
+});
+
 // Endpoint to save skeleton.json to temp
 app.post("/save-skeleton-temp/:subPath?", (req, res) => {
 	const skeletonJson = req.body;
