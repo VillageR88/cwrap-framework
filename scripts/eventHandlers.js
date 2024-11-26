@@ -833,13 +833,10 @@ export const eventHandlers = () => {
 			 * @type {Element}
 			 */
 			const element = getElementFromPath();
-			// Get only the text content of the element itself, excluding its children
-			const textContent = Array.from(element.childNodes)
-				.filter((node) => node.nodeType === Node.TEXT_NODE)
-				.map((node) => node.nodeValue.trim())
-				.join(" ");
-
-			global.id.mainTextEditor2.value = textContent;
+			// Get the value of the custom data attribute
+			const originalText = element.getAttribute('data-cwrap-text');
+	
+			global.id.mainTextEditor2.value = originalText || "";
 		}
 	});
 
@@ -861,17 +858,27 @@ export const eventHandlers = () => {
 	global.id.updateText.addEventListener("click", () => {
 		const element = getElementFromPath();
 		const newText = global.id.mainTextEditor2.value;
-		const textNode = Array.from(element.childNodes).find(
-			(node) => node.nodeType === Node.TEXT_NODE,
-		);
-
-		if (textNode) {
-			textNode.nodeValue = newText;
-		} else {
-			element.insertBefore(
-				document.createTextNode(newText),
-				element.firstChild,
-			);
+	
+		// Update the data-cwrap-text attribute
+		element.setAttribute("data-cwrap-text", newText);
+	
+		// Build an array of existing spans and their positions
+		const spans = Array.from(element.querySelectorAll("span")).map(span => ({
+			html: span.outerHTML,
+			text: span.textContent
+		}));
+	
+		// Clear the current content of the element
+		element.innerHTML = "";
+	
+		// Split the new text by cwrapSpan and create text nodes and span elements
+		const parts = newText.split("cwrapSpan");
+		element.append(document.createTextNode(parts[0]));
+		for (let i = 1; i < parts.length; i++) {
+			if (spans[i - 1]) {
+				element.insertAdjacentHTML('beforeend', spans[i - 1].html);
+			} 
+			element.append(document.createTextNode(parts[i]));
 		}
 	});
 

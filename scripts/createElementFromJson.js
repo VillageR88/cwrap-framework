@@ -27,8 +27,6 @@ export default function createElementFromJson(
 
 	function setJsonObjToEnumItem() {
 		for (const enumItem of jsonObj.enum) {
-			// console.log(Number(enumItem.nth));
-
 			if (blueprintElementCounter === Number(enumItem.nth)) {
 				selectedJsonObj = enumItem;
 				return false;
@@ -50,9 +48,24 @@ export default function createElementFromJson(
 
 	// Set the element's text content if specified in the JSON object
 	if (!abandonItem) {
-		element.textContent = selectedJsonObj.text
-			? selectedJsonObj.text
-			: jsonObj.text;
+		const originalText = selectedJsonObj.text || jsonObj.text;
+		element.cwrapText = originalText ?? "";
+
+		if (originalText?.includes("cwrapSpan")) {
+			const parts = originalText.split("cwrapSpan");
+			element.textContent = parts[0];
+			for (let i = 1; i < parts.length; i++) {
+				const spanElement = document.createElement("span");
+				//spanElement.setAttribute("data-cwrap-nest", "true");
+				spanElement.isPlaceholder = true;
+				element.isPlaceholderCarrier = true;
+				element.appendChild(spanElement);
+				element.append(parts[i]);
+			}
+		} else {
+			element.textContent = originalText;
+		}
+
 		// Set additional attributes if specified in the JSON object
 		if (selectedJsonObj.attributes) {
 			for (const [key, value] of Object.entries(selectedJsonObj.attributes)) {
@@ -61,7 +74,7 @@ export default function createElementFromJson(
 		}
 	}
 
-	// Add a custom property if it is the initial load // TODO: Validate this
+	// Add a custom property if it is the initial load
 	if (isInitialLoad && !jsonObj.blueprint) {
 		element.customTag = "cwrapPreloaded";
 	}
@@ -99,8 +112,11 @@ export default function createElementFromJson(
 
 	// Add a click event listener to the element
 	eventListenerClickElement(element);
+
 	// Check if the JSON object has children elements
 	if (selectedJsonObj.children) {
+		let spanIndex = 0;
+		const spanElements = element.querySelectorAll("span");
 		// Iterate over each child element
 		for (const child of jsonObj.children) {
 			// Create the child element from the JSON object
@@ -110,7 +126,12 @@ export default function createElementFromJson(
 				blueprintElementCounter,
 			);
 			// Append the child element to the parent element
-			element.appendChild(childElement);
+			if (element.isPlaceholderCarrier && spanElements[spanIndex]) {
+				spanElements[spanIndex].replaceWith(childElement);
+				spanIndex++;
+			} else {
+				element.appendChild(childElement);
+			}
 		}
 	}
 

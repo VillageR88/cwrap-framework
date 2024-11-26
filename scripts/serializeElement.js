@@ -8,10 +8,12 @@ import { stateNonContextual, stateContextual } from "./_const.js";
  * @returns {Object|null} The serialized element or null if the element does not have the customTag property set to cwrapPreloaded.
  */
 export default function serializeElement(element, extendMap) {
-	if (element.customTag === "cwrapPreviewWindow") return null;
-	if (element.customTag === "cwrapTempScript") {
+	if (
+		element.customTag === "cwrapPreviewWindow" ||
+		element.customTag === "cwrapTempScript" ||
+		element.isPlaceholder === true
+	)
 		return null;
-	}
 
 	const cssMap = global.map.cssMap;
 	const mediaQueriesMap = global.map.mediaQueriesMap;
@@ -23,7 +25,9 @@ export default function serializeElement(element, extendMap) {
 	if (element.attributes) {
 		obj.attributes = [];
 		for (let i = 0; i < element.attributes.length; i++) {
-			if (element.attributes[i].name !== "style") {
+			if (
+				element.attributes[i].name !== "style"
+			) {
 				obj.attributes.push({
 					name: element.attributes[i].name,
 					value: element.attributes[i].value,
@@ -107,14 +111,10 @@ export default function serializeElement(element, extendMap) {
 	// }
 
 	// Serialize text content if it exists and is not part of a child element
-	const textNodes = Array.from(element.childNodes).filter(
-		(node) => node.nodeType === Node.TEXT_NODE,
-	);
-	if (textNodes.length > 0) {
-		obj.text = textNodes
-			.map((node) => node.textContent.trim())
-			.join(" ")
-			.trim();
+	// Serialize text content if it exists and is not part of a child element
+	const originalText = element.cwrapText;
+	if (originalText) {
+		obj.text = originalText.trim();
 	}
 
 	return obj;

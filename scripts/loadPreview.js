@@ -6,6 +6,7 @@ import applyStyles from "./applyStyles.js";
 import addRuntimeScripts from "./addRuntimeScripts.js";
 import validateParentElement from "./validateParentElement.js";
 import validateRemoveElement from "./validateRemoveElement.js";
+import clearDocumentFromPlaceholders from "./clearDocumentFromPlaceholders.js";
 
 /**
  * @typedef {import('./types.js').JsonObject} JsonObject
@@ -73,6 +74,7 @@ export default function loadPreview(jsonObj) {
 	generateClassroomMap(jsonObj);
 	generateCssSelector(jsonObj, "", new Map());
 	doc.body.replaceWith(createElementFromJson(jsonObj, true)); //TODO here blueprint is added
+	clearDocumentFromPlaceholders();
 	addRuntimeScripts();
 	applyStyles();
 	populateSelectOptions();
