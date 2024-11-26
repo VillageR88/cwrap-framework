@@ -7,6 +7,8 @@ import addRuntimeScripts from "./addRuntimeScripts.js";
 import validateParentElement from "./validateParentElement.js";
 import validateRemoveElement from "./validateRemoveElement.js";
 import clearDocumentFromPlaceholders from "./clearDocumentFromPlaceholders.js";
+import loadCustomVisualsForCwrapEnvironment from "./loadCustomVisualsForCwrapEnvironment.js";
+import populateAllSelectCwrapEnvironment from "./populateAllSelectCwrapEnvironment.js";
 
 /**
  * @typedef {import('./types.js').JsonObject} JsonObject
@@ -77,6 +79,8 @@ export default function loadPreview(jsonObj) {
 	clearDocumentFromPlaceholders();
 	addRuntimeScripts();
 	applyStyles();
+	loadCustomVisualsForCwrapEnvironment();
+	populateAllSelectCwrapEnvironment();
 	populateSelectOptions();
 	validateRemoveElement();
 	validateParentElement();

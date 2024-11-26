@@ -860,7 +860,7 @@ export const eventHandlers = () => {
 		const newText = global.id.mainTextEditor2.value;
 	
 		// Update the data-cwrap-text attribute
-		element.setAttribute("data-cwrap-text", newText);
+		element.cwrapText = newText;
 	
 		// Build an array of existing spans and their positions
 		const spans = Array.from(element.querySelectorAll("span")).map(span => ({

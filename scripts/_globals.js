@@ -431,6 +431,7 @@ const global = {
 		navScreenDesktop: document.getElementById("navScreenDesktop"),
 		navScreenMobile: document.getElementById("navScreenMobile"),
 		navScreenTablet: document.getElementById("navScreenTablet"),
+		navScreenCustom: document.getElementById("navScreenCustom"),
 		navSelectPreview: document.getElementById("navSelectPreview"),
 		navTemplates: document.getElementById("navTemplates"),
 		onlyLogo: document.getElementById("onlyLogo"),

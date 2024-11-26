@@ -859,7 +859,8 @@ body
   > div
   > div#mainTemplatesSelector
   select#mainTemplatesSelectorParent,
-body > main > div > div > div > select#treeViewEdit {
+body > main > div > div > div > select#treeViewEdit,
+body > div > div > div > nav > div > div > div > select#navScreenCustom {
   width: 45px;
   height: 40px;
   border-radius: 6px;
@@ -887,8 +888,22 @@ body
   > div#mainStyleSelector2
   > select
   > option,
-body > main > div > div > div > select#treeViewEdit > option {
+body > main > div > div > div > select#treeViewEdit > option,
+body
+  > div
+  > div
+  > div
+  > nav
+  > div
+  > div
+  > div
+  > select#navScreenCustom
+  > option {
   color: var(--colorFill-regular);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial;
+  letter-spacing: 0.1px;
+  font-size: 15px;
+  font-weight: 600;
 }
 
 body > #selectedElementLabelContainer > div > div#mainStyleSelector2 > textarea,
