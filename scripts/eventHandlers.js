@@ -122,7 +122,7 @@ export const eventHandlers = () => {
 	// 	updateElementInfo(global.id.elementSelect.value, element);
 	// }
 
-	global.id.navScreenDesktop.addEventListener("click", () => {
+	function loadRegularDesktop() {
 		global.id.navAdditionalScreen.classList.remove(
 			"screenDesktop",
 			"screenTablet",
@@ -132,7 +132,9 @@ export const eventHandlers = () => {
 		const preview = global.id.preview;
 		preview.style.width = "100%";
 		loadBodyView();
-		// tempUpdateFunction();
+	}
+	global.id.navScreenDesktop.addEventListener("click", () => {
+		loadRegularDesktop();
 	});
 	global.id.navScreenTablet.addEventListener("click", () => {
 		global.id.navAdditionalScreen.classList.remove(
@@ -158,6 +160,60 @@ export const eventHandlers = () => {
 		loadBodyView();
 		// tempUpdateFunction();
 	});
+
+	function promptForCustomDeviceName(callback, defaultName) {
+		showModal(
+			"Enter a new name for the custom device or pick an existing one to delete:",
+			(newName) => {
+				if (newName === null) {
+					global.id.modalError.style.display = "none";
+					global.id.customModal.style.display = "none";
+					return;
+				}
+				if (newName === "") {
+					global.id.modalError.style.display = "block";
+					global.id.modalError.textContent = "Name cannot be empty";
+					return;
+				}
+				global.id.modalError.style.display = "none";
+				global.id.customModal.style.display = "none";
+				callback(newName);
+				global.id.navScreenCustom.value = "";
+			},
+			defaultName,
+		);
+	}
+
+	function addCustomDeviceName(newName) {
+		const existingValues = global.localSettings.customDevices;
+		const option = document.createElement("option");
+		if (existingValues.includes(newName)) {
+			const index = existingValues.indexOf(newName);
+			existingValues.splice(index, 1);
+			const options = Array.from(global.id.navScreenCustom.options);
+			for (const opt of options) {
+				if (opt.value === newName) {
+					opt.remove();
+					break;
+				}
+			}
+			loadRegularDesktop();
+		} else {
+			option.value = newName;
+			option.textContent = newName;
+			global.id.navScreenCustom.appendChild(option);
+			global.localSettings.customDevices.push(newName);
+		}
+	}
+
+	global.id.navScreenCustom.addEventListener("change", () => {
+		if (global.id.navScreenCustom.value === "cwrapManageCustomDevices") {
+			promptForCustomDeviceName(addCustomDeviceName, "");
+		} else {
+			console.log(global.id.navScreenCustom.value);
+		}
+	});
+
 	global.id.navPreviewNormal.addEventListener("click", () => {
 		global.id.navSelectPreview.classList.remove("preview", "static", "tree");
 		global.id.navSelectPreview.classList.add("preview");
