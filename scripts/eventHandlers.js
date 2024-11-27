@@ -932,7 +932,7 @@ export const eventHandlers = () => {
        */
       const element = getElementFromPath();
       // Get the value of the custom data attribute
-      const originalText = element.getAttribute("data-cwrap-text");
+      const originalText = element.cwrapText;
 
       global.id.mainTextEditor2.value = originalText || "";
     }
