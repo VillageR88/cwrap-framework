@@ -3459,6 +3459,7 @@ export const eventHandlers = () => {
     const selectedType = global.id.mainClassroomSelectorSelectType.value;
     const selectedName = global.id.mainClassroomSelectorSelectName.value;
     let currentScreen;
+    let customScreenSize;
 
     if (navAdditionalScreen.classList.contains("screenDesktop")) {
       currentScreen = "screenDesktop";
@@ -3466,6 +3467,9 @@ export const eventHandlers = () => {
       currentScreen = "screenTablet";
     } else if (navAdditionalScreen.classList.contains("screenMobile")) {
       currentScreen = "screenMobile";
+    } else if (navAdditionalScreen.classList.contains("screenCustom")) {
+      currentScreen = "screenCustom";
+      customScreenSize = global.id.navScreenCustom.value;
     }
 
     console.log("Current Screen:", currentScreen);
@@ -3507,7 +3511,8 @@ export const eventHandlers = () => {
 
       if (
         (currentScreen === "screenTablet" ||
-          currentScreen === "screenMobile") &&
+          currentScreen === "screenMobile" ||
+          currentScreen === "screenCustom") &&
         value.mediaQueries
       ) {
         console.log(
@@ -3524,7 +3529,8 @@ export const eventHandlers = () => {
             (currentScreen === "screenTablet" &&
               maxWidth === "max-width: 768px") ||
             (currentScreen === "screenMobile" &&
-              maxWidth === "max-width: 640px")
+              maxWidth === "max-width: 640px") ||
+            (currentScreen === "screenCustom" && maxWidth === customScreenSize)
           ) {
             const styleArray = mediaQuery.style
               .split(";")
@@ -3899,16 +3905,15 @@ export const eventHandlers = () => {
 
     const navAdditionalScreen = global.id.navAdditionalScreen;
     let currentScreen;
-
     if (navAdditionalScreen.classList.contains("screenDesktop")) {
       currentScreen = "screenDesktop";
     } else if (navAdditionalScreen.classList.contains("screenTablet")) {
       currentScreen = "screenTablet";
     } else if (navAdditionalScreen.classList.contains("screenMobile")) {
       currentScreen = "screenMobile";
+    } else if (navAdditionalScreen.classList.contains("screenCustom")) {
+      currentScreen = "screenCustom";
     }
-
-    console.log("Current Screen:", currentScreen);
 
     if (currentScreen === "screenDesktop") {
       const currentStyle = currentClassroom.style;
@@ -3929,14 +3934,17 @@ export const eventHandlers = () => {
       currentClassroom.style = newStyle;
     } else if (
       currentScreen === "screenTablet" ||
-      currentScreen === "screenMobile"
+      currentScreen === "screenMobile" ||
+      currentScreen === "screenCustom"
     ) {
+      ///
       if (!currentClassroom.mediaQueries) {
         currentClassroom.mediaQueries = [];
       }
 
       let mediaQueryFound = false;
       for (const mediaQuery of currentClassroom.mediaQueries) {
+        console.log(mediaQuery);
         const maxWidth = mediaQuery.query.trim();
         if (
           (currentScreen === "screenTablet" &&
