@@ -122,12 +122,16 @@ export const eventHandlers = () => {
 	// 	updateElementInfo(global.id.elementSelect.value, element);
 	// }
 
-	function loadRegularDesktop() {
+	function cleanScreenDevices() {
 		global.id.navAdditionalScreen.classList.remove(
 			"screenDesktop",
 			"screenTablet",
 			"screenMobile",
 		);
+	}
+
+	function loadRegularDesktop() {
+		cleanScreenDevices()
 		global.id.navAdditionalScreen.classList.add("screenDesktop");
 		const preview = global.id.preview;
 		preview.style.width = "100%";
@@ -137,11 +141,7 @@ export const eventHandlers = () => {
 		loadRegularDesktop();
 	});
 	global.id.navScreenTablet.addEventListener("click", () => {
-		global.id.navAdditionalScreen.classList.remove(
-			"screenDesktop",
-			"screenTablet",
-			"screenMobile",
-		);
+		cleanScreenDevices()
 		global.id.navAdditionalScreen.classList.add("screenTablet");
 		const preview = global.id.preview;
 		preview.style.width = "768px";
@@ -149,11 +149,7 @@ export const eventHandlers = () => {
 		// tempUpdateFunction();
 	});
 	global.id.navScreenMobile.addEventListener("click", () => {
-		global.id.navAdditionalScreen.classList.remove(
-			"screenDesktop",
-			"screenTablet",
-			"screenMobile",
-		);
+		cleanScreenDevices()
 		global.id.navAdditionalScreen.classList.add("screenMobile");
 		const preview = global.id.preview;
 		preview.style.width = "375px";
@@ -185,6 +181,7 @@ export const eventHandlers = () => {
 	}
 
 	function addCustomDeviceName(newName) {
+		const preview = global.id.preview;
 		const existingValues = global.localSettings.customDevices;
 		const option = document.createElement("option");
 		if (existingValues.includes(newName)) {
@@ -203,14 +200,25 @@ export const eventHandlers = () => {
 			option.textContent = newName;
 			global.id.navScreenCustom.appendChild(option);
 			global.localSettings.customDevices.push(newName);
+
 		}
 	}
 
 	global.id.navScreenCustom.addEventListener("change", () => {
+		const preview = global.id.preview;
 		if (global.id.navScreenCustom.value === "cwrapManageCustomDevices") {
 			promptForCustomDeviceName(addCustomDeviceName, "");
 		} else {
-			console.log(global.id.navScreenCustom.value);
+			cleanScreenDevices();
+			global.id.navAdditionalScreen.classList.add("screenCustom");
+			loadBodyView();
+			const regex = /(?:max-width:\s*|min-width:\s*)(\d+(?:px|cm|mm|in|pt|pc|%|em|rem|vh|vw|vmin|vmax))/;
+			const match = regex.exec(global.id.navScreenCustom.value);
+			if (match?.[1]) {
+				preview.style.width = match[1];
+			} else {
+				preview.style.width = "100%";
+			}
 		}
 	});
 
