@@ -2232,9 +2232,13 @@ export const eventHandlers = () => {
 			if (global.id.navAdditionalScreen.classList.contains("screenTablet")) {
 				currentStyle = mediaQueriesMap.get("max-width: 768px")?.get(fullPath);
 				mediaQueries = mediaQueriesMap.get("max-width: 768px");
-			} else {
+			} else if (global.id.navAdditionalScreen.classList.contains("screenMobile")) {
 				currentStyle = mediaQueriesMap.get("max-width: 640px")?.get(fullPath);
 				mediaQueries = mediaQueriesMap.get("max-width: 640px");
+				
+			} else if (global.id.navAdditionalScreen.classList.contains("screenCustom")) {
+				currentStyle = mediaQueriesMap.get(global.id.navScreenCustom.value)?.get(fullPath);
+				mediaQueries = mediaQueriesMap.get(global.id.navScreenCustom.value);
 			}
 			const mediaQuery = mediaQueries?.get(fullPath);
 			currentStyle = mediaQuery;
