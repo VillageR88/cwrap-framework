@@ -3568,6 +3568,7 @@ export const eventHandlers = () => {
     classroomStyleValueSelect.innerHTML = "";
     const navAdditionalScreen = global.id.navAdditionalScreen;
     let currentScreen;
+    let customScreenSize;
 
     if (navAdditionalScreen.classList.contains("screenDesktop")) {
       currentScreen = "screenDesktop";
@@ -3575,6 +3576,9 @@ export const eventHandlers = () => {
       currentScreen = "screenTablet";
     } else if (navAdditionalScreen.classList.contains("screenMobile")) {
       currentScreen = "screenMobile";
+    } else if (navAdditionalScreen.classList.contains("screenCustom")) {
+      currentScreen = "screenCustom";
+      customScreenSize = global.id.navScreenCustom.value;
     }
 
     console.log("Current Screen:", currentScreen);
@@ -3626,7 +3630,8 @@ export const eventHandlers = () => {
 
       if (
         (currentScreen === "screenTablet" ||
-          currentScreen === "screenMobile") &&
+          currentScreen === "screenMobile" ||
+          currentScreen === "screenCustom") &&
         value.mediaQueries
       ) {
         console.log(
@@ -3643,7 +3648,8 @@ export const eventHandlers = () => {
             (currentScreen === "screenTablet" &&
               maxWidth === "max-width: 768px") ||
             (currentScreen === "screenMobile" &&
-              maxWidth === "max-width: 640px")
+              maxWidth === "max-width: 640px") ||
+            (currentScreen === "screenCustom" && maxWidth === customScreenSize)
           ) {
             const styleArray = mediaQuery.style
               .split(";")
@@ -3789,87 +3795,86 @@ export const eventHandlers = () => {
 
     let currentClassroom = null;
     for (const [key, value] of classroomMap.entries()) {
-        if (value.type === selectedType && value.name === selectedName) {
-            currentClassroom = value;
-            break;
-        }
+      if (value.type === selectedType && value.name === selectedName) {
+        currentClassroom = value;
+        break;
+      }
     }
     console.log("Current Classroom:", currentClassroom);
 
     if (!currentClassroom) {
-        console.error(
-            `Classroom not found for type: ${selectedType} and name: ${selectedName}`
-        );
-        return;
+      console.error(
+        `Classroom not found for type: ${selectedType} and name: ${selectedName}`
+      );
+      return;
     }
 
     if (navAdditionalScreen.classList.contains("screenDesktop")) {
-        currentScreen = "screenDesktop";
+      currentScreen = "screenDesktop";
     } else if (navAdditionalScreen.classList.contains("screenTablet")) {
-        currentScreen = "screenTablet";
+      currentScreen = "screenTablet";
     } else if (navAdditionalScreen.classList.contains("screenMobile")) {
-        currentScreen = "screenMobile";
+      currentScreen = "screenMobile";
     } else if (navAdditionalScreen.classList.contains("screenCustom")) {
-        currentScreen = "screenCustom";
-        customScreenSize = global.id.navScreenCustom.value;
+      currentScreen = "screenCustom";
+      customScreenSize = global.id.navScreenCustom.value;
     }
 
     console.log("Current Screen:", currentScreen);
 
     if (currentScreen === "screenDesktop") {
-        const currentStyle = currentClassroom.style;
-        const styleArray = currentStyle
+      const currentStyle = currentClassroom.style;
+      const styleArray = currentStyle
+        .split(";")
+        .map((style) => style.trim())
+        .filter(Boolean); // Filter out empty styles
+      const newStyle = styleArray
+        .map((style) => {
+          const [property, value] = style.split(":").map((s) => s.trim());
+          return property === selectedProperty
+            ? `${property}: ${selectedValue}`
+            : style;
+        })
+        .join("; ")
+        .concat(";");
+      currentClassroom.style = newStyle;
+    } else if (
+      (currentScreen === "screenTablet" ||
+        currentScreen === "screenMobile" ||
+        currentScreen === "screenCustom") &&
+      currentClassroom.mediaQueries
+    ) {
+      for (const mediaQuery of currentClassroom.mediaQueries) {
+        const maxWidth = mediaQuery.query.trim();
+        if (
+          (currentScreen === "screenTablet" &&
+            maxWidth === "max-width: 768px") ||
+          (currentScreen === "screenMobile" &&
+            maxWidth === "max-width: 640px") ||
+          (currentScreen === "screenCustom" && maxWidth === customScreenSize)
+        ) {
+          const currentStyle = mediaQuery.style;
+          const styleArray = currentStyle
             .split(";")
             .map((style) => style.trim())
             .filter(Boolean); // Filter out empty styles
-        const newStyle = styleArray
+          const newStyle = styleArray
             .map((style) => {
-                const [property, value] = style.split(":").map((s) => s.trim());
-                return property === selectedProperty
-                    ? `${property}: ${selectedValue}`
-                    : style;
+              const [property, value] = style.split(":").map((s) => s.trim());
+              return property === selectedProperty
+                ? `${property}: ${selectedValue}`
+                : style;
             })
             .join("; ")
             .concat(";");
-        currentClassroom.style = newStyle;
-    } else if (
-        (currentScreen === "screenTablet" ||
-            currentScreen === "screenMobile" ||
-            currentScreen === "screenCustom") &&
-        currentClassroom.mediaQueries
-    ) {
-        for (const mediaQuery of currentClassroom.mediaQueries) {
-            const maxWidth = mediaQuery.query.trim();
-            if (
-                (currentScreen === "screenTablet" &&
-                    maxWidth === "max-width: 768px") ||
-                (currentScreen === "screenMobile" &&
-                    maxWidth === "max-width: 640px") ||
-                (currentScreen === "screenCustom" &&
-                    maxWidth === customScreenSize)
-            ) {
-                const currentStyle = mediaQuery.style;
-                const styleArray = currentStyle
-                    .split(";")
-                    .map((style) => style.trim())
-                    .filter(Boolean); // Filter out empty styles
-                const newStyle = styleArray
-                    .map((style) => {
-                        const [property, value] = style.split(":").map((s) => s.trim());
-                        return property === selectedProperty
-                            ? `${property}: ${selectedValue}`
-                            : style;
-                    })
-                    .join("; ")
-                    .concat(";");
-                mediaQuery.style = newStyle;
-            }
+          mediaQuery.style = newStyle;
         }
+      }
     }
 
     populateClassroomStyleOptionsValue();
     applyStyles(); // Apply the updated styles
-});
+  });
 
   function populateClassroomPropertySelect() {
     const classroomPropertySelect = global.id.propertyClassroomSelectAll;
@@ -3898,106 +3903,105 @@ export const eventHandlers = () => {
 
     let currentClassroom = null;
     for (const [key, value] of classroomMap.entries()) {
-        if (value.type === selectedType && value.name === selectedName) {
-            currentClassroom = value;
-            break;
-        }
+      if (value.type === selectedType && value.name === selectedName) {
+        currentClassroom = value;
+        break;
+      }
     }
     console.log("Current Classroom:", currentClassroom);
 
     if (!currentClassroom) {
-        console.error(
-            `Classroom not found for type: ${selectedType} and name: ${selectedName}`
-        );
-        return;
+      console.error(
+        `Classroom not found for type: ${selectedType} and name: ${selectedName}`
+      );
+      return;
     }
 
     const navAdditionalScreen = global.id.navAdditionalScreen;
     let currentScreen;
     let customScreenSize;
     if (navAdditionalScreen.classList.contains("screenDesktop")) {
-        currentScreen = "screenDesktop";
+      currentScreen = "screenDesktop";
     } else if (navAdditionalScreen.classList.contains("screenTablet")) {
-        currentScreen = "screenTablet";
+      currentScreen = "screenTablet";
     } else if (navAdditionalScreen.classList.contains("screenMobile")) {
-        currentScreen = "screenMobile";
+      currentScreen = "screenMobile";
     } else if (navAdditionalScreen.classList.contains("screenCustom")) {
-        currentScreen = "screenCustom";
-        customScreenSize = global.id.navScreenCustom.value;
+      currentScreen = "screenCustom";
+      customScreenSize = global.id.navScreenCustom.value;
     }
 
     if (currentScreen === "screenDesktop") {
-        const currentStyle = currentClassroom.style;
-        console.log("Current Style:", currentStyle);
+      const currentStyle = currentClassroom.style;
+      console.log("Current Style:", currentStyle);
 
-        const styleArray = currentStyle
+      const styleArray = currentStyle
+        .split(";")
+        .map((style) => style.trim())
+        .filter(Boolean); // Filter out empty styles
+      console.log("Style Array:", styleArray);
+
+      const newStyle = styleArray
+        .concat(`${selectedProperty}: ${selectedValue}`)
+        .join("; ")
+        .concat(";");
+      console.log("New Style:", newStyle);
+
+      currentClassroom.style = newStyle;
+    } else if (
+      currentScreen === "screenTablet" ||
+      currentScreen === "screenMobile" ||
+      currentScreen === "screenCustom"
+    ) {
+      if (!currentClassroom.mediaQueries) {
+        currentClassroom.mediaQueries = [];
+      }
+
+      let mediaQueryFound = false;
+      for (const mediaQuery of currentClassroom.mediaQueries) {
+        console.log(mediaQuery);
+        const maxWidth = mediaQuery.query.trim();
+        if (
+          (currentScreen === "screenTablet" &&
+            maxWidth === "max-width: 768px") ||
+          (currentScreen === "screenMobile" &&
+            maxWidth === "max-width: 640px") ||
+          (currentScreen === "screenCustom" && maxWidth === customScreenSize)
+        ) {
+          const currentStyle = mediaQuery.style;
+          console.log("Current Media Query Style:", currentStyle);
+
+          const styleArray = currentStyle
             .split(";")
             .map((style) => style.trim())
             .filter(Boolean); // Filter out empty styles
-        console.log("Style Array:", styleArray);
+          console.log("Media Query Style Array:", styleArray);
 
-        const newStyle = styleArray
+          const newStyle = styleArray
             .concat(`${selectedProperty}: ${selectedValue}`)
             .join("; ")
             .concat(";");
-        console.log("New Style:", newStyle);
+          console.log("New Media Query Style:", newStyle);
 
-        currentClassroom.style = newStyle;
-    } else if (
-        currentScreen === "screenTablet" ||
-        currentScreen === "screenMobile" ||
-        currentScreen === "screenCustom"
-    ) {
-        if (!currentClassroom.mediaQueries) {
-            currentClassroom.mediaQueries = [];
+          mediaQuery.style = newStyle;
+          mediaQueryFound = true;
+          break;
         }
+      }
 
-        let mediaQueryFound = false;
-        for (const mediaQuery of currentClassroom.mediaQueries) {
-            console.log(mediaQuery);
-            const maxWidth = mediaQuery.query.trim();
-            if (
-                (currentScreen === "screenTablet" &&
-                    maxWidth === "max-width: 768px") ||
-                (currentScreen === "screenMobile" &&
-                    maxWidth === "max-width: 640px") ||
-                (currentScreen === "screenCustom" &&
-                    maxWidth === customScreenSize)
-            ) {
-                const currentStyle = mediaQuery.style;
-                console.log("Current Media Query Style:", currentStyle);
-
-                const styleArray = currentStyle
-                    .split(";")
-                    .map((style) => style.trim())
-                    .filter(Boolean); // Filter out empty styles
-                console.log("Media Query Style Array:", styleArray);
-
-                const newStyle = styleArray
-                    .concat(`${selectedProperty}: ${selectedValue}`)
-                    .join("; ")
-                    .concat(";");
-                console.log("New Media Query Style:", newStyle);
-
-                mediaQuery.style = newStyle;
-                mediaQueryFound = true;
-                break;
-            }
-        }
-
-        if (!mediaQueryFound) {
-            const newMediaQuery = {
-                query:
-                    currentScreen === "screenTablet"
-                        ? "max-width: 768px"
-                        : currentScreen === "screenMobile"
-                        ? "max-width: 640px"
-                        : customScreenSize,
-                style: `${selectedProperty}: ${selectedValue};`,
-            };
-            currentClassroom.mediaQueries.push(newMediaQuery);
-            console.log("Added new media query:", newMediaQuery);
-        }
+      if (!mediaQueryFound) {
+        const newMediaQuery = {
+          query:
+            currentScreen === "screenTablet"
+              ? "max-width: 768px"
+              : currentScreen === "screenMobile"
+              ? "max-width: 640px"
+              : customScreenSize,
+          style: `${selectedProperty}: ${selectedValue};`,
+        };
+        currentClassroom.mediaQueries.push(newMediaQuery);
+        console.log("Added new media query:", newMediaQuery);
+      }
     }
 
     populateClassroomStyleOptions(global.id.propertyClassroomSelectAll.value);
@@ -4006,7 +4010,7 @@ export const eventHandlers = () => {
     global.id.mainClassroomStyleSelector.style.display = "flex";
     global.id.mainClassroomStyleSelector2.style.display = "flex";
     global.id.mainClassroomStyleAdd.style.display = "none";
-});
+  });
 
   global.id.removeClassroomProperty.addEventListener("click", () => {
     const classroomMap = global.map.classroomMap;
