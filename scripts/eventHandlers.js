@@ -139,6 +139,7 @@ export const eventHandlers = () => {
   }
   global.id.navScreenDesktop.addEventListener("click", () => {
     loadRegularDesktop();
+    global.id.navScreenCustom.value = "";
   });
   global.id.navScreenTablet.addEventListener("click", () => {
     cleanScreenDevices();
@@ -146,7 +147,7 @@ export const eventHandlers = () => {
     const preview = global.id.preview;
     preview.style.width = "768px";
     loadBodyView();
-    // tempUpdateFunction();
+    global.id.navScreenCustom.value = "";
   });
   global.id.navScreenMobile.addEventListener("click", () => {
     cleanScreenDevices();
@@ -154,7 +155,7 @@ export const eventHandlers = () => {
     const preview = global.id.preview;
     preview.style.width = "375px";
     loadBodyView();
-    // tempUpdateFunction();
+    global.id.navScreenCustom.value = "";
   });
 
   function promptForCustomDeviceName(callback, defaultName) {
