@@ -2755,6 +2755,9 @@ export const eventHandlers = () => {
     if (navAdditionalScreen.classList.contains("screenMobile")) {
       return "screenMobile";
     }
+    if (navAdditionalScreen.classList.contains("screenCustom")) {
+      return "screenCustom";
+    }
   }
 
   global.id.removeProperty.addEventListener("click", () => {
@@ -2764,6 +2767,7 @@ export const eventHandlers = () => {
     const selectedProperty = propertySelect.value;
     const currentScreen = getCurrentScreen(global.id.navAdditionalScreen);
     let currentStyle;
+
     if (currentScreen === "screenDesktop") {
       currentStyle = cssMap.get(fullPath) || "";
     } else if (currentScreen === "screenTablet") {
@@ -2772,7 +2776,10 @@ export const eventHandlers = () => {
     } else if (currentScreen === "screenMobile") {
       currentStyle =
         mediaQueriesMap.get("max-width: 640px")?.get(fullPath) || "";
+    } else if (currentScreen === "screenCustom") {
+      currentStyle = mediaQueriesMap.get(global.id.navScreenCustom.value)?.get(fullPath) || "";
     }
+    console.log(currentStyle);
     const styleProperties = currentStyle
       .split(";")
       .map((prop) => prop.trim())
@@ -2789,6 +2796,9 @@ export const eventHandlers = () => {
       mediaQueries.set(fullPath, newStyle);
     } else if (currentScreen === "screenMobile") {
       const mediaQueries = mediaQueriesMap.get("max-width: 640px");
+      mediaQueries.set(fullPath, newStyle);
+    } else if (currentScreen === "screenCustom") {
+      const mediaQueries = mediaQueriesMap.get(global.id.navScreenCustom.value);
       mediaQueries.set(fullPath, newStyle);
     }
 
