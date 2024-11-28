@@ -64,6 +64,7 @@ function generateHtmlFromJson(jsonObj) {
     return html;
 }
 
+let hasCwrapGetParams = false;
 function generateHtmlWithScript(jsonObj, jsonFilePath) {
     let html = generateHtmlFromJson(jsonObj);
 
@@ -74,9 +75,12 @@ function generateHtmlWithScript(jsonObj, jsonFilePath) {
     );
     const depth = relativePath.split(path.sep).length - 1;
 
-    // Generate the script path
-    const scriptPath = `${"../".repeat(depth)}scripts/cwrapFunctions.js`;
-    html += `<script src="${scriptPath}" type="module"></script>`;
+    // Check if cwrapGetParams is present in the JSON object
+    if (JSON.stringify(jsonObj).includes("cwrapGetParams")) {
+        hasCwrapGetParams = true;
+        const scriptPath = `${"../".repeat(depth)}scripts/cwrapFunctions.js`;
+        html += `<script src="${scriptPath}" type="module"></script>`;
+    }
 
     return html;
 }
@@ -352,14 +356,16 @@ function main() {
     copyFaviconToRoot(buildDir);
 
     // Copy cwrapFunctions.js to the build directory
-    const scriptSource = path.join("scripts", "cwrapFunctions.js");
-    const scriptDestination = path.join(buildDir, "scripts", "cwrapFunctions.js");
-    if (fs.existsSync(scriptSource)) {
-        mkdirp.sync(path.join(buildDir, "scripts"));
-        copyFile(scriptSource, scriptDestination);
-        console.log(`Copied cwrapFunctions.js to ${scriptDestination}`);
-    } else {
-        console.warn(`Warning: Script file ${scriptSource} does not exist.`);
+    if (hasCwrapGetParams) {
+        const scriptSource = path.join("scripts", "cwrapFunctions.js");
+        const scriptDestination = path.join(buildDir, "scripts", "cwrapFunctions.js");
+        if (fs.existsSync(scriptSource)) {
+            mkdirp.sync(path.join(buildDir, "scripts"));
+            copyFile(scriptSource, scriptDestination);
+            console.log(`Copied cwrapFunctions.js to ${scriptDestination}`);
+        } else {
+            console.warn(`Warning: Script file ${scriptSource} does not exist.`);
+        }
     }
 
     // Process the home directory
