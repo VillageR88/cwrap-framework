@@ -76,7 +76,6 @@ export function loadBodyView() {
 	global.id.previewTree.style.display = "none";
 	global.id.wizardDiv.style.display = "none";
 	global.id.wizardTitle.textContent = "Wizard title";
-
 	// global.id.leftSidebar.classList.remove(global.class.smaller); //debug
 	leftSidebarCleanup();
 	centralBarCleanup();
@@ -118,7 +117,7 @@ function leftSidebarCleanup() {
 }
 
 export function centralBarCleanup() {
-	const elements = document.querySelectorAll("#selectedElementLabelContainer div");
+	const elements = document.querySelectorAll("#selectedElementLabelContainer div, #selectedElementLabelContainer button");
 	for (const element of elements) {
 		element.removeAttribute("style");
 	}
