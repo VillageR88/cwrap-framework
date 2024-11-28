@@ -106,6 +106,7 @@ export const semanticElements = [
   "sub",
   "summary",
   "sup",
+  "svg",
   "table",
   "tbody",
   "td",
