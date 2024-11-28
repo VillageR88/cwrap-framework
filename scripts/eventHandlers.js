@@ -1025,6 +1025,7 @@ export const eventHandlers = () => {
     global.id.mainBlueprintAlterSelectorTextEditor.style.display = "flex";
     global.id.mainBlueprintTextEditor2.value = "";
     const enumReference = getAlter();
+    console.log(enumReference);
     if (!enumReference.enumReference) {
       enumReference.alterSelectedReference.enum.push({
         filter: "include",
