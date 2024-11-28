@@ -29,7 +29,16 @@ function generateHtmlFromJson(jsonObj) {
             html += ">";
 
             if (Object.prototype.hasOwnProperty.call(jsonObj, "text")) {
-                html += jsonObj.text;
+                const originalText = jsonObj.text;
+                if (originalText?.includes("cwrapSpan")) {
+                    const parts = originalText.split("cwrapSpan");
+                    html += parts[0];
+                    for (let i = 1; i < parts.length; i++) {
+                        html += `<span data-cwrap-placeholder="true"></span>${parts[i]}`;
+                    }
+                } else {
+                    html += originalText;
+                }
             }
 
             if (Object.prototype.hasOwnProperty.call(jsonObj, "blueprint")) {
@@ -437,7 +446,7 @@ function generateCssSelector(
             )})`;
         }
         // Store the style in the cssMap if present in the JSON object
-        if (jsonObj.style && jsonObj.style.trim() && jsonObj.customTag !== "cwrapBlueprintCSS") {
+        if (jsonObj.style?.trim() && jsonObj.customTag !== "cwrapBlueprintCSS") {
             cssMap.set(selector, jsonObj.style);
         }
 
