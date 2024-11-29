@@ -30,4 +30,4 @@ Example build: [https://villager88.github.io/cwrap-framework/](https://villager8
 
 ## Note
 
-CWrap is in very early alpha development, and some features are still in progress. It is intended for familiarizing yourself with the framework and providing feedback.
+CWrap has recently transitioned from its alpha phase to beta as of 30.11.2024. The focus is now on optimizing current features, introducing minor improvements, and creating comprehensive documentation.
