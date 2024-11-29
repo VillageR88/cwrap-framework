@@ -7,7 +7,6 @@ const mediaQueriesMap = new Map();
 
 function generateHtmlFromJson(jsonObj) {
     let html = "";
-
     if (Object.prototype.hasOwnProperty.call(jsonObj, "element")) {
         const element = jsonObj.element;
         html += `<${element}`;
@@ -52,8 +51,16 @@ function generateHtmlFromJson(jsonObj) {
             }
 
             if (Object.prototype.hasOwnProperty.call(jsonObj, "children")) {
+                let spanIndex = 0;
+                const spanElements = html.match(/<span data-cwrap-placeholder="true"><\/span>/g) || [];
                 for (const child of jsonObj.children) {
-                    html += generateHtmlFromJson(child);
+                    const childHtml = generateHtmlFromJson(child);
+                    if (spanElements[spanIndex]) {
+                        html = html.replace('<span data-cwrap-placeholder="true"></span>', childHtml);
+                        spanIndex++;
+                    } else {
+                        html += childHtml;
+                    }
                 }
             }
 
