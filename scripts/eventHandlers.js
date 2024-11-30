@@ -3248,6 +3248,7 @@ export const eventHandlers = () => {
     if (previewWindow) {
       previewWindow.remove();
       global.id.leftSide.removeAttribute("style");
+      global.id.mainTemplatesSelectorDesigner.disabled = false;
       global.id.mainTemplatesSelectorParent.disabled = false;
       global.id.mainTemplatesSelectorAdd.disabled = false;
       global.id.mainTemplatesSelectorInject.disabled = false;
@@ -3265,6 +3266,7 @@ export const eventHandlers = () => {
     const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
     const previewWindow = iframeDoc.getElementById("cwrapPreviewWindow");
     global.id.leftSide.style.display = "none";
+    global.id.mainTemplatesSelectorDesigner.disabled = true;
     global.id.mainTemplatesSelectorParent.disabled = true;
     global.id.mainTemplatesSelectorAdd.disabled = true;
     global.id.mainTemplatesSelectorInject.disabled = true;

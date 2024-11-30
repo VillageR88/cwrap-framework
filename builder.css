@@ -578,8 +578,10 @@ h3 {
 ::placeholder {
   color: var(--colorText-placeholder);
 }
-:disabled > * {
+:disabled > svg {
   opacity: 0.5;
+}
+:disabled {
   cursor: not-allowed;
 }
 /* :disabled {
