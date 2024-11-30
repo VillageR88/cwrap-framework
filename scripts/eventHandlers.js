@@ -3352,6 +3352,7 @@ export const eventHandlers = () => {
       if (previewWindow) {
         previewWindow.remove();
         global.id.leftSide.removeAttribute("style");
+        global.id.mainTemplatesSelectorDesigner.disabled = false;
         global.id.mainTemplatesSelectorParent.disabled = false;
         global.id.mainTemplatesSelectorAdd.disabled = false;
         global.id.mainTemplatesSelectorInject.disabled = false;
@@ -3374,6 +3375,7 @@ export const eventHandlers = () => {
 
       if (!global.id.mainTemplatesSelectorOptions.value) {
         global.id.leftSide.removeAttribute("style");
+        global.id.mainTemplatesSelectorDesigner.disabled = false;
         global.id.mainTemplatesSelectorParent.disabled = false;
         global.id.mainTemplatesSelectorAdd.disabled = false;
         global.id.mainTemplatesSelectorInject.disabled = false;
