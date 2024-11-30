@@ -63,16 +63,26 @@ export default function createElementFromJson(
     const originalText = selectedJsonObj.text || jsonObj.text;
     element.cwrapText = originalText ?? "";
 
-    if (originalText?.includes("cwrapSpan")) {
-      const parts = originalText.split("cwrapSpan");
+    if (originalText?.includes("cwrapSpan") || originalText?.includes("cwrapTemplate")) {
+      const parts = originalText.split(/(cwrapSpan|cwrapTemplate\[[^\]]+\])/);
       element.textContent = parts[0];
       for (let i = 1; i < parts.length; i++) {
-        const spanElement = document.createElement("span");
-        //spanElement.setAttribute("data-cwrap-nest", "true");
-        spanElement.isPlaceholder = true;
-        element.isPlaceholderCarrier = true;
-        element.appendChild(spanElement);
-        element.append(parts[i]);
+        if (parts[i].startsWith("cwrapSpan")) {
+          const spanElement = document.createElement("span");
+          spanElement.isPlaceholder = true;
+          element.isPlaceholderCarrier = true;
+          element.appendChild(spanElement);
+          element.append(parts[i].replace("cwrapSpan", ""));
+        } else if (parts[i].startsWith("cwrapTemplate")) {
+          const templateName = parts[i].match(/cwrapTemplate\[([^\]]+)\]/)[1];
+          const templateElement = global.map.templatesMap.get(templateName);
+          if (templateElement) {
+            const clonedTemplateElement = createElementFromJson(templateElement).cloneNode(true);
+            element.appendChild(clonedTemplateElement);
+          }
+        } else {
+          element.append(parts[i]);
+        }
       }
     } else {
       element.textContent = originalText;
