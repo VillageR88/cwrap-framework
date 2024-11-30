@@ -2,7 +2,8 @@ const templatesApiUrl = "routes/templates.json";
 const templatesMap = global.map.templatesMap;
 
 export default function loadTemplatesSource() {
-    fetch(templatesApiUrl)
+    const url = `${templatesApiUrl}?v=${new Date().getTime()}`;
+    fetch(url)
         .then((response) => {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
