@@ -12,14 +12,16 @@ import {
  * Creates a DOM element from the provided JSON object and adds it to the preview document (iframe).
  *
  * @param {JsonObject} jsonObj - The JSON object representing the element.
- * @param {boolean} isInitialLoad - Flag indicating if this is the initial load.
- * @param {number} blueprintElementCounter
+ * @param {boolean} [isInitialLoad] - Flag indicating if this is the initial load.
+ * @param {number} [blueprintElementCounter]
+ * @param {Map} [properties]
  * @returns {HTMLElement} - The created DOM element.
  */
 export default function createElementFromJson(
   jsonObj,
-  isInitialLoad,
-  blueprintElementCounter = undefined
+  isInitialLoad = undefined,
+  blueprintElementCounter = undefined,
+  properties = undefined
 ) {
   // Create the element
   const SVG_NAMESPACE = "http://www.w3.org/2000/svg";
@@ -63,8 +65,14 @@ export default function createElementFromJson(
     const originalText = selectedJsonObj.text || jsonObj.text;
     element.cwrapText = originalText ?? "";
 
-    if (originalText?.includes("cwrapSpan") || originalText?.includes("cwrapTemplate")) {
-      const parts = originalText.split(/(cwrapSpan|cwrapTemplate\[[^\]]+\])/);
+    if (
+      originalText?.includes("cwrapSpan") ||
+      originalText?.includes("cwrapTemplate") ||
+      originalText?.includes("cwrapProperty")
+    ) {
+      const parts = originalText.split(
+        /(cwrapSpan|cwrapTemplate\[[^\]]+\]|cwrapProperty\[[^\]]+\])/
+      );
       element.textContent = parts[0];
       for (let i = 1; i < parts.length; i++) {
         if (parts[i].startsWith("cwrapSpan")) {
@@ -74,11 +82,43 @@ export default function createElementFromJson(
           element.appendChild(spanElement);
           element.append(parts[i].replace("cwrapSpan", ""));
         } else if (parts[i].startsWith("cwrapTemplate")) {
-          const templateName = parts[i].match(/cwrapTemplate\[([^\]]+)\]/)[1];
+          const propMap = new Map();
+
+          const templateNameWithProps = parts[i].match(
+            /cwrapTemplate\[([^\]]+)\]/
+          )[1];
+          const templateName =
+            templateNameWithProps.match(/.+(?=\()/)?.[0] ||
+            templateNameWithProps;
+          const templateProps =
+            templateNameWithProps.match(/(?<=\().+(?=\))/)?.[0];
+          if (templateProps) {
+            const propsArray = templateProps.split(",");
+            for (const prop of propsArray) {
+              const [key, value] = prop.split("=");
+              propMap.set(key, value);
+            }
+          }
           const templateElement = global.map.templatesMap.get(templateName);
           if (templateElement) {
-            const clonedTemplateElement = createElementFromJson(templateElement).cloneNode(true);
+            const clonedTemplateElement = createElementFromJson(
+              templateElement,
+              undefined,
+              undefined,
+              propMap
+            ).cloneNode(true);
+
             element.appendChild(clonedTemplateElement);
+          }
+        } else if (parts[i].startsWith("cwrapProperty")) {
+          const propertyMatch = parts[i].match(
+            /cwrapProperty\[([^\]=]+)=([^\]]+)\]/
+          );
+
+          if (propertyMatch) {
+            const [property, defaultValue] = propertyMatch.slice(1);
+            const mapValue = properties?.get(propertyMatch[1]);
+            element.append(mapValue || defaultValue);
           }
         } else {
           element.append(parts[i]);
@@ -124,7 +164,8 @@ export default function createElementFromJson(
       const blueprintElement = createElementFromJson(
         cookedJson,
         isInitialLoad,
-        i + 1
+        i + 1,
+        properties
       );
       const clonedElement = blueprintElement.cloneNode(true);
       clonedElement.customTag = "cwrapBlueprint";
@@ -145,7 +186,8 @@ export default function createElementFromJson(
       const childElement = createElementFromJson(
         child,
         isInitialLoad,
-        blueprintElementCounter
+        blueprintElementCounter,
+        properties
       );
       // Append the child element to the parent element
       if (element.isPlaceholderCarrier && spanElements[spanIndex]) {
