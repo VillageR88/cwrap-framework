@@ -2319,40 +2319,34 @@ export const eventHandlers = () => {
       selectedBlueprintElementTrimmed
     );
 
-    function getBlueprintTargetElement(map, elementPath) {
+    function getTargetElement(map, elementPath) {
+      console.log("map", map);
+      console.log("elementPath", elementPath);
       const pathParts = elementPath.split(" > ");
       let currentElement = map;
-
+  
       for (const part of pathParts) {
         const [elementName, nthOfType] = part.split(":nth-of-type(");
         const index = nthOfType
           ? Number.parseInt(nthOfType.replace(")", ""), 10) - 1
           : 0;
-
-        if (currentElement.element === elementName) {
-          if (index === 0) {
-            continue;
-          }
-        }
-
-        if (currentElement.children && Array.isArray(currentElement.children)) {
+  
+        if (currentElement.children) {
           const matchingChildren = currentElement.children.filter(
             (child) => child.element === elementName
           );
+          console.log("matchingChildren", matchingChildren);
+  
           if (matchingChildren.length > index) {
             currentElement = matchingChildren[index];
-          } else {
-            return null;
           }
-        } else {
-          return null;
         }
       }
-
+  
       return currentElement;
     }
 
-    const targetElement = getBlueprintTargetElement(
+    const targetElement = getTargetElement(
       currentMap,
       selectedBlueprintElementTrimmed
     );
