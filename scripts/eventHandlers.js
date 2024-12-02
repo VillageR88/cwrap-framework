@@ -2324,25 +2324,25 @@ export const eventHandlers = () => {
       console.log("elementPath", elementPath);
       const pathParts = elementPath.split(" > ");
       let currentElement = map;
-  
+
       for (const part of pathParts) {
         const [elementName, nthOfType] = part.split(":nth-of-type(");
         const index = nthOfType
           ? Number.parseInt(nthOfType.replace(")", ""), 10) - 1
           : 0;
-  
+
         if (currentElement.children) {
           const matchingChildren = currentElement.children.filter(
             (child) => child.element === elementName
           );
           console.log("matchingChildren", matchingChildren);
-  
+
           if (matchingChildren.length > index) {
             currentElement = matchingChildren[index];
           }
         }
       }
-  
+
       return currentElement;
     }
 
@@ -2771,7 +2771,9 @@ export const eventHandlers = () => {
       currentStyle =
         mediaQueriesMap.get("max-width: 640px")?.get(fullPath) || "";
     } else if (currentScreen === "screenCustom") {
-      currentStyle = mediaQueriesMap.get(global.id.navScreenCustom.value)?.get(fullPath) || "";
+      currentStyle =
+        mediaQueriesMap.get(global.id.navScreenCustom.value)?.get(fullPath) ||
+        "";
     }
     console.log(currentStyle);
     const styleProperties = currentStyle
@@ -3299,7 +3301,8 @@ export const eventHandlers = () => {
     intermediateDiv2.style.backgroundColor = "rgba(0, 0, 0, 0.80)";
     intermediateDiv2.style.padding = "2rem";
     intermediateDiv2.style.borderRadius = "0.5rem";
-    intermediateDiv2.style.pointerEvents = "none";
+    intermediateDiv2.style.pointerEvents =
+      global.id.navSelectPreview.classList.contains("static") ? "none" : "auto";
     intermediateDiv2.style.overflow = "auto";
     intermediateDiv.appendChild(intermediateDiv2);
     intermediateDiv2.appendChild(templateElement);
