@@ -3269,10 +3269,11 @@ export const eventHandlers = () => {
 
     // Apply styles from JSON directly to the element
     function applyStylesFromJson(element, jsonObj) {
+      console.log(jsonObj);
       if (jsonObj.style) {
         element.style.cssText = jsonObj.style;
       }
-      if (jsonObj.children) {
+      if (jsonObj.children && jsonObj.children.length > 0) {
         const children = Array.from(element.children);
         children.forEach((child, index) => {
           applyStylesFromJson(child, jsonObj.children[index]);
