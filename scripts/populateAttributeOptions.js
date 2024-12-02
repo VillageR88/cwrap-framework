@@ -75,16 +75,16 @@ function getFullSelector(element) {
 }
 
 function getSelector(element) {
-	const id = element.id ? `#${element.id}` : "";
+	// const id = element.id ? `#${element.id}` : ""; // Probably totally obsolete
 	const tagName = element.tagName.toLowerCase();
 	const nthOfType = ["body", "main", "footer"].includes(tagName)
 		? ""
 		: getNthOfType(element);
-	const classes = element.className
-		? `.${element.className.replace(/\s+/g, ".")}`
-		: "";
+	// const classes = element.className // Probably totally obsolete
+	// 	? `.${element.className.replace(/\s+/g, ".")}`
+	// 	: "";
 
-	// return `${tagName}${id}${nthOfType}${classes}`;
+	// return `${tagName}${id}${nthOfType}${classes}`; // Probably totally obsolete
 	return `${tagName}${nthOfType}`;
 }
 
