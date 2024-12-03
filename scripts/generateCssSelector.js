@@ -62,7 +62,9 @@ export default function generateCssSelector(
       jsonObj.alter !== "none"
     ) {
       cssMap.set(selector, jsonObj.enum[blueprintCounter - 1]?.style);
-    } else if (jsonObj.style && jsonObj.customTag !== "cwrapBlueprintCSS") {
+    } else if (jsonObj.style) {
+      // I have changed this from     } else if (jsonObj.style && jsonObj.customTag !== "cwrapBlueprintCSS") { because it corrects previous commit which
+      //not added correctly ul to template generated blueprint element, but i don't remember cause of adding jsonObj.customTag !== "cwrapBlueprintCSS". Probably need to monitor functioning after change
       cssMap.set(selector, jsonObj.style);
     } else {
       cssMap.set(selector, "");
