@@ -7,7 +7,7 @@
  * If parent element is the element like img, input, the select is disabled.
  * In non-blueprint mode it checks if the element is Ul to display blueprint button.
  */
-export default function validateParentElement(validationForBlueprint = false) {
+export default function validateParentElement(validationForBlueprint = false, isTemplateElementAnchor = false) {
 	const openAddElement = validationForBlueprint
 		? global.id.mainBlueprintSelectorAdd
 		: global.id.openAddElement;
@@ -65,6 +65,9 @@ export default function validateParentElement(validationForBlueprint = false) {
 		);
 	} else {
 		setElementAttributes(openAddElement, "add element", true);
+	}
+	if (isTemplateElementAnchor){
+		console.log("isTemplateElementAnchor");
 	}
 	if (!validationForBlueprint) {
 		if (parentType === "ul" || parentType === "ol") {
