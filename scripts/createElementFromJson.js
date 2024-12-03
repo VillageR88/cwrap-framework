@@ -112,6 +112,7 @@ export default function createElementFromJson(
 
             if (jsonObj.element === "cwrap-template") {
               clonedTemplateElement.isTemplateElementAnchor = true;
+              clonedTemplateElement.templateElement = templateNameWithProps;
               element = clonedTemplateElement;
               jsonObj.templateName = true;
             } else element.appendChild(clonedTemplateElement);

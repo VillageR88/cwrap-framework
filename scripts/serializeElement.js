@@ -14,7 +14,15 @@ export default function serializeElement(element, extendMap) {
     element.isPlaceholder === true
   )
     return null;
-  if (element.isTemplateElement) return;
+
+  if (element.isTemplateElement && !element.isTemplateElementAnchor) return;
+  if (element.isTemplateElementAnchor) {
+    console.log(element);
+    return {
+      element: "cwrap-template",
+      text: `cwrapTemplate[${element.templateElement}]`,
+    };
+  }
   const cssMap = global.map.cssMap;
   const mediaQueriesMap = global.map.mediaQueriesMap;
   const obj = {
