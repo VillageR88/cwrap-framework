@@ -108,6 +108,7 @@ export default function createElementFromJson(
               propMap
             ).cloneNode(true);
 
+            clonedTemplateElement.isTemplateElement = true;
             element.appendChild(clonedTemplateElement);
           }
         } else if (parts[i].startsWith("cwrapProperty")) {
