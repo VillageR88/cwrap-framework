@@ -125,3 +125,5 @@ export const semanticElements = [
   "video",
   "wbr",
 ];
+
+export const cwrapElements = ["cwrap-template"];

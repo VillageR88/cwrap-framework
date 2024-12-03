@@ -109,7 +109,12 @@ export default function createElementFromJson(
             ).cloneNode(true);
 
             clonedTemplateElement.isTemplateElement = true;
-            element.appendChild(clonedTemplateElement);
+
+            if (jsonObj.element === "cwrap-template") {
+              clonedTemplateElement.isTemplateElementAnchor = true;
+              element = clonedTemplateElement;
+              jsonObj.templateName = true;
+            } else element.appendChild(clonedTemplateElement);
           }
         } else if (parts[i].startsWith("cwrapProperty")) {
           const propertyMatch = parts[i].match(

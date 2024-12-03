@@ -1,4 +1,4 @@
-import { semanticElements } from "./_const.js";
+import { semanticElements, cwrapElements } from "./_const.js";
 /**
  * Populates the element select all element with sematic HTML elements like div, span, p, etc.
  */
@@ -9,7 +9,7 @@ export default function populateElementSelectAll(targetSelector = undefined) {
 
 	//clear any existing options in the element select element before appending new options
 	elementSelectAll.innerHTML = "";
-	for (const element of semanticElements) {
+	for (const element of semanticElements.concat(cwrapElements)) {
 		const option = document.createElement("option");
 		option.value = element;
 		option.textContent = element;
