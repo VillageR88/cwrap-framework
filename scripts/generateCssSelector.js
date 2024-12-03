@@ -129,5 +129,29 @@ export default function generateCssSelector(
         );
       }
     }
+
+    // Handle cwrapTemplate property
+    if (jsonObj.text?.includes("cwrapTemplate")) {
+      const parts = jsonObj.text.split(/(cwrapTemplate\[[^\]]+\])/);
+      for (let i = 1; i < parts.length; i++) {
+        if (parts[i].startsWith("cwrapTemplate")) {
+          const templateNameWithProps = parts[i].match(
+            /cwrapTemplate\[([^\]]+)\]/
+          )[1];
+          const templateName =
+            templateNameWithProps.match(/.+(?=\()/)?.[0] ||
+            templateNameWithProps;
+          const templateElement = global.map.templatesMap.get(templateName);
+          if (templateElement) {
+            generateCssSelector(
+              templateElement,
+              selector,
+              siblingCountMap,
+              blueprintCounter
+            );
+          }
+        }
+      }
+    }
   }
 }
