@@ -26,9 +26,9 @@ export default function generateCssSelector(
   const mediaQueriesMap = global.map.mediaQueriesMap;
   // Start with the parent selector
   let selector = parentSelector;
-
   if (jsonObj.element) {
     const element = jsonObj.element;
+    if (!jsonObj.text) jsonObj.text = "";
     if (element === "cwrap-template") {
       const parts = jsonObj.text.split(/(cwrapTemplate\[[^\]]+\])/);
       for (let i = 1; i < parts.length; i++) {
@@ -48,9 +48,10 @@ export default function generateCssSelector(
               blueprintCounter
             );
           }
+          return;
+
         }
       }
-      return;
     }
 
     // Initialize sibling count map for the parent selector if not already present
