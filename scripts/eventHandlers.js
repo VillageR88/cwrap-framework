@@ -1570,17 +1570,102 @@ export const eventHandlers = () => {
     const propertyValue = blueprintPropertyInput.value;
 
     if (targetElement) {
-      const styles = targetElement.style.split(";");
-      const updatedStyles = styles
-        .map((style) => {
-          const [property] = style.split(":");
-          if (property.trim() === blueprintPropertySelectValue.trim()) {
-            return `${property.trim()}: ${propertyValue.trim()}`;
-          }
-          return style;
-        })
-        .join(";");
-      targetElement.style = updatedStyles;
+      let styles = targetElement.style ? targetElement.style.split(";") : [];
+      let mediaQueries = targetElement.mediaQueries || [];
+      let updatedStyles = [];
+
+      if (global.id.navAdditionalScreen.classList.contains("screenDesktop")) {
+        console.log("Screen Size: Desktop");
+        updatedStyles = styles
+          .map((style) => {
+            const [property] = style.split(":");
+            if (property.trim() === blueprintPropertySelectValue.trim()) {
+              return `${property.trim()}: ${propertyValue.trim()}`;
+            }
+            return style;
+          })
+          .join(";");
+        targetElement.style = updatedStyles;
+      } else if (
+        global.id.navAdditionalScreen.classList.contains("screenTablet")
+      ) {
+        console.log("Screen Size: Tablet");
+        const mediaQuery = mediaQueries.find(
+          (mq) => mq.query === "max-width: 768px"
+        );
+        if (mediaQuery) {
+          styles = mediaQuery.style ? mediaQuery.style.split(";") : [];
+          updatedStyles = styles
+            .map((style) => {
+              const [property] = style.split(":");
+              if (property.trim() === blueprintPropertySelectValue.trim()) {
+                return `${property.trim()}: ${propertyValue.trim()}`;
+              }
+              return style;
+            })
+            .join(";");
+          mediaQuery.style = updatedStyles;
+        } else {
+          mediaQueries.push({
+            query: "max-width: 768px",
+            style: `${blueprintPropertySelectValue.trim()}: ${propertyValue.trim()}`,
+          });
+        }
+        targetElement.mediaQueries = mediaQueries;
+      } else if (
+        global.id.navAdditionalScreen.classList.contains("screenMobile")
+      ) {
+        console.log("Screen Size: Mobile");
+        const mediaQuery = mediaQueries.find(
+          (mq) => mq.query === "max-width: 640px"
+        );
+        if (mediaQuery) {
+          styles = mediaQuery.style ? mediaQuery.style.split(";") : [];
+          updatedStyles = styles
+            .map((style) => {
+              const [property] = style.split(":");
+              if (property.trim() === blueprintPropertySelectValue.trim()) {
+                return `${property.trim()}: ${propertyValue.trim()}`;
+              }
+              return style;
+            })
+            .join(";");
+          mediaQuery.style = updatedStyles;
+        } else {
+          mediaQueries.push({
+            query: "max-width: 640px",
+            style: `${blueprintPropertySelectValue.trim()}: ${propertyValue.trim()}`,
+          });
+        }
+        targetElement.mediaQueries = mediaQueries;
+      } else if (
+        global.id.navAdditionalScreen.classList.contains("screenCustom")
+      ) {
+        console.log("Screen Size: Custom");
+        const customQuery = global.id.navScreenCustom.value;
+        const mediaQuery = mediaQueries.find((mq) => mq.query === customQuery);
+        if (mediaQuery) {
+          styles = mediaQuery.style ? mediaQuery.style.split(";") : [];
+          updatedStyles = styles
+            .map((style) => {
+              const [property] = style.split(":");
+              if (property.trim() === blueprintPropertySelectValue.trim()) {
+                return `${property.trim()}: ${propertyValue.trim()}`;
+              }
+              return style;
+            })
+            .join(";");
+          mediaQuery.style = updatedStyles;
+        } else {
+          mediaQueries.push({
+            query: customQuery,
+            style: `${blueprintPropertySelectValue.trim()}: ${propertyValue.trim()}`,
+          });
+        }
+        targetElement.mediaQueries = mediaQueries;
+      } else {
+        console.log("No matching screen size found.");
+      }
 
       // Apply the style changes to the view
       const validSelector = blueprintSelectValue
@@ -1593,7 +1678,6 @@ export const eventHandlers = () => {
       }
 
       // Rebuild the blueprint element
-      //reloadBlueprint();
       const selectedValue = global.id.elementSelect.value;
       const firstChildrenTag =
         getElementFromPath(selectedValue).childNodes[0].tagName.toLowerCase();
@@ -1725,12 +1809,12 @@ export const eventHandlers = () => {
     const selector = getElementFromPath().timeStamp;
     const currentMap = blueprintMap.get(selector);
     const blueprintSelectValue = global.id.blueprintSelect.value;
-  
+
     const targetElement = getBlueprintTargetElement(
       currentMap,
       blueprintSelectValue
     );
-  
+
     const propertyBlueprintSelectAll = global.id.propertyBlueprintSelectAll;
     if (!propertyBlueprintSelectAll) {
       console.error(
@@ -1740,12 +1824,12 @@ export const eventHandlers = () => {
     }
     const selectedProperty = propertyBlueprintSelectAll.value;
     const newValue = "";
-  
+
     if (targetElement) {
       let styles = targetElement.style ? targetElement.style.split(";") : [];
       let mediaQueries = targetElement.mediaQueries || [];
       let updatedStyles = [];
-  
+
       if (global.id.navAdditionalScreen.classList.contains("screenDesktop")) {
         console.log("Screen Size: Desktop");
         updatedStyles = [
@@ -1753,7 +1837,9 @@ export const eventHandlers = () => {
           `${selectedProperty.trim()}: ${newValue.trim()}`,
         ].join(";");
         targetElement.style = updatedStyles;
-      } else if (global.id.navAdditionalScreen.classList.contains("screenTablet")) {
+      } else if (
+        global.id.navAdditionalScreen.classList.contains("screenTablet")
+      ) {
         console.log("Screen Size: Tablet");
         const mediaQuery = mediaQueries.find(
           (mq) => mq.query === "max-width: 768px"
@@ -1772,7 +1858,9 @@ export const eventHandlers = () => {
           });
         }
         targetElement.mediaQueries = mediaQueries;
-      } else if (global.id.navAdditionalScreen.classList.contains("screenMobile")) {
+      } else if (
+        global.id.navAdditionalScreen.classList.contains("screenMobile")
+      ) {
         console.log("Screen Size: Mobile");
         const mediaQuery = mediaQueries.find(
           (mq) => mq.query === "max-width: 640px"
@@ -1791,12 +1879,12 @@ export const eventHandlers = () => {
           });
         }
         targetElement.mediaQueries = mediaQueries;
-      } else if (global.id.navAdditionalScreen.classList.contains("screenCustom")) {
+      } else if (
+        global.id.navAdditionalScreen.classList.contains("screenCustom")
+      ) {
         console.log("Screen Size: Custom");
         const customQuery = global.id.navScreenCustom.value;
-        const mediaQuery = mediaQueries.find(
-          (mq) => mq.query === customQuery
-        );
+        const mediaQuery = mediaQueries.find((mq) => mq.query === customQuery);
         if (mediaQuery) {
           styles = mediaQuery.style ? mediaQuery.style.split(";") : [];
           updatedStyles = [
@@ -1814,7 +1902,7 @@ export const eventHandlers = () => {
       } else {
         console.log("No matching screen size found.");
       }
-  
+
       // Apply the style changes to the view
       const validSelector = blueprintSelectValue
         .replace(/ > /g, " ")
@@ -1823,7 +1911,7 @@ export const eventHandlers = () => {
       if (elementInView) {
         elementInView.style[selectedProperty.trim()] = newValue.trim();
       }
-  
+
       // Rebuild the blueprint element
       //reloadBlueprint();
       const selectedValue = global.id.elementSelect.value;
@@ -1833,7 +1921,7 @@ export const eventHandlers = () => {
       rebuildStyleFromBlueprint();
       applyStyles();
     }
-  
+
     // Go back to the previous view
     global.id.mainBlueprintStyleSelector.style.display = "flex";
     global.id.mainBlueprintStyleSelector2.style.display = "flex";
