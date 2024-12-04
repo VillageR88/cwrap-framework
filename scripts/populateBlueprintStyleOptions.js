@@ -8,14 +8,16 @@ export default function populateBlueprintStyleOptions(isState = false) {
   const blueprintMap = global.map.blueprintMap;
   const selector = getElementFromPath().timeStamp;
   const currentMap = blueprintMap.get(selector);
+  console.log("Current Map:", currentMap);
   const selectedBlueprintElement = global.id.blueprintSelect.value;
   const selectedBlueprintElementTrimmed = selectedBlueprintElement
     .replace(">", "")
     .trim();
-  console.log(selectedBlueprintElementTrimmed);
+  console.log("Selected Blueprint Element Trimmed:", selectedBlueprintElementTrimmed);
+
   function getTargetElement(map, elementPath) {
-    console.log("map", map);
-    console.log("elementPath", elementPath);
+    console.log("Map:", map);
+    console.log("Element Path:", elementPath);
     const pathParts = elementPath.split(" > ");
     let currentElement = map;
 
@@ -29,7 +31,7 @@ export default function populateBlueprintStyleOptions(isState = false) {
         const matchingChildren = currentElement.children.filter(
           (child) => child.element === elementName
         );
-        console.log("matchingChildren", matchingChildren);
+        console.log("Matching Children:", matchingChildren);
 
         if (matchingChildren.length > index) {
           currentElement = matchingChildren[index];
@@ -44,40 +46,86 @@ export default function populateBlueprintStyleOptions(isState = false) {
     currentMap,
     selectedBlueprintElementTrimmed
   );
+  console.log("Target Element:", targetElement);
+
+  function addStylesToSelect(styles) {
+    for (const style of styles) {
+      const [property] = style.split(":");
+      if (property.trim()) {
+        const newOption = new Option(property.trim(), property.trim());
+        blueprintStyleSelect.appendChild(newOption);
+      }
+    }
+  }
+
+  function addMediaQueryStyles(mediaQueries, screenSize) {
+    console.log("Adding Media Query Styles for Screen Size:", screenSize);
+    const mediaQuery = mediaQueries.find(
+      (mq) => mq.query === screenSize
+    );
+    console.log("Media Query Found:", mediaQuery);
+    if (mediaQuery?.style) {
+      const styles = mediaQuery.style.split(";");
+      addStylesToSelect(styles);
+    } else {
+      console.log(`No media query styles found for screen size: ${screenSize}`);
+      // Create an empty media query entry if it doesn't exist
+      if (!mediaQuery) {
+        mediaQueries.push({ query: screenSize, style: "" });
+        console.log(`Created empty media query for screen size: ${screenSize}`);
+      }
+    }
+  }
 
   if (isState) {
     if (targetElement?.extend && Array.isArray(targetElement.extend)) {
       for (const extension of targetElement.extend) {
-        console.log(extension);
+        console.log("Extension:", extension);
         if (
           extension.style &&
           typeof extension.style === "string" &&
           extension.extension === global.id.elementBlueprintStateSelect.value // this is bad choice for check is current extension is for current state
         ) {
-          console.log(global.id.elementBlueprintStateSelect.value);
-          console.log("extension.style", extension.style);
+          console.log("Extension Style:", extension.style);
           const styles = extension.style.split(";");
-          for (const style of styles) {
-            const [property] = style.split(":");
-            if (property.trim()) {
-              const newOption = new Option(property.trim(), property.trim());
-              blueprintStyleSelect.appendChild(newOption);
-            }
-          }
+          addStylesToSelect(styles);
         }
       }
     }
   } else {
-    if (targetElement?.style && typeof targetElement.style === "string") {
-      // fixed for non State by deletion in this commit
-      const styles = targetElement.style.split(";");
-      for (const style of styles) {
-        const [property] = style.split(":");
-        if (property.trim()) {
-          const newOption = new Option(property.trim(), property.trim());
-          blueprintStyleSelect.appendChild(newOption);
-        }
+    let stylesAdded = false;
+
+    if (global.id.navAdditionalScreen.classList.contains("screenDesktop")) {
+      console.log("Screen Size: Desktop");
+      if (targetElement?.style && typeof targetElement.style === "string") {
+        console.log("Adding Default Styles");
+        const styles = targetElement.style.split(";");
+        addStylesToSelect(styles);
+        stylesAdded = true;
       }
+    } else if (global.id.navAdditionalScreen.classList.contains("screenTablet")) {
+      console.log("Screen Size: Tablet");
+      addMediaQueryStyles(targetElement.mediaQueries, "max-width: 768px");
+      stylesAdded = true;
+    } else if (global.id.navAdditionalScreen.classList.contains("screenMobile")) {
+      console.log("Screen Size: Mobile");
+      addMediaQueryStyles(targetElement.mediaQueries, "max-width: 640px");
+      stylesAdded = true;
+    } else if (global.id.navAdditionalScreen.classList.contains("screenCustom")) {
+      console.log("Screen Size: Custom");
+      addMediaQueryStyles(targetElement.mediaQueries, global.id.navScreenCustom.value);
+      stylesAdded = true;
+    } else {
+      console.log("No matching screen size found.");
+    }
+
+    if (!stylesAdded && targetElement?.mediaQueries && Array.isArray(targetElement.mediaQueries)) {
+      console.log("No media queries found for target element.");
+      // Create empty media query entries for common screen sizes
+      targetElement.mediaQueries = targetElement.mediaQueries || [];
+      addMediaQueryStyles(targetElement.mediaQueries, "max-width: 1200px");
+      addMediaQueryStyles(targetElement.mediaQueries, "max-width: 768px");
+      addMediaQueryStyles(targetElement.mediaQueries, "max-width: 640px");
     }
   }
 }
