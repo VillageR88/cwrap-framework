@@ -1571,7 +1571,7 @@ export const eventHandlers = () => {
 
     if (targetElement) {
       let styles = targetElement.style ? targetElement.style.split(";") : [];
-      let mediaQueries = targetElement.mediaQueries || [];
+      const mediaQueries = targetElement.mediaQueries || [];
       let updatedStyles = [];
 
       if (global.id.navAdditionalScreen.classList.contains("screenDesktop")) {
@@ -1827,7 +1827,7 @@ export const eventHandlers = () => {
 
     if (targetElement) {
       let styles = targetElement.style ? targetElement.style.split(";") : [];
-      let mediaQueries = targetElement.mediaQueries || [];
+      const mediaQueries = targetElement.mediaQueries || [];
       let updatedStyles = [];
 
       if (global.id.navAdditionalScreen.classList.contains("screenDesktop")) {
