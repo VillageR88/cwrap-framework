@@ -48,6 +48,19 @@ export default function populateBlueprintStyleOptionsValue(isState = false) {
     selectedBlueprintElementTrimmed
   );
 
+  function getAppliedProperty(styles, property) {
+    if (styles) {
+      const styleArray = styles.split(";");
+      for (const style of styleArray) {
+        const [prop, value] = style.split(":");
+        if (prop.trim() === property.trim()) {
+          return value?.trim();
+        }
+      }
+    }
+    return "";
+  }
+
   if (isState) {
     if (targetElement?.extend && Array.isArray(targetElement.extend)) {
       for (const extension of targetElement.extend) {
@@ -56,27 +69,42 @@ export default function populateBlueprintStyleOptionsValue(isState = false) {
           typeof extension.style === "string" &&
           extension.extension === global.id.elementBlueprintStateSelect.value
         ) {
-          const styles = extension.style.split(";");
-          for (const style of styles) {
-            const [property, value] = style.split(":");
-            if (property.trim() === blueprintStyleSelectValue.trim()) {
-              blueprintStyleInput.value = value?.trim();
-              return;
-            }
+          const value = getAppliedProperty(extension.style, blueprintStyleSelectValue);
+          if (value) {
+            blueprintStyleInput.value = value;
+            return;
           }
         }
       }
     }
   } else {
-    if (targetElement?.style && typeof targetElement.style === "string") {
-      const styles = targetElement.style.split(";");
-      for (const style of styles) {
-        const [property, value] = style.split(":");
-        if (property.trim() === blueprintStyleSelectValue.trim()) {
-          blueprintStyleInput.value = value.trim();
-          return;
-        }
-      }
+    let value = "";
+
+    if (global.id.navAdditionalScreen.classList.contains("screenDesktop")) {
+      console.log("Screen Size: Desktop");
+      value = getAppliedProperty(targetElement?.style, blueprintStyleSelectValue);
+    } else if (global.id.navAdditionalScreen.classList.contains("screenTablet")) {
+      console.log("Screen Size: Tablet");
+      const mediaQuery = targetElement?.mediaQueries?.find(
+        (mq) => mq.query === "max-width: 768px"
+      );
+      value = getAppliedProperty(mediaQuery?.style, blueprintStyleSelectValue);
+    } else if (global.id.navAdditionalScreen.classList.contains("screenMobile")) {
+      console.log("Screen Size: Mobile");
+      const mediaQuery = targetElement?.mediaQueries?.find(
+        (mq) => mq.query === "max-width: 640px"
+      );
+      value = getAppliedProperty(mediaQuery?.style, blueprintStyleSelectValue);
+    } else if (global.id.navAdditionalScreen.classList.contains("screenCustom")) {
+      console.log("Screen Size: Custom");
+      const mediaQuery = targetElement?.mediaQueries?.find(
+        (mq) => mq.query === global.id.navScreenCustom.value
+      );
+      value = getAppliedProperty(mediaQuery?.style, blueprintStyleSelectValue);
+    }
+
+    if (value) {
+      blueprintStyleInput.value = value;
     }
   }
 }
