@@ -1652,12 +1652,45 @@ export const eventHandlers = () => {
       selectedBlueprintElementTrimmed
     );
 
-    const appliedProperties = targetElement?.style
-      ? targetElement.style
-          .split(";")
-          .filter(Boolean)
-          .map((prop) => prop.split(":")[0].trim())
-      : [];
+    function getAppliedProperties(styles) {
+      return styles
+        ? styles
+            .split(";")
+            .filter(Boolean)
+            .map((prop) => prop.split(":")[0].trim())
+        : [];
+    }
+
+    let appliedProperties = [];
+
+    if (global.id.navAdditionalScreen.classList.contains("screenDesktop")) {
+      console.log("Screen Size: Desktop");
+      appliedProperties = getAppliedProperties(targetElement?.style);
+    } else if (
+      global.id.navAdditionalScreen.classList.contains("screenTablet")
+    ) {
+      console.log("Screen Size: Tablet");
+      const mediaQuery = targetElement?.mediaQueries?.find(
+        (mq) => mq.query === "max-width: 768px"
+      );
+      appliedProperties = getAppliedProperties(mediaQuery?.style);
+    } else if (
+      global.id.navAdditionalScreen.classList.contains("screenMobile")
+    ) {
+      console.log("Screen Size: Mobile");
+      const mediaQuery = targetElement?.mediaQueries?.find(
+        (mq) => mq.query === "max-width: 640px"
+      );
+      appliedProperties = getAppliedProperties(mediaQuery?.style);
+    } else if (
+      global.id.navAdditionalScreen.classList.contains("screenCustom")
+    ) {
+      console.log("Screen Size: Custom");
+      const mediaQuery = targetElement?.mediaQueries?.find(
+        (mq) => mq.query === global.id.navScreenCustom.value
+      );
+      appliedProperties = getAppliedProperties(mediaQuery?.style);
+    }
 
     const blueprintPropertySelectAll = global.id.propertyBlueprintSelectAll;
     blueprintPropertySelectAll.innerHTML = "";

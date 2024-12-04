@@ -60,7 +60,8 @@ export default function populateBlueprintStyleOptions(isState = false) {
 
   function addMediaQueryStyles(mediaQueries, screenSize) {
     console.log("Adding Media Query Styles for Screen Size:", screenSize);
-    const mediaQuery = mediaQueries.find(
+    const queries = mediaQueries || [];
+    const mediaQuery = queries.find(
       (mq) => mq.query === screenSize
     );
     console.log("Media Query Found:", mediaQuery);
@@ -71,7 +72,7 @@ export default function populateBlueprintStyleOptions(isState = false) {
       console.log(`No media query styles found for screen size: ${screenSize}`);
       // Create an empty media query entry if it doesn't exist
       if (!mediaQuery) {
-        mediaQueries.push({ query: screenSize, style: "" });
+        queries.push({ query: screenSize, style: "" });
         console.log(`Created empty media query for screen size: ${screenSize}`);
       }
     }
