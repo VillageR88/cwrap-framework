@@ -114,7 +114,7 @@ export default function updateElementInfo(fullPath, element) {
   //populateAttributeOptionsValue();
 
   validateRemoveElement();
-  validateParentElement(undefined, element.isTemplateElementAnchor);
+  validateParentElement(undefined, element?.isTemplateElementAnchor);
   global.id.elementSelect.value = nameHelper.textContent;
   global.id.mainTemplatesSelectorParent.value = nameHelper.textContent;
 }
