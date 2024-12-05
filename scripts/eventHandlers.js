@@ -1938,27 +1938,83 @@ export const eventHandlers = () => {
       const selector = getElementFromPath().timeStamp;
       const currentMap = blueprintMap.get(selector);
       const blueprintSelectValue = global.id.blueprintSelect.value;
-
+  
       const targetElement = getBlueprintTargetElement(
         currentMap,
         blueprintSelectValue
       );
-
+  
       const blueprintPropertySelect = global.id.blueprintPropertySelect;
       const blueprintPropertySelectValue = blueprintPropertySelect.value;
-
-      if (targetElement.style) {
-        const updatedStyles = targetElement.style
-          .split(";")
-          .filter(Boolean)
-          .filter(
-            (style) =>
-              style.split(":")[0].trim() !== blueprintPropertySelectValue
-          )
-          .join(";")
-          .trim();
-        targetElement.style = updatedStyles;
-
+  
+      if (targetElement) {
+        let styles = targetElement.style ? targetElement.style.split(";") : [];
+        const mediaQueries = targetElement.mediaQueries || [];
+        let updatedStyles = [];
+  
+        if (global.id.navAdditionalScreen.classList.contains("screenDesktop")) {
+          console.log("Screen Size: Desktop");
+          updatedStyles = styles
+            .filter(
+              (style) =>
+                style.split(":")[0].trim() !== blueprintPropertySelectValue
+            )
+            .join(";")
+            .trim();
+          targetElement.style = updatedStyles;
+        } else if (global.id.navAdditionalScreen.classList.contains("screenTablet")) {
+          console.log("Screen Size: Tablet");
+          const mediaQuery = mediaQueries.find(
+            (mq) => mq.query === "max-width: 768px"
+          );
+          if (mediaQuery) {
+            styles = mediaQuery.style ? mediaQuery.style.split(";") : [];
+            updatedStyles = styles
+              .filter(
+                (style) =>
+                  style.split(":")[0].trim() !== blueprintPropertySelectValue
+              )
+              .join(";")
+              .trim();
+            mediaQuery.style = updatedStyles;
+          }
+        } else if (global.id.navAdditionalScreen.classList.contains("screenMobile")) {
+          console.log("Screen Size: Mobile");
+          const mediaQuery = mediaQueries.find(
+            (mq) => mq.query === "max-width: 640px"
+          );
+          if (mediaQuery) {
+            styles = mediaQuery.style ? mediaQuery.style.split(";") : [];
+            updatedStyles = styles
+              .filter(
+                (style) =>
+                  style.split(":")[0].trim() !== blueprintPropertySelectValue
+              )
+              .join(";")
+              .trim();
+            mediaQuery.style = updatedStyles;
+          }
+        } else if (global.id.navAdditionalScreen.classList.contains("screenCustom")) {
+          console.log("Screen Size: Custom");
+          const customQuery = global.id.navScreenCustom.value;
+          const mediaQuery = mediaQueries.find(
+            (mq) => mq.query === customQuery
+          );
+          if (mediaQuery) {
+            styles = mediaQuery.style ? mediaQuery.style.split(";") : [];
+            updatedStyles = styles
+              .filter(
+                (style) =>
+                  style.split(":")[0].trim() !== blueprintPropertySelectValue
+              )
+              .join(";")
+              .trim();
+            mediaQuery.style = updatedStyles;
+          }
+        } else {
+          console.log("No matching screen size found.");
+        }
+  
         // Apply the style changes to the view
         const validSelector = blueprintSelectValue
           .replace(/ > /g, " ")
@@ -1967,9 +2023,8 @@ export const eventHandlers = () => {
         if (elementInView) {
           elementInView.style[blueprintPropertySelectValue.trim()] = "";
         }
-
+  
         // Rebuild the blueprint element
-        //reloadBlueprint();
         const selectedValue = global.id.elementSelect.value;
         const firstChildrenTag =
           getElementFromPath(selectedValue).childNodes[0].tagName.toLowerCase();
