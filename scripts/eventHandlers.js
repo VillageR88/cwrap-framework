@@ -956,28 +956,55 @@ export const eventHandlers = () => {
   global.id.updateText.addEventListener("click", () => {
     const element = getElementFromPath();
     const newText = global.id.mainTextEditor2.value;
-
+  
     // Update the data-cwrap-text attribute
     element.cwrapText = newText;
-
+  
     // Build an array of existing spans and their positions
     const spans = Array.from(element.querySelectorAll("span")).map((span) => ({
       html: span.outerHTML,
       text: span.textContent,
     }));
-
-    // Clear the current content of the element
-    element.innerHTML = "";
-
-    // Split the new text by cwrapSpan and create text nodes and span elements
+  
+    // Split the new text by cwrapSpan
     const parts = newText.split("cwrapSpan");
-    element.append(document.createTextNode(parts[0]));
-    for (let i = 1; i < parts.length; i++) {
-      if (spans[i - 1]) {
-        element.insertAdjacentHTML("beforeend", spans[i - 1].html);
+  
+    // Function to update text nodes while preserving nested elements
+    function updateTextNodes(element, parts, spans) {
+      let partIndex = 0;
+      let spanIndex = 0;
+      let childIndex = 0;
+  
+      while (childIndex < element.childNodes.length && partIndex < parts.length) {
+        const child = element.childNodes[childIndex];
+  
+        if (child.nodeType === Node.TEXT_NODE) {
+          // Update text node
+          child.textContent = parts[partIndex];
+          partIndex++;
+          childIndex++;
+        } else if (child.nodeType === Node.ELEMENT_NODE && child.tagName === "SPAN") {
+          // Skip span elements
+          childIndex++;
+        } else {
+          // Remove other elements
+          element.removeChild(child);
+        }
       }
-      element.append(document.createTextNode(parts[i]));
+  
+      // Add remaining parts as new text nodes
+      while (partIndex < parts.length) {
+        if (spans[spanIndex]) {
+          element.insertAdjacentHTML("beforeend", spans[spanIndex].html);
+          spanIndex++;
+        }
+        element.appendChild(document.createTextNode(parts[partIndex]));
+        partIndex++;
+      }
     }
+  
+    // Update the text nodes of the element
+    updateTextNodes(element, parts, spans);
   });
 
   global.id.editAttributes.addEventListener("click", () => {
