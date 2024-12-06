@@ -967,7 +967,7 @@ export const eventHandlers = () => {
     }));
 
     // Clear the current content of the element
-    element.innerHTML = "";
+    // element.innerHTML = ""; // I have commented this out because i sense this is a bulls***
 
     // Split the new text by cwrapSpan and create text nodes and span elements
     const parts = newText.split("cwrapSpan");
