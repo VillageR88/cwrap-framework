@@ -23,7 +23,7 @@ export default function getElementPath(element) {
     //   tagName += `#${currentElement.id}`;
     // } else {
       // If the element is not a special tag like 'main', 'footer', or 'body'
-      if (!["main", "nav", "footer", "body"].includes(tagName)) {
+      if (!["main", "nav", "header", "footer", "body"].includes(tagName)) {
         // Initialize sibling index to 1
         let siblingIndex = 1;
         // Get the previous sibling element

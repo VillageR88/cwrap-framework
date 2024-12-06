@@ -2525,8 +2525,6 @@ export const eventHandlers = () => {
       })
       .join("; ")};`;
 
-    console.log("newStyle", newStyle); // debugging
-    console.log("targetMap", targetMap); // debugging
     if (targetMap) targetMap.set(fullPath, newStyle);
     applyStyles();
     global.variable.style = newStyle;
@@ -2534,35 +2532,23 @@ export const eventHandlers = () => {
 
   //TODO updating problem causing all extensions to update with the same value at once
   global.id.updateBlueprintStateProperty.addEventListener("click", () => {
-    console.log("updateBlueprintStateProperty clicked");
 
     const blueprintStyleSelectValue =
       global.id.stateBlueprintPropertySelect.value.trim();
     const blueprintStyleInputValue =
       global.id.blueprintStatePropertyInput.value.trim();
-    console.log("blueprintStyleSelectValue:", blueprintStyleSelectValue);
-    console.log("blueprintStyleInputValue:", blueprintStyleInputValue);
 
     const blueprintMap = global.map.blueprintMap;
     const selector = getElementFromPath().timeStamp;
-    console.log("selector:", selector);
 
     const currentMap = blueprintMap.get(selector);
-    console.log("currentMap:", currentMap);
 
     const selectedBlueprintElement = global.id.blueprintSelect.value;
     const selectedBlueprintElementTrimmed = selectedBlueprintElement
       .replace(">", "")
       .trim();
-    console.log("selectedBlueprintElement:", selectedBlueprintElement);
-    console.log(
-      "selectedBlueprintElementTrimmed:",
-      selectedBlueprintElementTrimmed
-    );
 
     function getTargetElement(map, elementPath) {
-      console.log("map", map);
-      console.log("elementPath", elementPath);
       const pathParts = elementPath.split(" > ");
       let currentElement = map;
 
@@ -2576,7 +2562,6 @@ export const eventHandlers = () => {
           const matchingChildren = currentElement.children.filter(
             (child) => child.element === elementName
           );
-          console.log("matchingChildren", matchingChildren);
 
           if (matchingChildren.length > index) {
             currentElement = matchingChildren[index];
@@ -2591,16 +2576,13 @@ export const eventHandlers = () => {
       currentMap,
       selectedBlueprintElementTrimmed
     );
-    console.log("targetElement:", targetElement);
 
     if (targetElement?.extend && Array.isArray(targetElement.extend)) {
       console.log("targetElement.extend:", targetElement.extend);
       for (const extension of targetElement.extend) {
-        console.log("extension:", extension);
         if (
           extension.extension === global.id.elementBlueprintStateSelect.value
         ) {
-          console.log("extension.extension:", extension.extension);
           const styles = extension.style
             .split(";")
             .map((style) => style.trim());
@@ -2622,7 +2604,6 @@ export const eventHandlers = () => {
           }
 
           extension.style = styles.join("; ").trim();
-          console.log("Updated extension.style:", extension.style);
         }
       }
     }

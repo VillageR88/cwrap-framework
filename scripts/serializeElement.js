@@ -1,5 +1,4 @@
-import { stateNonContextual, stateContextual } from "./_const.js";
-
+const notNthEnumerableElements = ["body", "nav", "header", "main", "footer"];
 /**
  * Serialize the DOM element to JSON. In other words convert the DOM element to a JSON object with styles appended and others like class, attributes.
  *
@@ -137,7 +136,9 @@ function generateCssSelectorForElement(element) {
 
   // Add nth-of-type for the current element if it is not body, main, nav, or footer
   if (
-    !["body", "main", "nav", "footer"].includes(element.tagName.toLowerCase())
+    !notNthEnumerableElements.includes(
+      element.tagName.toLowerCase()
+    )
   ) {
     const siblings = Array.from(element.parentElement.children).filter(
       (sibling) =>
@@ -157,7 +158,7 @@ function generateCssSelectorForElement(element) {
 
     // Add nth-of-type for parent elements that are not body, main, nav, or footer
     if (
-      !["body", "main", "nav", "footer"].includes(parent.tagName.toLowerCase())
+      !notNthEnumerableElements.includes(parent.tagName.toLowerCase())
     ) {
       const siblings = Array.from(parent.parentElement.children).filter(
         (sibling) =>

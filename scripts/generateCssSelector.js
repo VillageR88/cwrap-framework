@@ -49,7 +49,6 @@ export default function generateCssSelector(
             );
           }
           return;
-
         }
       }
     }
@@ -63,6 +62,7 @@ export default function generateCssSelector(
     // Handle special elements like 'body', 'main', and 'footer'
     if (
       element === "body" ||
+      element === "header" ||
       element === "nav" ||
       element === "main" ||
       element === "footer"
