@@ -65,6 +65,11 @@ export default function createElementFromJson(
     const originalText = selectedJsonObj.text || jsonObj.text;
     element.cwrapText = originalText ?? "";
 
+    // Check for cwrapOmit and return early if found
+    if (originalText?.includes("cwrapOmit")) {
+      return element;
+    }
+
     if (
       originalText?.includes("cwrapSpan") ||
       originalText?.includes("cwrapTemplate") ||

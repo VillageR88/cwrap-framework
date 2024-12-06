@@ -5,6 +5,9 @@ import getAlter from "./getAlter.js";
  */
 export default function populateBlueprintAlterStyleOptions() {
 	const alter = getAlter();
+	if (!alter.enumReference) {
+		alter.enumReference = {};
+	}
 	if (!alter.enumReference.style) {
 		alter.enumReference.style = "";
 	}
