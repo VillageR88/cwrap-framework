@@ -117,7 +117,7 @@ function leftSidebarCleanup() {
 }
 
 export function centralBarCleanup() {
-	const elements = document.querySelectorAll("#selectedElementLabelContainer div, #selectedElementLabelContainer button");
+	const elements = document.querySelectorAll("#selectedElementLabelContainer div, #selectedElementLabelContainer button, #selectedElementLabelContainer textarea");
 	for (const element of elements) {
 		element.removeAttribute("style");
 	}
