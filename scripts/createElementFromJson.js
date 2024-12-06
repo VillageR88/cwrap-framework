@@ -67,6 +67,8 @@ export default function createElementFromJson(
 
     // Check for cwrapOmit and return early if found
     if (originalText?.includes("cwrapOmit")) {
+      element.isOmitted = true;
+
       return element;
     }
 
@@ -205,7 +207,7 @@ export default function createElementFromJson(
       if (element.isPlaceholderCarrier && spanElements[spanIndex]) {
         spanElements[spanIndex].replaceWith(childElement);
         spanIndex++;
-      } else {
+      } else if (!childElement.isOmitted) {
         element.appendChild(childElement);
       }
     }
