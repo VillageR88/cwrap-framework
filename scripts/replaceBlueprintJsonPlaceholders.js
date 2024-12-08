@@ -16,8 +16,7 @@ export function replacePlaceholdersCwrapIndex(jsonObj, index) {
 export function replacePlaceholdersCwrapArray(jsonObj, index) {
 	const jsonString = JSON.stringify(jsonObj);
 
-	// Find all cwrapArray placeholders
-	const arrayMatches = jsonString.match(/cwrapArray\[(.*?)\]/g);
+    const arrayMatches = jsonString.match(/cwrapArray\[[^\[\]]*\]/g);
 	if (!arrayMatches) {
 		return jsonObj;
 	}
