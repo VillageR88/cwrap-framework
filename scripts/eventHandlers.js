@@ -70,6 +70,7 @@ import populateBlueprintAlterStyleOptionsValue from "./populateBlueprintAlterSty
 import removeBlueprintAlterStyleOption from "./removeBlueprintAlterStyleOption.js";
 import addBlueprintAlterStyleOption from "./addBlueprintAlterStyleOption.js";
 import updateBlueprintAlterStyleOptionValue from "./updateBlueprintAlterStyleOptionValue.js";
+import { notNthEnumerableElements } from "./_const.js";
 
 /**
  * Sets up the event handlers.
@@ -2254,7 +2255,7 @@ export const eventHandlers = () => {
 
     const fullPath = global.id.elementSelect.value;
     let newElement;
-    if (["main", "header", "footer", "nav"].includes(selectedValue)) {
+    if (notNthEnumerableElements.includes(selectedValue)) {
       newElement = `${fullPath} > ${selectedValue}`;
     } else {
       newElement = `${fullPath} > ${selectedValue}:nth-of-type(${countSibling(
@@ -3255,7 +3256,7 @@ export const eventHandlers = () => {
 
     // Generate the new element path
     let newElement;
-    if (["main", "header", "footer", "nav"].includes(template.element)) {
+    if (notNthEnumerableElements.includes(template.element)) {
       newElement = `${fullPath} > ${template.element}`;
     } else {
       newElement = `${fullPath} > ${
@@ -3370,7 +3371,7 @@ export const eventHandlers = () => {
       let currentElement = element;
       while (currentElement.parentElement) {
         if (
-          ["body", "main", "footer"].includes(
+          notNthEnumerableElements.includes(
             currentElement.tagName.toLowerCase()
           )
         ) {
