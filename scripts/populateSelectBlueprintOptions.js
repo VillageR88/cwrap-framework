@@ -1,5 +1,6 @@
 import getElementFromPath from "./getElementFromPath.js";
 import validateRemoveElement from "./validateRemoveElement.js";
+import { notNthEnumerableElements } from "./_const.js";
 
 export default function populateSelectBlueprintOptions() {
 	const blueprintMap = global.map.blueprintMap;
@@ -31,7 +32,7 @@ export default function populateSelectBlueprintOptions() {
 
 			let route = parentRoute;
 
-			if (element === "body" || element === "main" || element === "footer") {
+			if (notNthEnumerableElements.some((item) => item === element)) {
 				route += (parentRoute ? " > " : "") + element;
 			} else if (element === "li" && !parentSiblingCount.has(element)) {
 				route += ` > ${element}`;

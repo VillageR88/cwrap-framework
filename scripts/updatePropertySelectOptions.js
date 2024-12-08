@@ -20,7 +20,8 @@ export default function updatePropertySelectOptions(isState) {
   } else if (currentScreen === "screenMobile") {
     currentStyle = mediaQueriesMap.get("max-width: 640px")?.get(fullPath) || "";
   } else if (currentScreen === "screenCustom") {
-    currentStyle = mediaQueriesMap.get(global.id.navScreenCustom.value)?.get(fullPath) || "";
+    currentStyle =
+      mediaQueriesMap.get(global.id.navScreenCustom.value)?.get(fullPath) || "";
   }
 
   const styleProperties = currentStyle
@@ -54,11 +55,14 @@ export default function updatePropertySelectOptions(isState) {
 function getCurrentScreen(navAdditionalScreen) {
   if (navAdditionalScreen.classList.contains("screenDesktop")) {
     return "screenDesktop";
-  } else if (navAdditionalScreen.classList.contains("screenTablet")) {
+  }
+  if (navAdditionalScreen.classList.contains("screenTablet")) {
     return "screenTablet";
-  } else if (navAdditionalScreen.classList.contains("screenMobile")) {
+  }
+  if (navAdditionalScreen.classList.contains("screenMobile")) {
     return "screenMobile";
-  } else if (navAdditionalScreen.classList.contains("screenCustom")) {
+  }
+  if (navAdditionalScreen.classList.contains("screenCustom")) {
     return "screenCustom";
   }
   return null; // Return null if no matching class is found

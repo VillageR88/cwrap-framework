@@ -127,3 +127,5 @@ export const semanticElements = [
 ];
 
 export const cwrapElements = ["cwrap-template"];
+
+export const notNthEnumerableElements = ["body", "nav", "header", "main", "footer"];

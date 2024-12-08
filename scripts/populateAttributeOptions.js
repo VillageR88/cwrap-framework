@@ -1,3 +1,5 @@
+import { notNthEnumerableElements } from "./_const.js";
+
 /**
  * @type {import('./_globals.js')}
  */
@@ -77,7 +79,7 @@ function getFullSelector(element) {
 function getSelector(element) {
 	// const id = element.id ? `#${element.id}` : ""; // Probably totally obsolete
 	const tagName = element.tagName.toLowerCase();
-	const nthOfType = ["body", "main", "footer"].includes(tagName)
+	const nthOfType = notNthEnumerableElements.includes(tagName)
 		? ""
 		: getNthOfType(element);
 	// const classes = element.className // Probably totally obsolete

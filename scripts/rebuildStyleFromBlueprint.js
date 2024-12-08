@@ -4,6 +4,8 @@ import {
 	replacePlaceholdersCwrapArray,
 	replacePlaceholdersCwrapIndex,
 } from "./replaceBlueprintJsonPlaceholders.js";
+import { notNthEnumerableElements } from "./_const.js";
+
 
 /**
  * Rebuilds the styles from the blueprint.
@@ -47,7 +49,7 @@ function rebuildBlueprintCssSelectorFromBlueprint(
 		}
 		const parentSiblingCount = siblingCountMap.get(parentSelector);
 
-		if (element === "body" || element === "main" || element === "footer") {
+		if (notNthEnumerableElements.some((item) => item === element)) {
 			selector += (parentSelector ? " > " : "") + element;
 		} else {
 			if (!parentSiblingCount.has(element)) {

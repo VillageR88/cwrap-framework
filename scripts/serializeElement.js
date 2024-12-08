@@ -1,4 +1,4 @@
-const notNthEnumerableElements = ["body", "nav", "header", "main", "footer"];
+import { notNthEnumerableElements } from "./_const.js";
 /**
  * Serialize the DOM element to JSON. In other words convert the DOM element to a JSON object with styles appended and others like class, attributes.
  *
@@ -134,7 +134,6 @@ export default function serializeElement(element, extendMap) {
 function generateCssSelectorForElement(element) {
   let selector = element.tagName.toLowerCase();
 
-  // Add nth-of-type for the current element if it is not body, main, nav, or footer
   if (
     !notNthEnumerableElements.includes(
       element.tagName.toLowerCase()
@@ -156,7 +155,6 @@ function generateCssSelectorForElement(element) {
   while (parent && parent.tagName.toLowerCase() !== "html") {
     let parentSelector = parent.tagName.toLowerCase();
 
-    // Add nth-of-type for parent elements that are not body, main, nav, or footer
     if (
       !notNthEnumerableElements.includes(parent.tagName.toLowerCase())
     ) {

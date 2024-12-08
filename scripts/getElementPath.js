@@ -1,3 +1,5 @@
+import { notNthEnumerableElements } from "./_const.js";
+
 /**
  * Gets the full path of the element in the DOM tree.
  * It runs inside createElementFromJson.js and loadPreview.js
@@ -23,7 +25,7 @@ export default function getElementPath(element) {
     //   tagName += `#${currentElement.id}`;
     // } else {
       // If the element is not a special tag like 'main', 'footer', or 'body'
-      if (!["main", "nav", "header", "footer", "body"].includes(tagName)) {
+      if (!notNthEnumerableElements.includes(tagName)) {
         // Initialize sibling index to 1
         let siblingIndex = 1;
         // Get the previous sibling element

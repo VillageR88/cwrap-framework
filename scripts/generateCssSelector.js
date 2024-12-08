@@ -6,6 +6,7 @@ import {
   replacePlaceholdersCwrapIndex,
   replacePlaceholdersCwrapArray,
 } from "./replaceBlueprintJsonPlaceholders.js";
+import { notNthEnumerableElements } from "./_const.js";
 
 /**
  * Creates cssMap and mediaQueriesMap.
@@ -59,14 +60,7 @@ export default function generateCssSelector(
     }
     const parentSiblingCount = siblingCountMap.get(parentSelector);
 
-    // Handle special elements like 'body', 'main', and 'footer'
-    if (
-      element === "body" ||
-      element === "header" ||
-      element === "nav" ||
-      element === "main" ||
-      element === "footer"
-    ) {
+    if (notNthEnumerableElements.some((item) => item === element)) {
       selector += (parentSelector ? " > " : "") + element;
     } else {
       // Initialize sibling count for the element if not already present

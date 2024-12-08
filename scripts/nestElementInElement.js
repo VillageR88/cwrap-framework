@@ -1,6 +1,9 @@
+import { notNthEnumerableElements } from "./_const.js";
+
 /**
  * @typedef {import("../types").JsonObject} JsonObject // TODO: verify need of this import
  * @type {import('./_globals.js')}
+ * 
  */
 import getElementFromPath from "./getElementFromPath.js";
 import populateTreeView from "./populateTreeView.js";
@@ -190,7 +193,7 @@ function generateElementCssSelector(element) {
             (sibling) => sibling.tagName.toLowerCase() === tagName,
         );
         const index = siblings.indexOf(currentElement) + 1;
-        if (["body", "main", "nav", "footer"].includes(tagName))
+        if (notNthEnumerableElements.includes(tagName))
             parts.unshift(tagName);
         else parts.unshift(`${tagName}:nth-of-type(${index})`);
         currentElement = currentElement.parentElement;
