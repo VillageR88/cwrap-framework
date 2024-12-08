@@ -3353,6 +3353,7 @@ export const eventHandlers = () => {
     };
   }
 
+  //TODO top parent in mainTemplatesSelectorAdd element doesn't generate own style
   global.id.mainTemplatesSelectorAdd.addEventListener("click", () => {
     const elementSelect = global.id.elementSelect;
     const selectedElementPath = elementSelect.value;
