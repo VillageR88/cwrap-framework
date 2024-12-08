@@ -25,7 +25,6 @@ export default function createElementFromJson(
 ) {
   // Create the element
   const SVG_NAMESPACE = "http://www.w3.org/2000/svg";
-  // Create the element with proper namespace handling
   let element;
   if (
     jsonObj.element === "svg" ||
@@ -37,6 +36,7 @@ export default function createElementFromJson(
   } else {
     element = document.createElement(jsonObj.element);
   }
+  
   let selectedJsonObj = jsonObj;
 
   function setJsonObjToEnumItem() {
@@ -48,6 +48,7 @@ export default function createElementFromJson(
     }
     return true;
   }
+
   let abandonItem = false;
   switch (jsonObj.alter) {
     case "none":
@@ -68,37 +69,64 @@ export default function createElementFromJson(
     // Check for cwrapOmit and return early if found
     if (originalText?.includes("cwrapOmit")) {
       element.isOmitted = true;
-
       return element;
     }
 
+    // Check if the text contains any of the special tags
     if (
       originalText?.includes("cwrapSpan") ||
       originalText?.includes("cwrapTemplate") ||
       originalText?.includes("cwrapProperty")
     ) {
       const parts = originalText.split(
-        /(cwrapSpan|cwrapTemplate\[[^\]]+\]|cwrapProperty\[[^\]]+\])/
+        /(cwrapSpan|cwrapTemplate\[[^\]]*\]|cwrapProperty\[[^\]]*\])/g
       );
-      element.textContent = parts[0];
-      for (let i = 1; i < parts.length; i++) {
+      const mergedParts = [];
+      let tempPart = "";
+
+      for (let i = 0; i < parts.length; i++) {
         if (parts[i].startsWith("cwrapSpan")) {
+          // Merge text parts that don't start with cwrapSpan
+          if (tempPart) {
+            mergedParts.push(tempPart);
+            tempPart = "";
+          }
+          mergedParts.push(parts[i]);
+        } else {
+          // Collect all non-cwrapSpan text
+          tempPart += parts[i];
+        }
+      }
+      if (tempPart) {
+        mergedParts.push(tempPart);
+      }
+
+      // Process each part and handle cwrapSpan, cwrapTemplate, and cwrapProperty tags
+      element.textContent = "";  // Clear the initial content before appending processed parts
+
+      for (let i = 0; i < mergedParts.length; i++) {
+        const part = mergedParts[i];
+
+        if (part.startsWith("cwrapSpan")) {
+          // Handle cwrapSpan tag
           const spanElement = document.createElement("span");
           spanElement.isPlaceholder = true;
           element.isPlaceholderCarrier = true;
           element.appendChild(spanElement);
-          element.append(parts[i].replace("cwrapSpan", ""));
-        } else if (parts[i].startsWith("cwrapTemplate")) {
+          element.append(part.replace("cwrapSpan", ""));
+        } else if (part.startsWith("cwrapTemplate")) {
+          // Handle cwrapTemplate tag
           const propMap = new Map();
 
-          const templateNameWithProps = parts[i].match(
+          // Match the cwrapTemplate[...], capturing the template name and properties
+          const templateNameWithProps = part.match(
             /cwrapTemplate\[([^\]]+)\]/
           )[1];
           const templateName =
-            templateNameWithProps.match(/.+(?=\()/)?.[0] ||
-            templateNameWithProps;
+            templateNameWithProps.match(/.+(?=\()/)?.[0] || templateNameWithProps;
           const templateProps =
             templateNameWithProps.match(/(?<=\().+(?=\))/)?.[0];
+
           if (templateProps) {
             const propsArray = templateProps.split(",");
             for (const prop of propsArray) {
@@ -106,6 +134,8 @@ export default function createElementFromJson(
               propMap.set(key, value);
             }
           }
+
+          // Check if the template exists in the global map
           const templateElement = global.map.templatesMap.get(templateName);
           if (templateElement) {
             const clonedTemplateElement = createElementFromJson(
@@ -122,10 +152,13 @@ export default function createElementFromJson(
               clonedTemplateElement.templateElement = templateNameWithProps;
               element = clonedTemplateElement;
               jsonObj.templateName = true;
-            } else element.appendChild(clonedTemplateElement);
+            } else {
+              element.appendChild(clonedTemplateElement);
+            }
           }
-        } else if (parts[i].startsWith("cwrapProperty")) {
-          const propertyMatch = parts[i].match(
+        } else if (part.startsWith("cwrapProperty")) {
+          // Handle cwrapProperty tag
+          const propertyMatch = part.match(
             /cwrapProperty\[([^\]=]+)=([^\]]+)\]/
           );
 
@@ -135,7 +168,8 @@ export default function createElementFromJson(
             element.append(mapValue || defaultValue);
           }
         } else {
-          element.append(parts[i]);
+          // Handle normal text content
+          element.append(part);
         }
       }
     } else {
