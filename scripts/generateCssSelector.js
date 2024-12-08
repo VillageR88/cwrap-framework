@@ -15,13 +15,15 @@ import { notNthEnumerableElements } from "./_const.js";
  * @param {string} [parentSelector=""] - The CSS selector of the parent element.
  * @param {Map} [siblingCountMap=new Map()] - A Map to keep track of sibling elements count.
  * @param {number} [blueprintCounter]
+ * @param {propsMap}
  * @todo Evaluate alternative: this function store all selector including blueprint selectors with additional customTag property.
  */
 export default function generateCssSelector(
   jsonObj,
   parentSelector = "",
   siblingCountMap = new Map(),
-  blueprintCounter = undefined
+  blueprintCounter = undefined,
+  propsMap = new Map()
 ) {
   const cssMap = global.map.cssMap;
   const mediaQueriesMap = global.map.mediaQueriesMap;
@@ -40,13 +42,23 @@ export default function generateCssSelector(
           const templateName =
             templateNameWithProps.match(/.+(?=\()/)?.[0] ||
             templateNameWithProps;
+          const templatePropsMap = new Map();
+          const propsMatch = templateNameWithProps.match(/\(([^)]+)\)/);
+          if (propsMatch) {
+            const props = propsMatch[1].split(",");
+            for (const prop of props) {
+              const [key, value] = prop.split("=");
+              templatePropsMap.set(key.trim(), value.trim());
+            }
+          }
           const templateElement = global.map.templatesMap.get(templateName);
           if (templateElement) {
             generateCssSelector(
               templateElement,
               selector,
               siblingCountMap,
-              blueprintCounter
+              blueprintCounter,
+              templatePropsMap
             );
           }
           return;
@@ -75,6 +87,30 @@ export default function generateCssSelector(
         element
       )})`;
     }
+
+    // Handle cwrapProperty property in style
+    if (jsonObj.style?.includes("cwrapProperty")) {
+      const parts = jsonObj.style.split(/(cwrapProperty\[[^\]]+\])/);
+      for (let i = 1; i < parts.length; i++) {
+        if (parts[i].startsWith("cwrapProperty")) {
+          const propertyMatch = parts[i].match(
+            /cwrapProperty\[([^\]=]+)=([^\]]+)\]/
+          );
+          if (propertyMatch) {
+            console.log("propertyMatch", propertyMatch[1]);
+            console.log("propsMap", propsMap);
+            const [property, defaultValue] = propertyMatch.slice(1);
+            const mapValue = propsMap?.get(propertyMatch[1]);
+            console.log("mapValue", mapValue);
+            jsonObj.style = jsonObj.style.replace(
+              parts[i],
+              mapValue || defaultValue
+            );
+          }
+        }
+      }
+    }
+
     if (
       jsonObj.enum?.[blueprintCounter - 1]?.style &&
       jsonObj.alter !== "none"
@@ -119,7 +155,13 @@ export default function generateCssSelector(
     if (jsonObj.children) {
       // Recursively generate CSS selectors for each child element
       for (const child of jsonObj.children) {
-        generateCssSelector(child, selector, siblingCountMap, blueprintCounter);
+        generateCssSelector(
+          child,
+          selector,
+          siblingCountMap,
+          blueprintCounter,
+          propsMap
+        );
       }
     }
 
@@ -145,7 +187,8 @@ export default function generateCssSelector(
           cookedBLueprintChild,
           selector,
           siblingCountMap,
-          i + 1
+          i + 1,
+          propsMap
         );
       }
     }
@@ -167,7 +210,8 @@ export default function generateCssSelector(
               templateElement,
               selector,
               siblingCountMap,
-              blueprintCounter
+              blueprintCounter,
+              propsMap
             );
           }
         }
