@@ -74,8 +74,7 @@ export const eventListenerClickElement = (element, options = {}) => {
     }
 
     if (
-      event.target.tagName === "A" &&
-      !event.target.href?.match("#") &&
+      (event.target.tagName === "A" || (event.target.tagName === "IMG" && event.target.parentElement.tagName === "A"))  &&
       !global.id.navSelectPreview.classList.contains("static")
     ) {
       event.preventDefault();
@@ -83,7 +82,11 @@ export const eventListenerClickElement = (element, options = {}) => {
       global.id.mask.style.display = "flex";
       global.id.popupLink.style.display = "flex";
       function handleConfirmClick() {
-        window.location.href = event.target.href;
+        const targetHref =
+          event.target.tagName === "IMG"
+            ? event.target.parentElement.href
+            : event.target.href;
+        window.location.href = targetHref;
       }
       function handleRejectClick() {
         global.id.popupLinkConfirm.removeEventListener(
