@@ -4,6 +4,7 @@ const path = require("node:path");
 
 const cssMap = new Map();
 const mediaQueriesMap = new Map();
+const notNthEnumerableElements = ["body", "nav", "header", "main", "footer"];
 
 const templatesApiUrl = path.join(__dirname, "routes", "templates.json");
 const templatesMap = new Map();
@@ -497,19 +498,31 @@ function replacePlaceholdersCwrapArray(jsonObj, index) {
 
   return JSON.parse(replacedString);
 }
-
+/**
+ * Creates cssMap and mediaQueriesMap.
+ * Generates a CSS selector string based on the provided JSON object with example outcome: "body > main> div:nth-of-type(1)"
+ * @param {JsonObject} jsonObj - The JSON object representing the element.
+ * @param {string} [parentSelector=""] - The CSS selector of the parent element.
+ * @param {Map} [siblingCountMap=new Map()] - A Map to keep track of sibling elements count.
+ * @param {number} [blueprintCounter]
+ * @param {Map} [propsMap=new Map()] - A Map to keep track of properties.
+ */
 function generateCssSelector(
   jsonObj,
   parentSelector = "",
   siblingCountMap = new Map(),
-  blueprintCounter = undefined
+  blueprintCounter = undefined,
+  propsMap = new Map()
 ) {
-  // Start with the parent selector
+
+
   let selector = parentSelector;
 
   if (jsonObj.element) {
     const element = jsonObj.element;
     if (!jsonObj.text) jsonObj.text = "";
+  
+    // Handle cwrap-template elements
     if (element === "cwrap-template") {
       const parts = jsonObj.text.split(/(cwrapTemplate\[[^\]]+\])/);
       for (let i = 1; i < parts.length; i++) {
@@ -520,94 +533,122 @@ function generateCssSelector(
           const templateName =
             templateNameWithProps.match(/.+(?=\()/)?.[0] ||
             templateNameWithProps;
+          const templatePropsMap = new Map();
+          const propsMatch = templateNameWithProps.match(/\(([^)]+)\)/);
+  
+          if (propsMatch) {
+            const props = propsMatch[1].split(",");
+            for (const prop of props) {
+              const [key, value] = prop.split("=");
+              templatePropsMap.set(key.trim(), value.trim());
+            }
+          }
+  
           const templateElement = templatesMap.get(templateName);
           if (templateElement) {
+            // Create a deep copy of the template element
+            const templateElementCopy = JSON.parse(JSON.stringify(templateElement));
+            for (const [key, value] of templatePropsMap) {
+              if (value === "cwrapPassProperty" && propsMap.has(key)) {
+                templatePropsMap.set(key, propsMap.get(key));
+              }
+            }
             generateCssSelector(
-              templateElement,
+              templateElementCopy,
               selector,
               siblingCountMap,
-              blueprintCounter
+              blueprintCounter,
+              templatePropsMap
             );
           }
           return;
         }
       }
     }
-
-    // Initialize sibling count map for the parent selector if not already present
+  
+    // Initialize sibling counts for the parent selector
     if (!siblingCountMap.has(parentSelector)) {
       siblingCountMap.set(parentSelector, new Map());
     }
     const parentSiblingCount = siblingCountMap.get(parentSelector);
-
-    // Handle special elements like 'body', 'main', and 'footer'
-    if (
-      element === "body" ||
-      element === "nav" ||
-      element === "main" ||
-      element === "footer"
-    ) {
+  
+    if (notNthEnumerableElements.includes(element)) {
       selector += (parentSelector ? " > " : "") + element;
     } else {
-      // Initialize sibling count for the element if not already present
       if (!parentSiblingCount.has(element)) {
         parentSiblingCount.set(element, 0);
       }
-      // Increment the sibling count for the element
       parentSiblingCount.set(element, parentSiblingCount.get(element) + 1);
-
-      // Append the element and its nth-of-type pseudo-class to the selector
       selector += ` > ${element}:nth-of-type(${parentSiblingCount.get(
         element
       )})`;
     }
-    if (
-      jsonObj.enum?.[blueprintCounter - 1]?.style &&
-      jsonObj.alter !== "none"
-    ) {
-      cssMap.set(selector, jsonObj.enum[blueprintCounter - 1]?.style);
-    } else if (jsonObj.style) {
-      cssMap.set(selector, jsonObj.style);
+  
+    // Handle styles with cwrapProperty
+    if (jsonObj.style) {
+      if (jsonObj.style.includes("cwrapProperty")) {
+        const parts = jsonObj.style.split(/(cwrapProperty\[[^\]]+\])/);
+        for (let i = 1; i < parts.length; i++) {
+          if (parts[i].startsWith("cwrapProperty")) {
+            const propertyMatch = parts[i].match(
+              /cwrapProperty\[([^\]=]+)=([^\]]+)\]/
+            );
+            if (propertyMatch) {
+              const [property, defaultValue] = propertyMatch.slice(1);
+              const mapValue = propsMap.get(property);
+              jsonObj.style = jsonObj.style.replace(
+                parts[i],
+                mapValue || defaultValue
+              );
+            }
+          }
+        }
+      }
+  
+      if (
+        jsonObj.enum?.[blueprintCounter - 1]?.style &&
+        jsonObj.alter !== "none"
+      ) {
+        cssMap.set(selector, jsonObj.enum[blueprintCounter - 1].style);
+      } else {
+        cssMap.set(selector, jsonObj.style);
+      }
     } else {
       cssMap.set(selector, "");
     }
-
-    // Handle extensions if present in the JSON object
+  
+    // Handle extensions
     if (jsonObj.extend) {
       for (const extension of jsonObj.extend) {
-        // Generate the extended selector
         const extendedSelector = `${selector}${extension.extension}`;
-        // Store the extended style in the cssMap
         cssMap.set(extendedSelector, extension.style);
       }
     }
-
-    // Check if the JSON object has media queries
+  
+    // Handle media queries
     if (jsonObj.mediaQueries) {
-      // Iterate over each media query
       for (const mediaQuery of jsonObj.mediaQueries) {
-        // Create a media query selector
-        const mediaQuerySelector = `${selector}`;
-        // Initialize the media query map if not already present
         if (!mediaQueriesMap.has(mediaQuery.query)) {
           mediaQueriesMap.set(mediaQuery.query, new Map());
         }
-        // Store the media query style in the mediaQueriesMap
-        mediaQueriesMap
-          .get(mediaQuery.query)
-          .set(mediaQuerySelector, mediaQuery.style);
+        mediaQueriesMap.get(mediaQuery.query).set(selector, mediaQuery.style);
       }
     }
-
-    // Check if the JSON object has children elements
+  
+    // Recursively process children
     if (jsonObj.children) {
-      // Recursively generate CSS selectors for each child element
       for (const child of jsonObj.children) {
-        generateCssSelector(child, selector, siblingCountMap, blueprintCounter);
+        generateCssSelector(
+          child,
+          selector,
+          siblingCountMap,
+          blueprintCounter,
+          propsMap
+        );
       }
     }
-
-    // Handle blueprint property
+  
+    // Handle blueprints
     if (jsonObj.blueprint) {
       jsonObj.customTag = "cwrapBlueprintCSS";
       const blueprint = jsonObj.blueprint;
@@ -615,45 +656,17 @@ function generateCssSelector(
         const blueprintChild = JSON.parse(JSON.stringify(blueprint));
         blueprintChild.element = blueprint.element;
         blueprintChild.children = blueprint.children;
-        let cookedBLueprintChild = replacePlaceholdersCwrapIndex(
-          blueprintChild,
+        const cookedBlueprintChild = replacePlaceholdersCwrapArray(
+          replacePlaceholdersCwrapIndex(blueprintChild, i),
           i
         );
-        cookedBLueprintChild = replacePlaceholdersCwrapArray(
-          cookedBLueprintChild,
-          i
-        );
-
         generateCssSelector(
-          cookedBLueprintChild,
+          cookedBlueprintChild,
           selector,
           siblingCountMap,
-          i + 1
+          i + 1,
+          propsMap
         );
-      }
-    }
-
-    // Handle cwrapTemplate property
-    if (jsonObj.text?.includes("cwrapTemplate")) {
-      const parts = jsonObj.text.split(/(cwrapTemplate\[[^\]]+\])/);
-      for (let i = 1; i < parts.length; i++) {
-        if (parts[i].startsWith("cwrapTemplate")) {
-          const templateNameWithProps = parts[i].match(
-            /cwrapTemplate\[([^\]]+)\]/
-          )[1];
-          const templateName =
-            templateNameWithProps.match(/.+(?=\()/)?.[0] ||
-            templateNameWithProps;
-          const templateElement = templatesMap.get(templateName);
-          if (templateElement) {
-            generateCssSelector(
-              templateElement,
-              selector,
-              siblingCountMap,
-              blueprintCounter
-            );
-          }
-        }
       }
     }
   }
