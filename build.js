@@ -38,7 +38,7 @@ function generateHtmlFromJson(jsonObj, properties = new Map()) {
 
     if (Object.prototype.hasOwnProperty.call(jsonObj, "attributes")) {
       for (const [key, value] of Object.entries(jsonObj.attributes)) {
-        html += ` ${key}="${value}"`;
+        if (value !== "cwrapOmit") html += ` ${key}="${value}"`;
       }
     }
 
