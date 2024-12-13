@@ -36,7 +36,7 @@ export default function createElementFromJson(
   } else {
     element = document.createElement(jsonObj.element);
   }
-  
+
   let selectedJsonObj = jsonObj;
 
   function setJsonObjToEnumItem() {
@@ -102,7 +102,7 @@ export default function createElementFromJson(
       }
 
       // Process each part and handle cwrapSpan, cwrapTemplate, and cwrapProperty tags
-      element.textContent = "";  // Clear the initial content before appending processed parts
+      element.textContent = ""; // Clear the initial content before appending processed parts
 
       for (let i = 0; i < mergedParts.length; i++) {
         const part = mergedParts[i];
@@ -123,7 +123,8 @@ export default function createElementFromJson(
             /cwrapTemplate\[([^\]]+)\]/
           )[1];
           const templateName =
-            templateNameWithProps.match(/.+(?=\()/)?.[0] || templateNameWithProps;
+            templateNameWithProps.match(/.+(?=\()/)?.[0] ||
+            templateNameWithProps;
           const templateProps =
             templateNameWithProps.match(/(?<=\().+(?=\))/)?.[0];
 
@@ -179,6 +180,7 @@ export default function createElementFromJson(
     // Set additional attributes if specified in the JSON object
     if (selectedJsonObj.attributes) {
       for (const [key, value] of Object.entries(selectedJsonObj.attributes)) {
+        if (value === "cwrapOmit") continue;
         element.setAttribute(key, value);
       }
     }

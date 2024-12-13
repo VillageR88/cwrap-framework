@@ -74,7 +74,9 @@ export const eventListenerClickElement = (element, options = {}) => {
     }
 
     if (
-      (event.target.tagName === "A" || (event.target.tagName === "IMG" && event.target.parentElement.tagName === "A"))  &&
+      (event.target.tagName === "A" ||
+        (event.target.tagName === "IMG" &&
+          event.target.parentElement.tagName === "A")) &&
       !global.id.navSelectPreview.classList.contains("static")
     ) {
       event.preventDefault();
