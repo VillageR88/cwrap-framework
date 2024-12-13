@@ -64,7 +64,8 @@ export default function serializeElement(element, extendMap) {
         .replace(global.id.elementSelect.value, "")
         .trim();
       if (selectorWithoutElementSelectedTrimmed.length === 0) {
-        obj.extend = [{ extension: ` ${key.match(regExp2)[1]}`, style: value }];
+        if (!obj.extend) obj.extend = [];
+        obj.extend.push({ extension: ` ${key.match(regExp2)[1]}`, style: value });
       }
     } else {
       const keyBase = key.split(/[:.#]+(?!nth-of-type)/)[0];
@@ -72,9 +73,8 @@ export default function serializeElement(element, extendMap) {
       const selectorBase = selector.split(/[:.#]+(?!nth-of-type)/)[0];
       const selectorSymbol = key.replace(keyBase, "").replace(keySelector, "");
       if (keyBase === selectorBase) {
-        obj.extend = [
-          { extension: selectorSymbol + keySelector, style: value },
-        ];
+        if (!obj.extend) obj.extend = [];
+        obj.extend.push({ extension: selectorSymbol + keySelector, style: value });
       }
     }
   }
