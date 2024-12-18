@@ -16,13 +16,15 @@ import { notNthEnumerableElements } from "./_const.js";
  * @param {Map} [siblingCountMap=new Map()] - A Map to keep track of sibling elements count.
  * @param {number} [blueprintCounter]
  * @param {Map} [propsMap=new Map()] - A Map to keep track of properties.
+ * @param {JsonObject[]} [passover] - The passover elements to insert.
  */
 export default function generateCssSelector(
   jsonObj,
   parentSelector = "",
   siblingCountMap = new Map(),
   blueprintCounter = undefined,
-  propsMap = new Map()
+  propsMap = new Map(),
+  passover = []
 ) {
   const cssMap = global.map.cssMap;
   const mediaQueriesMap = global.map.mediaQueriesMap;
@@ -32,7 +34,7 @@ export default function generateCssSelector(
   if (jsonObj.element) {
     const element = jsonObj.element;
     if (!jsonObj.text) jsonObj.text = "";
-  
+
     // Handle cwrap-template elements
     if (element === "cwrap-template") {
       const parts = jsonObj.text.split(/(cwrapTemplate\[[^\]]+\])/);
@@ -46,7 +48,7 @@ export default function generateCssSelector(
             templateNameWithProps;
           const templatePropsMap = new Map();
           const propsMatch = templateNameWithProps.match(/\(([^)]+)\)/);
-  
+
           if (propsMatch) {
             const props = propsMatch[1].split(",");
             for (const prop of props) {
@@ -54,35 +56,53 @@ export default function generateCssSelector(
               templatePropsMap.set(key.trim(), value.trim());
             }
           }
-  
+
           const templateElement = global.map.templatesMap.get(templateName);
           if (templateElement) {
             // Create a deep copy of the template element
-            const templateElementCopy = JSON.parse(JSON.stringify(templateElement));
+            const templateElementCopy = JSON.parse(
+              JSON.stringify(templateElement)
+            );
             for (const [key, value] of templatePropsMap) {
               if (value === "cwrapPassProperty" && propsMap.has(key)) {
                 templatePropsMap.set(key, propsMap.get(key));
               }
             }
+
             generateCssSelector(
               templateElementCopy,
               selector,
               siblingCountMap,
               blueprintCounter,
-              templatePropsMap
+              templatePropsMap,
+              jsonObj.passover || []
             );
           }
           return;
         }
       }
     }
-  
+
+    // Handle cwrap-passover elements
+    if (element === "cwrap-passover") {
+      for (const childJson of passover) {
+        generateCssSelector(
+          childJson,
+          parentSelector,
+          siblingCountMap,
+          blueprintCounter,
+          propsMap
+        );
+      }
+      return;
+    }
+
     // Initialize sibling counts for the parent selector
     if (!siblingCountMap.has(parentSelector)) {
       siblingCountMap.set(parentSelector, new Map());
     }
     const parentSiblingCount = siblingCountMap.get(parentSelector);
-  
+
     if (notNthEnumerableElements.includes(element)) {
       selector += (parentSelector ? " > " : "") + element;
     } else {
@@ -94,7 +114,7 @@ export default function generateCssSelector(
         element
       )})`;
     }
-  
+
     // Handle styles with cwrapProperty
     if (jsonObj.style) {
       if (jsonObj.style.includes("cwrapProperty")) {
@@ -115,7 +135,7 @@ export default function generateCssSelector(
           }
         }
       }
-  
+
       if (
         jsonObj.enum?.[blueprintCounter - 1]?.style &&
         jsonObj.alter !== "none"
@@ -127,7 +147,7 @@ export default function generateCssSelector(
     } else {
       cssMap.set(selector, "");
     }
-  
+
     // Handle extensions
     if (jsonObj.extend) {
       for (const extension of jsonObj.extend) {
@@ -135,7 +155,7 @@ export default function generateCssSelector(
         cssMap.set(extendedSelector, extension.style);
       }
     }
-  
+
     // Handle media queries
     if (jsonObj.mediaQueries) {
       for (const mediaQuery of jsonObj.mediaQueries) {
@@ -145,7 +165,7 @@ export default function generateCssSelector(
         mediaQueriesMap.get(mediaQuery.query).set(selector, mediaQuery.style);
       }
     }
-  
+
     // Recursively process children
     if (jsonObj.children) {
       for (const child of jsonObj.children) {
@@ -154,11 +174,12 @@ export default function generateCssSelector(
           selector,
           siblingCountMap,
           blueprintCounter,
-          propsMap
+          propsMap,
+          passover
         );
       }
     }
-  
+
     // Handle blueprints
     if (jsonObj.blueprint) {
       jsonObj.customTag = "cwrapBlueprintCSS";
@@ -176,8 +197,10 @@ export default function generateCssSelector(
           selector,
           siblingCountMap,
           i + 1,
-          propsMap
+          propsMap,
+          passover
         );
       }
     }
-  }}
+  }
+}

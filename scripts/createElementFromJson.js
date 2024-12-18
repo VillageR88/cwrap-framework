@@ -249,6 +249,23 @@ export default function createElementFromJson(
     }
   }
 
+  // Replace passover elements into the template if the cwrap-passover element is present
+  if (jsonObj.element === "cwrap-template" && jsonObj.passover) {
+    const passoverElement = element.querySelector("cwrap-passover");
+    if (passoverElement) {
+      for (const childJson of jsonObj.passover) {
+        const childElement = createElementFromJson(
+          childJson,
+          isInitialLoad,
+          blueprintElementCounter,
+          properties
+        );
+        passoverElement.before(childElement);
+      }
+      passoverElement.remove();
+    }
+  }
+
   // Return the created element
   return element;
 }
