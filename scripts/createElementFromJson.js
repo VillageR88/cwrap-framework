@@ -21,9 +21,9 @@ export default function createElementFromJson(
   jsonObj,
   isInitialLoad = undefined,
   blueprintElementCounter = undefined,
-  properties = undefined
+  properties = new Map() // Ensure properties is always initialized as a Map if not provided
 ) {
-  if (properties) {
+  if (properties.size > 0) {
     console.log(properties);
     console.log(jsonObj);
   }
@@ -71,14 +71,6 @@ export default function createElementFromJson(
     const originalText = selectedJsonObj.text || jsonObj.text;
     element.cwrapText = originalText ?? "";
 
-    // Check for cwrapOmit and return early if found
-    console.log(originalText);
-    //&& !originalText.includes("cwrapTemplate");
-    if (originalText?.includes("cwrapOmit")) {
-      element.isOmitted = true;
-      return element;
-    }
-
     // Check if the text contains any of the special tags
     if (
       originalText?.includes("cwrapSpan") ||
@@ -93,14 +85,12 @@ export default function createElementFromJson(
 
       for (let i = 0; i < parts.length; i++) {
         if (parts[i].startsWith("cwrapSpan")) {
-          // Merge text parts that don't start with cwrapSpan
           if (tempPart) {
             mergedParts.push(tempPart);
             tempPart = "";
           }
           mergedParts.push(parts[i]);
         } else {
-          // Collect all non-cwrapSpan text
           tempPart += parts[i];
         }
       }
@@ -115,17 +105,14 @@ export default function createElementFromJson(
         const part = mergedParts[i];
 
         if (part.startsWith("cwrapSpan")) {
-          // Handle cwrapSpan tag
           const spanElement = document.createElement("span");
           spanElement.isPlaceholder = true;
           element.isPlaceholderCarrier = true;
           element.appendChild(spanElement);
           element.append(part.replace("cwrapSpan", ""));
         } else if (part.startsWith("cwrapTemplate")) {
-          // Handle cwrapTemplate tag
-          const propMap = new Map();
+          const propMap = new Map(properties); // Create a new Map based on current properties
 
-          // Match the cwrapTemplate[...], capturing the template name and properties
           const templateNameWithProps = part.match(
             /cwrapTemplate\[([^\]]+)\]/
           )[1];
@@ -143,14 +130,13 @@ export default function createElementFromJson(
             }
           }
 
-          // Check if the template exists in the global map
           const templateElement = global.map.templatesMap.get(templateName);
           if (templateElement) {
             const clonedTemplateElement = createElementFromJson(
               templateElement,
               undefined,
               undefined,
-              propMap
+              propMap // Pass the updated property map
             ).cloneNode(true);
 
             clonedTemplateElement.isTemplateElement = true;
@@ -165,7 +151,6 @@ export default function createElementFromJson(
             }
           }
         } else if (part.startsWith("cwrapProperty")) {
-          // Handle cwrapProperty tag
           const propertyMatch = part.match(
             /cwrapProperty\[([^\]=]+)=([^\]]+)\]/
           );
@@ -176,7 +161,6 @@ export default function createElementFromJson(
             element.append(mapValue || defaultValue);
           }
         } else {
-          // Handle normal text content
           element.append(part);
         }
       }
@@ -193,7 +177,6 @@ export default function createElementFromJson(
     }
   }
 
-  // Add a custom property if it is the initial load
   if (isInitialLoad && !jsonObj.blueprint) {
     element.customTag = "cwrapPreloaded";
   }
@@ -203,7 +186,7 @@ export default function createElementFromJson(
     let timeStamp;
     do {
       blueprintCounter += 1;
-      timeStamp = `bpm${blueprintCounter}`; // Create index-based value with "bpm"
+      timeStamp = `bpm${blueprintCounter}`;
     } while (global.map.blueprintMap.has(timeStamp));
     return timeStamp;
   }
@@ -222,7 +205,7 @@ export default function createElementFromJson(
         cookedJson,
         isInitialLoad,
         i + 1,
-        properties
+        properties // Pass properties here
       );
       const clonedElement = blueprintElement.cloneNode(true);
       clonedElement.customTag = "cwrapBlueprint";
@@ -230,23 +213,18 @@ export default function createElementFromJson(
     }
   }
 
-  // Add a click event listener to the element
   eventListenerClickElement(element);
 
-  // Check if the JSON object has children elements
   if (selectedJsonObj.children) {
     let spanIndex = 0;
     const spanElements = element.querySelectorAll("span");
-    // Iterate over each child element
     for (const child of jsonObj.children) {
-      // Create the child element from the JSON object
       const childElement = createElementFromJson(
         child,
         isInitialLoad,
         blueprintElementCounter,
-        properties
+        properties // Pass properties here
       );
-      // Append the child element to the parent element
       if (element.isPlaceholderCarrier && spanElements[spanIndex]) {
         spanElements[spanIndex].replaceWith(childElement);
         spanIndex++;
@@ -256,7 +234,6 @@ export default function createElementFromJson(
     }
   }
 
-  // Replace passover elements into the template if the cwrap-passover element is present
   if (jsonObj.element === "cwrap-template" && jsonObj.passover) {
     const passoverElement = element.querySelector("cwrap-passover");
     if (passoverElement) {
@@ -265,7 +242,7 @@ export default function createElementFromJson(
           childJson,
           isInitialLoad,
           blueprintElementCounter,
-          properties
+          properties // Pass properties here
         );
         passoverElement.before(childElement);
       }
@@ -273,6 +250,5 @@ export default function createElementFromJson(
     }
   }
 
-  // Return the created element
   return element;
 }
