@@ -46,7 +46,7 @@ export default function generateCssSelector(
           const templateName =
             templateNameWithProps.match(/.+(?=\()/)?.[0] ||
             templateNameWithProps;
-          const templatePropsMap = new Map();
+          const templatePropsMap = propsMap;
           const propsMatch = templateNameWithProps.match(/\(([^)]+)\)/);
 
           if (propsMatch) {
@@ -64,7 +64,7 @@ export default function generateCssSelector(
               JSON.stringify(templateElement)
             );
             for (const [key, value] of templatePropsMap) {
-              if (value === "cwrapPassProperty" && propsMap.has(key)) {
+              if (propsMap.has(key)) {
                 templatePropsMap.set(key, propsMap.get(key));
               }
             }
@@ -115,6 +115,26 @@ export default function generateCssSelector(
       )})`;
     }
 
+    if (jsonObj.text) {
+      if (jsonObj.text.includes("cwrapProperty")) {
+        const parts = jsonObj.text.split(/(cwrapProperty\[[^\]]+\])/);
+        for (let i = 1; i < parts.length; i++) {
+          if (parts[i].startsWith("cwrapProperty")) {
+            const propertyMatch = parts[i].match(
+              /cwrapProperty\[([^\]=]+)=([^\]]+)\]/
+            );
+            if (propertyMatch) {
+              const [property, defaultValue] = propertyMatch.slice(1);
+              const mapValue = propsMap.get(property);
+              if (mapValue?.includes("cwrapOmit")) {
+                return;
+              }
+            }
+          }
+        }
+      }
+    }
+
     // Handle styles with cwrapProperty
     if (jsonObj.style) {
       if (jsonObj.style.includes("cwrapProperty")) {
@@ -134,6 +154,11 @@ export default function generateCssSelector(
             }
           }
         }
+      }
+
+      // Check if the final style contains cwrapOmit
+      if (jsonObj.style.includes("cwrapOmit")) {
+        return;
       }
 
       if (

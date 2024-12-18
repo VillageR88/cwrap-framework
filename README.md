@@ -30,9 +30,9 @@ Example build: [https://villager88.github.io/cwrap-framework/](https://villager8
 
 ## Note
 
-Captain's Log - Earthdate 30.11.2024:
+Captain's Log - 30.11.2024:
 CWrap has officially transitioned from its alpha phase to beta. The focus is now on optimizing current features, introducing minor improvements, and creating comprehensive documentation to ensure smooth progress and usability for developers.
 
-Captain's Log - Earthdate 17.12.2024:
+Captain's Log - 17.12.2024:
 I find myself making fewer changes to the code, proving that CWrap is functioning well at its current stage. However, I mostly use the GUI as a support tool, helping me understand what’s happening in the preview while I focus on editing the skeleton.json or template.json files. These tasks remain faster and more efficient through direct code editing.
 Despite this progress, certain GUI features for more complex operations such as tree view editing and temporarily abandoned GUI functionalities  still require resolution. These refinements will be necessary to fully unlock the framework's potential and enhance its usability for GUI manipulation.

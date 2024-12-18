@@ -78,7 +78,6 @@ export default function loadPreview(jsonObj) {
   generateCssSelector(jsonObj, "", new Map());
   doc.body.replaceWith(createElementFromJson(jsonObj, true));
   clearDocumentByOmit();
-
   clearDocumentFromPlaceholders(jsonObj);
   addRuntimeScripts();
   applyStyles();

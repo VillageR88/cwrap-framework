@@ -23,11 +23,6 @@ export default function createElementFromJson(
   blueprintElementCounter = undefined,
   properties = new Map() // Ensure properties is always initialized as a Map if not provided
 ) {
-  if (properties.size > 0) {
-    console.log(properties);
-    console.log(jsonObj);
-  }
-
   // Create the element
   const SVG_NAMESPACE = "http://www.w3.org/2000/svg";
   let element;
@@ -154,11 +149,12 @@ export default function createElementFromJson(
           const propertyMatch = part.match(
             /cwrapProperty\[([^\]=]+)=([^\]]+)\]/
           );
-          console.log("propertyMatch", propertyMatch);
           if (propertyMatch) {
             const [property, defaultValue] = propertyMatch.slice(1);
             const mapValue = properties?.get(propertyMatch[1]);
-            element.append(mapValue || defaultValue);
+            if (mapValue !== "cwrapPlaceholder") {
+              element.append(mapValue || defaultValue);
+            }
           }
         } else {
           element.append(part);
