@@ -12,37 +12,36 @@ async function fetchSkeleton(url) {
 
 async function findSkeletonInDynamicFolders() {
   // Remove the last segment of the current path using regex
-  const parentPath = currentPath.replace(/\/[^\/]*$/, "") || "/";
+  const parentPath = currentPath.replace(/\/[^\/]*$/, '') || '/';
   // Capture the last part of the current path
-  const lastPart = currentPath
-    .split("/")
-    .filter((segment) => segment)
-    .pop();
+  const lastPart = currentPath.split('/').filter(segment => segment).pop();
 
   const response = await fetch(`/api/list-directory?path=${parentPath}`);
   if (!response.ok) {
-    throw new Error("Directory listing not found");
+      throw new Error("Directory listing not found");
   }
   const directories = await response.json();
   // Filter directories to only keep those in brackets
-  const bracketDirectories = directories.filter((dir) => /^\[.*\]$/.test(dir));
-  console.log("Filtered directories:", bracketDirectories);
+  const bracketDirectories = directories.filter(dir => /^\[.*\]$/.test(dir));
+  console.log('Filtered directories:', bracketDirectories);
 
   for (const dir of bracketDirectories) {
-    const dynamicJsonUrl = `routes${parentPath}/${dir}/skeleton.json?v=${new Date().getTime()}`;
-    console.log(`Checking URL: ${dynamicJsonUrl}`);
-    try {
-      const skeletonData = await fetchSkeleton(dynamicJsonUrl);
-      if (skeletonData.routes?.includes(lastPart)) {
-        console.log(
-          "Matched route found in skeleton data:",
-          skeletonData.routes
-        );
-        return skeletonData;
+      const dynamicJsonUrl = `routes${parentPath}/${dir}/skeleton.json?v=${new Date().getTime()}`;
+      console.log(`Checking URL: ${dynamicJsonUrl}`);
+      try {
+          const skeletonData = await fetchSkeleton(dynamicJsonUrl);
+          if (skeletonData.routes?.includes(lastPart)) {
+              console.log("Matched route found in skeleton data:", skeletonData.routes);
+              const index = skeletonData.routes.indexOf(lastPart);
+              const updatedSkeletonData = JSON.stringify(skeletonData).replace(/cwrapRoutes\[(.*?)\]/g, (match, p1) => {
+                  const items = p1.split(',');
+                  return items[index];
+              });
+              return JSON.parse(updatedSkeletonData);
+          }
+      } catch (error) {
+          console.warn(`Skeleton source not found in dynamic folder: ${dir}`);
       }
-    } catch (error) {
-      console.warn(`Skeleton source not found in dynamic folder: ${dir}`);
-    }
   }
   throw new Error("Skeleton source not found in dynamic folders");
 }
