@@ -60,7 +60,6 @@ export default function createElementFromJson(
       abandonItem = setJsonObjToEnumItem();
       break;
   }
-
   // Set the element's text content if specified in the JSON object
   if (!abandonItem) {
     const originalText = selectedJsonObj.text || jsonObj.text;
@@ -168,7 +167,28 @@ export default function createElementFromJson(
     if (selectedJsonObj.attributes) {
       for (const [key, value] of Object.entries(selectedJsonObj.attributes)) {
         if (value === "cwrapOmit") continue;
-        element.setAttribute(key, value);
+        if (value.includes("cwrapProperty")) {
+          const parts = value.split(/(cwrapProperty\[[^\]]+\])/g);
+          let finalValue = "";
+
+          for (const part of parts) {
+            if (part.startsWith("cwrapProperty")) {
+              const propertyMatch = part.match(
+                /cwrapProperty\[([^\]=]+)=([^\]]+)\]/
+              );
+              if (propertyMatch) {
+                const [property, defaultValue] = propertyMatch.slice(1);
+                const mapValue = properties?.get(property);
+                finalValue += mapValue || defaultValue;
+              }
+            } else {
+              finalValue += part;
+            }
+          }
+          element.setAttribute(key, finalValue);
+        } else {
+          element.setAttribute(key, value);
+        }
       }
     }
   }
