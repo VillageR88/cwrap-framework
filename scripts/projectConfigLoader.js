@@ -1,4 +1,4 @@
-const configUrl = "config.json";
+const configUrl = "../config.json";
 
 export default async function projectConfigLoader() {
 	try {

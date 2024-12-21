@@ -1,4 +1,4 @@
-const templatesApiUrl = "routes/templates.json";
+const templatesApiUrl = "../routes/templates.json";
 const templatesMap = global.map.templatesMap;
 
 export default function loadTemplatesSource() {
