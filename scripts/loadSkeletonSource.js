@@ -45,15 +45,16 @@ async function findSkeletonInDynamicFolders(parentPath, lastPart) {
 
     try {
       const skeletonData = await fetchSkeleton(dynamicJsonUrl);
-      if (skeletonData.routes?.includes(lastPart)) {
-        console.log("Matched route in skeleton data:", skeletonData.routes);
+      const matchedRoute = skeletonData.routes.find(routeObj => routeObj.route === lastPart);
+      if (matchedRoute) {
+        console.log("Matched route in skeleton data:", matchedRoute);
 
-        const index = skeletonData.routes.indexOf(lastPart);
+        const index = skeletonData.routes.indexOf(matchedRoute);
         const updatedSkeletonData = JSON.stringify(skeletonData).replace(
           /cwrapRoutes\[(.*?)\]/g,
           (match, p1) => {
-            const items = p1.split(",");
-            return items[index];
+        const items = p1.split(",");
+        return items[index];
           }
         );
         return { skeletonData: JSON.parse(updatedSkeletonData), resolvedDir: dir };

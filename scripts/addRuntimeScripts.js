@@ -6,7 +6,7 @@
 export default function addRuntimeScripts() {
     const doc = global.id.doc;
 	const mainScript = doc.createElement("script");
-	mainScript.src = "scripts/cwrapFunctions.js";
+	mainScript.src = "../scripts/cwrapFunctions.js";
 	mainScript.type = "module";
 	mainScript.customTag = "cwrapTempScript";
 	doc.body.appendChild(mainScript);
