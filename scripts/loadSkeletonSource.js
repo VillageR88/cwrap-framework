@@ -23,9 +23,14 @@ async function fetchSkeleton(url) {
  * Attempt to find skeleton JSON in dynamic folder structure.
  * @param {string} parentPath - Parent directory path.
  * @param {string} lastPart - Last part of the URL to match.
+ * @param {string} previousRoute - The previous route segment.
  * @returns {Promise<Object>} - The fetched skeleton data.
  */
-async function findSkeletonInDynamicFolders(parentPath, lastPart) {
+async function findSkeletonInDynamicFolders(
+  parentPath,
+  lastPart,
+  previousRoute
+) {
   const response = await fetch(`/api/list-directory?path=${parentPath}`);
   if (!response.ok) {
     console.error("Failed to fetch directory listing");
@@ -40,15 +45,29 @@ async function findSkeletonInDynamicFolders(parentPath, lastPart) {
 
   // Iterate over each dynamic folder and attempt to find the skeleton.json
   for (const dir of bracketDirectories) {
-    const dynamicJsonUrl = `${window.location.origin}/routes${parentPath}/${dir}/skeleton.json?v=${new Date().getTime()}`;
+    const dynamicJsonUrl = `${
+      window.location.origin
+    }/routes${parentPath}/${dir}/skeleton.json?v=${new Date().getTime()}`;
     console.log(`Checking skeleton at: ${dynamicJsonUrl}`);
 
     try {
       const skeletonData = await fetchSkeleton(dynamicJsonUrl);
-      if (skeletonData.routes?.includes(lastPart)) {
-        console.log("Matched route in skeleton data:", skeletonData.routes);
+      const matchedRoute = skeletonData.routes.find(
+        (routeObj) => routeObj.route === lastPart
+      );
+      if (matchedRoute) {
+        console.log("Matched route in skeleton data:", matchedRoute);
+        console.log("matchedRoute.parent", matchedRoute.parent);
+        console.log("previousRoute", previousRoute);
+        // Check if the parent route matches the previous route
+        if (matchedRoute.parent && matchedRoute.parent !== previousRoute) {
+          console.warn(
+            `Parent route "${matchedRoute.parent}" does not match previous route "${previousRoute}"`
+          );
+          continue; // Skip this match if the parent route does not match
+        }
 
-        const index = skeletonData.routes.indexOf(lastPart);
+        const index = skeletonData.routes.indexOf(matchedRoute);
         const updatedSkeletonData = JSON.stringify(skeletonData).replace(
           /cwrapRoutes\[(.*?)\]/g,
           (match, p1) => {
@@ -56,7 +75,10 @@ async function findSkeletonInDynamicFolders(parentPath, lastPart) {
             return items[index];
           }
         );
-        return { skeletonData: JSON.parse(updatedSkeletonData), resolvedDir: dir };
+        return {
+          skeletonData: JSON.parse(updatedSkeletonData),
+          resolvedDir: dir,
+        };
       }
     } catch (error) {
       console.warn(
@@ -84,6 +106,7 @@ export default async function loadSkeletonSource() {
   // If the path has segments, look through each to find skeleton in dynamic folders
   let finalSkeleton = null; // Variable to hold the final skeleton result
   let resolvedPath = ""; // Variable to hold the resolved path
+  let previousRoute = ""; // Variable to hold the previous route segment
 
   // Loop through all path segments to check for dynamic skeleton files
   for (let i = 0; i < urlArray.length; i++) {
@@ -95,22 +118,36 @@ export default async function loadSkeletonSource() {
 
     try {
       // First, check if the current segment is a static folder
-      const staticSkeletonUrl = `${window.location.origin}/routes${partialPath}/skeleton.json?v=${new Date().getTime()}`;
+      const staticSkeletonUrl = `${
+        window.location.origin
+      }/routes${partialPath}/skeleton.json?v=${new Date().getTime()}`;
       console.log(`Checking static skeleton at: ${staticSkeletonUrl}`);
       finalSkeleton = await fetchSkeleton(staticSkeletonUrl);
       console.log(`Found static skeleton for ${lastPart}:`, finalSkeleton);
       resolvedPath += `/${lastPart}`; // Update the resolved path
+      previousRoute = lastPart; // Update the previous route
       continue; // If found, continue to the next segment
     } catch (staticError) {
-      console.warn(`Static skeleton not found for partial path: ${partialPath}`, staticError);
+      console.warn(
+        `Static skeleton not found for partial path: ${partialPath}`,
+        staticError
+      );
     }
 
     try {
       // If not found as a static folder, check for dynamic folders
-      const result = await findSkeletonInDynamicFolders(parentPath, lastPart);
+      const result = await findSkeletonInDynamicFolders(
+        parentPath,
+        lastPart,
+        previousRoute
+      );
       finalSkeleton = result.skeletonData;
       urlArray[i] = result.resolvedDir; // Update the urlArray with the resolved dynamic part
+      console.log("Here", lastPart);
+
       resolvedPath += `/${result.resolvedDir}`; // Update the resolved path with the dynamic part
+      previousRoute = lastPart; // Update the previous route with the resolved dynamic part
+
       console.log(`Found dynamic skeleton for ${lastPart}:`, finalSkeleton);
       // Continue to the next segment to check deeper if needed
     } catch (dynamicError) {
@@ -134,7 +171,8 @@ export default async function loadSkeletonSource() {
       try {
         finalSkeleton = await findSkeletonInDynamicFolders(
           "/",
-          currentPath.split("/").pop()
+          currentPath.split("/").pop(),
+          previousRoute
         ).skeletonData;
       } catch (dynamicError) {
         console.warn(

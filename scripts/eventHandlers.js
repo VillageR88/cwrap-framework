@@ -78,7 +78,6 @@ import { notNthEnumerableElements } from "./_const.js";
  */
 export const eventHandlers = () => {
   const cssProperties = getCssProperties();
-
   const headMap = global.map.headMap;
   const rootMap = global.map.rootMap;
   const fontMap = global.map.fontMap;
