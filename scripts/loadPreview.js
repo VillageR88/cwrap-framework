@@ -68,7 +68,8 @@ export default function loadPreview(jsonObj, jsonObjGlobals) {
   addLinks(head, jsonObj);
   html.appendChild(head);
   html.appendChild(body);
-  generateClassroomMap(jsonObj);
+  generateClassroomMap(jsonObjGlobals, jsonObj);
+  console.log(global.map.classroomMap);
   generateCssSelector(jsonObj, "", new Map());
   const bodyElement = createElementFromJson(jsonObj, true);
   clearDocumentByOmit(bodyElement);
