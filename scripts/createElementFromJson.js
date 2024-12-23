@@ -21,8 +21,13 @@ export default function createElementFromJson(
   jsonObj,
   isInitialLoad = undefined,
   blueprintElementCounter = undefined,
-  properties = new Map() // Ensure properties is always initialized as a Map if not provided
+  properties = new Map(), // Ensure properties is always initialized as a Map if not provided
+  omit = []
 ) {
+  if (omit.includes(jsonObj["omit-id"])) {
+    jsonObj.text = "cwrapOmit";
+  }
+
   // Create the element
   const SVG_NAMESPACE = "http://www.w3.org/2000/svg";
   let element;
@@ -130,7 +135,8 @@ export default function createElementFromJson(
               templateElement,
               undefined,
               undefined,
-              propMap // Pass the updated property map
+              propMap,
+              jsonObj?.omit || []
             ).cloneNode(true);
 
             clonedTemplateElement.isTemplateElement = true;
@@ -221,7 +227,8 @@ export default function createElementFromJson(
         cookedJson,
         isInitialLoad,
         i + 1,
-        properties // Pass properties here
+        properties,
+        omit
       );
       const clonedElement = blueprintElement.cloneNode(true);
       clonedElement.customTag = "cwrapBlueprint";
@@ -239,7 +246,8 @@ export default function createElementFromJson(
         child,
         isInitialLoad,
         blueprintElementCounter,
-        properties // Pass properties here
+        properties,
+        omit
       );
       if (element.isPlaceholderCarrier && spanElements[spanIndex]) {
         spanElements[spanIndex].replaceWith(childElement);
@@ -258,7 +266,8 @@ export default function createElementFromJson(
           childJson,
           isInitialLoad,
           blueprintElementCounter,
-          properties // Pass properties here
+          properties,
+          omit
         );
         passoverElement.before(childElement);
       }

@@ -24,7 +24,8 @@ export default function generateCssSelector(
   siblingCountMap = new Map(),
   blueprintCounter = undefined,
   propsMap = new Map(),
-  passover = []
+  passover = [],
+  omit = []
 ) {
   const cssMap = global.map.cssMap;
   const mediaQueriesMap = global.map.mediaQueriesMap;
@@ -32,6 +33,9 @@ export default function generateCssSelector(
   let selector = parentSelector;
 
   if (jsonObj.element) {
+    if (omit.includes(jsonObj["omit-id"])) {
+      return;
+    }
     const element = jsonObj.element;
     if (!jsonObj.text) jsonObj.text = "";
 
@@ -75,7 +79,8 @@ export default function generateCssSelector(
               siblingCountMap,
               blueprintCounter,
               templatePropsMap,
-              jsonObj.passover || []
+              jsonObj.passover || [],
+              jsonObj?.omit || []
             );
           }
           return;
@@ -91,7 +96,9 @@ export default function generateCssSelector(
           parentSelector,
           siblingCountMap,
           blueprintCounter,
-          propsMap
+          propsMap,
+          passover,
+          omit
         );
       }
       return;
@@ -200,7 +207,8 @@ export default function generateCssSelector(
           siblingCountMap,
           blueprintCounter,
           propsMap,
-          passover
+          passover,
+          omit
         );
       }
     }
@@ -223,7 +231,8 @@ export default function generateCssSelector(
           siblingCountMap,
           i + 1,
           propsMap,
-          passover
+          passover,
+          omit
         );
       }
     }
