@@ -20,8 +20,9 @@ import populateAllCustomDevices from "./populateAllCustomDevices.js";
  * @param {JsonObject} jsonObj - The JSON object representing the skeleton body template.
  * @returns {void}
  */
-export default function loadPreview(jsonObj) {
+export default function loadPreview(jsonObj, jsonObjGlobals) {
   const doc = global.id.doc;
+  console.log(jsonObjGlobals);
 
   if (typeof jsonObj !== "object" || jsonObj === null) {
     throw new Error("jsonObj is not an object");
@@ -54,7 +55,8 @@ export default function loadPreview(jsonObj) {
   metaViewport.setAttribute("content", "width=device-width, initial-scale=1.0");
   metaKeywords.setAttribute("name", "keywords");
   metaKeywords.setAttribute("content", jsonObj.head?.meta?.keywords || "");
-  if (jsonObj.head) title.textContent = jsonObj.head.title;
+  if (jsonObjGlobals.head) title.textContent = jsonObjGlobals.head.title;
+  else if (jsonObj.head) title.textContent = jsonObj.head.title;
   const style = doc.createElement("style");
   style.id = "custom-styles";
   head.appendChild(metaCharset);

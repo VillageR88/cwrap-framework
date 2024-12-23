@@ -7,7 +7,7 @@ import loadFont from "./loadFont.js";
 import loadPreview from "./loadPreview.js";
 
 export default async function initialLoader() {
-  await loadGlobalsSource();
+  const jsonObjGlobals = await loadGlobalsSource();
   await loadTemplatesSource();
   loadSkeletonSource()
     .then((jsonObj) => {
@@ -18,7 +18,7 @@ export default async function initialLoader() {
       loadHead(jsonObj);
       loadFont(jsonObj);
       loadRoot(jsonObj);
-      loadPreview(jsonObj);
+      loadPreview(jsonObj, jsonObjGlobals);
     })
     .catch((error) => {
       console.error("Error loading skeleton source:", error);
