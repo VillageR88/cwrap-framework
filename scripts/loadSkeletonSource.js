@@ -104,7 +104,6 @@ export default async function loadSkeletonSource() {
     const parentPath = `${resolvedPath}`;
     const lastPart = urlArray[i]; // Last part of the URL for current segment
 
-
     try {
       // First, check if the current segment is a static folder
       const staticSkeletonUrl = `${
@@ -114,12 +113,7 @@ export default async function loadSkeletonSource() {
       resolvedPath += `/${lastPart}`; // Update the resolved path
       previousRoute = lastPart; // Update the previous route
       continue; // If found, continue to the next segment
-    } catch (staticError) {
-      console.warn(
-        `Static skeleton not found for partial path: ${partialPath}`,
-        staticError
-      );
-    }
+    } catch (staticError) {}
 
     try {
       // If not found as a static folder, check for dynamic folders
@@ -135,12 +129,7 @@ export default async function loadSkeletonSource() {
       previousRoute = lastPart; // Update the previous route with the resolved dynamic part
 
       // Continue to the next segment to check deeper if needed
-    } catch (dynamicError) {
-      console.warn(
-        `Failed to find skeleton for partial path: ${partialPath}`,
-        dynamicError
-      );
-    }
+    } catch (dynamicError) {}
   }
 
   // If no dynamic folder match is found, fallback to the direct skeleton URL
@@ -148,10 +137,6 @@ export default async function loadSkeletonSource() {
     try {
       finalSkeleton = await fetchSkeleton(url);
     } catch (error) {
-      console.warn(
-        "Failed to fetch direct skeleton, trying dynamic folders.",
-        error
-      );
       try {
         finalSkeleton = await findSkeletonInDynamicFolders(
           "/",
@@ -159,10 +144,6 @@ export default async function loadSkeletonSource() {
           previousRoute
         ).skeletonData;
       } catch (dynamicError) {
-        console.warn(
-          "Skeleton source not found in dynamic folders, loading empty template instead.",
-          dynamicError
-        );
         const urlEmptyJsonTemplate = `${skeletonEmptyTemplate}?v=${new Date().getTime()}`;
         finalSkeleton = await fetchSkeleton(urlEmptyJsonTemplate);
       }

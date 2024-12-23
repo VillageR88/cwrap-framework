@@ -23,7 +23,6 @@ import populateAllCustomDevices from "./populateAllCustomDevices.js";
  */
 export default function loadPreview(jsonObj, jsonObjGlobals) {
   const doc = global.id.doc;
-  console.log(jsonObjGlobals);
 
   if (typeof jsonObj !== "object" || jsonObj === null) {
     throw new Error("jsonObj is not an object");
