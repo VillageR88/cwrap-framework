@@ -590,6 +590,7 @@ const global = {
     /** @type {Map<string, object>} */
     classroomMap: new Map(),
     templatesMap: new Map(),
+    globalsMap: new Map(),
     cssMap: new Map(),
     fontMap: new Map(),
     headMap: new Map(),

@@ -1,3 +1,4 @@
+import loadGlobalsSource from "./loadGlobalsSource.js";
 import loadTemplatesSource from "./loadTemplatesSource.js";
 import loadSkeletonSource from "./loadSkeletonSource.js";
 import loadRoot from "./loadRoot.js";
@@ -5,8 +6,9 @@ import loadHead from "./loadHead.js";
 import loadFont from "./loadFont.js";
 import loadPreview from "./loadPreview.js";
 
-export default function initialLoader() {
-  loadTemplatesSource();
+export default async function initialLoader() {
+  await loadGlobalsSource();
+  await loadTemplatesSource();
   loadSkeletonSource()
     .then((jsonObj) => {
       if (typeof jsonObj !== "object" || jsonObj === null) {

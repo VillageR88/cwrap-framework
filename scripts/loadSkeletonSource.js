@@ -6,7 +6,6 @@ const skeletonEmptyTemplate = `${window.location.origin}/templates/empty/routes/
  * Fetch skeleton JSON from a given URL.
  */
 async function fetchSkeleton(url) {
-  console.log(`Fetching skeleton from: ${url}`);
   const response = await fetch(url);
   if (!response.ok) {
     console.error(
@@ -15,7 +14,6 @@ async function fetchSkeleton(url) {
     throw new Error("Skeleton source not found");
   }
   const data = await response.json();
-  console.log("Fetched skeleton data:", data);
   return data;
 }
 
@@ -37,18 +35,15 @@ async function findSkeletonInDynamicFolders(
     throw new Error("Directory listing not found");
   }
   const directories = await response.json();
-  console.log("Fetched directory listing:", directories);
 
   // Filter directories to find dynamic ones
   const bracketDirectories = directories.filter((dir) => /^\[.*\]$/.test(dir));
-  console.log("Filtered dynamic directories:", bracketDirectories);
 
   // Iterate over each dynamic folder and attempt to find the skeleton.json
   for (const dir of bracketDirectories) {
     const dynamicJsonUrl = `${
       window.location.origin
     }/routes${parentPath}/${dir}/skeleton.json?v=${new Date().getTime()}`;
-    console.log(`Checking skeleton at: ${dynamicJsonUrl}`);
 
     try {
       const skeletonData = await fetchSkeleton(dynamicJsonUrl);
@@ -56,9 +51,6 @@ async function findSkeletonInDynamicFolders(
         (routeObj) => routeObj.route === lastPart
       );
       if (matchedRoute) {
-        console.log("Matched route in skeleton data:", matchedRoute);
-        console.log("matchedRoute.parent", matchedRoute.parent);
-        console.log("previousRoute", previousRoute);
         // Check if the parent route matches the previous route
         if (matchedRoute.parent && matchedRoute.parent !== previousRoute) {
           console.warn(
@@ -101,8 +93,6 @@ export default async function loadSkeletonSource() {
   const url = `${skeletonApiUrl}?v=${new Date().getTime()}`;
   const urlArray = currentPath.split("/").filter(Boolean);
 
-  console.log("Current path array:", urlArray); // Logs path segments for debugging
-
   // If the path has segments, look through each to find skeleton in dynamic folders
   let finalSkeleton = null; // Variable to hold the final skeleton result
   let resolvedPath = ""; // Variable to hold the resolved path
@@ -114,16 +104,13 @@ export default async function loadSkeletonSource() {
     const parentPath = `${resolvedPath}`;
     const lastPart = urlArray[i]; // Last part of the URL for current segment
 
-    console.log(`Trying to find skeleton for partial path: ${partialPath}`);
 
     try {
       // First, check if the current segment is a static folder
       const staticSkeletonUrl = `${
         window.location.origin
       }/routes${partialPath}/skeleton.json?v=${new Date().getTime()}`;
-      console.log(`Checking static skeleton at: ${staticSkeletonUrl}`);
       finalSkeleton = await fetchSkeleton(staticSkeletonUrl);
-      console.log(`Found static skeleton for ${lastPart}:`, finalSkeleton);
       resolvedPath += `/${lastPart}`; // Update the resolved path
       previousRoute = lastPart; // Update the previous route
       continue; // If found, continue to the next segment
@@ -143,12 +130,10 @@ export default async function loadSkeletonSource() {
       );
       finalSkeleton = result.skeletonData;
       urlArray[i] = result.resolvedDir; // Update the urlArray with the resolved dynamic part
-      console.log("Here", lastPart);
 
       resolvedPath += `/${result.resolvedDir}`; // Update the resolved path with the dynamic part
       previousRoute = lastPart; // Update the previous route with the resolved dynamic part
 
-      console.log(`Found dynamic skeleton for ${lastPart}:`, finalSkeleton);
       // Continue to the next segment to check deeper if needed
     } catch (dynamicError) {
       console.warn(
@@ -161,7 +146,6 @@ export default async function loadSkeletonSource() {
   // If no dynamic folder match is found, fallback to the direct skeleton URL
   if (!finalSkeleton) {
     try {
-      console.log(`Attempting to fetch skeleton from direct URL: ${url}`);
       finalSkeleton = await fetchSkeleton(url);
     } catch (error) {
       console.warn(
