@@ -1,5 +1,6 @@
 import populateSelectOptions from "./populateSelectOptions.js";
 import createElementFromJson from "./createElementFromJson.js";
+import addLinks from "./addLinks.js";
 import generateClassroomMap from "./generateClassroomMap.js";
 import generateCssSelector from "./generateCssSelector.js";
 import applyStyles from "./applyStyles.js";
@@ -64,16 +65,8 @@ export default function loadPreview(jsonObj, jsonObjGlobals) {
   head.appendChild(metaKeywords);
   head.appendChild(title);
   head.appendChild(style);
-  if (jsonObj.head?.link) {
-    for (let i = 0; i < jsonObj.head.link.length; i++) {
-      const linkObj = jsonObj.head.link[i];
-      const link = doc.createElement("link");
-      for (const [key, value] of Object.entries(linkObj)) {
-        link.setAttribute(key, value);
-      }
-      head.appendChild(link);
-    }
-  }
+  addLinks(head, jsonObjGlobals);
+  addLinks(head, jsonObj);
   html.appendChild(head);
   html.appendChild(body);
   generateClassroomMap(jsonObj);
