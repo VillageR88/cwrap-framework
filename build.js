@@ -1,6 +1,8 @@
 const mkdirp = require("mkdirp");
 const fs = require("node:fs");
 const path = require("node:path");
+const { JSDOM } = require("jsdom");
+const { document } = new JSDOM().window;
 
 const cssMap = new Map();
 const mediaQueriesMap = new Map();
@@ -8,6 +10,26 @@ const notNthEnumerableElements = ["body", "nav", "header", "main", "footer"];
 
 const templatesApiUrl = path.join(__dirname, "routes", "templates.json");
 const templatesMap = new Map();
+const globalsJsonPath = path.join(__dirname, "routes", "globals.json");
+
+function clearDocumentByOmit(htmlString) {
+  // Create a DOM from the provided HTML string
+  const dom = new JSDOM(htmlString);
+  const document = dom.window.document;
+
+  // Get all elements in the body
+  const elements = document.getElementsByTagName("*");
+
+  // Iterate in reverse order and remove elements containing "cwrapOmit"
+  for (let i = elements.length - 1; i >= 0; i--) {
+    if (elements[i].textContent.includes("cwrapOmit")) {
+      elements[i].parentNode.removeChild(elements[i]);
+    }
+  }
+
+  // Return the updated HTML as a string
+  return document.body.innerHTML;
+}
 
 function loadTemplates() {
   if (fs.existsSync(templatesApiUrl)) {
@@ -23,134 +45,263 @@ function loadTemplates() {
 
 loadTemplates();
 
-function generateHtmlFromJson(jsonObj, properties = new Map()) {
-  if (jsonObj?.text?.includes("cwrapOmit")) {
-    return "";
+/**
+ * Creates a DOM element from the provided JSON object and adds it to the preview document (iframe).
+ *
+ * @param {JsonObject} jsonObj - The JSON object representing the element.
+ * @param {boolean} [isInitialLoad] - Flag indicating if this is the initial load.
+ * @param {number} [blueprintElementCounter]
+ * @param {Map} [properties]
+ * @returns {HTMLElement} - The created DOM element.
+ */
+function createElementFromJson(
+  jsonObj,
+  isInitialLoad = undefined,
+  blueprintElementCounter = undefined,
+  properties = new Map(), // Ensure properties is always initialized as a Map if not provided
+  omit = []
+) {
+  if (omit.includes(jsonObj["omit-id"])) {
+    jsonObj.text = "cwrapOmit";
   }
-  let html = "";
-  if (Object.prototype.hasOwnProperty.call(jsonObj, "element")) {
-    const element = jsonObj.element;
-    html += `<${element}`;
 
-    if (Object.prototype.hasOwnProperty.call(jsonObj, "class")) {
-      html += ` class="${jsonObj.class}"`;
-    }
+  // Create the element
+  const SVG_NAMESPACE = "http://www.w3.org/2000/svg";
+  let element;
+  if (
+    jsonObj.element === "svg" ||
+    jsonObj.element === "path" ||
+    jsonObj.element === "circle" ||
+    jsonObj.element === "g"
+  ) {
+    element = document.createElementNS(SVG_NAMESPACE, jsonObj.element);
+  } else {
+    element = document.createElement(jsonObj.element);
+  }
 
-    if (Object.prototype.hasOwnProperty.call(jsonObj, "attributes")) {
-      for (const [key, value] of Object.entries(jsonObj.attributes)) {
-        if (value !== "cwrapOmit") html += ` ${key}="${value}"`;
+  let selectedJsonObj = jsonObj;
+
+  function setJsonObjToEnumItem() {
+    for (const enumItem of jsonObj.enum) {
+      if (blueprintElementCounter === Number(enumItem.nth)) {
+        selectedJsonObj = enumItem;
+        return false;
       }
     }
+    return true;
+  }
 
-    // Check if the element is a self-closing tag
-    if (["img", "br", "hr", "input", "meta", "link"].includes(element)) {
-      html += " />";
-    } else {
-      html += ">";
+  let abandonItem = false;
+  switch (jsonObj.alter) {
+    case "none":
+      break;
+    case "partial":
+      setJsonObjToEnumItem();
+      break;
+    case "full":
+      abandonItem = setJsonObjToEnumItem();
+      break;
+  }
+  // Set the element's text content if specified in the JSON object
+  if (!abandonItem) {
+    const originalText = selectedJsonObj.text || jsonObj.text;
+    element.cwrapText = originalText ?? "";
 
-      // Check for cwrapOmit and return early if found
-      if (Object.prototype.hasOwnProperty.call(jsonObj, "text")) {
-        const originalText = jsonObj.text;
+    // Check if the text contains any of the special tags
+    if (
+      originalText?.includes("cwrapSpan") ||
+      originalText?.includes("cwrapTemplate") ||
+      originalText?.includes("cwrapProperty")
+    ) {
+      const parts = originalText.split(
+        /(cwrapSpan|cwrapTemplate\[[^\]]*\]|cwrapProperty\[[^\]]*\])/g
+      );
+      const mergedParts = [];
+      let tempPart = "";
 
-        if (
-          originalText?.includes("cwrapSpan") ||
-          originalText?.includes("cwrapTemplate") ||
-          originalText?.includes("cwrapProperty")
-        ) {
-          const parts = originalText.split(
-            /(cwrapSpan|cwrapTemplate\[[^\]]+\]|cwrapProperty\[[^\]]+\])/
+      for (let i = 0; i < parts.length; i++) {
+        if (parts[i].startsWith("cwrapSpan")) {
+          if (tempPart) {
+            mergedParts.push(tempPart);
+            tempPart = "";
+          }
+          mergedParts.push(parts[i]);
+        } else {
+          tempPart += parts[i];
+        }
+      }
+      if (tempPart) {
+        mergedParts.push(tempPart);
+      }
+
+      // Process each part and handle cwrapSpan, cwrapTemplate, and cwrapProperty tags
+      element.textContent = ""; // Clear the initial content before appending processed parts
+
+      for (let i = 0; i < mergedParts.length; i++) {
+        const part = mergedParts[i];
+
+        if (part.startsWith("cwrapSpan")) {
+          const spanElement = document.createElement("span");
+          spanElement.isPlaceholder = true;
+          element.isPlaceholderCarrier = true;
+          element.appendChild(spanElement);
+          element.append(part.replace("cwrapSpan", ""));
+        } else if (part.startsWith("cwrapTemplate")) {
+          const propMap = new Map(properties); // Create a new Map based on current properties
+
+          const templateNameWithProps = part.match(
+            /cwrapTemplate\[([^\]]+)\]/
+          )[1];
+          const templateName =
+            templateNameWithProps.match(/.+(?=\()/)?.[0] ||
+            templateNameWithProps;
+          const templateProps =
+            templateNameWithProps.match(/(?<=\().+(?=\))/)?.[0];
+
+          if (templateProps) {
+            const propsArray = templateProps.split(",");
+            for (const prop of propsArray) {
+              const [key, value] = prop.split("=");
+              propMap.set(key, value);
+            }
+          }
+
+          const templateElement = templatesMap.get(templateName);
+          if (templateElement) {
+            const clonedTemplateElement = createElementFromJson(
+              templateElement,
+              undefined,
+              undefined,
+              propMap,
+              jsonObj?.omit || []
+            ).cloneNode(true);
+
+            clonedTemplateElement.isTemplateElement = true;
+
+            if (jsonObj.element === "cwrap-template") {
+              clonedTemplateElement.isTemplateElementAnchor = true;
+              clonedTemplateElement.templateElement = templateNameWithProps;
+              element = clonedTemplateElement;
+              jsonObj.templateName = true;
+            } else {
+              element.appendChild(clonedTemplateElement);
+            }
+          }
+        } else if (part.startsWith("cwrapProperty")) {
+          const propertyMatch = part.match(
+            /cwrapProperty\[([^\]=]+)=([^\]]+)\]/
           );
-          html += parts[0];
-          for (let i = 1; i < parts.length; i++) {
-            if (parts[i].startsWith("cwrapSpan")) {
-              html += `<span data-cwrap-placeholder="true"></span>${parts[
-                i
-              ].replace("cwrapSpan", "")}`;
-            } else if (parts[i].startsWith("cwrapTemplate")) {
-              const propMap = new Map();
+          if (propertyMatch) {
+            const [property, defaultValue] = propertyMatch.slice(1);
+            const mapValue = properties?.get(propertyMatch[1]);
+            if (mapValue !== "cwrapPlaceholder") {
+              element.append(mapValue || defaultValue);
+            }
+          }
+        } else {
+          element.append(part);
+        }
+      }
+    } else {
+      element.textContent = originalText;
+    }
 
-              const templateNameWithProps = parts[i].match(
-                /cwrapTemplate\[([^\]]+)\]/
-              )[1];
-              const templateName =
-                templateNameWithProps.match(/.+(?=\()/)?.[0] ||
-                templateNameWithProps;
-              const templateProps =
-                templateNameWithProps.match(/(?<=\().+(?=\))/)?.[0];
-              if (templateProps) {
-                const propsArray = templateProps.split(",");
-                for (const prop of propsArray) {
-                  const [key, value] = prop.split("=");
-                  propMap.set(key, value);
-                }
-              }
-              const templateElement = templatesMap.get(templateName);
-              if (templateElement) {
-                const clonedTemplateHtml = generateHtmlFromJson(
-                  templateElement,
-                  propMap
-                );
-                if (jsonObj.element === "cwrap-template") {
-                  return clonedTemplateHtml;
-                }
-                html += clonedTemplateHtml;
-              }
-            } else if (parts[i].startsWith("cwrapProperty")) {
-              const propertyMatch = parts[i].match(
+    // Set additional attributes if specified in the JSON object
+    if (selectedJsonObj.attributes) {
+      for (const [key, value] of Object.entries(selectedJsonObj.attributes)) {
+        if (value === "cwrapOmit") continue;
+        if (value.includes("cwrapProperty")) {
+          const parts = value.split(/(cwrapProperty\[[^\]]+\])/g);
+          let finalValue = "";
+
+          for (const part of parts) {
+            if (part.startsWith("cwrapProperty")) {
+              const propertyMatch = part.match(
                 /cwrapProperty\[([^\]=]+)=([^\]]+)\]/
               );
               if (propertyMatch) {
                 const [property, defaultValue] = propertyMatch.slice(1);
-                const mapValue = properties.get(propertyMatch[1]);
-                html += mapValue || defaultValue;
+                const mapValue = properties?.get(property);
+                finalValue += mapValue || defaultValue;
               }
             } else {
-              html += parts[i];
+              finalValue += part;
             }
           }
+          element.setAttribute(key, finalValue);
         } else {
-          html += originalText;
+          element.setAttribute(key, value);
         }
       }
-
-      if (Object.prototype.hasOwnProperty.call(jsonObj, "blueprint")) {
-        const blueprint = jsonObj.blueprint;
-        const count = blueprint.count;
-        for (let i = 0; i < count; i++) {
-          let blueprintJson = replacePlaceholdersCwrapIndex(blueprint, i);
-          blueprintJson = replacePlaceholdersCwrapArray(blueprintJson, i);
-          html += generateHtmlFromJson(blueprintJson, properties);
-        }
-      }
-
-      if (Object.prototype.hasOwnProperty.call(jsonObj, "children")) {
-        let spanIndex = 0;
-        const spanElements =
-          html.match(/<span data-cwrap-placeholder="true"><\/span>/g) || [];
-        for (const child of jsonObj.children) {
-          const childHtml = generateHtmlFromJson(child, properties);
-          if (spanElements[spanIndex]) {
-            html = html.replace(
-              '<span data-cwrap-placeholder="true"></span>',
-              childHtml
-            );
-            spanIndex++;
-          } else {
-            html += childHtml;
-          }
-        }
-      }
-
-      html += `</${element}>`;
     }
   }
 
-  return html;
+  if (isInitialLoad && !jsonObj.blueprint) {
+    element.customTag = "cwrapPreloaded";
+  }
+
+  if (jsonObj.blueprint) {
+    const count = jsonObj.blueprint.count;
+    for (let i = 0; i < count; i++) {
+      let cookedJson = replacePlaceholdersCwrapArray(jsonObj.blueprint, i);
+      cookedJson = replacePlaceholdersCwrapIndex(cookedJson, i);
+      const blueprintElement = createElementFromJson(
+        cookedJson,
+        isInitialLoad,
+        i + 1,
+        properties,
+        omit
+      );
+      const clonedElement = blueprintElement.cloneNode(true);
+      clonedElement.customTag = "cwrapBlueprint";
+      element.appendChild(clonedElement);
+    }
+  }
+
+  if (selectedJsonObj.children) {
+    let spanIndex = 0;
+    const spanElements = element.querySelectorAll("span");
+    for (const child of jsonObj.children) {
+      const childElement = createElementFromJson(
+        child,
+        isInitialLoad,
+        blueprintElementCounter,
+        properties,
+        omit
+      );
+      if (element.isPlaceholderCarrier && spanElements[spanIndex]) {
+        spanElements[spanIndex].replaceWith(childElement);
+        spanIndex++;
+      } else if (!childElement.isOmitted) {
+        element.appendChild(childElement);
+      }
+    }
+  }
+
+  if (jsonObj.element === "cwrap-template" && jsonObj.passover) {
+    const passoverElement = element.querySelector("cwrap-passover");
+    if (passoverElement) {
+      for (const childJson of jsonObj.passover) {
+        const childElement = createElementFromJson(
+          childJson,
+          isInitialLoad,
+          blueprintElementCounter,
+          properties,
+          omit
+        );
+        passoverElement.before(childElement);
+      }
+      passoverElement.remove();
+    }
+  }
+
+  return element;
 }
 
 let hasCwrapGetParams = false;
 function generateHtmlWithScript(jsonObj, jsonFilePath) {
-  let html = generateHtmlFromJson(jsonObj);
+  let html = createElementFromJson(jsonObj);
+  console.log(html);
 
   // Calculate the depth based on the JSON file's path relative to the routes folder
   const relativePath = path.relative(
@@ -228,7 +379,7 @@ function copyFaviconToRoot(buildDir) {
   }
 }
 
-function generateHeadHtml(head, buildDir) {
+function generateHeadHtml(head, buildDir, depth) {
   let headHtml = "<head>\n";
   const prefix = process.env.PAGE_URL;
   if (prefix) {
@@ -269,11 +420,16 @@ function generateHeadHtml(head, buildDir) {
   // Add additional tags like link
   headHtml += '    <link rel="stylesheet" href="styles.css">\n';
 
+  // Add globals.css with correct relative path
+  const globalsCssPath = `${"../".repeat(depth)}globals.css`;
+  headHtml += `    <link rel="stylesheet" href="${globalsCssPath}">\n`;
+
   headHtml += "</head>";
   return headHtml;
 }
 
 function processRouteDirectory(routeDir, buildDir) {
+  console.log("routeDir", routeDir);
   const jsonFile = path.join(routeDir, "skeleton.json");
   if (!fs.existsSync(jsonFile)) {
     console.error(`Error: Could not open ${jsonFile} file!`);
@@ -288,17 +444,26 @@ function processRouteDirectory(routeDir, buildDir) {
   // Generate head content
   let headContent = "";
   if (Object.prototype.hasOwnProperty.call(jsonObj, "head")) {
-    headContent = generateHeadHtml(jsonObj.head, buildDir);
+    let globalsHead = {};
+    if (fs.existsSync(globalsJsonPath)) {
+      const globalsJson = JSON.parse(fs.readFileSync(globalsJsonPath, "utf8"));
+      if (globalsJson.head) {
+        globalsHead = globalsJson.head;
+      }
+    }
+    const mergedHead = { ...globalsHead, ...jsonObj.head };
+    headContent = generateHeadHtml(mergedHead, buildDir);
   }
 
   // Generate HTML content from JSON and append the script tag
   const bodyContent = generateHtmlWithScript(jsonObj, jsonFile);
-
+  let bodyHtml = bodyContent.outerHTML;
+  bodyHtml = clearDocumentByOmit(bodyHtml);
   const webContent = `
 <!DOCTYPE html>
 <html lang="en">
 ${headContent}
-${bodyContent}
+<body>${bodyHtml}</body>
 </html>
 `;
 
@@ -387,6 +552,76 @@ ${bodyContent}
   cssMap.clear();
   mediaQueriesMap.clear();
   console.log(`Generated ${cssFile} successfully!`);
+
+  // Generate globals.css from globals.json if it exists
+  if (fs.existsSync(globalsJsonPath)) {
+    const globalsJson = JSON.parse(fs.readFileSync(globalsJsonPath, "utf8"));
+    let globalsCssContent = "";
+
+    // Add font-face declarations from globals JSON
+    if (Object.prototype.hasOwnProperty.call(globalsJson, "fonts")) {
+      for (const font of globalsJson.fonts) {
+        globalsCssContent += `
+@font-face {
+    font-family: "${font["font-family"]}";
+    src: "${font.src}";
+    font-display: ${font["font-display"]};
+}
+`;
+      }
+    }
+
+    // Add root styles from globals JSON
+    if (Object.prototype.hasOwnProperty.call(globalsJson, "root")) {
+      let rootVariables = ":root {\n";
+      for (const [key, value] of Object.entries(globalsJson.root)) {
+        rootVariables += `${key}: ${value};\n`;
+      }
+      rootVariables += "}\n";
+      globalsCssContent += rootVariables;
+    }
+
+    // Add classroom styles from globals JSON
+    if (Object.prototype.hasOwnProperty.call(globalsJson, "classroom")) {
+      for (const classItem of globalsJson.classroom) {
+        let hashtag = "";
+        if (classItem.type === "class") {
+          hashtag = ".";
+        }
+        globalsCssContent += `${hashtag}${classItem.name} {${classItem.style}}\n`;
+
+        // Add media queries for classroom styles
+        if (Object.prototype.hasOwnProperty.call(classItem, "mediaQueries")) {
+          for (const mediaQuery of classItem.mediaQueries) {
+            if (!mediaQueriesMap.has(mediaQuery.query)) {
+              mediaQueriesMap.set(mediaQuery.query, new Map());
+            }
+            const queryMap = mediaQueriesMap.get(mediaQuery.query);
+            queryMap.set(`${hashtag}${classItem.name}`, mediaQuery.style);
+          }
+        }
+      }
+    }
+
+    // Add media queries to globals CSS content
+    const reversedMediaQueriesMap = new Map(
+      [...mediaQueriesMap.entries()].reverse()
+    );
+
+    for (const [query, elementsMap] of reversedMediaQueriesMap) {
+      globalsCssContent += `@media (${query}) {\n`;
+      elementsMap.forEach((style, selector) => {
+        if (style.trim()) {
+          globalsCssContent += `  ${selector} {${style}}\n`;
+        }
+      });
+      globalsCssContent += "}\n";
+    }
+
+    const globalsCssFile = path.join(buildDir, "globals.css");
+    fs.writeFileSync(globalsCssFile, globalsCssContent, "utf8");
+    console.log(`Generated ${globalsCssFile} successfully!`);
+  }
 }
 
 function processAllRoutes(sourceDir, buildDir) {
@@ -512,17 +747,24 @@ function replacePlaceholdersCwrapArray(jsonObj, index) {
  * @param {Map} [siblingCountMap=new Map()] - A Map to keep track of sibling elements count.
  * @param {number} [blueprintCounter]
  * @param {Map} [propsMap=new Map()] - A Map to keep track of properties.
+ * @param {JsonObject[]} [passover] - The passover elements to insert.
+ * @param {string[]} [omit] - The omit elements to exclude.
  */
 function generateCssSelector(
   jsonObj,
   parentSelector = "",
   siblingCountMap = new Map(),
   blueprintCounter = undefined,
-  propsMap = new Map()
+  propsMap = new Map(),
+  passover = [],
+  omit = []
 ) {
   let selector = parentSelector;
 
   if (jsonObj.element) {
+    if (omit.includes(jsonObj["omit-id"])) {
+      return;
+    }
     const element = jsonObj.element;
     if (!jsonObj.text) jsonObj.text = "";
 
@@ -537,7 +779,7 @@ function generateCssSelector(
           const templateName =
             templateNameWithProps.match(/.+(?=\()/)?.[0] ||
             templateNameWithProps;
-          const templatePropsMap = new Map();
+          const templatePropsMap = propsMap;
           const propsMatch = templateNameWithProps.match(/\(([^)]+)\)/);
 
           if (propsMatch) {
@@ -555,21 +797,40 @@ function generateCssSelector(
               JSON.stringify(templateElement)
             );
             for (const [key, value] of templatePropsMap) {
-              if (value === "cwrapPassProperty" && propsMap.has(key)) {
+              if (propsMap.has(key)) {
                 templatePropsMap.set(key, propsMap.get(key));
               }
             }
+
             generateCssSelector(
               templateElementCopy,
               selector,
               siblingCountMap,
               blueprintCounter,
-              templatePropsMap
+              templatePropsMap,
+              jsonObj.passover || [],
+              jsonObj?.omit || []
             );
           }
           return;
         }
       }
+    }
+
+    // Handle cwrap-passover elements
+    if (element === "cwrap-passover") {
+      for (const childJson of passover) {
+        generateCssSelector(
+          childJson,
+          parentSelector,
+          siblingCountMap,
+          blueprintCounter,
+          propsMap,
+          passover,
+          omit
+        );
+      }
+      return;
     }
 
     // Initialize sibling counts for the parent selector
@@ -588,6 +849,26 @@ function generateCssSelector(
       selector += ` > ${element}:nth-of-type(${parentSiblingCount.get(
         element
       )})`;
+    }
+
+    if (jsonObj.text) {
+      if (jsonObj.text.includes("cwrapProperty")) {
+        const parts = jsonObj.text.split(/(cwrapProperty\[[^\]]+\])/);
+        for (let i = 1; i < parts.length; i++) {
+          if (parts[i].startsWith("cwrapProperty")) {
+            const propertyMatch = parts[i].match(
+              /cwrapProperty\[([^\]=]+)=([^\]]+)\]/
+            );
+            if (propertyMatch) {
+              const [property, defaultValue] = propertyMatch.slice(1);
+              const mapValue = propsMap.get(property);
+              if (mapValue?.includes("cwrapOmit")) {
+                return;
+              }
+            }
+          }
+        }
+      }
     }
 
     // Handle styles with cwrapProperty
@@ -609,6 +890,11 @@ function generateCssSelector(
             }
           }
         }
+      }
+
+      // Check if the final style contains cwrapOmit
+      if (jsonObj.style.includes("cwrapOmit")) {
+        return;
       }
 
       if (
@@ -649,7 +935,9 @@ function generateCssSelector(
           selector,
           siblingCountMap,
           blueprintCounter,
-          propsMap
+          propsMap,
+          passover,
+          omit
         );
       }
     }
@@ -671,7 +959,9 @@ function generateCssSelector(
           selector,
           siblingCountMap,
           i + 1,
-          propsMap
+          propsMap,
+          passover,
+          omit
         );
       }
     }

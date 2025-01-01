@@ -68,8 +68,30 @@ export default function loadPreview(jsonObj, jsonObjGlobals) {
   addLinks(head, jsonObj);
   html.appendChild(head);
   html.appendChild(body);
+  if (jsonObjGlobals.const) {
+    for (const [key, value] of Object.entries(jsonObjGlobals.const)) {
+      global.map.constMap.set(key, value);
+    }
+  }
   generateClassroomMap(jsonObjGlobals, jsonObj);
   generateCssSelector(jsonObj, "", new Map());
+  // Replace cwrapGlobal[something] in jsonObj text with global.map.constMap.get(something)
+  const replaceCwrapGlobals = (obj) => {
+    if (typeof obj === "string") {
+      return obj.replace(/cwrapGlobal\[(.*?)\]/g, (match, p1) => {
+        return global.map.constMap.get(p1) || match;
+      });
+    }  if (Array.isArray(obj)) {
+      return obj.map(replaceCwrapGlobals);
+    }  if (typeof obj === "object" && obj !== null) {
+      for (const key in obj) {
+        obj[key] = replaceCwrapGlobals(obj[key]);
+      }
+    }
+    return obj;
+  };
+
+  replaceCwrapGlobals(jsonObj);
   const bodyElement = createElementFromJson(jsonObj, true);
   clearDocumentByOmit(bodyElement);
   doc.body.replaceWith(bodyElement);

@@ -588,6 +588,7 @@ const global = {
   map: {
     blueprintMap: new Map(),
     /** @type {Map<string, object>} */
+    constMap: new Map(),
     classroomMap: new Map(),
     templatesMap: new Map(),
     cssMap: new Map(),
