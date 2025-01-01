@@ -31,6 +31,10 @@ function clearDocumentByOmit(htmlString) {
   return document.body.innerHTML;
 }
 
+function clearDocumentByPlaceholder(htmlString) {
+  return htmlString.replace(/cwrapPlaceholder/g, "");
+}
+
 function loadTemplates() {
   if (fs.existsSync(templatesApiUrl)) {
     const templatesJson = JSON.parse(fs.readFileSync(templatesApiUrl, "utf8"));
@@ -61,28 +65,30 @@ function createElementFromJson(
   properties = new Map(), // Ensure properties is always initialized as a Map if not provided
   omit = []
 ) {
-  if (omit.includes(jsonObj["omit-id"])) {
-    jsonObj.text = "cwrapOmit";
+  // Deep copy jsonObj to ensure immutability
+  const jsonObjCopy = JSON.parse(JSON.stringify(jsonObj));
+  if (omit.includes(jsonObjCopy["omit-id"])) {
+    jsonObjCopy.text = "cwrapOmit";
   }
 
   // Create the element
   const SVG_NAMESPACE = "http://www.w3.org/2000/svg";
   let element;
   if (
-    jsonObj.element === "svg" ||
-    jsonObj.element === "path" ||
-    jsonObj.element === "circle" ||
-    jsonObj.element === "g"
+    jsonObjCopy.element === "svg" ||
+    jsonObjCopy.element === "path" ||
+    jsonObjCopy.element === "circle" ||
+    jsonObjCopy.element === "g"
   ) {
-    element = document.createElementNS(SVG_NAMESPACE, jsonObj.element);
+    element = document.createElementNS(SVG_NAMESPACE, jsonObjCopy.element);
   } else {
-    element = document.createElement(jsonObj.element);
+    element = document.createElement(jsonObjCopy.element);
   }
 
-  let selectedJsonObj = jsonObj;
+  let selectedJsonObj = jsonObjCopy;
 
   function setJsonObjToEnumItem() {
-    for (const enumItem of jsonObj.enum) {
+    for (const enumItem of jsonObjCopy.enum) {
       if (blueprintElementCounter === Number(enumItem.nth)) {
         selectedJsonObj = enumItem;
         return false;
@@ -92,7 +98,7 @@ function createElementFromJson(
   }
 
   let abandonItem = false;
-  switch (jsonObj.alter) {
+  switch (jsonObjCopy.alter) {
     case "none":
       break;
     case "partial":
@@ -102,12 +108,11 @@ function createElementFromJson(
       abandonItem = setJsonObjToEnumItem();
       break;
   }
-  // Set the element's text content if specified in the JSON object
+
   if (!abandonItem) {
-    const originalText = selectedJsonObj.text || jsonObj.text;
+    const originalText = selectedJsonObj.text || jsonObjCopy.text;
     element.cwrapText = originalText ?? "";
 
-    // Check if the text contains any of the special tags
     if (
       originalText?.includes("cwrapSpan") ||
       originalText?.includes("cwrapTemplate") ||
@@ -134,8 +139,7 @@ function createElementFromJson(
         mergedParts.push(tempPart);
       }
 
-      // Process each part and handle cwrapSpan, cwrapTemplate, and cwrapProperty tags
-      element.textContent = ""; // Clear the initial content before appending processed parts
+      element.textContent = "";
 
       for (let i = 0; i < mergedParts.length; i++) {
         const part = mergedParts[i];
@@ -147,7 +151,7 @@ function createElementFromJson(
           element.appendChild(spanElement);
           element.append(part.replace("cwrapSpan", ""));
         } else if (part.startsWith("cwrapTemplate")) {
-          const propMap = new Map(properties); // Create a new Map based on current properties
+          const propMap = new Map(properties);
 
           const templateNameWithProps = part.match(
             /cwrapTemplate\[([^\]]+)\]/
@@ -173,16 +177,16 @@ function createElementFromJson(
               undefined,
               undefined,
               propMap,
-              jsonObj?.omit || []
+              jsonObjCopy?.omit || omit || []
             ).cloneNode(true);
 
             clonedTemplateElement.isTemplateElement = true;
 
-            if (jsonObj.element === "cwrap-template") {
+            if (jsonObjCopy.element === "cwrap-template") {
               clonedTemplateElement.isTemplateElementAnchor = true;
               clonedTemplateElement.templateElement = templateNameWithProps;
               element = clonedTemplateElement;
-              jsonObj.templateName = true;
+              jsonObjCopy.templateName = true;
             } else {
               element.appendChild(clonedTemplateElement);
             }
@@ -206,7 +210,6 @@ function createElementFromJson(
       element.textContent = originalText;
     }
 
-    // Set additional attributes if specified in the JSON object
     if (selectedJsonObj.attributes) {
       for (const [key, value] of Object.entries(selectedJsonObj.attributes)) {
         if (value === "cwrapOmit") continue;
@@ -236,14 +239,14 @@ function createElementFromJson(
     }
   }
 
-  if (isInitialLoad && !jsonObj.blueprint) {
+  if (isInitialLoad && !jsonObjCopy.blueprint) {
     element.customTag = "cwrapPreloaded";
   }
 
-  if (jsonObj.blueprint) {
-    const count = jsonObj.blueprint.count;
+  if (jsonObjCopy.blueprint) {
+    const count = jsonObjCopy.blueprint.count;
     for (let i = 0; i < count; i++) {
-      let cookedJson = replacePlaceholdersCwrapArray(jsonObj.blueprint, i);
+      let cookedJson = replacePlaceholdersCwrapArray(jsonObjCopy.blueprint, i);
       cookedJson = replacePlaceholdersCwrapIndex(cookedJson, i);
       const blueprintElement = createElementFromJson(
         cookedJson,
@@ -261,7 +264,7 @@ function createElementFromJson(
   if (selectedJsonObj.children) {
     let spanIndex = 0;
     const spanElements = element.querySelectorAll("span");
-    for (const child of jsonObj.children) {
+    for (const child of jsonObjCopy.children) {
       const childElement = createElementFromJson(
         child,
         isInitialLoad,
@@ -278,10 +281,10 @@ function createElementFromJson(
     }
   }
 
-  if (jsonObj.element === "cwrap-template" && jsonObj.passover) {
+  if (jsonObjCopy.element === "cwrap-template" && jsonObjCopy.passover) {
     const passoverElement = element.querySelector("cwrap-passover");
     if (passoverElement) {
-      for (const childJson of jsonObj.passover) {
+      for (const childJson of jsonObjCopy.passover) {
         const childElement = createElementFromJson(
           childJson,
           isInitialLoad,
@@ -301,7 +304,6 @@ function createElementFromJson(
 let hasCwrapGetParams = false;
 function generateHtmlWithScript(jsonObj, jsonFilePath) {
   let html = createElementFromJson(jsonObj);
-  console.log(html);
 
   // Calculate the depth based on the JSON file's path relative to the routes folder
   const relativePath = path.relative(
@@ -428,15 +430,50 @@ function generateHeadHtml(head, buildDir, depth) {
   return headHtml;
 }
 
-function processRouteDirectory(routeDir, buildDir) {
-  console.log("routeDir", routeDir);
+function processDynamicRouteDirectory(routeDir, buildDir) {
+  const routeParts = routeDir.split(path.sep);
+  const lastPart = routeParts[routeParts.length - 1];
+  //console.log("Last part of route:", lastPart);
+  if (lastPart.startsWith("[") && lastPart.endsWith("]")) {
+    //console.log("Directory in brackets:", lastPart);
+  }
+  const jsonFilePath = path.join(routeDir, "skeleton.json");
+  if (fs.existsSync(jsonFilePath)) {
+    const jsonContent = fs.readFileSync(jsonFilePath, "utf8");
+    const jsonObj = JSON.parse(jsonContent);
+    if (jsonObj.routes) {
+      //console.log(jsonObj.routes);
+    } else {
+      //console.error(`Error: Could not find ${jsonFilePath}`);
+    }
+
+    if (jsonObj.routes) {
+      for (const [index, routeObj] of jsonObj.routes.entries()) {
+        const route = routeObj.route; // Ensure route is a string
+        const routePath = path.join(routeDir);
+        const buildPath = path.join(buildDir, "..", route.toString());
+        processStaticRouteDirectory(routePath, buildPath, index, route);
+      }
+    }
+  }
+}
+
+function processStaticRouteDirectory(routeDir, buildDir, index, route) {
   const jsonFile = path.join(routeDir, "skeleton.json");
   if (!fs.existsSync(jsonFile)) {
     console.error(`Error: Could not open ${jsonFile} file!`);
     return;
   }
-
-  const jsonObj = JSON.parse(fs.readFileSync(jsonFile, "utf8"));
+  let jsonObj = JSON.parse(fs.readFileSync(jsonFile, "utf8"));
+  if (jsonObj.routes) {
+    console.log("routeFound");
+    jsonObj = JSON.parse(
+      JSON.stringify(jsonObj).replace(/cwrapRoutes\[(.*?)\]/g, (match, p1) => {
+        const items = p1.split(",");
+        return items[index] || "";
+      })
+    );
+  }
 
   // Generate CSS selectors and extract styles
   generateCssSelector(jsonObj, "");
@@ -459,6 +496,7 @@ function processRouteDirectory(routeDir, buildDir) {
   const bodyContent = generateHtmlWithScript(jsonObj, jsonFile);
   let bodyHtml = bodyContent.outerHTML;
   bodyHtml = clearDocumentByOmit(bodyHtml);
+  bodyHtml = clearDocumentByPlaceholder(bodyHtml);
   const webContent = `
 <!DOCTYPE html>
 <html lang="en">
@@ -643,7 +681,8 @@ function processAllRoutes(sourceDir, buildDir) {
         }
 
         if (stats.isDirectory()) {
-          processRouteDirectory(sourcePath, destinationPath);
+          processStaticRouteDirectory(sourcePath, destinationPath);
+          processDynamicRouteDirectory(sourcePath, destinationPath);
           processAllRoutes(sourcePath, destinationPath);
         }
       });
@@ -692,7 +731,7 @@ function main() {
   }
 
   // Process the home directory
-  processRouteDirectory(routesDir, buildDir);
+  processStaticRouteDirectory(routesDir, buildDir);
 
   // Process all routes
   processAllRoutes(routesDir, buildDir);

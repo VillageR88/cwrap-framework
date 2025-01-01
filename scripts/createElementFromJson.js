@@ -136,7 +136,7 @@ export default function createElementFromJson(
               undefined,
               undefined,
               propMap,
-              jsonObj?.omit || []
+              jsonObj?.omit || omit || []
             ).cloneNode(true);
 
             clonedTemplateElement.isTemplateElement = true;
