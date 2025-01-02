@@ -11,4 +11,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   await projectConfigLoader();
   initialLoader();
   eventHandlers();
+  if (global.localSettings["no-gui"]) {
+    const iframe = document.querySelector("iframe");
+    if (iframe) {
+      iframe.classList.toggle("cwrap-only");
+    }
+    global.id.navSelectPreview.classList.remove("preview", "tree");
+    global.id.navSelectPreview.classList.add("static");
+  }
 });

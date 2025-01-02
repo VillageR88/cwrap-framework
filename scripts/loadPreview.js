@@ -55,10 +55,18 @@ export default function loadPreview(jsonObj, jsonObjGlobals) {
   metaViewport.setAttribute("content", "width=device-width, initial-scale=1.0");
   metaKeywords.setAttribute("name", "keywords");
   metaKeywords.setAttribute("content", jsonObj.head?.meta?.keywords || "");
-  if (jsonObjGlobals.head) title.textContent = jsonObjGlobals.head.title;
+  if (jsonObjGlobals?.head) title.textContent = jsonObjGlobals.head.title;
   else if (jsonObj.head) title.textContent = jsonObj.head.title;
   const style = doc.createElement("style");
   style.id = "custom-styles";
+  if (jsonObjGlobals?.head?.base) {
+    console.log("hashead")
+    const base = doc.createElement("base");
+    for (const [key, value] of Object.entries(jsonObjGlobals.head.base)) {
+      base.setAttribute(key, value);
+    }
+    head.appendChild(base);
+  }
   head.appendChild(metaCharset);
   head.appendChild(metaViewport);
   head.appendChild(metaKeywords);
@@ -68,7 +76,7 @@ export default function loadPreview(jsonObj, jsonObjGlobals) {
   addLinks(head, jsonObj);
   html.appendChild(head);
   html.appendChild(body);
-  if (jsonObjGlobals.const) {
+  if (jsonObjGlobals?.const) {
     for (const [key, value] of Object.entries(jsonObjGlobals.const)) {
       global.map.constMap.set(key, value);
     }

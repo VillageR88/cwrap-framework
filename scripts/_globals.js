@@ -752,6 +752,7 @@ const global = {
   localSettings: {
     selectionColor: localStorage.getItem("selectionColor") || "red",
     customDevices: [],
+    "no-gui": false,
   },
   logIndex: 1,
 };

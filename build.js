@@ -4,6 +4,7 @@ const path = require("node:path");
 const { JSDOM } = require("jsdom");
 const { document } = new JSDOM().window;
 
+const constMap = new Map();
 const cssMap = new Map();
 const mediaQueriesMap = new Map();
 const notNthEnumerableElements = ["body", "nav", "header", "main", "footer"];
@@ -11,6 +12,23 @@ const notNthEnumerableElements = ["body", "nav", "header", "main", "footer"];
 const templatesApiUrl = path.join(__dirname, "routes", "templates.json");
 const templatesMap = new Map();
 const globalsJsonPath = path.join(__dirname, "routes", "globals.json");
+
+const replaceCwrapGlobals = (obj) => {
+  if (typeof obj === "string") {
+    return obj.replace(/cwrapGlobal\[(.*?)\]/g, (match, p1) => {
+      return constMap.get(p1) || match;
+    });
+  }
+  if (Array.isArray(obj)) {
+    return obj.map(replaceCwrapGlobals);
+  }
+  if (typeof obj === "object" && obj !== null) {
+    for (const key in obj) {
+      obj[key] = replaceCwrapGlobals(obj[key]);
+    }
+  }
+  return obj;
+};
 
 function clearDocumentByOmit(htmlString) {
   // Create a DOM from the provided HTML string
@@ -399,6 +417,14 @@ function generateHeadHtml(head, buildDir, depth) {
     headHtml += `<title>${head.title}</title>\n`;
   }
 
+  if (head.base) {
+    const base = document.createElement("base");
+    for (const [key, value] of Object.entries(head.base)) {
+      base.setAttribute(key, value);
+    }
+    headHtml += `    ${base.outerHTML}\n`;
+  }
+
   // Add meta tags
   if (head.link && Array.isArray(head.link)) {
     for (const link of head.link) {
@@ -450,15 +476,18 @@ function processDynamicRouteDirectory(routeDir, buildDir) {
     if (jsonObj.routes) {
       for (const [index, routeObj] of jsonObj.routes.entries()) {
         const route = routeObj.route; // Ensure route is a string
+        const parentRoute = routeObj.parent;
         const routePath = path.join(routeDir);
-        const buildPath = path.join(buildDir, "..", route.toString());
-        processStaticRouteDirectory(routePath, buildPath, index, route);
+        const buildPath = parentRoute 
+          ? path.join(buildDir, "..", "..", parentRoute.toString(), route.toString()) 
+          : path.join(buildDir, "..", route.toString());
+        processStaticRouteDirectory(routePath, buildPath, index);
       }
     }
   }
 }
 
-function processStaticRouteDirectory(routeDir, buildDir, index, route) {
+function processStaticRouteDirectory(routeDir, buildDir, index) {
   const jsonFile = path.join(routeDir, "skeleton.json");
   if (!fs.existsSync(jsonFile)) {
     console.error(`Error: Could not open ${jsonFile} file!`);
@@ -484,6 +513,11 @@ function processStaticRouteDirectory(routeDir, buildDir, index, route) {
     let globalsHead = {};
     if (fs.existsSync(globalsJsonPath)) {
       const globalsJson = JSON.parse(fs.readFileSync(globalsJsonPath, "utf8"));
+      if (globalsJson.const) {
+        for (const [key, value] of Object.entries(globalsJson.const)) {
+          constMap.set(key, value);
+        }
+      }
       if (globalsJson.head) {
         globalsHead = globalsJson.head;
       }
@@ -497,6 +531,7 @@ function processStaticRouteDirectory(routeDir, buildDir, index, route) {
   let bodyHtml = bodyContent.outerHTML;
   bodyHtml = clearDocumentByOmit(bodyHtml);
   bodyHtml = clearDocumentByPlaceholder(bodyHtml);
+  bodyHtml = replaceCwrapGlobals(bodyHtml);
   const webContent = `
 <!DOCTYPE html>
 <html lang="en">
@@ -549,7 +584,14 @@ ${headContent}
       let hashtag = "";
       if (classItem.type === "class") {
         hashtag = ".";
+      } else if (classItem.type === "id") {
+        hashtag = "#";
+      } else if (classItem.type === "pseudo:") {
+        hashtag = ":";
+      } else if (classItem.type === "pseudo::") {
+        hashtag = "::";
       }
+
       cssContent += `${hashtag}${classItem.name} {${classItem.style}}\n`;
 
       // Add media queries for classroom styles
@@ -571,12 +613,14 @@ ${headContent}
     }
   });
 
-  // Add media queries to CSS content
-  const reversedMediaQueriesMap = new Map(
-    [...mediaQueriesMap.entries()].reverse()
-  );
+  // Add media queries to CSS content, sorted by max-width from biggest to lowest
+  const sortedMediaQueries = [...mediaQueriesMap.entries()].sort((a, b) => {
+    const maxWidthA = Number.parseInt(a[0].match(/max-width:\s*(\d+)px/)[1], 10);
+    const maxWidthB = Number.parseInt(b[0].match(/max-width:\s*(\d+)px/)[1], 10);
+    return maxWidthB - maxWidthA;
+  });
 
-  for (const [query, elementsMap] of reversedMediaQueriesMap) {
+  for (const [query, elementsMap] of sortedMediaQueries) {
     cssContent += `@media (${query}) {\n`;
     elementsMap.forEach((style, selector) => {
       if (style.trim()) {
@@ -758,18 +802,49 @@ function replacePlaceholdersCwrapIndex(jsonObj, index) {
 function replacePlaceholdersCwrapArray(jsonObj, index) {
   const jsonString = JSON.stringify(jsonObj);
 
-  const arrayMatches = jsonString.match(/cwrapArray\[[^\[\]]*\]/g);
-  if (!arrayMatches) {
+  // Function to match the outermost `cwrapArray[...]` while handling nested brackets
+  const findCwrapArrayMatches = (str) => {
+    const matches = [];
+    let bracketCount = 0;
+    let startIndex = -1;
+
+    for (let i = 0; i < str.length; i++) {
+      if (str.slice(i, i + 10) === "cwrapArray") {
+        if (startIndex === -1) {
+          startIndex = i;
+        }
+      }
+      if (str[i] === "[") {
+        if (startIndex !== -1) bracketCount++;
+      } else if (str[i] === "]") {
+        if (startIndex !== -1) bracketCount--;
+        if (bracketCount === 0 && startIndex !== -1) {
+          matches.push(str.slice(startIndex, i + 1));
+          startIndex = -1;
+        }
+      }
+    }
+
+    return matches;
+  };
+
+  const arrayMatches = findCwrapArrayMatches(jsonString);
+  if (!arrayMatches.length) {
     return jsonObj;
   }
 
-  // Process each cwrapArray placeholder
+  // Process each `cwrapArray` placeholder
   let replacedString = jsonString;
   for (const match of arrayMatches) {
-    const arrayString = match.match(/\[(.*?)\]/)[1];
-    const array = arrayString
-      .split(",")
+    const arrayContent = match.match(/\[(.*)\]/s)[1]; // Extract everything inside the outermost brackets
+
+    // Determine the delimiter
+    const delimiter = arrayContent.includes("cwrapBreak") ? "cwrapBreak" : ",";
+
+    const array = arrayContent
+      .split(delimiter)
       .map((item) => item.trim().replace(/['"]/g, ""));
+
     replacedString = replacedString.replace(
       match,
       array[index] !== undefined ? array[index] : ""

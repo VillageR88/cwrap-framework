@@ -50,6 +50,8 @@ rl.question("Enter project name (default: my-new-cwrap-project): ", (input) => {
 			livereload: "^0.9.3",
 			mkdirp: "^3.0.1",
 			"serve-static": "^1.14.1",
+			"jsdom": "^25.0.1",
+
 		},
 	};
 
