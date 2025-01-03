@@ -7,16 +7,14 @@
  * @param {JsonObject} jsonObj2 - The second JSON object representing the element.
  */
 export default function generateClassroomMap(jsonObj1, jsonObj2) {
-	const classroomMap = global.map.classroomMap;
+	const classroomMap = global.map.classroomMap || new Map();
 	classroomMap.clear();
 
-	const combinedClassroom = jsonObj1?.classroom.concat(jsonObj2?.classroom);
-	if (combinedClassroom) {
-		for (const [key, value] of Object.entries(combinedClassroom)) {
-			if (value.mediaQueries && !Array.isArray(value.mediaQueries)) {
-				value.mediaQueries = [value.mediaQueries];
-			}
-			classroomMap.set(key, value);
+	const combinedClassroom = [...(jsonObj1?.classroom || []), ...(jsonObj2?.classroom || [])];
+	for (const [key, value] of Object.entries(combinedClassroom)) {
+		if (value.mediaQueries && !Array.isArray(value.mediaQueries)) {
+			value.mediaQueries = [value.mediaQueries];
 		}
+		classroomMap.set(key, value);
 	}
 }

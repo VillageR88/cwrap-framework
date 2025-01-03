@@ -60,7 +60,6 @@ export default function loadPreview(jsonObj, jsonObjGlobals) {
   const style = doc.createElement("style");
   style.id = "custom-styles";
   if (jsonObjGlobals?.head?.base) {
-    console.log("hashead")
     const base = doc.createElement("base");
     for (const [key, value] of Object.entries(jsonObjGlobals.head.base)) {
       base.setAttribute(key, value);
