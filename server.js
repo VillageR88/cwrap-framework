@@ -25,7 +25,7 @@ const CWRAP_DIR = process.env.DEV
 const liveReloadServer = livereload.createServer({
   exts: ["html", "css", "js", "py", "exe"],
 });
-liveReloadServer.watch(CWRAP_DIR);
+liveReloadServer.watch(ROOT_DIR);
 
 // Create the Express app
 const app = express();
