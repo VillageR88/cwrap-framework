@@ -27,7 +27,7 @@ export function onLoadPopulateHeadCreator() {
     const title = headMap.title;
     const meta = headMap.meta;
     const links = headMap.link;
-    const base = meta.find((meta) => meta.name === "base")?.content;
+    const base = meta?.find((meta) => meta.name === "base")?.content;
 
     if (title) wizardHeadTitle.value = title;
 
