@@ -1052,6 +1052,24 @@ function generateCssSelector(
     // Handle extensions
     if (jsonObj.extend) {
       for (const extension of jsonObj.extend) {
+        if (extension.style.includes("cwrapProperty")) {
+          const parts = extension.style.split(/(cwrapProperty\[[^\]]+\])/);
+          for (let i = 1; i < parts.length; i++) {
+            if (parts[i].startsWith("cwrapProperty")) {
+              const propertyMatch = parts[i].match(
+                /cwrapProperty\[([^\]=]+)=([^\]]+)\]/
+              );
+              if (propertyMatch) {
+                const [property, defaultValue] = propertyMatch.slice(1);
+                const mapValue = propsMap.get(property);
+                extension.style = extension.style.replace(
+                  parts[i],
+                  mapValue || defaultValue
+                );
+              }
+            }
+          }
+        }
         const extendedSelector = `${selector}${extension.extension}`;
         cssMap.set(extendedSelector, extension.style);
       }
