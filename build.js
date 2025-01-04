@@ -478,8 +478,14 @@ function processDynamicRouteDirectory(routeDir, buildDir) {
         const route = routeObj.route; // Ensure route is a string
         const parentRoute = routeObj.parent;
         const routePath = path.join(routeDir);
-        const buildPath = parentRoute 
-          ? path.join(buildDir, "..", "..", parentRoute.toString(), route.toString()) 
+        const buildPath = parentRoute
+          ? path.join(
+              buildDir,
+              "..",
+              "..",
+              parentRoute.toString(),
+              route.toString()
+            )
           : path.join(buildDir, "..", route.toString());
         processStaticRouteDirectory(routePath, buildPath, index);
       }
@@ -509,22 +515,22 @@ function processStaticRouteDirectory(routeDir, buildDir, index) {
 
   // Generate head content
   let headContent = "";
-  if (Object.prototype.hasOwnProperty.call(jsonObj, "head")) {
-    let globalsHead = {};
-    if (fs.existsSync(globalsJsonPath)) {
-      const globalsJson = JSON.parse(fs.readFileSync(globalsJsonPath, "utf8"));
-      if (globalsJson.const) {
-        for (const [key, value] of Object.entries(globalsJson.const)) {
-          constMap.set(key, value);
-        }
-      }
-      if (globalsJson.head) {
-        globalsHead = globalsJson.head;
+  let globalsHead = {};
+  if (fs.existsSync(globalsJsonPath)) {
+    const globalsJson = JSON.parse(fs.readFileSync(globalsJsonPath, "utf8"));
+    if (globalsJson?.const) {
+      for (const [key, value] of Object.entries(globalsJson.const)) {
+        constMap.set(key, value);
       }
     }
-    const mergedHead = { ...globalsHead, ...jsonObj.head };
-    headContent = generateHeadHtml(mergedHead, buildDir);
+    if (globalsJson?.head) {
+      globalsHead = globalsJson.head;
+    }
   }
+  const mergedHead = jsonObj.head
+    ? { ...globalsHead, ...jsonObj.head }
+    : globalsHead;
+  headContent = generateHeadHtml(mergedHead, buildDir);
 
   // Generate HTML content from JSON and append the script tag
   const bodyContent = generateHtmlWithScript(jsonObj, jsonFile);
@@ -615,8 +621,14 @@ ${headContent}
 
   // Add media queries to CSS content, sorted by max-width from biggest to lowest
   const sortedMediaQueries = [...mediaQueriesMap.entries()].sort((a, b) => {
-    const maxWidthA = Number.parseInt(a[0].match(/max-width:\s*(\d+)px/)[1], 10);
-    const maxWidthB = Number.parseInt(b[0].match(/max-width:\s*(\d+)px/)[1], 10);
+    const maxWidthA = Number.parseInt(
+      a[0].match(/max-width:\s*(\d+)px/)[1],
+      10
+    );
+    const maxWidthB = Number.parseInt(
+      b[0].match(/max-width:\s*(\d+)px/)[1],
+      10
+    );
     return maxWidthB - maxWidthA;
   });
 
@@ -922,8 +934,8 @@ function generateCssSelector(
               siblingCountMap,
               blueprintCounter,
               templatePropsMap,
-              jsonObj.passover || [],
-              jsonObj?.omit || []
+              jsonObj?.passover || passover || [],
+              jsonObj?.omit || omit || []
             );
           }
           return;

@@ -79,8 +79,8 @@ export default function generateCssSelector(
               siblingCountMap,
               blueprintCounter,
               templatePropsMap,
-              jsonObj.passover || [],
-              jsonObj?.omit || []
+              jsonObj?.passover || passover || [],
+              jsonObj?.omit || omit || []
             );
           }
           return;
