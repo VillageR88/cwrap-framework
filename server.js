@@ -33,14 +33,7 @@ const liveReloadServer = livereload.createServer({
 liveReloadServer.watch(ROOT_DIR);
 
 liveReloadServer.watcher.on("change", (filePath) => {
-  console.log(`File changed: ${filePath}`);
-  exec("node build.js dev", (err, stdout, stderr) => {
-    if (err) {
-      console.error(`Error running script: ${stderr}`);
-    } else {
-      console.log(stdout);
-    }
-  });
+  exec("node build.js dev", (err, stdout, stderr) => {});
 });
 
 // Create the Express app
