@@ -27,11 +27,9 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Delete package.json and package-lock.json
-        run: rm -f package.json package-lock.json
-
-      - name: Install mkdirp without dependencies
-        run: npm install mkdirp --no-save --no-package-lock
+      # Install dependencies (including jsdom)
+      - name: Install dependencies
+        run: npm install
 
       - name: Set base URL
         id: set_base_url
