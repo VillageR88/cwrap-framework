@@ -681,6 +681,12 @@ ${headContent}
         let hashtag = "";
         if (classItem.type === "class") {
           hashtag = ".";
+        } else if (classItem.type === "id") {
+          hashtag = "#";
+        } else if (classItem.type === "pseudo:") {
+          hashtag = ":";
+        } else if (classItem.type === "pseudo::") {
+          hashtag = "::";
         }
         globalsCssContent += `${hashtag}${classItem.name} {${classItem.style}}\n`;
 
