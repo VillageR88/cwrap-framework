@@ -13,6 +13,9 @@ const templatesApiUrl = path.join(__dirname, "routes", "templates.json");
 const templatesMap = new Map();
 const globalsJsonPath = path.join(__dirname, "routes", "globals.json");
 
+const activeParam = process?.argv?.slice(2);
+const isDevelopment = activeParam.includes("dev");
+
 const replaceCwrapGlobals = (obj) => {
   if (typeof obj === "string") {
     return obj.replace(/cwrapGlobal\[(.*?)\]/g, (match, p1) => {
@@ -358,7 +361,7 @@ function copyFile(source, destination) {
 function copyDirectory(source, destination) {
   if (!fs.existsSync(destination)) {
     mkdirp.sync(destination);
-    console.log(`Created directory ${destination}`);
+    if (!isDevelopment) console.log(`Created directory ${destination}`);
   }
 
   fs.readdir(source, (err, files) => {
@@ -393,9 +396,11 @@ function copyFaviconToRoot(buildDir) {
 
   if (fs.existsSync(faviconSource)) {
     copyFile(faviconSource, faviconDestination);
-    console.log(`Copied favicon.ico to ${faviconDestination}`);
+    if (!isDevelopment)
+      console.log(`Copied favicon.ico to ${faviconDestination}`);
   } else {
-    console.warn(`Warning: Favicon file ${faviconSource} does not exist.`);
+    if (!isDevelopment)
+      console.warn(`Warning: Favicon file ${faviconSource} does not exist.`);
   }
 }
 
@@ -403,7 +408,7 @@ function generateHeadHtml(head, buildDir, depth) {
   let headHtml = "<head>\n";
   const prefix = process.env.PAGE_URL;
   if (prefix) {
-    console.log("Prefix: ", prefix);
+    if (!isDevelopment) console.log("Prefix: ", prefix);
   } else {
     // const packageJsonPath = path.join(__dirname, "package.json");
     // const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
@@ -501,7 +506,7 @@ function processStaticRouteDirectory(routeDir, buildDir, index) {
   }
   let jsonObj = JSON.parse(fs.readFileSync(jsonFile, "utf8"));
   if (jsonObj.routes) {
-    console.log("routeFound");
+    if (!isDevelopment) console.log("routeFound");
     jsonObj = JSON.parse(
       JSON.stringify(jsonObj).replace(/cwrapRoutes\[(.*?)\]/g, (match, p1) => {
         const items = p1.split(",");
@@ -549,13 +554,13 @@ ${headContent}
   // Ensure the build directory exists
   if (!fs.existsSync(buildDir)) {
     mkdirp.sync(buildDir);
-    console.log(`Created build directory ${buildDir}`);
+    if (!isDevelopment) console.log(`Created build directory ${buildDir}`);
   }
 
   // Write the content to build/index.html
   const webFile = path.join(buildDir, "index.html");
   fs.writeFileSync(webFile, webContent, "utf8");
-  console.log(`Generated ${webFile} successfully!`);
+  if (!isDevelopment) console.log(`Generated ${webFile} successfully!`);
 
   // Write the CSS content to build/styles.css
   const cssFile = path.join(buildDir, "styles.css");
@@ -645,7 +650,7 @@ ${headContent}
   fs.writeFileSync(cssFile, cssContent, "utf8");
   cssMap.clear();
   mediaQueriesMap.clear();
-  console.log(`Generated ${cssFile} successfully!`);
+  if (!isDevelopment) console.log(`Generated ${cssFile} successfully!`);
 
   // Generate globals.css from globals.json if it exists
   if (fs.existsSync(globalsJsonPath)) {
@@ -720,12 +725,14 @@ ${headContent}
 
     const globalsCssFile = path.join(buildDir, "globals.css");
     fs.writeFileSync(globalsCssFile, globalsCssContent, "utf8");
-    console.log(`Generated ${globalsCssFile} successfully!`);
+    if (!isDevelopment)
+      console.log(`Generated ${globalsCssFile} successfully!`);
   }
 }
 
 function processAllRoutes(sourceDir, buildDir) {
-  console.log(`Processing all routes in ${sourceDir}`);
+  if (!isDevelopment)
+    if (!isDevelopment) console.log(`Processing all routes in ${sourceDir}`);
   fs.readdir(sourceDir, (err, files) => {
     if (err) {
       console.error(`Error: Could not open directory ${sourceDir}`, err);
@@ -754,14 +761,13 @@ function processAllRoutes(sourceDir, buildDir) {
 
 function main() {
   const routesDir = path.resolve("routes");
-  const buildDir = path.resolve("build");
-
-  console.log("Starting build process...");
+  const buildDir = isDevelopment ? path.resolve("dist") : path.resolve("build");
+  if (!isDevelopment) console.log("Starting build process...");
 
   // Ensure the build directory exists
   if (!fs.existsSync(buildDir)) {
     mkdirp.sync(buildDir);
-    console.log(`Created build directory ${buildDir}`);
+    if (!isDevelopment) console.log(`Created build directory ${buildDir}`);
   }
 
   // Copy the static folder to the build directory if it exists
@@ -786,9 +792,11 @@ function main() {
     if (fs.existsSync(scriptSource)) {
       mkdirp.sync(path.join(buildDir, "scripts"));
       copyFile(scriptSource, scriptDestination);
-      console.log(`Copied cwrapFunctions.js to ${scriptDestination}`);
+      if (!isDevelopment)
+        console.log(`Copied cwrapFunctions.js to ${scriptDestination}`);
     } else {
-      console.warn(`Warning: Script file ${scriptSource} does not exist.`);
+      if (!isDevelopment)
+        console.warn(`Warning: Script file ${scriptSource} does not exist.`);
     }
   }
 

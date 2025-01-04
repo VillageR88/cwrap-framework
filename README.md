@@ -14,15 +14,14 @@ Candy Wrapper (CWrap) is a microframework for web developers and those learning 
 ## Running
 
 `cd your-project-directory`
+
+To start the development server for beginners using the GUI interface, use the following command:
+
 `npm start`
 
-## Configuration
+To run the development server for advanced users, use the following command:
 
-To start the project with no GUI by default, add the following line to your `config.json` file:
-
-```json
-"no-gui": false
-```
+`npm run dev`
 
 ## Building
 

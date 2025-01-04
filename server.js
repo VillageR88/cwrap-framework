@@ -7,6 +7,10 @@ const fs = require("node:fs");
 const os = require("node:os");
 const { exec } = require("node:child_process");
 
+const activeParam = process?.argv?.slice(2);
+const isDevelopment = activeParam.includes("dev");
+if (isDevelopment) console.log("isDevelopment");
+
 const HTTP_PORT = 36969;
 let BASE_DIR;
 if (os.platform() === "win32") {
@@ -17,15 +21,27 @@ if (os.platform() === "win32") {
   BASE_DIR = path.join(os.homedir(), ".cwrap");
 }
 const ROOT_DIR = path.resolve(__dirname);
-const CWRAP_DIR = process.env.DEV
-  ? path.resolve(__dirname)
+const CWRAP_DIR = isDevelopment
+  ? path.resolve(__dirname, "dist")
   : path.resolve("node_modules", "cwrap-framework");
 
 // Create and configure the livereload server
 const liveReloadServer = livereload.createServer({
   exts: ["html", "css", "js", "py", "exe"],
+  exclusions: [/dist/],
 });
 liveReloadServer.watch(ROOT_DIR);
+
+liveReloadServer.watcher.on("change", (filePath) => {
+  console.log(`File changed: ${filePath}`);
+  exec("node build.js dev", (err, stdout, stderr) => {
+    if (err) {
+      console.error(`Error running script: ${stderr}`);
+    } else {
+      console.log(stdout);
+    }
+  });
+});
 
 // Create the Express app
 const app = express();
@@ -55,7 +71,7 @@ app.post("/save-skeleton/:subPath?", (req, res) => {
   });
 });
 
-//Endpoint to save template.json
+// Endpoint to save template.json
 app.post("/save-template", (req, res) => {
   const templateJson = req.body;
   const subPath = req.params.subPath || "";
@@ -195,7 +211,7 @@ app.get("/api/build", (req, res) => {
   });
 });
 
-//API endpoint to fetch initial settings
+// API endpoint to fetch initial settings
 app.get("/api/initial-settings", (req, res) => {
   const initialSettingsPath = path.join(BASE_DIR, "settings.json");
   if (!fs.existsSync(initialSettingsPath)) {
@@ -215,7 +231,7 @@ app.get("/api/initial-settings", (req, res) => {
   });
 });
 
-//API endpoint to create initial settings
+// API endpoint to create initial settings
 app.post("/api/create-initial-settings", (req, res) => {
   const initialSettingsPath = path.join(BASE_DIR, "settings.json");
   const settings = req.body;
@@ -240,24 +256,26 @@ app.post("/api/create-initial-settings", (req, res) => {
 
 // API endpoint to list directory contents within the current path
 app.get("/api/list-directory", (req, res) => {
-    const currentPath = req.query.path || "";
-    const dirPath = path.join(ROOT_DIR, "routes", currentPath);
-    fs.readdir(dirPath, { withFileTypes: true }, (err, entries) => {
-        if (err) {
-            console.error("Error reading directory:", err);
-            res.status(500).json({ success: false, error: err.message });
-        } else {
-            const directories = entries
-                .filter(entry => entry.isDirectory())
-                .map(entry => entry.name);
-            res.status(200).json(directories);
-        }
-    });
+  const currentPath = req.query.path || "";
+  const dirPath = path.join(ROOT_DIR, "routes", currentPath);
+  fs.readdir(dirPath, { withFileTypes: true }, (err, entries) => {
+    if (err) {
+      console.error("Error reading directory:", err);
+      res.status(500).json({ success: false, error: err.message });
+    } else {
+      const directories = entries
+        .filter((entry) => entry.isDirectory())
+        .map((entry) => entry.name);
+      res.status(200).json(directories);
+    }
+  });
 });
 
 // Middleware to serve index.html for any other route
 app.get("*", (req, res) => {
-  const indexPath = path.join(CWRAP_DIR, "index.html");
+  const indexPath = isDevelopment
+    ? path.join(ROOT_DIR, "dist", "index.html")
+    : path.join(CWRAP_DIR, "index.html");
   res.sendFile(indexPath);
 });
 
