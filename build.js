@@ -1068,6 +1068,11 @@ function generateCssSelector(
                 parts[i],
                 mapValue || defaultValue
               );
+              const styleParts = jsonObj.style.split(";");
+              const filteredStyleParts = styleParts.filter(
+                (part) => !part.includes("cwrapOmit")
+              );
+              jsonObj.style = filteredStyleParts.join(";");
             }
           }
         }
@@ -1107,6 +1112,11 @@ function generateCssSelector(
                   parts[i],
                   mapValue || defaultValue
                 );
+                const styleParts = extension.style.split(";");
+                const filteredStyleParts = styleParts.filter(
+                  (part) => !part.includes("cwrapOmit")
+                );
+                extension.style = filteredStyleParts.join(";");
               }
             }
           }
@@ -1138,6 +1148,11 @@ function generateCssSelector(
                   parts[i],
                   mapValue || defaultValue
                 );
+                const styleParts = finalStyle.split(";");
+                const filteredStyleParts = styleParts.filter(
+                  (part) => !part.includes("cwrapOmit")
+                );
+                finalStyle = filteredStyleParts.join(";");
               }
             }
           }
