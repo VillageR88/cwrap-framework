@@ -1,5 +1,5 @@
 const mkdirp = require("mkdirp");
-const fs = require("node:fs");
+const fs = require("fs-extra");
 const path = require("node:path");
 const { JSDOM } = require("jsdom");
 const { document } = new JSDOM().window;
@@ -511,12 +511,42 @@ function processStaticRouteDirectory(routeDir, buildDir, index) {
   let jsonObj = JSON.parse(fs.readFileSync(jsonFile, "utf8"));
   if (jsonObj.routes) {
     if (!isDevelopment) console.log("routeFound");
-    jsonObj = JSON.parse(
-      JSON.stringify(jsonObj).replace(/cwrapRoutes\[(.*?)\]/g, (match, p1) => {
-        const items = p1.split(",");
-        return items[index] || "";
-      })
-    );
+    const findCwrapArrayMatches = (str, cwrapMatch) => {
+      const matches = [];
+      let bracketCount = 0;
+      let startIndex = -1;
+
+      for (let i = 0; i < str.length; i++) {
+        if (str.slice(i, i + cwrapMatch.length) === cwrapMatch) {
+          if (startIndex === -1) {
+            startIndex = i;
+          }
+        }
+        if (str[i] === "[") {
+          if (startIndex !== -1) bracketCount++;
+        } else if (str[i] === "]") {
+          if (startIndex !== -1) bracketCount--;
+          if (bracketCount === 0 && startIndex !== -1) {
+            matches.push(str.slice(startIndex, i + 1));
+            startIndex = -1;
+          }
+        }
+      }
+
+      return matches;
+    };
+
+    const jsonString = JSON.stringify(jsonObj);
+    const arrayMatches = findCwrapArrayMatches(jsonString, "cwrapRoutes");
+    let replacedString = jsonString;
+
+    for (const match of arrayMatches) {
+      const arrayContent = match.match(/\[(.*)\]/s)[1];
+      const items = arrayContent.split(",");
+      replacedString = replacedString.replace(match, items[index] || "");
+    }
+
+    jsonObj = JSON.parse(replacedString);
   }
 
   // Generate CSS selectors and extract styles
@@ -768,6 +798,13 @@ function main() {
   const buildDir = isDevelopment ? path.resolve("dist") : path.resolve("build");
   if (!isDevelopment) console.log("Starting build process...");
 
+  // Ensure the build directory is deleted before building
+  if (fs.existsSync(buildDir)) {
+    fs.removeSync(buildDir);
+    if (!isDevelopment)
+      console.log(`Deleted existing build directory ${buildDir}`);
+  }
+
   // Ensure the build directory exists
   if (!fs.existsSync(buildDir)) {
     mkdirp.sync(buildDir);
@@ -833,13 +870,13 @@ function replacePlaceholdersCwrapArray(jsonObj, index) {
   const jsonString = JSON.stringify(jsonObj);
 
   // Function to match the outermost `cwrapArray[...]` while handling nested brackets
-  const findCwrapArrayMatches = (str) => {
+  const findCwrapArrayMatches = (str, cwrapMatch) => {
     const matches = [];
     let bracketCount = 0;
     let startIndex = -1;
 
     for (let i = 0; i < str.length; i++) {
-      if (str.slice(i, i + 10) === "cwrapArray") {
+      if (str.slice(i, i + 10) === cwrapMatch) {
         if (startIndex === -1) {
           startIndex = i;
         }
@@ -858,7 +895,7 @@ function replacePlaceholdersCwrapArray(jsonObj, index) {
     return matches;
   };
 
-  const arrayMatches = findCwrapArrayMatches(jsonString);
+  const arrayMatches = findCwrapArrayMatches(jsonString, "cwrapArray");
   if (!arrayMatches.length) {
     return jsonObj;
   }

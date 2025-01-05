@@ -46,6 +46,7 @@ rl.question("Enter project name (default: my-new-cwrap-project): ", (input) => {
       "cwrap-framework": cwrapFrameworkVersion,
       "body-parser": "^1.20.2",
       express: "^4.17.1",
+      "fs-extra": "^11.2.0",
       "connect-livereload": "^0.6.1",
       "cross-env": "^7.0.3",
       livereload: "^0.9.3",
