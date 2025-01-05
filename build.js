@@ -212,17 +212,21 @@ function createElementFromJson(
               element.appendChild(clonedTemplateElement);
             }
           }
-        } else if (part.startsWith("cwrapProperty")) {
-          const propertyMatch = part.match(
-            /cwrapProperty\[([^\]=]+)=([^\]]+)\]/
-          );
-          if (propertyMatch) {
-            const [property, defaultValue] = propertyMatch.slice(1);
-            const mapValue = properties?.get(propertyMatch[1]);
+        } else if (part.includes("cwrapProperty")) {
+          let replacedText = originalText;
+          const regex = /cwrapProperty\[([^\]=]+)=([^\]]+)\]/g;
+          const matches = [...originalText.matchAll(regex)];
+          for (const match of matches) {
+            const [fullMatch, property, defaultValue] = match;
+            const mapValue = properties?.get(property);
             if (mapValue !== "cwrapPlaceholder") {
-              element.append(mapValue || defaultValue);
+              replacedText = replacedText.replace(
+                fullMatch,
+                mapValue || defaultValue
+              );
             }
           }
+          element.append(replacedText);
         } else {
           element.append(part);
         }
