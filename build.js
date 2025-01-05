@@ -1122,7 +1122,28 @@ function generateCssSelector(
         if (!mediaQueriesMap.has(mediaQuery.query)) {
           mediaQueriesMap.set(mediaQuery.query, new Map());
         }
-        mediaQueriesMap.get(mediaQuery.query).set(selector, mediaQuery.style);
+
+        let finalStyle = mediaQuery.style;
+        if (mediaQuery.style.includes("cwrapProperty")) {
+          const parts = mediaQuery.style.split(/(cwrapProperty\[[^\]]+\])/);
+          for (let i = 1; i < parts.length; i++) {
+            if (parts[i].startsWith("cwrapProperty")) {
+              const propertyMatch = parts[i].match(
+                /cwrapProperty\[([^\]=]+)=([^\]]+)\]/
+              );
+              if (propertyMatch) {
+                const [property, defaultValue] = propertyMatch.slice(1);
+                const mapValue = propsMap.get(property);
+                finalStyle = finalStyle.replace(
+                  parts[i],
+                  mapValue || defaultValue
+                );
+              }
+            }
+          }
+        }
+
+        mediaQueriesMap.get(mediaQuery.query).set(selector, finalStyle);
       }
     }
 
