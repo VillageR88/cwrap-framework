@@ -960,7 +960,7 @@ function generateCssSelector(
           const templateName =
             templateNameWithProps.match(/.+(?=\()/)?.[0] ||
             templateNameWithProps;
-          const templatePropsMap = propsMap;
+          const templatePropsMap = new Map(); // Create a new isolated propsMap for each template
           const propsMatch = templateNameWithProps.match(/\(([^)]+)\)/);
 
           if (propsMatch) {
@@ -977,9 +977,13 @@ function generateCssSelector(
             const templateElementCopy = JSON.parse(
               JSON.stringify(templateElement)
             );
-            for (const [key, value] of templatePropsMap) {
-              if (propsMap.has(key)) {
-                templatePropsMap.set(key, propsMap.get(key));
+
+            // Check for noInherit option
+            if (!templatePropsMap.has("noInherit")) {
+              for (const [key, value] of propsMap) {
+                if (!templatePropsMap.has(key)) {
+                  templatePropsMap.set(key, value);
+                }
               }
             }
 
@@ -1006,7 +1010,7 @@ function generateCssSelector(
           parentSelector,
           siblingCountMap,
           blueprintCounter,
-          propsMap,
+          new Map(propsMap), // Pass a new copy of propsMap to each passover element
           passover,
           omit
         );
@@ -1170,7 +1174,7 @@ function generateCssSelector(
           selector,
           siblingCountMap,
           blueprintCounter,
-          propsMap,
+          new Map(propsMap), // Pass a new copy of propsMap to each child
           passover,
           omit
         );
@@ -1194,7 +1198,7 @@ function generateCssSelector(
           selector,
           siblingCountMap,
           i + 1,
-          propsMap,
+          new Map(propsMap), // Pass a new copy of propsMap to each blueprint child
           passover,
           omit
         );
