@@ -572,7 +572,10 @@ function processStaticRouteDirectory(routeDir, buildDir, index) {
   headContent = generateHeadHtml(mergedHead, buildDir);
 
   // Generate HTML content from JSON and append the script tag
-  const bodyContent = generateHtmlWithScript(jsonObj, jsonFile);
+  const bodyContent = generateHtmlWithScript(
+    replaceCwrapGlobals(jsonObj),
+    jsonFile
+  );
   let bodyHtml = bodyContent.outerHTML;
   bodyHtml = clearDocumentByOmit(bodyHtml);
   bodyHtml = clearDocumentByPlaceholder(bodyHtml);
