@@ -16,21 +16,32 @@ const globalsJsonPath = path.join(__dirname, "routes", "globals.json");
 const activeParam = process?.argv?.slice(2);
 const isDevelopment = activeParam.includes("dev");
 
+const getNestedValue = (obj, path) => {
+  if (!path) return obj; // If no path is provided, return the root object
+  return path.split(".").reduce((acc, key) => acc?.[key], obj);
+};
+
 const replaceCwrapGlobals = (obj) => {
   if (typeof obj === "string") {
     return obj.replace(/cwrapGlobal\[(.*?)\]/g, (match, p1) => {
-      return constMap.get(p1) || match;
+      const [rootKey, ...nestedPath] = p1.split("."); // Split the key into root and nested parts
+      const rootValue = constMap.get(rootKey); // Get the root value from constMap
+      if (rootValue !== undefined) {
+        // Handle both simple and nested cases
+        return getNestedValue(rootValue, nestedPath.join(".")) || match;
+      }
+      return match; // Preserve the original if no match is found
     });
   }
   if (Array.isArray(obj)) {
-    return obj.map(replaceCwrapGlobals);
+    return obj.map(replaceCwrapGlobals); // Recursively process arrays
   }
   if (typeof obj === "object" && obj !== null) {
     for (const key in obj) {
-      obj[key] = replaceCwrapGlobals(obj[key]);
+      obj[key] = replaceCwrapGlobals(obj[key]); // Recursively process objects
     }
   }
-  return obj;
+  return obj; // Return other types unchanged
 };
 
 function clearDocumentByOmit(htmlString) {
