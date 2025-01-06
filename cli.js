@@ -39,10 +39,10 @@ rl.question("Enter project name (default: my-new-cwrap-project): ", (input) => {
     scripts: {
       start: "node start.js && node server.js",
       build: "node build.js",
-      dev: "node build.js dev && node start.js dev && node server.js dev",
+      dev: "node cleanup.js dev && node build.js dev && node start.js dev && node server.js dev",
     },
     devDependencies: {
-      // "cwrap-framework": "file:../cwrap-framework-0.1.0-alpha.202411161416.tgz",
+      // "cwrap-framework": "file:../cwrap-framework-0.1.0-rc.202501061751.tgz",
       "cwrap-framework": cwrapFrameworkVersion,
       "body-parser": "^1.20.2",
       express: "^4.17.1",
@@ -238,6 +238,22 @@ function runAdditionalSetup(projectPath, template) {
     }
   } else {
     logMessage("server.js already exists in the root folder");
+  }
+
+  // Move cleanup.js from cwrap to root folder if it does not exist
+  const cleanupSrcPath = path.join(cwrapPath, "cleanup.js");
+  const cleanupDestPath = path.join(projectPath, "cleanup.js");
+  if (!fs.existsSync(cleanupDestPath)) {
+    try {
+      fs.copyFileSync(cleanupSrcPath, cleanupDestPath);
+      logMessage("Moved cleanup.js to root folder");
+    } catch (error) {
+      logMessage("Error moving cleanup.js:", error.message);
+      removeLockFile();
+      process.exit(1);
+    }
+  } else {
+    logMessage("cleanup.js already exists in the root folder");
   }
 
   // Move start.js from cwrap to root folder if it does not exist

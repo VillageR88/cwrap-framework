@@ -798,13 +798,6 @@ function main() {
   const buildDir = isDevelopment ? path.resolve("dist") : path.resolve("build");
   if (!isDevelopment) console.log("Starting build process...");
 
-  // Ensure the build directory is deleted before building
-  if (fs.existsSync(buildDir)) {
-    fs.removeSync(buildDir);
-    if (!isDevelopment)
-      console.log(`Deleted existing build directory ${buildDir}`);
-  }
-
   // Ensure the build directory exists
   if (!fs.existsSync(buildDir)) {
     mkdirp.sync(buildDir);

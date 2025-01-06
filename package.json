@@ -1,12 +1,12 @@
 {
   "name": "cwrap-framework",
-  "version": "0.1.0-rc.202501061220",
+  "version": "0.1.0-rc.202501061751",
   "description": "Candy Wrapper (CWrap) is an open microframework for web developers and those learning web development.",
   "main": "scripts/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node scripts/start.js && cross-env DEV=1 node server.js",
-    "dev": "node build.js dev && node scripts/start.js dev && cross-env DEV=1 node server.js dev"
+    "dev": "node cleanup.js dev && node build.js dev && node scripts/start.js dev && cross-env DEV=1 node server.js dev"
   },
   "keywords": [
     "framework",
