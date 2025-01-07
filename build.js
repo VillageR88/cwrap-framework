@@ -1079,15 +1079,15 @@ function generateCssSelector(
                 parts[i],
                 mapValue || defaultValue
               );
-              const styleParts = jsonObj.style.split(";");
-              const filteredStyleParts = styleParts.filter(
-                (part) => !part.includes("cwrapOmit")
-              );
-              jsonObj.style = filteredStyleParts.join(";");
             }
           }
         }
       }
+      const styleParts = jsonObj.style.split(";");
+      const filteredStyleParts = styleParts.filter(
+        (part) => !part.includes("cwrapOmit")
+      );
+      jsonObj.style = filteredStyleParts.join(";");
 
       // Check if the final style contains cwrapOmit
       if (jsonObj.style.includes("cwrapOmit")) {
@@ -1123,15 +1123,15 @@ function generateCssSelector(
                   parts[i],
                   mapValue || defaultValue
                 );
-                const styleParts = extension.style.split(";");
-                const filteredStyleParts = styleParts.filter(
-                  (part) => !part.includes("cwrapOmit")
-                );
-                extension.style = filteredStyleParts.join(";");
               }
             }
           }
         }
+        const styleParts = extension.style.split(";");
+        const filteredStyleParts = styleParts.filter(
+          (part) => !part.includes("cwrapOmit")
+        );
+        extension.style = filteredStyleParts.join(";");
         const extendedSelector = `${selector}${extension.extension}`;
         cssMap.set(extendedSelector, extension.style);
       }
@@ -1159,16 +1159,15 @@ function generateCssSelector(
                   parts[i],
                   mapValue || defaultValue
                 );
-                const styleParts = finalStyle.split(";");
-                const filteredStyleParts = styleParts.filter(
-                  (part) => !part.includes("cwrapOmit")
-                );
-                finalStyle = filteredStyleParts.join(";");
               }
             }
           }
         }
-
+        const styleParts = finalStyle.split(";");
+        const filteredStyleParts = styleParts.filter(
+          (part) => !part.includes("cwrapOmit")
+        );
+        finalStyle = filteredStyleParts.join(";");
         mediaQueriesMap.get(mediaQuery.query).set(selector, finalStyle);
       }
     }
