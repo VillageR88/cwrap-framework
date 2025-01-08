@@ -102,6 +102,22 @@ function createElementFromJson(
   if (omit.includes(jsonObjCopy["omit-id"])) {
     jsonObjCopy.text = "cwrapOmit";
   }
+  let isFragment = false;
+  if (jsonObjCopy.element === "cwrap-fragment") isFragment = true;
+  if (isFragment) {
+    const fragment = document.createDocumentFragment();
+    for (const child of jsonObjCopy.children) {
+      const childElement = createElementFromJson(
+        child,
+        isInitialLoad,
+        blueprintElementCounter,
+        properties,
+        omit
+      );
+      fragment.appendChild(childElement);
+    }
+    return fragment;
+  }
 
   // Create the element
   const SVG_NAMESPACE = "http://www.w3.org/2000/svg";
@@ -966,6 +982,22 @@ function generateCssSelector(
     }
     const element = jsonObj.element;
     if (!jsonObj.text) jsonObj.text = "";
+
+    // Handle cwrap-fragment elements
+    if (jsonObj.element === "cwrap-fragment") {
+      for (const child of jsonObj.children) {
+        generateCssSelector(
+          child,
+          parentSelector,
+          siblingCountMap,
+          blueprintCounter,
+          new Map(propsMap), // Pass a new copy of propsMap to each child
+          passover,
+          omit
+        );
+      }
+      return;
+    }
 
     // Handle cwrap-template elements
     if (element === "cwrap-template") {
