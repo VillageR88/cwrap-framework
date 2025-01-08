@@ -944,7 +944,6 @@ function generateCssSelector(
   omit = []
 ) {
   let selector = parentSelector;
-
   if (jsonObj.element) {
     if (omit.includes(jsonObj["omit-id"])) {
       return;
@@ -1021,24 +1020,7 @@ function generateCssSelector(
       return;
     }
 
-    // Initialize sibling counts for the parent selector
-    if (!siblingCountMap.has(parentSelector)) {
-      siblingCountMap.set(parentSelector, new Map());
-    }
-    const parentSiblingCount = siblingCountMap.get(parentSelector);
-
-    if (notNthEnumerableElements.includes(element)) {
-      selector += (parentSelector ? " > " : "") + element;
-    } else {
-      if (!parentSiblingCount.has(element)) {
-        parentSiblingCount.set(element, 0);
-      }
-      parentSiblingCount.set(element, parentSiblingCount.get(element) + 1);
-      selector += ` > ${element}:nth-of-type(${parentSiblingCount.get(
-        element
-      )})`;
-    }
-
+    // This is for siblingCountMap not + 1 if cwrapOmit present
     if (jsonObj.text) {
       if (jsonObj.text.includes("cwrapProperty")) {
         const parts = jsonObj.text.split(/(cwrapProperty\[[^\]]+\])/);
@@ -1057,6 +1039,23 @@ function generateCssSelector(
           }
         }
       }
+    }
+
+    if (!siblingCountMap.has(parentSelector)) {
+      siblingCountMap.set(parentSelector, new Map());
+    }
+    const parentSiblingCount = siblingCountMap.get(parentSelector);
+
+    if (notNthEnumerableElements.includes(element)) {
+      selector += (parentSelector ? " > " : "") + element;
+    } else {
+      if (!parentSiblingCount.has(element)) {
+        parentSiblingCount.set(element, 0);
+      }
+      parentSiblingCount.set(element, parentSiblingCount.get(element) + 1);
+      selector += ` > ${element}:nth-of-type(${parentSiblingCount.get(
+        element
+      )})`;
     }
 
     // Handle styles with cwrapProperty
