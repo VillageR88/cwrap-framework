@@ -346,7 +346,7 @@ function generateHtmlWithScript(jsonObj, jsonFilePath) {
     path.join(__dirname, "routes"),
     jsonFilePath
   );
-  const depth = relativePath.split(path.sep).length - 1;
+  const depth = relativePath.split(/[\\/]/).length - 1;
 
   // Check if cwrapGetParams is present in the JSON object
   if (JSON.stringify(jsonObj).includes("cwrapGetParams")) {
@@ -419,17 +419,11 @@ function copyFaviconToRoot(buildDir) {
   }
 }
 
-function generateHeadHtml(head, buildDir, depth) {
+function generateHeadHtml(head, jsonFile) {
   let headHtml = "<head>\n";
   const prefix = process.env.PAGE_URL;
   if (prefix) {
     if (!isDevelopment) console.log("Prefix: ", prefix);
-  } else {
-    // const packageJsonPath = path.join(__dirname, "package.json");
-    // const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
-    // const routeName = packageJson.name;
-    // const route = buildDir.split(routeName).pop();
-    // headHtml += `<base href="${route.replaceAll("\\", "/")}/">\n`;
   }
 
   // Add title
@@ -468,7 +462,9 @@ function generateHeadHtml(head, buildDir, depth) {
   // Add additional tags like link
   headHtml += '    <link rel="stylesheet" href="styles.css">\n';
 
-  // Add globals.css with correct relative path
+  // Calculate the depth based on the JSON file's path relative to the routes folder
+  const relativePath = path.relative(path.join(__dirname, "routes"), jsonFile);
+  const depth = relativePath.split(/[\\/]/).length - 1;
   const globalsCssPath = `${"../".repeat(depth)}globals.css`;
   headHtml += `    <link rel="stylesheet" href="${globalsCssPath}">\n`;
 
@@ -580,7 +576,7 @@ function processStaticRouteDirectory(routeDir, buildDir, index) {
   const mergedHead = jsonObj.head
     ? { ...globalsHead, ...jsonObj.head }
     : globalsHead;
-  headContent = generateHeadHtml(mergedHead, buildDir);
+  headContent = generateHeadHtml(mergedHead, jsonFile);
 
   // Generate HTML content from JSON and append the script tag
   const bodyContent = generateHtmlWithScript(
@@ -700,8 +696,8 @@ ${headContent}
   mediaQueriesMap.clear();
   if (!isDevelopment) console.log(`Generated ${cssFile} successfully!`);
 
-  // Generate globals.css from globals.json if it exists
-  if (fs.existsSync(globalsJsonPath)) {
+  // Generate globals.css from globals.json if it exists and if processing the home route
+  if (routeDir === path.resolve("routes") && fs.existsSync(globalsJsonPath)) {
     const globalsJson = JSON.parse(fs.readFileSync(globalsJsonPath, "utf8"));
     let globalsCssContent = "";
 
