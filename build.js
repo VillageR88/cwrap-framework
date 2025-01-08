@@ -280,7 +280,23 @@ function createElementFromJson(
   }
 
   if (jsonObjCopy.blueprint) {
-    const count = jsonObjCopy.blueprint.count;
+    let count = jsonObjCopy.blueprint.count;
+    if (count.includes("cwrapProperty")) {
+      const parts = count.split(/(cwrapProperty\[[^\]]+\])/);
+      for (let i = 1; i < parts.length; i++) {
+        if (parts[i].startsWith("cwrapProperty")) {
+          const propertyMatch = parts[i].match(
+            /cwrapProperty\[([^\]=]+)=([^\]]+)\]/
+          );
+          if (propertyMatch) {
+            const [property, defaultValue] = propertyMatch.slice(1);
+            const mapValue = properties?.get(property);
+            count = count.replace(parts[i], mapValue || defaultValue);
+          }
+        }
+      }
+    }
+    count = Number.parseInt(count, 10);
     for (let i = 0; i < count; i++) {
       let cookedJson = replacePlaceholdersCwrapArray(jsonObjCopy.blueprint, i);
       cookedJson = replacePlaceholdersCwrapIndex(cookedJson, i);
@@ -1186,7 +1202,24 @@ function generateCssSelector(
     if (jsonObj.blueprint) {
       jsonObj.customTag = "cwrapBlueprintCSS";
       const blueprint = jsonObj.blueprint;
-      for (let i = 0; i < blueprint.count; i++) {
+      let count = blueprint.count;
+      if (count.includes("cwrapProperty")) {
+        const parts = count.split(/(cwrapProperty\[[^\]]+\])/);
+        for (let i = 1; i < parts.length; i++) {
+          if (parts[i].startsWith("cwrapProperty")) {
+            const propertyMatch = parts[i].match(
+              /cwrapProperty\[([^\]=]+)=([^\]]+)\]/
+            );
+            if (propertyMatch) {
+              const [property, defaultValue] = propertyMatch.slice(1);
+              const mapValue = propsMap.get(property);
+              count = count.replace(parts[i], mapValue || defaultValue);
+            }
+          }
+        }
+      }
+      count = Number.parseInt(count, 10);
+      for (let i = 0; i < count; i++) {
         const blueprintChild = JSON.parse(JSON.stringify(blueprint));
         blueprintChild.element = blueprint.element;
         blueprintChild.children = blueprint.children;
