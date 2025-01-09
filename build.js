@@ -264,7 +264,7 @@ function createElementFromJson(
 
     if (selectedJsonObj.attributes) {
       for (const [key, value] of Object.entries(selectedJsonObj.attributes)) {
-        if (value === "cwrapOmit") continue;
+        if (value === "cwrapOmit") break;
         if (value.includes("cwrapProperty")) {
           const parts = value.split(/(cwrapProperty\[[^\]]+\])/g);
           let finalValue = "";
