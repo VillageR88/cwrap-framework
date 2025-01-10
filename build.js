@@ -56,7 +56,8 @@ function clearDocumentByOmit(htmlString) {
   for (let i = elements.length - 1; i >= 0; i--) {
     if (
       elements[i].textContent.includes("cwrapOmit") ||
-      elements[i].hasAttribute("data-cwrap-omit")
+      elements[i].hasAttribute("data-cwrap-omit") ||
+      elements[i].tagName.toLowerCase() === "cwrapomit"
     ) {
       elements[i].parentNode.removeChild(elements[i]);
     }
@@ -303,7 +304,7 @@ function createElementFromJson(
 
   if (jsonObjCopy.blueprint) {
     let count = jsonObjCopy.blueprint.count;
-    if (count.includes("cwrapProperty")) {
+    if (typeof count === "string" && count.includes("cwrapProperty")) {
       const parts = count.split(/(cwrapProperty\[[^\]]+\])/);
       for (let i = 1; i < parts.length; i++) {
         if (parts[i].startsWith("cwrapProperty")) {
@@ -1246,7 +1247,7 @@ function generateCssSelector(
       jsonObj.customTag = "cwrapBlueprintCSS";
       const blueprint = jsonObj.blueprint;
       let count = blueprint.count;
-      if (count.includes("cwrapProperty")) {
+      if (typeof count === "string" && count.includes("cwrapProperty")) {
         const parts = count.split(/(cwrapProperty\[[^\]]+\])/);
         for (let i = 1; i < parts.length; i++) {
           if (parts[i].startsWith("cwrapProperty")) {
