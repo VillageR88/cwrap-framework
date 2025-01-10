@@ -56,7 +56,8 @@ function clearDocumentByOmit(htmlString) {
   for (let i = elements.length - 1; i >= 0; i--) {
     if (
       elements[i].textContent.includes("cwrapOmit") ||
-      elements[i].hasAttribute("data-cwrap-omit")
+      elements[i].hasAttribute("data-cwrap-omit") ||
+      elements[i].tagName.toLowerCase() === "cwrapomit"
     ) {
       elements[i].parentNode.removeChild(elements[i]);
     }
