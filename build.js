@@ -1032,7 +1032,13 @@ function generateCssSelector(
             const props = propsMatch[1].split(",");
             for (const prop of props) {
               const [key, value] = prop.split("=");
-              templatePropsMap.set(key.trim(), value.trim());
+              if (isDevelopment) {
+                try {
+                  templatePropsMap.set(key.trim(), value.trim());
+                } catch (error) {
+                    throw new Error(`Error processing template: ${jsonObj.text}`);
+                }
+              } else templatePropsMap.set(key.trim(), value.trim());
             }
           }
 
