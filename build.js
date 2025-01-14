@@ -109,6 +109,25 @@ function createElementFromJson(
 
   let isFragment = false;
   if (jsonObjCopy.element === "cwrap-fragment") isFragment = true;
+
+  if (jsonObjCopy.element.includes("cwrapProperty")) {
+    const parts = jsonObjCopy.element.split(/(cwrapProperty\[[^\]]+\])/g);
+    let finalElement = "";
+
+    for (const part of parts) {
+      if (part.startsWith("cwrapProperty")) {
+        const propertyMatch = part.match(/cwrapProperty\[([^\]=]+)=([^\]]+)\]/);
+        if (propertyMatch) {
+          const [property, defaultValue] = propertyMatch.slice(1);
+          const mapValue = properties?.get(property);
+          finalElement += mapValue || defaultValue;
+        }
+      } else {
+        finalElement += part;
+      }
+    }
+    jsonObjCopy.element = finalElement;
+  }
   if (isFragment) {
     const fragment = document.createDocumentFragment();
     for (const child of jsonObjCopy.children) {
@@ -208,9 +227,19 @@ function createElementFromJson(
         } else if (part.startsWith("cwrapTemplate")) {
           const propMap = new Map(properties);
 
-          const templateNameWithProps = part.match(
-            /cwrapTemplate\[([^\]]+)\]/
-          )[1];
+          let templateNameWithProps;
+          if (isDevelopment) {
+            try {
+              templateNameWithProps = part.match(
+                /cwrapTemplate\[([^\]]+)\]/
+              )[1];
+            } catch (error) {
+              console.error("Error processing template:", part, error);
+              continue;
+            }
+          } else {
+            templateNameWithProps = part.match(/cwrapTemplate\[([^\]]+)\]/)[1];
+          }
           const templateName =
             templateNameWithProps.match(/.+(?=\()/)?.[0] ||
             templateNameWithProps;
@@ -998,7 +1027,28 @@ function generateCssSelector(
     if (omit.includes(jsonObj["omit-id"])) {
       return;
     }
-    const element = jsonObj.element;
+    let element = jsonObj.element;
+
+    if (jsonObj.element.includes("cwrapProperty")) {
+      const parts = jsonObj.element.split(/(cwrapProperty\[[^\]]+\])/g);
+      let finalElement = "";
+
+      for (const part of parts) {
+        if (part.startsWith("cwrapProperty")) {
+          const propertyMatch = part.match(
+            /cwrapProperty\[([^\]=]+)=([^\]]+)\]/
+          );
+          if (propertyMatch) {
+            const [property, defaultValue] = propertyMatch.slice(1);
+            const mapValue = propsMap?.get(property);
+            finalElement += mapValue || defaultValue;
+          }
+        } else {
+          finalElement += part;
+        }
+      }
+      element = finalElement;
+    }
     if (!jsonObj.text) jsonObj.text = "";
 
     // Handle cwrap-fragment elements

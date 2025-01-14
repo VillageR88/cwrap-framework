@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 const path = require("node:path");
 const fs = require("node:fs");
 const os = require("node:os");
-const { exec } = require("node:child_process");
+const { execSync } = require("node:child_process");
 
 const activeParam = process?.argv?.slice(2);
 const isDevelopment = activeParam.includes("dev");
@@ -25,19 +25,71 @@ const CWRAP_DIR = isDevelopment
   ? path.resolve(__dirname, "dist")
   : path.resolve("node_modules", "cwrap-framework");
 
+let buildErrorOccurred = false;
+
 // Create and configure the livereload server
 const liveReloadServer = livereload.createServer({
-  exts: ["html", "css", "js", "py", "exe", "json"],
+  exts: ["json"],
   exclusions: [/dist/],
 });
 liveReloadServer.watch(ROOT_DIR);
 
 liveReloadServer.watcher.on("change", (filePath) => {
-  exec("node build.js dev", (err, stdout, stderr) => {});
+  if (filePath.endsWith(".json")) {
+    try {
+      execSync("node build.js dev", { stdio: "inherit" });
+      buildErrorOccurred = false;
+    } catch (err) {
+      const errorHtml = `
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Build Error</title>
+          <style>
+            body {
+              font-family: Arial, sans-serif;
+              text-align: center;
+              padding: 50px;
+            }
+            h1 {
+              color: red;
+            }
+            pre {
+              text-align: left;
+              background-color: #f8f8f8;
+              padding: 10px;
+              border: 1px solid #ddd;
+              border-radius: 4px;
+              overflow-x: auto;
+            }
+          </style>
+        </head>
+        <body>
+          <h1>Build Error</h1>
+          <p>Sorry, something went wrong during the build process. Please try again later.</p>
+          <pre>${err.message}\n${err.stack}</pre>
+        </body>
+        </html>
+      `;
+      fs.writeFileSync(path.join(ROOT_DIR, "error.html"), errorHtml);
+      buildErrorOccurred = true;
+    }
+  }
 });
 
 // Create the Express app
 const app = express();
+
+// Middleware to serve the error page if a build error occurred
+app.use((req, res, next) => {
+  if (buildErrorOccurred) {
+    res.sendFile(path.join(ROOT_DIR, "error.html"));
+  } else {
+    next();
+  }
+});
 
 // Middleware
 app.use(connectLivereload());
@@ -270,6 +322,12 @@ app.get("*", (req, res) => {
     ? path.join(ROOT_DIR, "dist", "index.html")
     : path.join(CWRAP_DIR, "index.html");
   res.sendFile(indexPath);
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error("Server error:", err);
+  res.status(500).sendFile(path.join(ROOT_DIR, "error.html"));
 });
 
 // Start the server

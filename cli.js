@@ -37,12 +37,12 @@ rl.question("Enter project name (default: my-new-cwrap-project): ", (input) => {
     version: "1.0.0",
     main: "index.js",
     scripts: {
-      start: "node start.js && node server.js",
+      // start: "node start.js && node server.js", //historical function TBDeleted
       build: "node build.js",
       dev: "node cleanup.js dev && node build.js dev && node start.js dev && node server.js dev",
     },
     devDependencies: {
-      // "cwrap-framework": "file:../cwrap-framework-0.1.0-rc.202501061751.tgz",
+      // "cwrap-framework": "file:../cwrap-framework-0.1.0-rc.202501120242.tgz",
       "cwrap-framework": cwrapFrameworkVersion,
       "body-parser": "^1.20.2",
       express: "^4.17.1",
@@ -72,33 +72,35 @@ rl.question("Enter project name (default: my-new-cwrap-project): ", (input) => {
   console.log("Packages installed successfully!");
 
   // Prompt for template choice
-  function promptTemplateChoice() {
-    console.log("\nChoose the number of the template to install:");
-    console.log("1 (default): demo");
-    console.log("2: single-component");
-    console.log("0: empty");
-    rl.question("\nEnter your choice: ", (templateChoice) => {
-      let template;
-      switch (templateChoice.trim()) {
-        case "2":
-          template = "single-component";
-          break;
-        case "1":
-        case "":
-          template = "demo";
-          break;
-        case "0":
-          template = "empty";
-          break;
-        default:
-          console.log("Invalid choice.");
-          return promptTemplateChoice(); // Ask again
-      }
-      runAdditionalSetup(projectPath, template);
-      rl.close();
-    });
-  }
-  promptTemplateChoice();
+  // function promptTemplateChoice() {
+  //   console.log("\nChoose the number of the template to install:");
+  //   console.log("1 (default): demo");
+  //   console.log("2: single-component");
+  //   console.log("0: empty");
+  //   rl.question("\nEnter your choice: ", (templateChoice) => {
+  //     let template;
+  //     switch (templateChoice.trim()) {
+  //       case "2":
+  //         template = "single-component";
+  //         break;
+  //       case "1":
+  //       case "":
+  //         template = "demo";
+  //         break;
+  //       case "0":
+  //         template = "empty";
+  //         break;
+  //       default:
+  //         console.log("Invalid choice.");
+  //         return promptTemplateChoice(); // Ask again
+  //     }
+  //     runAdditionalSetup(projectPath, template);
+  //     rl.close();
+  //   });
+  // }
+  // promptTemplateChoice();
+  runAdditionalSetup(projectPath, "empty");
+  rl.close();
 });
 
 function runAdditionalSetup(projectPath, template) {
@@ -240,24 +242,8 @@ function runAdditionalSetup(projectPath, template) {
     logMessage("server.js already exists in the root folder");
   }
 
-  // Move cleanup.js from cwrap to root folder if it does not exist
-  const cleanupSrcPath = path.join(cwrapPath, "cleanup.js");
-  const cleanupDestPath = path.join(projectPath, "cleanup.js");
-  if (!fs.existsSync(cleanupDestPath)) {
-    try {
-      fs.copyFileSync(cleanupSrcPath, cleanupDestPath);
-      logMessage("Moved cleanup.js to root folder");
-    } catch (error) {
-      logMessage("Error moving cleanup.js:", error.message);
-      removeLockFile();
-      process.exit(1);
-    }
-  } else {
-    logMessage("cleanup.js already exists in the root folder");
-  }
-
   // Move start.js from cwrap to root folder if it does not exist
-  const startSrcPath = path.join(cwrapPath, "scripts", "start.js");
+  const startSrcPath = path.join(cwrapPath, "start.js");
   const startDestPath = path.join(projectPath, "start.js");
   if (!fs.existsSync(startDestPath)) {
     try {
@@ -268,6 +254,28 @@ function runAdditionalSetup(projectPath, template) {
       removeLockFile();
       process.exit(1);
     }
+  }
+
+  // Create .gitignore file in the root folder if it does not exist
+  const gitignoreDestPath = path.join(projectPath, ".gitignore");
+  const gitignoreContent = `
+/dist
+/build
+/node_modules
+installation.log
+.gitignore
+  `;
+  if (!fs.existsSync(gitignoreDestPath)) {
+    try {
+      fs.writeFileSync(gitignoreDestPath, gitignoreContent.trim());
+      logMessage("Created .gitignore in root folder");
+    } catch (error) {
+      logMessage("Error creating .gitignore:", error.message);
+      removeLockFile();
+      process.exit(1);
+    }
+  } else {
+    logMessage(".gitignore already exists in the root folder");
   }
 
   // Move build.js from cwrap to root folder if it does not exist
@@ -286,6 +294,82 @@ function runAdditionalSetup(projectPath, template) {
     logMessage("build.js already exists in the root folder");
   }
 
+  const cleanupSrcPath = path.join(cwrapPath, "cleanup.js");
+  const cleanupDestPath = path.join(projectPath, "cleanup.js");
+  if (!fs.existsSync(cleanupDestPath)) {
+    try {
+      fs.copyFileSync(cleanupSrcPath, cleanupDestPath);
+      logMessage("Moved cleanup.js to root folder");
+    } catch (error) {
+      logMessage("Error moving cleanup.js:", error.message);
+      removeLockFile();
+      process.exit(1);
+    }
+  } else {
+    logMessage("cleanup.js already exists in the root folder");
+  }
+
+  // Move sortStyles.js from cwrap to root folder if it does not exist
+  const sortStylesSrcPath = path.join(cwrapPath, "sortStyles.js");
+  const sortStylesDestPath = path.join(projectPath, "sortStyles.js");
+  if (!fs.existsSync(sortStylesDestPath)) {
+    try {
+      fs.copyFileSync(sortStylesSrcPath, sortStylesDestPath);
+      logMessage("Moved sortStyles.js to root folder");
+    } catch (error) {
+      logMessage("Error moving sortStyles.js:", error.message);
+      removeLockFile();
+      process.exit(1);
+    }
+  } else {
+    logMessage("sortStyles.js already exists in the root folder");
+  }
+
+  // Move schema folder from cwrap to root folder if it does not exist
+  const schemaSrcPath = path.join(cwrapPath, "schema");
+  const schemaDestPath = path.join(projectPath, "schema");
+  if (!fs.existsSync(schemaDestPath)) {
+    try {
+      copyFolderSync(schemaSrcPath, schemaDestPath);
+      logMessage("Moved schema folder to root folder");
+    } catch (error) {
+      logMessage("Error moving schema folder:", error.message);
+      process.exit(1);
+    }
+  } else {
+    logMessage("schema folder already exists in the root folder");
+  }
+
+  // Move static folder from cwrap to root folder if it does not exist
+  const staticSrcPath = path.join(cwrapPath, "static");
+  const staticDestPath = path.join(projectPath, "static");
+  if (!fs.existsSync(staticDestPath)) {
+    try {
+      copyFolderSync(staticSrcPath, staticDestPath);
+      logMessage("Moved static folder to root folder");
+    } catch (error) {
+      logMessage("Error moving static folder:", error.message);
+      process.exit(1);
+    }
+  } else {
+    logMessage("static folder already exists in the root folder");
+  }
+
+  // Move .vscode folder from cwrap to root folder if it does not exist
+  const vscodeSrcPath = path.join(cwrapPath, ".vscode");
+  const vscodeDestPath = path.join(projectPath, ".vscode");
+  if (!fs.existsSync(vscodeDestPath)) {
+    try {
+      copyFolderSync(vscodeSrcPath, vscodeDestPath);
+      logMessage("Moved .vscode folder to root folder");
+    } catch (error) {
+      logMessage("Error moving .vscode folder:", error.message);
+      process.exit(1);
+    }
+  } else {
+    logMessage(".vscode folder already exists in the root folder");
+  }
+
   // Move .github folder from cwrap to root folder if it does not exist
   const githubSrcPath = path.join(cwrapPath, ".github");
   const githubDestPath = path.join(projectPath, ".github");
@@ -301,25 +385,26 @@ function runAdditionalSetup(projectPath, template) {
     logMessage(".github folder already exists in the root folder");
   }
 
-  // Move cwrapFunctions.js from cwrap to scripts folder if it does not exist
-  const scriptsSrcPath = path.join(cwrapPath, "scripts", "cwrapFunctions.js");
-  const scriptsDestDir = path.join(projectPath, "scripts");
-  const scriptsDestPath = path.join(scriptsDestDir, "cwrapFunctions.js");
-  if (!fs.existsSync(scriptsDestPath)) {
-    try {
-      if (!fs.existsSync(scriptsDestDir)) {
-        fs.mkdirSync(scriptsDestDir, { recursive: true });
-      }
-      fs.copyFileSync(scriptsSrcPath, scriptsDestPath);
-      logMessage("Moved cwrapFunctions.js to scripts folder");
-    } catch (error) {
-      logMessage("Error moving cwrapFunctions.js:", error.message);
-      removeLockFile();
-      process.exit(1);
-    }
-  } else {
-    logMessage("cwrapFunctions.js already exists in the scripts folder");
-  }
+  // 14.01.2025 - discontinued
+  // // Move cwrapFunctions.js from cwrap to scripts folder if it does not exist
+  // const scriptsSrcPath = path.join(cwrapPath, "scripts", "cwrapFunctions.js");
+  // const scriptsDestDir = path.join(projectPath, "scripts");
+  // const scriptsDestPath = path.join(scriptsDestDir, "cwrapFunctions.js");
+  // if (!fs.existsSync(scriptsDestPath)) {
+  //   try {
+  //     if (!fs.existsSync(scriptsDestDir)) {
+  //       fs.mkdirSync(scriptsDestDir, { recursive: true });
+  //     }
+  //     fs.copyFileSync(scriptsSrcPath, scriptsDestPath);
+  //     logMessage("Moved cwrapFunctions.js to scripts folder");
+  //   } catch (error) {
+  //     logMessage("Error moving cwrapFunctions.js:", error.message);
+  //     removeLockFile();
+  //     process.exit(1);
+  //   }
+  // } else {
+  //   logMessage("cwrapFunctions.js already exists in the scripts folder");
+  // }
 
   // Remove the lock file
   removeLockFile();

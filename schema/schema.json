@@ -1,0 +1,217 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Minimal JSON Schema",
+    "type": "object",
+    "properties": {
+        "head": {
+            "type": "object",
+            "properties": {
+                "title": {
+                    "type": "string"
+                },
+                "link": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/linkItem"
+                    }
+                },
+                "meta": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/metaItem"
+                    }
+                }
+            }
+        },
+        "element": {
+            "anyOf": [
+                {
+                    "$ref": "./semantic-elements.json"
+                },
+                {
+                    "type": "string"
+                }
+            ]
+        },
+        "text": {
+            "type": "string"
+        },
+        "style": {
+            "$ref": "#/$defs/style"
+        },
+        "attributes": {
+            "type": "object",
+            "additionalProperties": {
+                "type": "string"
+            }
+        },
+        "children": {
+            "type": "array",
+            "items": {
+                "$ref": "#"
+            }
+        },
+        "classroom": {
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/classroomItem"
+            }
+        },
+        "blueprint": {
+            "type": "object",
+            "properties": {
+                "count": {
+                    "type": "string"
+                },
+                "element": {
+                    "type": "string"
+                },
+                "text": {
+                    "type": "string"
+                },
+                "style": {
+                    "$ref": "#/$defs/style"
+                },
+                "attributes": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "children": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#"
+                    }
+                }
+            },
+            "required": [
+                "count",
+                "element"
+            ]
+        },
+        "passover": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "element": {
+                        "type": "string"
+                    },
+                    "style": {
+                        "$ref": "#/$defs/style"
+                    },
+                    "attributes": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "string"
+                        }
+                    },
+                    "children": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "$defs": {
+        "style": {
+            "type": "string",
+            "description": "CSS styles for the element",
+            "pattern": "^(\\s*([a-zA-Z-]+)\\s*:\\s*[^;]+\\s*;|\\s*[0-9]+%\\s*\\{[^\\}]+\\}\\s*)*$"
+        },
+        "linkItem": {
+            "type": "object",
+            "properties": {
+                "rel": {
+                    "type": "string"
+                },
+                "href": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "rel",
+                "href"
+            ]
+        },
+        "metaItem": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "content": {
+                    "type": "string"
+                },
+                "charset": {
+                    "type": "string"
+                }
+            },
+            "oneOf": [
+                {
+                    "required": [
+                        "name",
+                        "content"
+                    ]
+                },
+                {
+                    "required": [
+                        "charset"
+                    ]
+                }
+            ]
+        },
+        "classroomItem": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "element",
+                        "class",
+                        "id",
+                        "pseudo:",
+                        "pseudo::",
+                        "custom"
+                    ]
+                },
+                "style": {
+                    "$ref": "#/$defs/style"
+                },
+                "mediaQueries": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "query": {
+                                "type": "string"
+                            },
+                            "style": {
+                                "$ref": "#/$defs/style"
+                            }
+                        },
+                        "required": [
+                            "query",
+                            "style"
+                        ]
+                    }
+                }
+            },
+            "required": [
+                "name",
+                "type",
+                "style"
+            ]
+        }
+    }
+}
