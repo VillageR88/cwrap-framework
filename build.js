@@ -1272,8 +1272,8 @@ function generateCssSelector(
         }
 
         let finalStyle = mediaQuery.style;
-        if (mediaQuery.style.includes("cwrapProperty")) {
-          const parts = mediaQuery.style.split(/(cwrapProperty\[[^\]]+\])/);
+        if (finalStyle?.includes("cwrapProperty")) {
+          const parts = finalStyle.split(/(cwrapProperty\[[^\]]+\])/);
           for (let i = 1; i < parts.length; i++) {
             if (parts[i].startsWith("cwrapProperty")) {
               const propertyMatch = parts[i].match(
@@ -1290,12 +1290,48 @@ function generateCssSelector(
             }
           }
         }
-        const styleParts = finalStyle.split(";");
-        const filteredStyleParts = styleParts.filter(
-          (part) => !part.includes("cwrapOmit")
-        );
-        finalStyle = filteredStyleParts.join(";");
-        mediaQueriesMap.get(mediaQuery.query).set(selector, finalStyle);
+        if (finalStyle) {
+          const styleParts = finalStyle.split(";");
+          const filteredStyleParts = styleParts.filter(
+            (part) => !part.includes("cwrapOmit")
+          );
+          finalStyle = filteredStyleParts.join(";");
+          mediaQueriesMap.get(mediaQuery.query).set(selector, finalStyle);
+        }
+
+        // Handle media query extensions
+        if (mediaQuery.extend) {
+          for (const extension of mediaQuery.extend) {
+            let extendedStyle = extension.style;
+            if (extendedStyle.includes("cwrapProperty")) {
+              const parts = extendedStyle.split(/(cwrapProperty\[[^\]]+\])/);
+              for (let i = 1; i < parts.length; i++) {
+                if (parts[i].startsWith("cwrapProperty")) {
+                  const propertyMatch = parts[i].match(
+                    /cwrapProperty\[([^\]=]+)=([^\]]+)\]/
+                  );
+                  if (propertyMatch) {
+                    const [property, defaultValue] = propertyMatch.slice(1);
+                    const mapValue = propsMap.get(property);
+                    extendedStyle = extendedStyle.replace(
+                      parts[i],
+                      mapValue || defaultValue
+                    );
+                  }
+                }
+              }
+            }
+            const styleParts = extendedStyle.split(";");
+            const filteredStyleParts = styleParts.filter(
+              (part) => !part.includes("cwrapOmit")
+            );
+            extendedStyle = filteredStyleParts.join(";");
+            const extendedSelector = `${selector}${extension.extension}`;
+            mediaQueriesMap
+              .get(mediaQuery.query)
+              .set(extendedSelector, extendedStyle);
+          }
+        }
       }
     }
 
