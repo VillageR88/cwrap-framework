@@ -822,13 +822,26 @@ ${headContent}
         }
       }
     }
+    cssMap.forEach((value, key) => {
+      if (value.trim()) {
+        globalsCssContent += `${key} {${value}}\n`;
+      }
+    });
 
-    // Add media queries to globals CSS content
-    const reversedMediaQueriesMap = new Map(
-      [...mediaQueriesMap.entries()].reverse()
-    );
+    // Add media queries to globals CSS content, sorted by max-width from biggest to lowest
+    const sortedMediaQueries = [...mediaQueriesMap.entries()].sort((a, b) => {
+      const maxWidthA = Number.parseInt(
+        a[0].match(/max-width:\s*(\d+)px/)[1],
+        10
+      );
+      const maxWidthB = Number.parseInt(
+        b[0].match(/max-width:\s*(\d+)px/)[1],
+        10
+      );
+      return maxWidthB - maxWidthA;
+    });
 
-    for (const [query, elementsMap] of reversedMediaQueriesMap) {
+    for (const [query, elementsMap] of sortedMediaQueries) {
       globalsCssContent += `@media (${query}) {\n`;
       elementsMap.forEach((style, selector) => {
         if (style.trim()) {
