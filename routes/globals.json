@@ -1,0 +1,52 @@
+{
+  "head": {
+    "title": "New Candy Wrapper project",
+    "link": [
+      {
+        "rel": "stylesheet",
+        "href": "https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap",
+        "type": "text/css"
+      }
+    ],
+    "meta": [
+      {
+        "name": "viewport",
+        "content": "width=device-width, initial-scale=1.0"
+      },
+      {
+        "charset": "UTF-8"
+      },
+      {
+        "name": "description",
+        "content": "New Candy Wrapper project."
+      },
+      {
+        "name": "keywords",
+        "content": ""
+      }
+    ]
+  },
+  "classroom": [
+    {
+      "name": "@view-transition",
+      "type": "custom",
+      "style": "navigation: auto;"
+    },
+    {
+      "name": "h1",
+      "type": "element",
+      "style": "font-family: fantasy; font-size: 34px; font-weight: 500; letter-spacing: 1px; letter-spacing: 5px; margin: 0; text-align: center;"
+    }
+  ],
+  "const": {
+    "features": [
+      "Automatic CSS generation",
+      "Autocompletion",
+      "Built-in linting",
+      "Preview-based",
+      "Dynamic routing",
+      "Template building",
+      "Global variables"
+    ]
+  }
+}

@@ -263,6 +263,7 @@ function runAdditionalSetup(projectPath, template) {
 /build
 /node_modules
 installation.log
+error.html
 .gitignore
   `;
   if (!fs.existsSync(gitignoreDestPath)) {
