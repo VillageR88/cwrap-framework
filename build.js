@@ -170,163 +170,149 @@ function createElementFromJson(
     return true;
   }
 
-  let abandonItem = false;
-  switch (jsonObjCopy.alter) {
-    case "none":
-      break;
-    case "partial":
-      setJsonObjToEnumItem();
-      break;
-    case "full":
-      abandonItem = setJsonObjToEnumItem();
-      break;
-  }
+  const originalText = selectedJsonObj.text || jsonObjCopy.text;
 
-  if (!abandonItem) {
-    const originalText = selectedJsonObj.text || jsonObjCopy.text;
+  element.cwrapText = originalText ?? "";
 
-    element.cwrapText = originalText ?? "";
+  if (
+    originalText?.includes("cwrapSpan") ||
+    originalText?.includes("cwrapTemplate") ||
+    originalText?.includes("cwrapProperty")
+  ) {
+    const parts = originalText.split(
+      /(cwrapSpan|cwrapTemplate\[[^\]]*\]|cwrapProperty\[[^\]]*\])/g
+    );
+    const mergedParts = [];
+    let tempPart = "";
 
-    if (
-      originalText?.includes("cwrapSpan") ||
-      originalText?.includes("cwrapTemplate") ||
-      originalText?.includes("cwrapProperty")
-    ) {
-      const parts = originalText.split(
-        /(cwrapSpan|cwrapTemplate\[[^\]]*\]|cwrapProperty\[[^\]]*\])/g
-      );
-      const mergedParts = [];
-      let tempPart = "";
-
-      for (let i = 0; i < parts.length; i++) {
-        if (parts[i].startsWith("cwrapSpan")) {
-          if (tempPart) {
-            mergedParts.push(tempPart);
-            tempPart = "";
-          }
-          mergedParts.push(parts[i]);
-        } else {
-          tempPart += parts[i];
+    for (let i = 0; i < parts.length; i++) {
+      if (parts[i].startsWith("cwrapSpan")) {
+        if (tempPart) {
+          mergedParts.push(tempPart);
+          tempPart = "";
         }
+        mergedParts.push(parts[i]);
+      } else {
+        tempPart += parts[i];
       }
-      if (tempPart) {
-        mergedParts.push(tempPart);
-      }
-
-      element.textContent = "";
-
-      for (let i = 0; i < mergedParts.length; i++) {
-        const part = mergedParts[i];
-
-        if (part.startsWith("cwrapSpan")) {
-          const spanElement = document.createElement("span");
-          spanElement.isPlaceholder = true;
-          element.isPlaceholderCarrier = true;
-          element.appendChild(spanElement);
-          element.append(part.replace("cwrapSpan", ""));
-        } else if (part.startsWith("cwrapTemplate")) {
-          const propMap = new Map(properties);
-
-          let templateNameWithProps;
-          if (isDevelopment) {
-            try {
-              templateNameWithProps = part.match(
-                /cwrapTemplate\[([^\]]+)\]/
-              )[1];
-            } catch (error) {
-              console.error("Error processing template:", part, error);
-              continue;
-            }
-          } else {
-            templateNameWithProps = part.match(/cwrapTemplate\[([^\]]+)\]/)[1];
-          }
-          const templateName =
-            templateNameWithProps.match(/.+(?=\()/)?.[0] ||
-            templateNameWithProps;
-          const templateProps =
-            templateNameWithProps.match(/(?<=\().+(?=\))/)?.[0];
-
-          if (templateProps) {
-            const propsArray = templateProps.split(",");
-            for (const prop of propsArray) {
-              const [key, value] = prop.split("=");
-              propMap.set(key, value);
-            }
-          }
-
-          const templateElement = templatesMap.get(templateName);
-          if (templateElement) {
-            const clonedTemplateElement = createElementFromJson(
-              templateElement,
-              undefined,
-              undefined,
-              propMap,
-              jsonObjCopy?.omit || omit || []
-            ).cloneNode(true);
-
-            clonedTemplateElement.isTemplateElement = true;
-
-            if (jsonObjCopy.element === "cwrap-template") {
-              clonedTemplateElement.isTemplateElementAnchor = true;
-              clonedTemplateElement.templateElement = templateNameWithProps;
-              element = clonedTemplateElement;
-              jsonObjCopy.templateName = true;
-            } else {
-              element.appendChild(clonedTemplateElement);
-            }
-          }
-        } else if (part.includes("cwrapProperty")) {
-          let replacedText = originalText;
-          const regex = /cwrapProperty\[([^\]=]+)=([^\]]+)\]/g;
-          const matches = [...originalText.matchAll(regex)];
-          for (const match of matches) {
-            const [fullMatch, property, defaultValue] = match;
-            const mapValue = properties?.get(property);
-            if (mapValue !== "cwrapPlaceholder") {
-              replacedText = replacedText.replace(
-                fullMatch,
-                mapValue || defaultValue
-              );
-            }
-          }
-          element.append(replacedText);
-        } else {
-          element.append(part);
-        }
-      }
-    } else {
-      // //This is newest addition to workaround JSDOM preventing from non semantic text inside img (for example)
-      if (jsonObjCopy?.text?.includes("cwrapOmit")) {
-        element?.setAttribute("data-cwrap-omit", "");
-      }
-      element.textContent = originalText;
+    }
+    if (tempPart) {
+      mergedParts.push(tempPart);
     }
 
-    if (selectedJsonObj.attributes) {
-      for (const [key, value] of Object.entries(selectedJsonObj.attributes)) {
-        if (value === "cwrapOmit") continue;
-        if (value.includes("cwrapProperty")) {
-          const parts = value.split(/(cwrapProperty\[[^\]]+\])/g);
-          let finalValue = "";
+    element.textContent = "";
 
-          for (const part of parts) {
-            if (part.startsWith("cwrapProperty")) {
-              const propertyMatch = part.match(
-                /cwrapProperty\[([^\]=]+)=([^\]]+)\]/
-              );
-              if (propertyMatch) {
-                const [property, defaultValue] = propertyMatch.slice(1);
-                const mapValue = properties?.get(property);
-                finalValue += mapValue || defaultValue;
-              }
-            } else {
-              finalValue += part;
-            }
+    for (let i = 0; i < mergedParts.length; i++) {
+      const part = mergedParts[i];
+
+      if (part.startsWith("cwrapSpan")) {
+        const spanElement = document.createElement("span");
+        spanElement.isPlaceholder = true;
+        element.isPlaceholderCarrier = true;
+        element.appendChild(spanElement);
+        element.append(part.replace("cwrapSpan", ""));
+      } else if (part.startsWith("cwrapTemplate")) {
+        const propMap = new Map(properties);
+
+        let templateNameWithProps;
+        if (isDevelopment) {
+          try {
+            templateNameWithProps = part.match(
+              /cwrapTemplate\[((?:[^\[\]]+|\[(?:[^\[\]]+|\[[^\[\]]*\])*\])*)\]/
+            )[1];
+          } catch (error) {
+            console.error("Error processing template:", part, error);
+            continue;
           }
-          element.setAttribute(key, finalValue);
         } else {
-          element.setAttribute(key, value);
+          templateNameWithProps = part.match(
+            /cwrapTemplate\[((?:[^\[\]]+|\[(?:[^\[\]]+|\[[^\[\]]*\])*\])*)\]/
+          )[1];
         }
+        const templateName =
+          templateNameWithProps.match(/.+(?=\()/)?.[0] || templateNameWithProps;
+        const templateProps =
+          templateNameWithProps.match(/(?<=\().+(?=\))/)?.[0];
+
+        if (templateProps) {
+          const propsArray = templateProps.split(",");
+          for (const prop of propsArray) {
+            const [key, value] = prop.split("=");
+            propMap.set(key, value);
+          }
+        }
+
+        const templateElement = templatesMap.get(templateName);
+        if (templateElement) {
+          const clonedTemplateElement = createElementFromJson(
+            templateElement,
+            undefined,
+            undefined,
+            propMap,
+            jsonObjCopy?.omit || omit || []
+          ).cloneNode(true);
+
+          clonedTemplateElement.isTemplateElement = true;
+
+          if (jsonObjCopy.element === "cwrap-template") {
+            clonedTemplateElement.templateElement = templateNameWithProps;
+            element = clonedTemplateElement;
+            jsonObjCopy.templateName = true;
+          } else {
+            element.appendChild(clonedTemplateElement);
+          }
+        }
+      } else if (part.includes("cwrapProperty")) {
+        let replacedText = originalText;
+        const regex = /cwrapProperty\[([^\]=]+)=([^\]]+)\]/g;
+        const matches = [...originalText.matchAll(regex)];
+        for (const match of matches) {
+          const [fullMatch, property, defaultValue] = match;
+          const mapValue = properties?.get(property);
+          if (mapValue !== "cwrapPlaceholder") {
+            replacedText = replacedText.replace(
+              fullMatch,
+              mapValue || defaultValue
+            );
+          }
+        }
+        element.append(replacedText);
+      } else {
+        element.append(part);
+      }
+    }
+  } else {
+    // //This is newest addition to workaround JSDOM preventing from non semantic text inside img (for example)
+    if (jsonObjCopy?.text?.includes("cwrapOmit")) {
+      element?.setAttribute("data-cwrap-omit", "");
+    }
+    element.textContent = originalText;
+  }
+
+  if (selectedJsonObj.attributes) {
+    for (const [key, value] of Object.entries(selectedJsonObj.attributes)) {
+      if (value === "cwrapOmit") continue;
+      if (value.includes("cwrapProperty")) {
+        const parts = value.split(/(cwrapProperty\[[^\]]+\])/g);
+        let finalValue = "";
+
+        for (const part of parts) {
+          if (part.startsWith("cwrapProperty")) {
+            const propertyMatch = part.match(
+              /cwrapProperty\[([^\]=]+)=([^\]]+)\]/
+            );
+            if (propertyMatch) {
+              const [property, defaultValue] = propertyMatch.slice(1);
+              const mapValue = properties?.get(property);
+              finalValue += mapValue || defaultValue;
+            }
+          } else {
+            finalValue += part;
+          }
+        }
+        element.setAttribute(key, finalValue);
+      } else {
+        element.setAttribute(key, value);
       }
     }
   }
@@ -898,10 +884,44 @@ function main() {
     if (!isDevelopment) console.log(`Created build directory ${buildDir}`);
   }
 
-  // Copy the static folder to the build directory if it exists
+  // Copy the static folder to the build directory if it exists, omitting the "typescript" folder
   const staticDir = path.join("static");
   if (fs.existsSync(staticDir)) {
-    copyDirectory(staticDir, path.join(buildDir, "static"));
+    const copyDirectoryOmittingTypescript = (source, destination) => {
+      if (!fs.existsSync(destination)) {
+        mkdirp.sync(destination);
+        if (!isDevelopment) console.log(`Created directory ${destination}`);
+      }
+
+      fs.readdir(source, (err, files) => {
+        if (err) {
+          console.error(`Error: Could not open directory ${source}`, err);
+          return;
+        }
+
+        for (const file of files) {
+          if (file === "typescript") continue; // Omit the "typescript" folder
+
+          const sourcePath = path.join(source, file);
+          const destinationPath = path.join(destination, file);
+
+          fs.stat(sourcePath, (err, stats) => {
+            if (err) {
+              console.error(`Error: Could not stat ${sourcePath}`, err);
+              return;
+            }
+
+            if (stats.isDirectory()) {
+              copyDirectoryOmittingTypescript(sourcePath, destinationPath);
+            } else {
+              copyFile(sourcePath, destinationPath);
+            }
+          });
+        }
+      });
+    };
+
+    copyDirectoryOmittingTypescript(staticDir, path.join(buildDir, "static"));
   } else {
     console.warn(`Warning: Static directory ${staticDir} does not exist.`);
   }
@@ -1082,16 +1102,17 @@ function generateCssSelector(
 
     // Handle cwrap-template elements
     if (element === "cwrap-template") {
-      const parts = jsonObj.text.split(/(cwrapTemplate\[[^\]]+\])/);
+      const parts = jsonObj.text.split(
+        /(cwrapTemplate\[[^\[\]]*(?:\[[^\[\]]*\][^\[\]]*)*\])/
+      );
       for (let i = 1; i < parts.length; i++) {
         if (parts[i].startsWith("cwrapTemplate")) {
           const templateNameWithProps = parts[i].match(
-            /cwrapTemplate\[([^\]]+)\]/
+            /cwrapTemplate\[((?:[^\[\]]+|\[(?:[^\[\]]+|\[[^\[\]]*\])*\])*)\]/
           )[1];
-          const templateName =
-            templateNameWithProps.match(/.+(?=\()/)?.[0] ||
-            templateNameWithProps;
-          const templatePropsMap = new Map(); // Create a new isolated propsMap for each template
+
+          const templateName = templateNameWithProps.match(/^[^\(]+/)[0];
+          const templatePropsMap = new Map();
           const propsMatch = templateNameWithProps.match(/\(([^)]+)\)/);
 
           if (propsMatch) {
@@ -1104,7 +1125,9 @@ function generateCssSelector(
                 } catch (error) {
                   throw new Error(`Error processing template: ${jsonObj.text}`);
                 }
-              } else templatePropsMap.set(key.trim(), value.trim());
+              } else {
+                templatePropsMap.set(key.trim(), value.trim());
+              }
             }
           }
 
@@ -1352,7 +1375,6 @@ function generateCssSelector(
 
     // Handle blueprints
     if (jsonObj.blueprint) {
-      jsonObj.customTag = "cwrapBlueprintCSS";
       const blueprint = jsonObj.blueprint;
       let count = blueprint.count;
       if (typeof count === "string" && count.includes("cwrapProperty")) {
