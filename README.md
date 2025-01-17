@@ -2,13 +2,13 @@
 
 Candy Wrapper (CWrap) is a microframework for web developers. Its key features include:
 
-- ✨ Automatic CSS generation
-- 🔍 Autocompletion for faster coding
-- 🧹 Built-in linting for cleaner code
-- 👀 Preview-based manipulation for real-time feedback
-- 🛤️ Dynamic routing
-- 🧩 Template building
-- 🌍 Global variables
+✨ Automatic CSS generation  
+🔍 Autocompletion  
+🧹 Built-in linting  
+👀 Preview-based manipulation  
+🛤️ Dynamic routing  
+🧩 Template building  
+🌍 Global variables
 
 ## Installation
 
