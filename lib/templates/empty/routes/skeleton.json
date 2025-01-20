@@ -28,7 +28,7 @@
   },
   "fonts": [],
   "element": "body",
-  "style": "background-color: #0D192B; box-sizing: border-box; display: flex; flex-direction: column; font-family: 'Outfit', sans-serif, serif; justify-content: center; margin: 0; min-height: 100dvh; padding: 40px;",
+  "style": "background-color: #0D192B; box-sizing: border-box; display: flex; flex-direction: column; font-family: 'Outfit', sans-serif, serif; justify-content: center; margin: 0; min-height: 100dvh; padding: 24px;",
   "children": [
     {
       "element": "cwrap-template",
