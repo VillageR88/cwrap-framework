@@ -32,78 +32,67 @@ rl.question("Enter project name (default: my-new-cwrap-project): ", (input) => {
   fs.mkdirSync(projectPath, { recursive: true });
   console.log(`Creating a new project in ${projectPath}`);
 
-  const newPackageJson = {
-    name: projectName,
-    version: "1.0.0",
-    main: "index.js",
-    scripts: {
-      // start: "node start.js && node server.js", //historical function TBDeleted
-      build: "node build.js",
-      dev: "node cleanup.js dev && node build.js dev && node start.js dev && node server.js dev",
-    },
-    devDependencies: {
-      // "cwrap-framework": "file:../cwrap-framework-0.1.0-rc.202501120242.tgz",
-      "cwrap-framework": cwrapFrameworkVersion,
-      "body-parser": "^1.20.2",
-      express: "^4.17.1",
-      "fs-extra": "^11.2.0",
-      "connect-livereload": "^0.6.1",
-      "cross-env": "^7.0.3",
-      livereload: "^0.9.3",
-      mkdirp: "^3.0.1",
-      "serve-static": "^1.14.1",
-      jsdom: "^25.0.1",
-    },
-  };
+  rl.question(
+    "Do you want to install TypeScript? (Yes/No, default: no): ",
+    (typescriptInput) => {
+      const installTypeScript = ["yes", "y"].includes(
+        typescriptInput.trim().toLowerCase()
+      );
 
-  fs.writeFileSync(
-    path.join(projectPath, "package.json"),
-    JSON.stringify(newPackageJson, null, 2)
+      const newPackageJson = {
+        name: projectName,
+        version: "1.0.0",
+        main: "index.js",
+        scripts: {
+          build: "node build.js",
+          dev: "node cleanup.js dev && node build.js dev && node start.js dev && node server.js dev",
+        },
+        devDependencies: {
+          "cwrap-framework":
+            "file:../cwrap-framework-0.1.0-rc.202501172141.tgz",
+          // "cwrap-framework": cwrapFrameworkVersion,
+          "body-parser": "^1.20.2",
+          express: "^4.17.1",
+          "fs-extra": "^11.2.0",
+          "connect-livereload": "^0.6.1",
+          "cross-env": "^7.0.3",
+          livereload: "^0.9.3",
+          mkdirp: "^3.0.1",
+          "serve-static": "^1.14.1",
+          jsdom: "^25.0.1",
+        },
+      };
+
+      if (installTypeScript) {
+        newPackageJson.devDependencies.typescript = "^5.7.3";
+        newPackageJson.devDependencies["@types/node"] = "^22.10.7";
+        newPackageJson.devDependencies["@types/express"] = "^4.17.21";
+        newPackageJson.scripts["compile:dev"] = "tsc -p tsconfig.dev.json";
+        newPackageJson.scripts["compile:prod"] = "tsc -p tsconfig.prod.json";
+      }
+
+      fs.writeFileSync(
+        path.join(projectPath, "package.json"),
+        JSON.stringify(newPackageJson, null, 2)
+      );
+
+      console.log("Installing packages. This might take a couple of minutes.");
+      try {
+        execSync("npm install", { stdio: "inherit", cwd: projectPath });
+      } catch (error) {
+        console.error("Error installing packages:", error.message);
+        process.exit(1);
+      }
+
+      console.log("Packages installed successfully!");
+
+      runAdditionalSetup(projectPath, "empty", installTypeScript);
+      rl.close();
+    }
   );
-
-  console.log("Installing packages. This might take a couple of minutes.");
-  try {
-    execSync("npm install", { stdio: "inherit", cwd: projectPath });
-  } catch (error) {
-    console.error("Error installing packages:", error.message);
-    process.exit(1);
-  }
-
-  console.log("Packages installed successfully!");
-
-  // Prompt for template choice
-  // function promptTemplateChoice() {
-  //   console.log("\nChoose the number of the template to install:");
-  //   console.log("1 (default): demo");
-  //   console.log("2: single-component");
-  //   console.log("0: empty");
-  //   rl.question("\nEnter your choice: ", (templateChoice) => {
-  //     let template;
-  //     switch (templateChoice.trim()) {
-  //       case "2":
-  //         template = "single-component";
-  //         break;
-  //       case "1":
-  //       case "":
-  //         template = "demo";
-  //         break;
-  //       case "0":
-  //         template = "empty";
-  //         break;
-  //       default:
-  //         console.log("Invalid choice.");
-  //         return promptTemplateChoice(); // Ask again
-  //     }
-  //     runAdditionalSetup(projectPath, template);
-  //     rl.close();
-  //   });
-  // }
-  // promptTemplateChoice();
-  runAdditionalSetup(projectPath, "empty");
-  rl.close();
 });
 
-function runAdditionalSetup(projectPath, template) {
+function runAdditionalSetup(projectPath, template, installTypeScript) {
   const cwrapPath = path.join(projectPath, "node_modules", "cwrap-framework");
   const logFilePath = path.join(projectPath, "installation.log");
   const lockFilePath = path.join(projectPath, "postinstall.lock");
@@ -386,26 +375,30 @@ error.html
     logMessage(".github folder already exists in the root folder");
   }
 
-  // 14.01.2025 - discontinued
-  // // Move cwrapFunctions.js from cwrap to scripts folder if it does not exist
-  // const scriptsSrcPath = path.join(cwrapPath, "scripts", "cwrapFunctions.js");
-  // const scriptsDestDir = path.join(projectPath, "scripts");
-  // const scriptsDestPath = path.join(scriptsDestDir, "cwrapFunctions.js");
-  // if (!fs.existsSync(scriptsDestPath)) {
-  //   try {
-  //     if (!fs.existsSync(scriptsDestDir)) {
-  //       fs.mkdirSync(scriptsDestDir, { recursive: true });
-  //     }
-  //     fs.copyFileSync(scriptsSrcPath, scriptsDestPath);
-  //     logMessage("Moved cwrapFunctions.js to scripts folder");
-  //   } catch (error) {
-  //     logMessage("Error moving cwrapFunctions.js:", error.message);
-  //     removeLockFile();
-  //     process.exit(1);
-  //   }
-  // } else {
-  //   logMessage("cwrapFunctions.js already exists in the scripts folder");
-  // }
+  // Copy TypeScript configuration files if TypeScript is installed
+  if (installTypeScript) {
+    const tsConfigFiles = [
+      "biome.json",
+      "tsconfig.dev.json",
+      "tsconfig.prod.json",
+    ];
+    for (const file of tsConfigFiles) {
+      const srcPath = path.join(cwrapPath, file);
+      const destPath = path.join(projectPath, file);
+      if (!fs.existsSync(destPath)) {
+        try {
+          fs.copyFileSync(srcPath, destPath);
+          logMessage(`Moved ${file} to root folder`);
+        } catch (error) {
+          logMessage(`Error moving ${file}:`, error.message);
+          removeLockFile();
+          process.exit(1);
+        }
+      } else {
+        logMessage(`${file} already exists in the root folder`);
+      }
+    }
+  }
 
   // Remove the lock file
   removeLockFile();

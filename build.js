@@ -2,8 +2,8 @@ const mkdirp = require("mkdirp");
 const fs = require("fs-extra");
 const path = require("node:path");
 const { JSDOM } = require("jsdom");
+const { exec } = require("node:child_process");
 const { document } = new JSDOM().window;
-
 const constMap = new Map();
 const cssMap = new Map();
 const mediaQueriesMap = new Map();
@@ -391,24 +391,8 @@ function createElementFromJson(
   return element;
 }
 
-let hasCwrapGetParams = false;
-function generateHtmlWithScript(jsonObj, jsonFilePath) {
-  let html = createElementFromJson(jsonObj);
-
-  // Calculate the depth based on the JSON file's path relative to the routes folder
-  const relativePath = path.relative(
-    path.join(__dirname, "routes"),
-    jsonFilePath
-  );
-  const depth = relativePath.split(/[\\/]/).length - 1;
-
-  // Check if cwrapGetParams is present in the JSON object
-  if (JSON.stringify(jsonObj).includes("cwrapGetParams")) {
-    hasCwrapGetParams = true;
-    const scriptPath = `${"../".repeat(depth)}scripts/cwrapFunctions.js`;
-    html += `<script src="${scriptPath}" type="module"></script>`;
-  }
-
+function generateHtml(jsonObj) {
+  const html = createElementFromJson(jsonObj);
   return html;
 }
 
@@ -635,11 +619,7 @@ function processStaticRouteDirectory(routeDir, buildDir, index) {
   }
   headContent = generateHeadHtml(mergedHead, jsonFile);
 
-  // Generate HTML content from JSON and append the script tag
-  const bodyContent = generateHtmlWithScript(
-    replaceCwrapGlobals(jsonObj),
-    jsonFile
-  );
+  const bodyContent = generateHtml(replaceCwrapGlobals(jsonObj), jsonFile);
   let bodyHtml = bodyContent.outerHTML;
   bodyHtml = clearDocumentByOmit(bodyHtml);
   bodyHtml = clearDocumentByPlaceholder(bodyHtml);
@@ -884,10 +864,10 @@ function main() {
     if (!isDevelopment) console.log(`Created build directory ${buildDir}`);
   }
 
-  // Copy the static folder to the build directory if it exists, omitting the "typescript" folder
+  // Copy the static folder to the build directory if it exists, omitting ".ts" files
   const staticDir = path.join("static");
   if (fs.existsSync(staticDir)) {
-    const copyDirectoryOmittingTypescript = (source, destination) => {
+    const copyDirectoryOmittingTsFiles = (source, destination) => {
       if (!fs.existsSync(destination)) {
         mkdirp.sync(destination);
         if (!isDevelopment) console.log(`Created directory ${destination}`);
@@ -900,7 +880,7 @@ function main() {
         }
 
         for (const file of files) {
-          if (file === "typescript") continue; // Omit the "typescript" folder
+          if (file.endsWith(".ts")) continue; // Omit ".ts" files
 
           const sourcePath = path.join(source, file);
           const destinationPath = path.join(destination, file);
@@ -912,7 +892,7 @@ function main() {
             }
 
             if (stats.isDirectory()) {
-              copyDirectoryOmittingTypescript(sourcePath, destinationPath);
+              copyDirectoryOmittingTsFiles(sourcePath, destinationPath);
             } else {
               copyFile(sourcePath, destinationPath);
             }
@@ -921,32 +901,13 @@ function main() {
       });
     };
 
-    copyDirectoryOmittingTypescript(staticDir, path.join(buildDir, "static"));
+    copyDirectoryOmittingTsFiles(staticDir, path.join(buildDir, "static"));
   } else {
     console.warn(`Warning: Static directory ${staticDir} does not exist.`);
   }
 
   // Copy favicon.ico to the root of the build directory
   copyFaviconToRoot(buildDir);
-
-  // Copy cwrapFunctions.js to the build directory
-  if (hasCwrapGetParams) {
-    const scriptSource = path.join("scripts", "cwrapFunctions.js");
-    const scriptDestination = path.join(
-      buildDir,
-      "scripts",
-      "cwrapFunctions.js"
-    );
-    if (fs.existsSync(scriptSource)) {
-      mkdirp.sync(path.join(buildDir, "scripts"));
-      copyFile(scriptSource, scriptDestination);
-      if (!isDevelopment)
-        console.log(`Copied cwrapFunctions.js to ${scriptDestination}`);
-    } else {
-      if (!isDevelopment)
-        console.warn(`Warning: Script file ${scriptSource} does not exist.`);
-    }
-  }
 
   // Process the home directory
   processStaticRouteDirectory(routesDir, buildDir);
@@ -1413,4 +1374,21 @@ function generateCssSelector(
       }
     }
   }
+}
+
+const packageJson = JSON.parse(fs.readFileSync("package.json", "utf8"));
+if (packageJson.devDependencies?.typescript) {
+  exec(
+    `npm run ${isDevelopment ? "compile:dev" : "compile:prod"}`,
+    (error, stdout, stderr) => {
+      if (error) {
+        console.error(`Error executing npm run: ${error.message}`);
+        return;
+      }
+      if (stderr) {
+        console.error(`stderr: ${stderr}`);
+        return;
+      }
+    }
+  );
 }
