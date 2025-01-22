@@ -36,6 +36,7 @@ To deploy static content to GitHub Pages, go to the Actions tab in your GitHub r
 
 Here are some example builds using CWrap:
 
+- [MyTeam Multi-Page Website](https://villager88.github.io/cwrap-myteam-multi-page-website/)
 - [Minimalist Portfolio Website](https://villager88.github.io/cwrap-minimalist-portfolio-website/)
 - [Photosnap Multi-Page Website](https://villager88.github.io/cwrap-photosnap-multi-page-website/)
 - [Audiophile-Ecommerce-website](https://villager88.github.io/cwrap-audiophile-ecommerce-website/)
@@ -47,6 +48,10 @@ Here are some example builds using CWrap:
 - [Advice Generator App](https://villager88.github.io/cwrap-advice-generator-app/)
 - [Interactive Rating Component](https://villager88.github.io/cwrap-interactive-rating-component/)
 - [Blog Preview Card](https://villager88.github.io/cwrap-blog-preview-card/)
+
+CWrap + TypeScript:
+
+- [Memory Game](https://villager88.github.io/cwrap-memory-game/)
 
 ## Note
 
@@ -62,3 +67,6 @@ CWrap has now entered the release candidate phase. The focus will be on finalizi
 
 CLog - 14.01.2025:
 I have removed the GUI from the latest version of CWrap. It is now only accessible via older versions. This decision was made to streamline the framework and focus on enhancing core functionalities and performance.
+
+CLog - 22.01.2025:
+I have added an option to install CWrap with TypeScript support. This enhancement allows developers to leverage TypeScript's static typing and other features, providing a more robust development experience.

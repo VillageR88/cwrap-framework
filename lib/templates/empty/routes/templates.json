@@ -34,7 +34,7 @@
                                 ],
                                 "style": "display :flex; max-width: 120px; margin: auto;",
                                 "attributes": {
-                                    "src": "static/images/android-chrome-512x512alpha.png"
+                                    "src": "https://villager88.github.io/cwrap-framework/static/images/android-chrome-512x512alpha.png"
                                 }
                             },
                             {
