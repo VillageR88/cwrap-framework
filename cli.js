@@ -65,8 +65,6 @@ rl.question("Enter project name (default: my-new-cwrap-project): ", (input) => {
 
       if (installTypeScript) {
         newPackageJson.devDependencies.typescript = "^5.7.3";
-        newPackageJson.devDependencies["@types/node"] = "^22.10.7";
-        newPackageJson.devDependencies["@types/express"] = "^4.17.21";
         newPackageJson.scripts["compile:dev"] = "tsc -p tsconfig.dev.json";
         newPackageJson.scripts["compile:prod"] = "tsc -p tsconfig.prod.json";
       }
