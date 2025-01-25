@@ -19,78 +19,132 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
-rl.question("Enter project name (default: my-new-cwrap-project): ", (input) => {
-  const projectName = input.trim() || "my-new-cwrap-project"; // Default project name
-
-  const projectPath = path.resolve(process.cwd(), projectName);
-
-  if (fs.existsSync(projectPath)) {
-    console.error(`Directory ${projectPath} already exists.`);
-    process.exit(1);
-  }
-
-  fs.mkdirSync(projectPath, { recursive: true });
-  console.log(`Creating a new project in ${projectPath}`);
-
-  rl.question(
-    "Do you want to install TypeScript? (Yes/No, default: no): ",
-    (typescriptInput) => {
-      const installTypeScript = ["yes", "y"].includes(
-        typescriptInput.trim().toLowerCase()
-      );
-
-      const newPackageJson = {
-        name: projectName,
-        version: "1.0.0",
-        main: "index.js",
-        scripts: {
-          build: "node build.js",
-          dev: "node cleanup.js dev && node build.js dev && node start.js dev && node server.js dev",
-        },
-        devDependencies: {
-          // "cwrap-framework":
-          //   "file:../cwrap-framework-0.1.0-rc.202501172141.tgz",
-          "cwrap-framework": cwrapFrameworkVersion,
-          "body-parser": "^1.20.2",
-          express: "^4.17.1",
-          "fs-extra": "^11.2.0",
-          "connect-livereload": "^0.6.1",
-          "cross-env": "^7.0.3",
-          livereload: "^0.9.3",
-          mkdirp: "^3.0.1",
-          "serve-static": "^1.14.1",
-          jsdom: "^25.0.1",
-        },
-      };
-
-      if (installTypeScript) {
-        newPackageJson.devDependencies.typescript = "^5.7.3";
-        newPackageJson.scripts["compile:dev"] = "tsc -p tsconfig.dev.json";
-        newPackageJson.scripts["compile:prod"] = "tsc -p tsconfig.prod.json";
-      }
-
-      fs.writeFileSync(
-        path.join(projectPath, "package.json"),
-        JSON.stringify(newPackageJson, null, 2)
-      );
-
-      console.log("Installing packages. This might take a couple of minutes.");
-      try {
-        execSync("npm install", { stdio: "inherit", cwd: projectPath });
-      } catch (error) {
-        console.error("Error installing packages:", error.message);
-        process.exit(1);
-      }
-
-      console.log("Packages installed successfully!");
-
-      runAdditionalSetup(projectPath, "empty", installTypeScript);
-      rl.close();
+function askQuestion(query, validationFn, callback) {
+  rl.question(query, (input) => {
+    if (validationFn(input)) {
+      callback(input);
+    } else {
+      console.log("Invalid input. Please enter a valid response.");
+      askQuestion(query, validationFn, callback);
     }
-  );
-});
+  });
+}
 
-function runAdditionalSetup(projectPath, template, installTypeScript) {
+function validateYesNo(input) {
+  const validResponses = ["yes", "y", "no", "n", ""];
+  return validResponses.includes(input.trim().toLowerCase());
+}
+
+askQuestion(
+  "Enter project name (default: my-new-cwrap-project): ",
+  () => true,
+  (input) => {
+    const projectName = input.trim() || "my-new-cwrap-project"; // Default project name
+
+    const projectPath = path.resolve(process.cwd(), projectName);
+
+    if (fs.existsSync(projectPath)) {
+      console.error(`Directory ${projectPath} already exists.`);
+      process.exit(1);
+    }
+
+    fs.mkdirSync(projectPath, { recursive: true });
+    console.log(`Creating a new project in ${projectPath}`);
+
+    askQuestion(
+      "Do you want to install TypeScript? (Yes/No, default: no): ",
+      validateYesNo,
+      (typescriptInput) => {
+        const installTypeScript = ["yes", "y"].includes(
+          typescriptInput.trim().toLowerCase() || "n"
+        );
+
+        askQuestion(
+          "Do you want to install Webpack? (Yes/No, default: no): ",
+          validateYesNo,
+          (webpackInput) => {
+            const installWebpack = ["yes", "y"].includes(
+              webpackInput.trim().toLowerCase() || "n"
+            );
+
+            const newPackageJson = {
+              name: projectName,
+              version: "1.0.0",
+              main: "index.js",
+              scripts: {
+                build: "node build.js",
+                dev: "node cleanup.js dev && node build.js dev && node start.js dev && node server.js dev",
+              },
+              devDependencies: {
+                // "cwrap-framework":
+                //   "file:../cwrap-framework-0.1.0-rc.202501252151.tgz",
+                "cwrap-framework": cwrapFrameworkVersion,
+                "body-parser": "^1.20.2",
+                express: "^4.17.1",
+                "fs-extra": "^11.2.0",
+                "connect-livereload": "^0.6.1",
+                "cross-env": "^7.0.3",
+                livereload: "^0.9.3",
+                mkdirp: "^3.0.1",
+                "serve-static": "^1.14.1",
+                jsdom: "^25.0.1",
+              },
+            };
+
+            if (installTypeScript) {
+              newPackageJson.devDependencies.typescript = "^5.7.3";
+              newPackageJson.scripts["compile:dev"] =
+                "tsc -p tsconfig.dev.json";
+              newPackageJson.scripts["compile:prod"] =
+                "tsc -p tsconfig.prod.json";
+            }
+
+            if (installWebpack) {
+              newPackageJson.devDependencies.webpack = "^5.97.1";
+              newPackageJson.devDependencies["webpack-cli"] = "^6.0.1";
+              newPackageJson.scripts["build:dev"] =
+                "webpack --mode development";
+              newPackageJson.scripts["build:prod"] =
+                "webpack --mode production";
+            }
+
+            fs.writeFileSync(
+              path.join(projectPath, "package.json"),
+              JSON.stringify(newPackageJson, null, 2)
+            );
+
+            console.log(
+              "Installing packages. This might take a couple of minutes."
+            );
+            try {
+              execSync("npm install", { stdio: "inherit", cwd: projectPath });
+            } catch (error) {
+              console.error("Error installing packages:", error.message);
+              process.exit(1);
+            }
+
+            console.log("Packages installed successfully!");
+
+            runAdditionalSetup(
+              projectPath,
+              "empty",
+              installTypeScript,
+              installWebpack
+            );
+            rl.close();
+          }
+        );
+      }
+    );
+  }
+);
+
+function runAdditionalSetup(
+  projectPath,
+  template,
+  installTypeScript,
+  installWebpack
+) {
   const cwrapPath = path.join(projectPath, "node_modules", "cwrap-framework");
   const logFilePath = path.join(projectPath, "installation.log");
   const lockFilePath = path.join(projectPath, "postinstall.lock");
@@ -395,6 +449,24 @@ error.html
       } else {
         logMessage(`${file} already exists in the root folder`);
       }
+    }
+  }
+
+  // Copy Webpack configuration file if Webpack is installed
+  if (installWebpack) {
+    const webpackConfigSrcPath = path.join(cwrapPath, "webpack.config.js");
+    const webpackConfigDestPath = path.join(projectPath, "webpack.config.js");
+    if (!fs.existsSync(webpackConfigDestPath)) {
+      try {
+        fs.copyFileSync(webpackConfigSrcPath, webpackConfigDestPath);
+        logMessage("Moved webpack.config.js to root folder");
+      } catch (error) {
+        logMessage("Error moving webpack.config.js:", error.message);
+        removeLockFile();
+        process.exit(1);
+      }
+    } else {
+      logMessage("webpack.config.js already exists in the root folder");
     }
   }
 

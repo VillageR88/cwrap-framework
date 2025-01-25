@@ -36,10 +36,12 @@ To deploy static content to GitHub Pages, go to the Actions tab in your GitHub r
 
 Here are some example builds using CWrap:
 
+- [Arch Studio Multi-Page Website](https://villager88.github.io/cwrap-arch-studio-multi-page-website/) -typescript -webpack
+- [Memory Game](https://villager88.github.io/cwrap-memory-game/) -typescript
 - [MyTeam Multi-Page Website](https://villager88.github.io/cwrap-myteam-multi-page-website/)
 - [Minimalist Portfolio Website](https://villager88.github.io/cwrap-minimalist-portfolio-website/)
 - [Photosnap Multi-Page Website](https://villager88.github.io/cwrap-photosnap-multi-page-website/)
-- [Audiophile-Ecommerce-website](https://villager88.github.io/cwrap-audiophile-ecommerce-website/)
+- [Audiophile-Ecommerce-Website](https://villager88.github.io/cwrap-audiophile-ecommerce-website/)
 - [Dine Restaurant Website](https://villager88.github.io/cwrap-dine-restaurant-website/)
 - [Tech Book Club Landing Page](https://villager88.github.io/cwrap-tech-book-club-landing-page/)
 - [Single Page Developer Portfolio](https://villager88.github.io/cwrap-single-page-developer-portfolio/)
@@ -47,11 +49,8 @@ Here are some example builds using CWrap:
 - [Mortgage Repayment Calculator](https://villager88.github.io/cwrap-mortgage-repayment-calculator/)
 - [Advice Generator App](https://villager88.github.io/cwrap-advice-generator-app/)
 - [Interactive Rating Component](https://villager88.github.io/cwrap-interactive-rating-component/)
+- [Intro component with sign-up form](https://villager88.github.io/cwrap-intro-component-with-sign-up-form/)
 - [Blog Preview Card](https://villager88.github.io/cwrap-blog-preview-card/)
-
-CWrap + TypeScript:
-
-- [Memory Game](https://villager88.github.io/cwrap-memory-game/)
 
 ## Note
 
@@ -70,3 +69,6 @@ I have removed the GUI from the latest version of CWrap. It is now only accessib
 
 CLog - 22.01.2025:
 I have added an option to install CWrap with TypeScript support. This enhancement allows developers to leverage TypeScript's static typing and other features, providing a more robust development experience.
+
+CLog - 25.01.2025:
+I have added an option to install CWrap with Webpack support. This addition allows developers to take advantage of Webpack's powerful module bundling capabilities, making the development process more efficient and organized.
