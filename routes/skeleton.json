@@ -9,12 +9,171 @@
     ]
   },
   "fonts": [],
-  "element": "body",
-  "style": "background-color: #0D192B; box-sizing: border-box; display: flex; flex-direction: column; font-family: 'Outfit', sans-serif, serif; justify-content: center; margin: 0; min-height: 100dvh; padding: 24px;",
-  "children": [
+  "element": "cwrap-template",
+  "text": "cwrapTemplate[body]",
+  "passover": [
     {
-      "element": "cwrap-template",
-      "text": "cwrapTemplate[helloMain]"
+      "element": "div",
+      "style": "display: flex; flex-direction: column; margin-inline: auto; max-width: 90em; padding-top: 4em;",
+      "children": [
+        {
+          "element": "div",
+          "style": "align-items: center; align-self: center; background: radial-gradient(closest-side, rgb(15,29,52), #0D192B); box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; max-width: 40em; padding: 40px 0 0 0; width: 100%;",
+          "children": [
+            {
+              "element": "img",
+              "mediaQueries": [
+                {
+                  "query": "max-width: 640px",
+                  "style": "max-width: 80px;"
+                }
+              ],
+              "style": "display: flex; margin-inline: auto; max-width: 120px;",
+              "attributes": {
+                "alt": "hero logo",
+                "src": "https://villager88.github.io/cwrap-framework/static/images/android-chrome-512x512alpha.png"
+              }
+            },
+            {
+              "element": "h1",
+              "text": "CcwrapSpan\nWRAPcwrapSpan",
+              "mediaQueries": [
+                {
+                  "query": "max-width: 640px",
+                  "style": "margin-block: 16px;"
+                }
+              ],
+              "style": "color: rgba(150, 250, 250, 1); margin-block: 22px 12px; position: relative; z-index: 1;",
+              "children": [
+                {
+                  "element": "span",
+                  "text": "ANDY",
+                  "style": "color: #F0F0F0;"
+                },
+                {
+                  "element": "span",
+                  "text": "PER",
+                  "style": "color: #F0F0F0;"
+                }
+              ]
+            },
+            {
+              "element": "p",
+              "text": "cwrapGlobal[home.hero.description1]",
+              "style": "color: hsl(215, 51%, 70%); font-size: 1.1rem; line-height: 1.9rem; text-align: center; white-space: pre-wrap;"
+            },
+            {
+              "element": "p",
+              "text": "cwrapGlobal[home.hero.description2]",
+              "style": "color: hsl(215, 51%, 70%); font-size: 1.1rem; line-height: 1.9rem; text-align: center; white-space: pre-wrap;"
+            }
+          ]
+        },
+        {
+          "element": "ul",
+          "style": "box-sizing: border-box; display: flex; flex-wrap: wrap; gap: 1.5em; justify-content: center; margin-inline: auto; margin-top: 3em; max-width: 70em; padding: 0;",
+          "blueprint": {
+            "count": "8",
+            "element": "li",
+            "style": "align-items: center; color: hsl(215, 51%, 70%); display: flex; flex-direction: column; list-style: none; max-width: 13em; padding: 1em;",
+            "children": [
+              {
+                "element": "span",
+                "style": "font-size: 4rem; margin-bottom: 8px;",
+                "text": "cwrapGlobal[home.features.cwrapIndex.icon]"
+              },
+              {
+                "element": "h2",
+                "style": "color: white; margin: 0; margin-top: 1em; text-align: center; text-transform: uppercase;",
+                "text": "cwrapGlobal[home.features.cwrapIndex.title]"
+              },
+              {
+                "element": "p",
+                "style": "margin: 0; margin-top: 1em; text-align: center;",
+                "text": "cwrapGlobal[home.features.cwrapIndex.description]"
+              }
+            ]
+          }
+        },
+        {
+          "element": "div",
+          "style": "align-items: center; color: hsl(215, 51%, 70%); display: flex; flex-direction: column; list-style: none; padding-top: 1.5em;",
+          "children": [
+            {
+              "element": "span",
+              "style": "font-size: 4rem; margin-bottom: 8px;",
+              "text": "🎁"
+            },
+            {
+              "element": "p",
+              "style": "text-align: center;",
+              "text": "and it's wrapped! :)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "element": "div",
+      "style": "margin-inline: auto; margin-top: 10em; max-width: 80em;",
+      "children": [
+        {
+          "element": "h2",
+          "text": "Example projects",
+          "style": "color: white; font-size: 3rem; margin: 0 auto 0 auto; width: fit-content;"
+        },
+        {
+          "element": "ul",
+          "style": "align-items: center; display: grid; flex-direction: column; gap: 2em 0.5em; grid-template-columns: repeat(2, 1fr); list-style: none; margin: 0 auto 0 auto; margin-top: 2em; padding: 0; width: 100%;",
+          "blueprint": {
+            "count": "15",
+            "element": "li",
+            "style": "display: flex; width: 100%;",
+            "children": [
+              {
+                "element": "a",
+                "attributes": {
+                  "href": "cwrapGlobal[home.examples.cwrapIndex.url]",
+                  "target": "_blank"
+                },
+                "style": "color: inherit; display: flex; text-decoration: none;",
+                "children": [
+                  {
+                    "element": "div",
+                    "style": "align-items: center; display: flex; flex-direction: column; padding: 1em;",
+                    "children": [
+                      {
+                        "element": "img",
+                        "style": "display: flex; height: 100%; width: 100%;",
+                        "attributes": {
+                          "src": "./cwrapGlobal[home.examples.cwrapIndex.thumbnail]",
+                          "alt": "Website Thumbnail"
+                        }
+                      },
+                      {
+                        "element": "div",
+                        "style": "padding: 1em; text-align: center;",
+                        "children": [
+                          {
+                            "element": "h3",
+                            "text": "cwrapGlobal[home.examples.cwrapIndex.title]",
+                            "style": "color: white; font-size: 1.5rem; margin: 0;"
+                          },
+                          {
+                            "element": "p",
+                            "text": "cwrapGlobal[home.examples.cwrapIndex.tag]",
+                            "style": "color: #666; color: hsl(215, 51%, 70%); margin-top: 0.4em;"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
     }
   ]
 }

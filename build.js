@@ -572,9 +572,9 @@ function processStaticRouteDirectory(routeDir, buildDir, index) {
 
   const bodyContent = generateHtml(replaceCwrapGlobals(jsonObj), jsonFile);
   let bodyHtml = bodyContent.outerHTML;
+  bodyHtml = replaceCwrapGlobals(bodyHtml);
   bodyHtml = clearDocumentByOmit(bodyHtml);
   bodyHtml = clearDocumentByPlaceholder(bodyHtml);
-  bodyHtml = replaceCwrapGlobals(bodyHtml);
   const webContent = `
 <!DOCTYPE html>
 <html lang="en">
