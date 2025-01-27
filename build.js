@@ -347,7 +347,6 @@ function createElementFromJson(
     for (let i = 0; i < count; i++) {
       let cookedJson = replacePlaceholdersCwrapArray(blueprintCopy, i);
       const newIndices = [...indices, i]; // Add the current index to the indices array
-      console.log(`Processing blueprint with indices: ${newIndices}`);
       cookedJson = replacePlaceholdersCwrapIndex(cookedJson, newIndices);
       const blueprintElement = createElementFromJson(
         cookedJson,
@@ -897,27 +896,42 @@ main();
 function replacePlaceholdersCwrapIndex(jsonObj, indices) {
   // Remove the first value if the length of indices is greater than 1
   const adjustedIndices = indices.length > 1 ? indices.slice(1) : indices;
-  console.log("Adjusted Indices array:", adjustedIndices);
-  const jsonString = JSON.stringify(jsonObj);
 
-  const replacedString = jsonString.replace(
-    /cwrapIndex(\d*)(\+\d+)?/g,
-    (match, p1, p2) => {
-      const level = p1 ? Number.parseInt(p1, 10) : 0; // Default to 0 if no level is specified
-      const offset = p2 ? Number.parseInt(p2, 10) : 0; // Default to 0 if no offset is specified
-      const indexValue =
-        adjustedIndices[level] !== undefined
-          ? adjustedIndices[level] + offset
-          : "NaN";
-      console.log(
-        `Match: ${match}, Indices: ${adjustedIndices}, Return Index: ${indexValue}`
-      );
-      return indexValue;
+  // Helper function to replace placeholders
+  const replacePlaceholders = (obj) => {
+    if (typeof obj === "string") {
+      return obj.replace(/cwrapIndex(\d*)(\+\d+)?/g, (match, p1, p2) => {
+        const level = p1 ? Number.parseInt(p1, 10) : 0; // Default to 0 if no level is specified
+        const offset = p2 ? Number.parseInt(p2, 10) : 0; // Default to 0 if no offset is specified
+        const indexValue =
+          adjustedIndices[level] !== undefined
+            ? adjustedIndices[level] + offset
+            : "NaN";
+
+        return indexValue;
+      });
     }
-  );
-  console.log(replacedString, "replacedString");
+    if (Array.isArray(obj)) {
+      return obj.map(replacePlaceholders);
+    }
+    if (typeof obj === "object" && obj !== null) {
+      const newObj = {};
+      for (const key in obj) {
+        if (key === "blueprint") {
+          newObj[key] = obj[key]; // Skip replacing placeholders in nested blueprints
+        } else {
+          newObj[key] = replacePlaceholders(obj[key]);
+        }
+      }
+      return newObj;
+    }
+    return obj;
+  };
 
-  return JSON.parse(replacedString);
+  const replacedJsonObj = replacePlaceholders(jsonObj);
+  const replacedString = JSON.stringify(replacedJsonObj);
+
+  return replacedJsonObj;
 }
 
 function replacePlaceholdersCwrapArray(jsonObj, index) {
