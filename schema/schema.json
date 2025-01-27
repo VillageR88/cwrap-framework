@@ -157,7 +157,6 @@
             "oneOf": [
                 {
                     "required": [
-                        "name",
                         "content"
                     ]
                 },

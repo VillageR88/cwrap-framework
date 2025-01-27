@@ -19,11 +19,27 @@
         "content": "width=device-width, initial-scale=1.0"
       },
       {
+        "property": "og:title",
+        "content": "Candy Wrapper"
+      },
+      {
+        "property": "og:description",
+        "content": "Candy Wrapper (cwrap) is an open microframework for web developers."
+      },
+      {
+        "property": "og:image",
+        "content": "https://villager88.github.io/cwrap-framework/static/images/meta-og.png"
+      },
+      {
+        "property": "og:url",
+        "content": "https://villager88.github.io/cwrap-framework"
+      },
+      {
         "charset": "UTF-8"
       },
       {
         "name": "description",
-        "content": "New Candy Wrapper project."
+        "content": "Candy Wrapper"
       },
       {
         "name": "keywords",
@@ -66,7 +82,7 @@
           "style": "font-size: 32px; line-height: 38px;"
         }
       ],
-      "style": "font-family: Rajdhani, serif; font-size: 4rem; font-weight: 700; letter-spacing: 0; line-height: 4rem; margin: 0; text-align: center;"
+      "style": "font-size: 3.4rem; font-weight: bold; line-height: 4rem; margin: 0; text-align: center;"
     },
     {
       "name": "p",
@@ -83,49 +99,54 @@
     "home": {
       "hero": {
         "title": "CANDY WRAPPER",
-        "description1": "Candy Wrapper (cwrap) is a microframework for web developers.",
-        "description2": "Its key features include:"
+        "description1": "Candy Wrapper (cwrap) is a microframework for web developers",
+        "description2": "Its key features include"
       },
       "features": [
         {
           "icon": "✨",
           "title": "Automatic CSS",
-          "description": "Automatically generate and apply CSS styles rules."
+          "description": "Automatically generate and apply CSS styles rules",
+          "links": {
+            "design": "aasdasd",
+            "preview": "basdasd",
+            "code": "casasd"
+          }
         },
         {
           "icon": "👀",
           "title": "Live preview",
-          "description": "Instantly preview changes in real-time."
+          "description": "Instantly preview changes in real-time"
         },
         {
           "icon": "🧹",
           "title": "Built-in linting",
-          "description": "Identify and fix code issues with integrated linting tools."
+          "description": "Identify and fix code issues with integrated linting tools"
         },
         {
           "icon": "🔍",
           "title": "Autocompletion",
-          "description": "Speed up coding with autocompletion suggestions."
+          "description": "Speed up coding with autocompletion suggestions"
         },
         {
           "icon": "🛤️",
           "title": "Dynamic routing",
-          "description": "Easily manage and navigate between different routes in your application."
+          "description": "Easily manage and navigate between different routes in your application"
         },
         {
           "icon": "🧩",
           "title": "Template building",
-          "description": "Create reusable templates to streamline your development process."
+          "description": "Create reusable templates to streamline your development process"
         },
         {
           "icon": "🌍",
           "title": "Global variables",
-          "description": "Define and use global variables across your entire project."
+          "description": "Define and use global variables across your entire project"
         },
         {
           "icon": "🔌",
           "title": "Optional Features",
-          "description": "Enable additional features to customize your development environment."
+          "description": "Enable additional features to customize your development environment"
         }
       ],
       "examples": [
@@ -144,86 +165,67 @@
         {
           "title": "MyTeam Multi-Page Website",
           "url": "https://villager88.github.io/cwrap-myteam-multi-page-website/",
-          "thumbnail": "static/images/home/thumbnails/my-team.webp",
-          "tag": "cwrapOmit"
+          "thumbnail": "static/images/home/thumbnails/my-team.webp"
         },
         {
           "title": "Minimalist Portfolio Website",
           "url": "https://villager88.github.io/cwrap-minimalist-portfolio-website/",
-          "thumbnail": "static/images/home/thumbnails/minimalist-portfolio.webp",
-          "tag": "cwrapOmit"
-        },
-        {
-          "title": "Minimalist Portfolio Website",
-          "url": "https://villager88.github.io/cwrap-minimalist-portfolio-website/",
-          "thumbnail": "static/images/home/thumbnails/minimalist-portfolio.webp",
-          "tag": "cwrapOmit"
+          "thumbnail": "static/images/home/thumbnails/minimalist-portfolio.webp"
         },
         {
           "title": "Photosnap Multi-Page Website",
           "url": "https://villager88.github.io/cwrap-photosnap-multi-page-website/",
-          "thumbnail": "static/images/home/thumbnails/photosnap-multi-page-website.webp",
-          "tag": "cwrapOmit"
+          "thumbnail": "static/images/home/thumbnails/photosnap-multi-page-website.webp"
         },
         {
           "title": "Audiophile Ecommerce Website",
           "url": "https://villager88.github.io/cwrap-audiophile-ecommerce-website/",
-          "thumbnail": "static/images/home/thumbnails/audiophile-e-commerce-website.webp",
-          "tag": "cwrapOmit"
+          "thumbnail": "static/images/home/thumbnails/audiophile-e-commerce-website.webp"
         },
         {
           "title": "Dine Restaurant Website",
           "url": "https://villager88.github.io/cwrap-dine-restaurant-website/",
-          "thumbnail": "static/images/home/thumbnails/dine-restaurant-website.webp",
-          "tag": "cwrapOmit"
+          "thumbnail": "static/images/home/thumbnails/dine-restaurant-website.webp"
         },
         {
           "title": "Tech Book Club Landing Page",
           "url": "https://villager88.github.io/cwrap-tech-book-club-landing-page/",
-          "thumbnail": "static/images/home/thumbnails/tech-book-club-landing-page.webp",
-          "tag": "cwrapOmit"
+          "thumbnail": "static/images/home/thumbnails/tech-book-club-landing-page.webp"
         },
         {
           "title": "Single Page Developer Portfolio",
           "url": "https://villager88.github.io/cwrap-single-page-developer-portfolio/",
-          "thumbnail": "static/images/home/thumbnails/single-page-developer-portfolio.webp",
-          "tag": "cwrapOmit"
+          "thumbnail": "static/images/home/thumbnails/single-page-developer-portfolio.webp"
         },
         {
           "title": "Bento Grid",
           "url": "https://villager88.github.io/cwrap-bento-grid/",
-          "thumbnail": "static/images/home/thumbnails/bento-grid.webp",
-          "tag": "cwrapOmit"
+          "thumbnail": "static/images/home/thumbnails/bento-grid.webp"
         },
         {
           "title": "Mortgage Repayment Calculator",
           "url": "https://villager88.github.io/cwrap-mortgage-repayment-calculator/",
-          "thumbnail": "static/images/home/thumbnails/mortgage.repayment-calculator.webp",
-          "tag": "cwrapOmit"
+          "thumbnail": "static/images/home/thumbnails/mortgage.repayment-calculator.webp"
         },
         {
           "title": "Advice Generator App",
           "url": "https://villager88.github.io/cwrap-advice-generator-app/",
-          "thumbnail": "static/images/home/thumbnails/advice-generator-app.webp",
-          "tag": "cwrapOmit"
+          "thumbnail": "static/images/home/thumbnails/advice-generator-app.webp"
         },
         {
           "title": "Interactive Rating Component",
           "url": "https://villager88.github.io/cwrap-interactive-rating-component/",
-          "thumbnail": "static/images/home/thumbnails/interactive-rating-component.webp",
-          "tag": "cwrapOmit"
+          "thumbnail": "static/images/home/thumbnails/interactive-rating-component.webp"
         },
         {
           "title": "Intro component with sign-up form",
           "url": "https://villager88.github.io/cwrap-intro-component-with-sign-up-form/",
-          "thumbnail": "static/images/home/thumbnails/intro-component-with-sign-up-form.webp",
-          "tag": "cwrapOmit"
+          "thumbnail": "static/images/home/thumbnails/intro-component-with-sign-up-form.webp"
         },
         {
           "title": "Blog Preview Card",
           "url": "https://villager88.github.io/cwrap-blog-preview-card/",
-          "thumbnail": "static/images/home/thumbnails/blog-preview.card.webp",
-          "tag": "cwrapOmit"
+          "thumbnail": "static/images/home/thumbnails/blog-preview.card.webp"
         }
       ]
     }

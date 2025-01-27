@@ -27,8 +27,16 @@ const replaceCwrapGlobals = (obj) => {
       const [rootKey, ...nestedPath] = p1.split("."); // Split the key into root and nested parts
       const rootValue = constMap.get(rootKey); // Get the root value from constMap
       if (rootValue !== undefined) {
+        const nestedVal =
+          getNestedValue(rootValue, nestedPath.join(".")) || match;
         // Handle both simple and nested cases
-        return getNestedValue(rootValue, nestedPath.join(".")) || match;
+        if (
+          nestedVal.includes("cwrapGlobal") &&
+          !nestedVal.includes("cwrapIndex")
+        ) {
+          return "cwrapOmit";
+        }
+        return nestedVal;
       }
       return match; // Preserve the original if no match is found
     });

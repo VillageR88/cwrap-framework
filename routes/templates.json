@@ -6,11 +6,17 @@
         "children": [
             {
                 "element": "nav",
-                "style": "align-items: center; background-color: #14253D; display: flex; min-height: 4em; width: 100%;",
+                "style": "align-items: center; background-color: rgba(20, 37, 61, 0.8); display: flex; min-height: 4em; width: 100%; position: fixed; backdrop-filter: blur(10px); z-index: 2;",
                 "children": [
                     {
                         "element": "div",
-                        "style": "align-items: center; display: flex; gap: 20px; margin-inline: auto; max-width: 90rem; width: 100%;",
+                        "style": "align-items: center; display: flex; gap: 20px; margin-inline: auto; max-width: 90rem; width: 100%; padding-inline: 3em;",
+                        "mediaQueries": [
+                            {
+                                "query": "max-width: 640px",
+                                "style": "padding-inline: 1em;"
+                            }
+                        ],
                         "children": [
                             {
                                 "element": "a",
@@ -78,7 +84,39 @@
             },
             {
                 "element": "footer",
-                "style": "width: 100%; min-height: 66px; background-color: #14253D; margin-top: auto;"
+                "style": "width: 100%; min-height: 66px; background-color: #14253D; margin-top: auto; display: flex;",
+                "children": [
+                    {
+                        "element": "div",
+                        "style": "max-width: 90em; margin-inline: auto; width: 100%; padding-inline: 3em; display: flex; align-items: center;",
+                        "children": [
+                            {
+                                "element": "a",
+                                "style": "color: white; position: relative; transition: 300ms; z-index: 1;",
+                                "extend": [
+                                    {
+                                        "extension": "::before",
+                                        "style": "content: \"\"; position: absolute; left: 50%; bottom: -4px; height: 2px; background: rgba(150, 250, 250, 1); width: 0%; z-index: -1; transition: width 300ms ease-in-out, left 300ms ease-in-out; "
+                                    },
+                                    {
+                                        "extension": ":hover::before",
+                                        "style": "width: 100%; left: 1px; transform: translateX(0) scale(1); filter: drop-shadow(0 0 6px rgba(150, 250, 250, 1));"
+                                    }
+                                ],
+                                "attributes": {
+                                    "id": "version",
+                                    "href": "https://www.npmjs.com/package/cwrap-framework"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "element": "script",
+                "attributes": {
+                    "src": "cwrapProperty[prefix=./]static/scripts/main.js"
+                }
             }
         ]
     }
