@@ -157,23 +157,27 @@
               {
                 "element": "div",
                 "style": "align-items: center; display: flex; display: flex; flex-direction: column; position: relative;",
+                "mediaQueries": [
+                  {
+                    "query": "max-width: 1024px",
+                    "extend": [
+                      {
+                        "extension": ":focus > div:nth-of-type(1)",
+                        "style": "opacity: 1; pointer-events: unset;"
+                      },
+                      {
+                        "extension": ":has(a:focus) > div:nth-of-type(1)",
+                        "style": "opacity: 1; pointer-events: unset;"
+                      }
+                    ]
+                  }
+                ],
                 "extend": [
                   {
                     "extension": ":hover > div:nth-of-type(1)",
                     "style": "opacity: 1; pointer-events: unset;"
-                  },
-                  {
-                    "extension": ":focus > div:nth-of-type(1)",
-                    "style": "opacity: 1; pointer-events: unset;"
-                  },
-                  {
-                    "extension": ":has(a:focus) > div:nth-of-type(1)",
-                    "style": "opacity: 1; pointer-events: unset;"
                   }
                 ],
-                "attributes": {
-                  "tabindex": "0"
-                },
                 "children": [
                   {
                     "element": "img",
@@ -185,14 +189,24 @@
                   },
                   {
                     "element": "div",
-                    "style": "align-items: center; background-color: rgba(0,0,0,0.75); display: flex; flex-direction: column; gap: 1em; height: 100%; justify-content: center; opacity: 0; pointer-events: none; position: absolute; width: 100%;",
+                    "style": "align-items: center; background-color: rgba(0,0,0,0.75); display: flex; flex-direction: column; gap: 2em; height: 100%; justify-content: center; opacity: 0; pointer-events: none; position: absolute; transition: 300ms; width: 100%;",
                     "blueprint": {
                       "count": "3",
                       "element": "a",
-                      "style": "color: white; font-size: 1.2rem; font-weight: 600; height: fit-content; letter-spacing: 0.1rem; text-decoration: none; width: fit-content;",
-                      "text": "cwrapIndex1",
+                      "extend": [
+                        {
+                          "extension": "::before",
+                          "style": "background: rgba(150, 250, 250, 1); bottom: -4px; content: \"\"; height: 3px; left: 50%; position: absolute; transition: width 300ms ease-in-out, left 300ms ease-in-out; width: 0%; z-index: -1;"
+                        },
+                        {
+                          "extension": ":hover::before",
+                          "style": "filter: drop-shadow(0 0 6px rgba(150, 250, 250, 1)); left: 1px; transform: translateX(0) scale(1); width: 100%;"
+                        }
+                      ],
+                      "style": "color: white; font-size: 1.2rem; font-weight: 600; height: fit-content; letter-spacing: 0.1rem; position: relative; text-decoration: none; width: fit-content; z-index: 1;",
+                      "text": "cwrapGlobal[home.examplesLinksKeys.cwrapIndex1]",
                       "attributes": {
-                        "href": "cwrapGlobal[home.examples.cwrapIndex.url]",
+                        "href": "cwrapGlobal[home.examples.cwrapIndex.links.cwrapIndex1]",
                         "target": "_blank"
                       }
                     }

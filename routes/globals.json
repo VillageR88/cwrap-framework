@@ -106,12 +106,7 @@
         {
           "icon": "✨",
           "title": "Automatic CSS",
-          "description": "Automatically generate and apply CSS styles rules",
-          "links": {
-            "design": "aasdasd",
-            "preview": "basdasd",
-            "code": "casasd"
-          }
+          "description": "Automatically generate and apply CSS styles rules"
         },
         {
           "icon": "👀",
@@ -149,83 +144,149 @@
           "description": "Enable additional features to customize your development environment"
         }
       ],
+      "examplesLinksKeys": [
+        "DESIGN",
+        "PREVIEW",
+        "CODE"
+      ],
       "examples": [
         {
           "title": "Arch Studio Multi-Page Website",
-          "url": "https://villager88.github.io/cwrap-arch-studio-multi-page-website/",
           "thumbnail": "static/images/home/thumbnails/arch-studio.webp",
-          "tag": "-typescript -webpack"
+          "tag": "-typescript -webpack",
+          "links": [
+            "https://www.frontendmentor.io/challenges/arch-studio-multipage-website-wNIbOFYR6",
+            "https://villager88.github.io/cwrap-arch-studio-multi-page-website/",
+            "https://github.com/VillageR88/cwrap-arch-studio-multi-page-website"
+          ]
         },
         {
           "title": "Memory Game",
-          "url": "https://villager88.github.io/cwrap-memory-game/",
           "thumbnail": "static/images/home/thumbnails/memory-game.webp",
-          "tag": "-typescript"
+          "tag": "-typescript",
+          "links": [
+            "https://www.frontendmentor.io/challenges/memory-game-vse4WFPvM",
+            "https://villager88.github.io/cwrap-memory-game/",
+            "https://github.com/VillageR88/cwrap-memory-game"
+          ]
         },
         {
           "title": "MyTeam Multi-Page Website",
-          "url": "https://villager88.github.io/cwrap-myteam-multi-page-website/",
-          "thumbnail": "static/images/home/thumbnails/my-team.webp"
+          "thumbnail": "static/images/home/thumbnails/my-team.webp",
+          "links": [
+            "https://www.frontendmentor.io/challenges/myteam-multipage-website-mxlEauvW",
+            "https://villager88.github.io/cwrap-myteam-multi-page-website/",
+            "https://github.com/VillageR88/cwrap-myteam-multi-page-website"
+          ]
         },
         {
           "title": "Minimalist Portfolio Website",
-          "url": "https://villager88.github.io/cwrap-minimalist-portfolio-website/",
-          "thumbnail": "static/images/home/thumbnails/minimalist-portfolio.webp"
+          "thumbnail": "static/images/home/thumbnails/minimalist-portfolio.webp",
+          "links": [
+            "https://www.frontendmentor.io/challenges/minimalist-portfolio-website-LMy-ZRyiE",
+            "https://villager88.github.io/cwrap-minimalist-portfolio-website/",
+            "https://github.com/VillageR88/cwrap-minimalist-portfolio-website"
+          ]
         },
         {
           "title": "Photosnap Multi-Page Website",
-          "url": "https://villager88.github.io/cwrap-photosnap-multi-page-website/",
-          "thumbnail": "static/images/home/thumbnails/photosnap-multi-page-website.webp"
+          "thumbnail": "static/images/home/thumbnails/photosnap-multi-page-website.webp",
+          "links": [
+            "https://www.frontendmentor.io/challenges/photosnap-multipage-website-nMDSrNmNW",
+            "https://villager88.github.io/cwrap-photosnap-multi-page-website/",
+            "https://github.com/VillageR88/cwrap-photosnap-multi-page-website"
+          ]
         },
         {
           "title": "Audiophile Ecommerce Website",
-          "url": "https://villager88.github.io/cwrap-audiophile-ecommerce-website/",
-          "thumbnail": "static/images/home/thumbnails/audiophile-e-commerce-website.webp"
+          "thumbnail": "static/images/home/thumbnails/audiophile-e-commerce-website.webp",
+          "links": [
+            "https://www.frontendmentor.io/challenges/audiophile-ecommerce-website-C8cuSd_wx",
+            "https://villager88.github.io/cwrap-audiophile-ecommerce-website/",
+            "https://github.com/VillageR88/cwrap-audiophile-ecommerce-website"
+          ]
         },
         {
           "title": "Dine Restaurant Website",
-          "url": "https://villager88.github.io/cwrap-dine-restaurant-website/",
-          "thumbnail": "static/images/home/thumbnails/dine-restaurant-website.webp"
+          "thumbnail": "static/images/home/thumbnails/dine-restaurant-website.webp",
+          "links": [
+            "https://www.frontendmentor.io/challenges/dine-restaurant-website-yAt7Vvxt7",
+            "https://villager88.github.io/cwrap-dine-restaurant-website/",
+            "https://github.com/VillageR88/cwrap-dine-restaurant-website"
+          ]
         },
         {
           "title": "Tech Book Club Landing Page",
-          "url": "https://villager88.github.io/cwrap-tech-book-club-landing-page/",
-          "thumbnail": "static/images/home/thumbnails/tech-book-club-landing-page.webp"
+          "thumbnail": "static/images/home/thumbnails/tech-book-club-landing-page.webp",
+          "links": [
+            "https://www.frontendmentor.io/challenges/tech-book-club-landing-page-fZQidjHU73",
+            "https://villager88.github.io/cwrap-tech-book-club-landing-page/",
+            "https://github.com/VillageR88/cwrap-tech-book-club-landing-page"
+          ]
         },
         {
           "title": "Single Page Developer Portfolio",
-          "url": "https://villager88.github.io/cwrap-single-page-developer-portfolio/",
-          "thumbnail": "static/images/home/thumbnails/single-page-developer-portfolio.webp"
+          "thumbnail": "static/images/home/thumbnails/single-page-developer-portfolio.webp",
+          "links": [
+            "https://www.frontendmentor.io/challenges/singlepage-developer-portfolio-bBVj2ZPi-x",
+            "https://villager88.github.io/cwrap-single-page-developer-portfolio/",
+            "https://github.com/VillageR88/cwrap-single-page-developer-portfolio"
+          ]
         },
         {
           "title": "Bento Grid",
-          "url": "https://villager88.github.io/cwrap-bento-grid/",
-          "thumbnail": "static/images/home/thumbnails/bento-grid.webp"
+          "thumbnail": "static/images/home/thumbnails/bento-grid.webp",
+          "links": [
+            "https://www.frontendmentor.io/challenges/bento-grid-RMydElrlOj",
+            "https://villager88.github.io/cwrap-bento-grid/",
+            "https://github.com/VillageR88/cwrap-bento-grid"
+          ]
         },
         {
           "title": "Mortgage Repayment Calculator",
-          "url": "https://villager88.github.io/cwrap-mortgage-repayment-calculator/",
-          "thumbnail": "static/images/home/thumbnails/mortgage.repayment-calculator.webp"
+          "thumbnail": "static/images/home/thumbnails/mortgage.repayment-calculator.webp",
+          "links": [
+            "https://www.frontendmentor.io/challenges/mortgage-repayment-calculator-Galx1LXK73",
+            "https://villager88.github.io/cwrap-mortgage-repayment-calculator/",
+            "https://github.com/VillageR88/cwrap-mortgage-repayment-calculator"
+          ]
         },
         {
           "title": "Advice Generator App",
-          "url": "https://villager88.github.io/cwrap-advice-generator-app/",
-          "thumbnail": "static/images/home/thumbnails/advice-generator-app.webp"
+          "thumbnail": "static/images/home/thumbnails/advice-generator-app.webp",
+          "links": [
+            "https://www.frontendmentor.io/challenges/advice-generator-app-QdUG-13db",
+            "https://villager88.github.io/cwrap-advice-generator-app/",
+            "https://github.com/VillageR88/cwrap-advice-generator-app"
+          ]
         },
         {
           "title": "Interactive Rating Component",
-          "url": "https://villager88.github.io/cwrap-interactive-rating-component/",
-          "thumbnail": "static/images/home/thumbnails/interactive-rating-component.webp"
+          "thumbnail": "static/images/home/thumbnails/interactive-rating-component.webp",
+          "links": [
+            "https://www.frontendmentor.io/challenges/interactive-rating-component-koxpeBUmI",
+            "https://villager88.github.io/cwrap-interactive-rating-component/",
+            "https://github.com/VillageR88/cwrap-interactive-rating-component"
+          ]
         },
         {
           "title": "Intro component with sign-up form",
-          "url": "https://villager88.github.io/cwrap-intro-component-with-sign-up-form/",
-          "thumbnail": "static/images/home/thumbnails/intro-component-with-sign-up-form.webp"
+          "thumbnail": "static/images/home/thumbnails/intro-component-with-sign-up-form.webp",
+          "links": [
+            "https://www.frontendmentor.io/challenges/intro-component-with-signup-form-5cf91bd49edda32581d28fd1",
+            "https://villager88.github.io/cwrap-intro-component-with-sign-up-form/",
+            "https://github.com/VillageR88/cwrap-intro-component-with-sign-up-form"
+          ]
         },
         {
           "title": "Blog Preview Card",
           "url": "https://villager88.github.io/cwrap-blog-preview-card/",
-          "thumbnail": "static/images/home/thumbnails/blog-preview.card.webp"
+          "thumbnail": "static/images/home/thumbnails/blog-preview.card.webp",
+          "links": [
+            "https://www.frontendmentor.io/challenges/blog-preview-card-ckPaj01IcS",
+            "https://villager88.github.io/cwrap-blog-preview-card/",
+            "https://github.com/VillageR88/cwrap-blog-preview-card"
+          ]
         }
       ]
     }
