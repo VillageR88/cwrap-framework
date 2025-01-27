@@ -367,6 +367,22 @@ error.html
     logMessage("sortStyles.js already exists in the root folder");
   }
 
+  // Move cwrapConfig.js from cwrap to root folder if it does not exist
+  const cwrapConfigSrcPath = path.join(cwrapPath, "cwrapConfig.js");
+  const cwrapConfigDestPath = path.join(projectPath, "cwrapConfig.js");
+  if (!fs.existsSync(cwrapConfigDestPath)) {
+    try {
+      fs.copyFileSync(cwrapConfigSrcPath, cwrapConfigDestPath);
+      logMessage("Moved cwrapConfig.js to root folder");
+    } catch (error) {
+      logMessage("Error moving cwrapConfig.js:", error.message);
+      removeLockFile();
+      process.exit(1);
+    }
+  } else {
+    logMessage("cwrapConfig.js already exists in the root folder");
+  }
+
   // Move schema folder from cwrap to root folder if it does not exist
   const schemaSrcPath = path.join(cwrapPath, "schema");
   const schemaDestPath = path.join(projectPath, "schema");

@@ -7,7 +7,7 @@ const { document } = new JSDOM().window;
 const constMap = new Map();
 const cssMap = new Map();
 const mediaQueriesMap = new Map();
-const notNthEnumerableElements = ["body", "nav", "header", "main", "footer"];
+const { notNthEnumerableElements } = require("./cwrapConfig");
 
 const templatesApiUrl = path.join(__dirname, "routes", "templates.json");
 const templatesMap = new Map();
