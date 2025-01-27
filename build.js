@@ -103,10 +103,10 @@ loadTemplates();
  */
 function createElementFromJson(
   jsonObj,
-  properties = new Map(), // Ensure properties is always initialized as a Map if not provided
-  omit = []
+  properties = new Map(),
+  omit = [],
+  indices = [0] // Initialize indices array with the top-level index
 ) {
-  // Deep copy jsonObj to ensure immutability
   const jsonObjCopy = JSON.parse(JSON.stringify(jsonObj));
   if (omit.includes(jsonObjCopy["omit-id"])) {
     jsonObjCopy.text = "cwrapOmit";
@@ -136,13 +136,17 @@ function createElementFromJson(
   if (isFragment) {
     const fragment = document.createDocumentFragment();
     for (const child of jsonObjCopy.children) {
-      const childElement = createElementFromJson(child, properties, omit);
+      const childElement = createElementFromJson(
+        child,
+        properties,
+        omit,
+        indices
+      );
       if (childElement) fragment.appendChild(childElement);
     }
     return fragment;
   }
 
-  // Create the element
   const SVG_NAMESPACE = "http://www.w3.org/2000/svg";
   let element;
 
@@ -234,7 +238,8 @@ function createElementFromJson(
           const clonedTemplateElement = createElementFromJson(
             templateElement,
             propMap,
-            jsonObjCopy?.omit || omit || []
+            jsonObjCopy?.omit || omit || [],
+            indices
           ).cloneNode(true);
 
           clonedTemplateElement.isTemplateElement = true;
@@ -267,7 +272,6 @@ function createElementFromJson(
       }
     }
   } else {
-    // //This is newest addition to workaround JSDOM preventing from non semantic text inside img (for example)
     if (jsonObjCopy?.text?.includes("cwrapOmit")) {
       element?.setAttribute("data-cwrap-omit", "");
     }
@@ -342,23 +346,30 @@ function createElementFromJson(
     count = Number.parseInt(count, 10);
     for (let i = 0; i < count; i++) {
       let cookedJson = replacePlaceholdersCwrapArray(blueprintCopy, i);
-      cookedJson = replacePlaceholdersCwrapIndex(cookedJson, i);
+      const newIndices = [...indices, i]; // Add the current index to the indices array
+      console.log(`Processing blueprint with indices: ${newIndices}`);
+      cookedJson = replacePlaceholdersCwrapIndex(cookedJson, newIndices);
       const blueprintElement = createElementFromJson(
         cookedJson,
         properties,
-        omit
+        omit,
+        newIndices
       );
       const clonedElement = blueprintElement.cloneNode(true);
       clonedElement.customTag = "cwrapBlueprint";
       element.appendChild(clonedElement);
     }
   }
-
   if (selectedJsonObj.children) {
     let spanIndex = 0;
     const spanElements = element.querySelectorAll("span");
     for (const child of jsonObjCopy.children) {
-      const childElement = createElementFromJson(child, properties, omit);
+      const childElement = createElementFromJson(
+        child,
+        properties,
+        omit,
+        indices
+      );
       if (element.isPlaceholderCarrier && spanElements[spanIndex]) {
         spanElements[spanIndex].replaceWith(childElement);
         spanIndex++;
@@ -372,7 +383,12 @@ function createElementFromJson(
     const passoverElement = element.querySelector("cwrap-passover");
     if (passoverElement) {
       for (const childJson of jsonObjCopy.passover) {
-        const childElement = createElementFromJson(childJson, properties, omit);
+        const childElement = createElementFromJson(
+          childJson,
+          properties,
+          omit,
+          indices
+        );
         passoverElement.before(childElement);
       }
       passoverElement.remove();
@@ -878,18 +894,29 @@ function main() {
 main();
 
 // functions hard modified from export to use in node.js environment
-function replacePlaceholdersCwrapIndex(jsonObj, index) {
+function replacePlaceholdersCwrapIndex(jsonObj, indices) {
+  // Remove the first value if the length of indices is greater than 1
+  const adjustedIndices = indices.length > 1 ? indices.slice(1) : indices;
+  console.log("Adjusted Indices array:", adjustedIndices);
   const jsonString = JSON.stringify(jsonObj);
+
   const replacedString = jsonString.replace(
-    new RegExp(`${"cwrapIndex"}(\\+\\d+)?`, "g"),
-    (match) => {
-      if (match === "cwrapIndex") {
-        return index;
-      }
-      const offset = Number.parseInt(match.replace("cwrapIndex", ""), 10);
-      return index + offset;
+    /cwrapIndex(\d*)(\+\d+)?/g,
+    (match, p1, p2) => {
+      const level = p1 ? Number.parseInt(p1, 10) : 0; // Default to 0 if no level is specified
+      const offset = p2 ? Number.parseInt(p2, 10) : 0; // Default to 0 if no offset is specified
+      const indexValue =
+        adjustedIndices[level] !== undefined
+          ? adjustedIndices[level] + offset
+          : "NaN";
+      console.log(
+        `Match: ${match}, Indices: ${adjustedIndices}, Return Index: ${indexValue}`
+      );
+      return indexValue;
     }
   );
+  console.log(replacedString, "replacedString");
+
   return JSON.parse(replacedString);
 }
 
