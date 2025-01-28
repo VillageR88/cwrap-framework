@@ -1,15 +1,4 @@
 {
-  "head": {
-    "link": [
-      {
-        "rel": "shortcut icon",
-        "href": "favicon.ico",
-        "type": "image/x-icon"
-      }
-    ]
-  },
-  "fonts": [],
   "element": "cwrap-template",
-  "text": "cwrapTemplate[body(prefix=../)]",
-  "passover": []
+  "text": "cwrapTemplate[documentation(prefix=../)]"
 }

@@ -3,6 +3,11 @@
     "title": "Candy Wrapper",
     "link": [
       {
+        "rel": "shortcut icon",
+        "href": "https://villager88.github.io/cwrap-framework/favicon.ico",
+        "type": "image/x-icon"
+      },
+      {
         "rel": "stylesheet",
         "href": "https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap",
         "type": "text/css"
@@ -92,15 +97,14 @@
     {
       "name": "a",
       "type": "element",
-      "style": "text-decoration: none;"
+      "style": "color: white; font-weight: 400; text-decoration: none;"
     }
   ],
   "const": {
     "home": {
       "hero": {
         "title": "CANDY WRAPPER",
-        "description1": "Candy Wrapper (cwrap) is a microframework for web developers",
-        "description2": "Its key features include"
+        "description1": "Microframework for web developers"
       },
       "features": [
         {
@@ -289,6 +293,11 @@
           ]
         }
       ]
+    },
+    "documentation": {
+      "aside": {
+        "gettingStarted": {}
+      }
     }
   }
 }
