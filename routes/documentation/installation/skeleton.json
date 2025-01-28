@@ -4,9 +4,15 @@
   "passoverRef": "documentation",
   "passover": [
     {
-      "element": "p",
-      "text": "test",
-      "style": "color: red;"
+      "element": "div",
+      "style": "display: flex; flex-direction: column; margin-block: 2em; max-width: 60em;",
+      "children": [
+        {
+          "element": "pre",
+          "text": "npx cwrap-framework@latest",
+          "style": "background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); border-radius: 8px; box-sizing: border-box; color: white; margin: 0; padding: 1em; width: fit-content;"
+        }
+      ]
     }
   ]
 }

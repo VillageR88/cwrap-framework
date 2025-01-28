@@ -1021,10 +1021,9 @@ function generateCssSelector(
   siblingCountMap = new Map(),
   blueprintCounter = undefined,
   propsMap = new Map(),
-  passover = [],
+  passover = new Map(),
   omit = []
 ) {
-  if (propsMap.has("12")) console.log(propsMap);
   let selector = parentSelector;
   if (jsonObj.element) {
     if (omit.includes(jsonObj["omit-id"])) {
@@ -1114,13 +1113,22 @@ function generateCssSelector(
               }
             }
 
+            if (jsonObj?.passover) {
+              if (jsonObj?.passover) {
+                passover.set(
+                  jsonObj?.passoverRef || "default",
+                  jsonObj?.passover
+                );
+              }
+            }
+
             generateCssSelector(
               templateElementCopy,
               selector,
               siblingCountMap,
               blueprintCounter,
               templatePropsMap,
-              jsonObj?.passover || passover || [],
+              passover,
               jsonObj?.omit || omit || []
             );
           }
@@ -1130,17 +1138,21 @@ function generateCssSelector(
     }
 
     // Handle cwrap-passover elements
-    if (element === "cwrap-passover") {
-      for (const childJson of passover) {
-        generateCssSelector(
-          childJson,
-          parentSelector,
-          siblingCountMap,
-          blueprintCounter,
-          new Map(propsMap), // Pass a new copy of propsMap to each passover element
-          passover,
-          omit
-        );
+    if (element.startsWith("cwrap-passover")) {
+      const passoverRef = element.split("-")[2] || "default";
+      const passoverElements = passover.get(passoverRef);
+      if (passoverElements) {
+        for (const childJson of passoverElements) {
+          generateCssSelector(
+            childJson,
+            parentSelector,
+            siblingCountMap,
+            blueprintCounter,
+            new Map(propsMap),
+            passover,
+            omit
+          );
+        }
       }
       return;
     }
