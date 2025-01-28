@@ -16,6 +16,39 @@ const globalsJsonPath = path.join(__dirname, "routes", "globals.json");
 const activeParam = process?.argv?.slice(2);
 const isDevelopment = activeParam.includes("dev");
 
+function runEmbeddedScripts(jsonObj) {
+  const traverseAndExecute = (obj) => {
+    if (typeof obj === "string") {
+      const scriptMatch = obj.match(/{{(.*?)}}/);
+      if (scriptMatch) {
+        try {
+          const scriptContent = scriptMatch[1];
+          const func = new Function(`return (${scriptContent})`);
+          const result = func(); // Execute the script
+          return obj.replace(`{{${scriptContent}}}`, result);
+        } catch (error) {
+          console.error("Error executing script:", error);
+          return obj;
+        }
+      }
+      return obj;
+    }
+    if (Array.isArray(obj)) {
+      return obj.map(traverseAndExecute);
+    }
+    if (typeof obj === "object" && obj !== null) {
+      const newObj = {};
+      for (const key in obj) {
+        newObj[key] = traverseAndExecute(obj[key]);
+      }
+      return newObj;
+    }
+    return obj;
+  };
+
+  return traverseAndExecute(jsonObj);
+}
+
 const getNestedValue = (obj, path) => {
   if (!path) return obj; // If no path is provided, return the root object
   return path.split(".").reduce((acc, key) => acc?.[key], obj);
@@ -82,8 +115,9 @@ function clearDocumentByPlaceholder(htmlString) {
 function loadTemplates() {
   if (fs.existsSync(templatesApiUrl)) {
     const templatesJson = JSON.parse(fs.readFileSync(templatesApiUrl, "utf8"));
+    const processedTemplatesJson = runEmbeddedScripts(templatesJson); // Process embedded scripts
     templatesMap.clear();
-    for (const template of templatesJson) {
+    for (const template of processedTemplatesJson) {
       templatesMap.set(template.name, template);
     }
   } else {
@@ -280,7 +314,7 @@ function createElementFromJson(
 
   if (selectedJsonObj.attributes) {
     for (const [key, value] of Object.entries(selectedJsonObj.attributes)) {
-      if (value.includes("cwrapOmit")) continue;
+      console.log(value);
       if (value.includes("cwrapProperty")) {
         const parts = value.split(/(cwrapProperty\[[^\]]+\])/g);
         let finalValue = "";
@@ -299,9 +333,10 @@ function createElementFromJson(
             finalValue += part;
           }
         }
-        element.setAttribute(key, finalValue);
+        if (!finalValue?.includes("cwrapOmit"))
+          element.setAttribute(key, finalValue);
       } else {
-        element.setAttribute(key, value);
+        if (!value?.includes("cwrapOmit")) element.setAttribute(key, value);
       }
     }
   }
@@ -382,11 +417,9 @@ function createElementFromJson(
     const passoverRef = jsonObjCopy.passoverRef
       ? `-${jsonObjCopy.passoverRef}`
       : "";
-    if (passoverRef) console.log("ref found!");
     const passoverElement = element.querySelector(
       `cwrap-passover${passoverRef}`
     );
-    console.log(passoverElement);
 
     if (passoverElement) {
       for (const childJson of jsonObjCopy.passover) {
@@ -536,6 +569,7 @@ function processStaticRouteDirectory(routeDir, buildDir, index) {
     return;
   }
   let jsonObj = JSON.parse(fs.readFileSync(jsonFile, "utf8"));
+  jsonObj = runEmbeddedScripts(jsonObj); // Process embedded scripts
   if (jsonObj.routes) {
     if (!isDevelopment) console.log("routeFound");
     const findCwrapRouteMatches = (str, cwrapMatch) => {

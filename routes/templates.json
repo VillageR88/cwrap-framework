@@ -30,24 +30,21 @@
                                                         {
                                                             "element": "a",
                                                             "text": "cwrapGlobal[documentation.routes.cwrapIndex]",
-                                                            "style": "position: relative; z-index: 1;",
+                                                            "style": "position: relative; z-index: 1; transition: 300ms; padding: 0.2em 0.5em;",
                                                             "extend": [
+                                                            
                                                                 {
-                                                                    "extension": "::before",
-                                                                    "style": "background: rgba(150, 250, 250, 1); bottom: -4px; content: \"\"; height: 1px; left: 50%; position: absolute; transition: width 300ms ease-in-out, left 300ms ease-in-out; width: 0%; z-index: -1;"
+                                                                    "extension": ":hover",
+                                                                    "style": "color: rgba(150, 250, 250, 1);"
                                                                 },
                                                                 {
-                                                                    "extension": ":hover::before",
-                                                                    "style": "filter: drop-shadow(0 0 6px rgba(150, 250, 250, 1)); left: 1px; transform: translateX(0) scale(1); width: 100%;"
-                                                                },
-                                                                {
-                                                                    "extension": ".focus::before",
-                                                                    "style": "filter: drop-shadow(0 0 6px rgba(150, 250, 250, 1)); left: 1px; height: 2px;transform: translateX(0) scale(1); width: 100%;"
+                                                                    "extension": ".focus",
+                                                                    "style": "color: rgba(150, 250, 250, 1); background-color: rgba(20, 37, 61, 0.8); padding: 0.2em 0.5em; border-radius: 0.3em;"
                                                                 }
                                                             ],
                                                             "attributes": {
                                                                 "href": "cwrapProperty[prefixAside=./]cwrapGlobal[documentation.routes.cwrapIndex]/",
-                                                                "class": "cwrapArray[cwrapProperty[installationFocus=cwrapOmit],cwrapProperty[runningFocus=cwrapOmit]]"
+                                                                "class": "cwrapArray[{{['installation', 'running'].map((x) => `cwrapProperty[${x}Focus=cwrapOmit]`)}}]"
                                                             }
                                                         }
                                                     ]
@@ -103,15 +100,19 @@
                         "children": [
                             {
                                 "element": "a",
-                                "style": "cursor: pointer; display: flex; transition: 450ms ease-out",
+                                "style": "cursor: pointer; display: flex; transition: 400ms ease-out",
                                 "extend": [
                                     {
                                         "extension": ":hover",
-                                        "style": "transform: translateX(0) scale(1.1); filter: drop-shadow(0 0 2px rgba(150, 250, 250, 1));"
+                                        "style": "transform: translateX(0) scale(1.05); filter: drop-shadow(0 0 2px rgba(150, 250, 250, 1));"
+                                    }, {
+                                        "extension": ".focus",
+                                        "style": "transform: translateX(0) scale(1); filter: unset;"
                                     }
                                 ],
                                 "attributes": {
-                                    "href": "cwrapProperty[prefix=./]"
+                                    "href": "cwrapProperty[prefix=./]",
+                                    "class": "cwrapProperty[homeFocus=cwrapOmit]"
                                 },
                                 "children": [
                                     {
@@ -139,7 +140,7 @@
                                             "extend": [
                                                 {
                                                     "extension": "::before",
-                                                    "style": "background: rgba(150, 250, 250, 1); bottom: -4px; content: \"\"; height: 1px; left: 50%; position: absolute; transition: width 300ms ease-in-out, left 300ms ease-in-out; width: 0%; z-index: -1;"
+                                                    "style": "background: rgba(150, 250, 250, 1); bottom: 0px; content: \"\"; height: 2px; left: 50%; position: absolute; transition: width 300ms ease-in-out, left 300ms ease-in-out; width: 0%; z-index: -1;"
                                                 },
                                                 {
                                                     "extension": ":hover::before",
@@ -147,7 +148,7 @@
                                                 },
                                                 {
                                                     "extension": ".focus::before",
-                                                    "style": "filter: drop-shadow(0 0 6px rgba(150, 250, 250, 1)); left: 1px; height: 2px;transform: translateX(0) scale(1); width: 100%;"
+                                                    "style": "filter: drop-shadow(0 0 6px rgba(150, 250, 250, 1)); left: 1px; transform: translateX(0) scale(1); width: 100%;"
                                                 }
                                             ],
                                             "attributes": {
