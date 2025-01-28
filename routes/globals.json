@@ -90,9 +90,9 @@
       "style": "font-size: 3.4rem; font-weight: bold; line-height: 4rem; margin: 0; text-align: center;"
     },
     {
-      "name": "p",
+      "name": "p, pre",
       "type": "element",
-      "style": "margin: 0;"
+      "style": "color: white; margin: 0;"
     },
     {
       "name": "a",
@@ -295,9 +295,10 @@
       ]
     },
     "documentation": {
-      "aside": {
-        "gettingStarted": {}
-      }
+      "routes": [
+        "installation",
+        "running"
+      ]
     }
   }
 }

@@ -16,11 +16,11 @@ Candy Wrapper (CWrap) is a microframework for web developers. Its key features i
 
 ## Installation
 
+To install the latest version of cwrap, run the following command:
+
 `npx cwrap-framework@latest`
 
 ## Running
-
-`cd your-project-directory`
 
 To run the development server, use the following command:
 

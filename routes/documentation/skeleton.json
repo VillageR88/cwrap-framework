@@ -1,4 +1,4 @@
 {
   "element": "cwrap-template",
-  "text": "cwrapTemplate[documentation(prefix=../)]"
+  "text": "cwrapTemplate[documentation(prefix=../,passoverMain=cwrapOmit)]"
 }

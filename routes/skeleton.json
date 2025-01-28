@@ -1,6 +1,6 @@
 {
   "element": "cwrap-template",
-  "text": "cwrapTemplate[body]",
+  "text": "cwrapTemplate[body(documentationFocus=cwrapOmit)]",
   "passover": [
     {
       "element": "cwrap-template",

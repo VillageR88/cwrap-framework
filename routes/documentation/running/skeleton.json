@@ -1,6 +1,6 @@
 {
   "element": "cwrap-template",
-  "text": "cwrapTemplate[documentation(prefix=../../,prefixAside=../,installationFocus=focus)]",
+  "text": "cwrapTemplate[documentation(prefix=../../,prefixAside=../,runningFocus=focus)]",
   "passoverRef": "documentation",
   "passover": [
     {
@@ -9,12 +9,12 @@
       "children": [
         {
           "element": "p",
-          "text": "To install the latest version of cwrap, run the following command:",
+          "text": "To run the development server, use the following command:",
           "style": "margin-bottom: 1em;"
         },
         {
           "element": "pre",
-          "text": "npx cwrap-framework@latest",
+          "text": "npm run dev",
           "style": "background-color: #14253D; border-radius: 8px; box-sizing: border-box; margin: 0; padding: 1em; width: fit-content;"
         }
       ]
