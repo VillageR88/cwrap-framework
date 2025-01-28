@@ -16,11 +16,6 @@
         "rel": "stylesheet",
         "href": "https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap",
         "type": "text/css"
-      },
-      {
-        "rel": "stylesheet",
-        "href": "//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/default.min.css",
-        "type": "text/css"
       }
     ],
     "meta": [
@@ -298,6 +293,11 @@
           ]
         }
       ]
+    },
+    "documentation": {
+      "aside": {
+        "gettingStarted": {}
+      }
     }
   }
 }

@@ -9,13 +9,8 @@
       "children": [
         {
           "element": "pre",
-          "children": [
-            {
-              "element": "code",
-              "class": "language-js",
-              "text": "npx cwrap-framework@latest"
-            }
-          ]
+          "text": "npx cwrap-framework@latest",
+          "style": "background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); border-radius: 8px; box-sizing: border-box; color: white; margin: 0; padding: 1em; width: fit-content;"
         }
       ]
     }

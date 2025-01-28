@@ -188,7 +188,6 @@
             {
                 "element": "script",
                 "attributes": {
-                    "type": "module",
                     "src": "cwrapProperty[prefix=./]static/scripts/main.js"
                 }
             }
