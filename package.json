@@ -40,5 +40,8 @@
   },
   "bin": {
     "create-cwrap": "cli.js"
+  },
+  "dependencies": {
+    "highlight.js": "^11.11.1"
   }
 }

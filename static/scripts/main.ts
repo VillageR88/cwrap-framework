@@ -1,3 +1,5 @@
+import hljs from "highlight.js/lib/core";
+
 const version = document.getElementById("version");
 window.onload = async () => {
 	if (version) {
@@ -16,3 +18,7 @@ window.onload = async () => {
 		}
 	}
 };
+
+document.addEventListener("DOMContentLoaded", () => {
+	hljs.highlightAll();
+});
