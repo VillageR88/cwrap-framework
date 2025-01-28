@@ -379,7 +379,15 @@ function createElementFromJson(
   }
 
   if (jsonObjCopy.element === "cwrap-template" && jsonObjCopy.passover) {
-    const passoverElement = element.querySelector("cwrap-passover");
+    const passoverRef = jsonObjCopy.passoverRef
+      ? `-${jsonObjCopy.passoverRef}`
+      : "";
+    if (passoverRef) console.log("ref found!");
+    const passoverElement = element.querySelector(
+      `cwrap-passover${passoverRef}`
+    );
+    console.log(passoverElement);
+
     if (passoverElement) {
       for (const childJson of jsonObjCopy.passover) {
         const childElement = createElementFromJson(

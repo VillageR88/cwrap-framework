@@ -6,7 +6,7 @@
         "passover": [
             {
                 "element": "div",
-                "style": "margin-inline: auto; margin-top: 4em; max-width: 90em; width: 100%;",
+                "style": "margin-inline: auto; margin-top: 4em; max-width: 90em; width: 100%; display: flex;",
                 "children": [
                     {
                         "element": "aside",
@@ -52,6 +52,9 @@
                                 ]
                             }
                         ]
+                    },
+                    {
+                        "element": "cwrap-passover-documentation"
                     }
                 ]
             }

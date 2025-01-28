@@ -1,4 +1,12 @@
 {
   "element": "cwrap-template",
-  "text": "cwrapTemplate[documentation(prefix=../../,prefixAside=../,installationFocus=focus)]"
+  "text": "cwrapTemplate[documentation(prefix=../../,prefixAside=../,installationFocus=focus)]",
+  "passoverRef": "documentation",
+  "passover": [
+    {
+      "element": "p",
+      "text": "test",
+      "style": "color: red;"
+    }
+  ]
 }
