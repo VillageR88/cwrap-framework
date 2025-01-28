@@ -1,0 +1,23 @@
+{
+  "element": "cwrap-template",
+  "text": "cwrapTemplate[documentation(prefix=../../,prefixAside=../,structureFocus=focus)]",
+  "passoverRef": "documentation",
+  "passover": [
+    {
+      "element": "div",
+      "style": "display: flex; flex-direction: column; margin-block: 2em; max-width: 60em;",
+      "children": [
+        {
+          "element": "p",
+          "text": "The typical project structure for development files is as follows:",
+          "style": "margin-bottom: 1em;"
+        },
+        {
+          "element": "pre",
+          "text": "project-root/\n├── dist/\n├── routes/\n│   ├── skeleton.json\n│   ├── globals.json\n│   ├── templates.json\n│   └── some-other-route/\n│       └── skeleton.json\n├── static/\n│   ├── favicon/\n│   ├── images/\n│   └── scripts/\n└── cwrapConfig.js",
+          "style": "background-color: #14253D; border-radius: 8px; box-sizing: border-box; margin: 0; padding: 2em; width: fit-content;"
+        }
+      ]
+    }
+  ]
+}

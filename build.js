@@ -8,23 +8,21 @@ const constMap = new Map();
 const cssMap = new Map();
 const mediaQueriesMap = new Map();
 const { notNthEnumerableElements } = require("./cwrapConfig");
-
+const { devRef } = require("./cwrapConfig");
 const templatesApiUrl = path.join(__dirname, "routes", "templates.json");
 const templatesMap = new Map();
 const globalsJsonPath = path.join(__dirname, "routes", "globals.json");
-
 const activeParam = process?.argv?.slice(2);
 const isDevelopment = activeParam.includes("dev");
-
-function runEmbeddedScripts(jsonObj) {
+function runEmbeddedScripts(jsonObj, devRef) {
   const traverseAndExecute = (obj) => {
     if (typeof obj === "string") {
       const scriptMatch = obj.match(/{{(.*?)}}/);
       if (scriptMatch) {
         try {
           const scriptContent = scriptMatch[1];
-          const func = new Function(`return (${scriptContent})`);
-          const result = func(); // Execute the script
+          const func = new Function("devRef", `return (${scriptContent})`);
+          const result = func(devRef); // Execute the script with devRef
           return obj.replace(`{{${scriptContent}}}`, result);
         } catch (error) {
           console.error("Error executing script:", error);
@@ -115,7 +113,7 @@ function clearDocumentByPlaceholder(htmlString) {
 function loadTemplates() {
   if (fs.existsSync(templatesApiUrl)) {
     const templatesJson = JSON.parse(fs.readFileSync(templatesApiUrl, "utf8"));
-    const processedTemplatesJson = runEmbeddedScripts(templatesJson); // Process embedded scripts
+    const processedTemplatesJson = runEmbeddedScripts(templatesJson, devRef); // Process embedded scripts
     templatesMap.clear();
     for (const template of processedTemplatesJson) {
       templatesMap.set(template.name, template);
@@ -314,7 +312,6 @@ function createElementFromJson(
 
   if (selectedJsonObj.attributes) {
     for (const [key, value] of Object.entries(selectedJsonObj.attributes)) {
-      console.log(value);
       if (value.includes("cwrapProperty")) {
         const parts = value.split(/(cwrapProperty\[[^\]]+\])/g);
         let finalValue = "";
@@ -569,7 +566,7 @@ function processStaticRouteDirectory(routeDir, buildDir, index) {
     return;
   }
   let jsonObj = JSON.parse(fs.readFileSync(jsonFile, "utf8"));
-  jsonObj = runEmbeddedScripts(jsonObj); // Process embedded scripts
+  jsonObj = runEmbeddedScripts(jsonObj, devRef); // Process embedded scripts
   if (jsonObj.routes) {
     if (!isDevelopment) console.log("routeFound");
     const findCwrapRouteMatches = (str, cwrapMatch) => {

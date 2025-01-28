@@ -90,7 +90,7 @@
                   },
                   {
                     "element": "p",
-                    "style": "margin: 0; margin-top: 1em; text-align: center;",
+                    "style": "color: hsl(215, 51%, 70%); margin: 0; margin-top: 1em; text-align: center;",
                     "text": "cwrapGlobal[home.features.cwrapIndex.description]"
                   }
                 ]

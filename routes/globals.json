@@ -95,6 +95,11 @@
       "style": "color: white; margin: 0;"
     },
     {
+      "name": "pre",
+      "type": "element",
+      "style": "font-size: 1rem;"
+    },
+    {
       "name": "a",
       "type": "element",
       "style": "color: white; font-weight: 400; text-decoration: none;"
@@ -130,7 +135,7 @@
         {
           "icon": "🛤️",
           "title": "Dynamic routing",
-          "description": "Easily manage and navigate between different routes in your application"
+          "description": "Easily manage and navigate between different ['getting-started'] in your application"
         },
         {
           "icon": "🧩",
@@ -295,9 +300,10 @@
       ]
     },
     "documentation": {
-      "routes": [
+      "getting started": [
         "installation",
-        "running"
+        "running",
+        "structure"
       ]
     }
   }

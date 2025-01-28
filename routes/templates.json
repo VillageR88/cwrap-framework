@@ -21,15 +21,15 @@
                                         "children": [
                                             {
                                                 "element": "ul",
-                                                "text": "Getting started",
+                                                "text": "{{Object.keys(devRef.globals.const.documentation).map(key => key.charAt(0).toUpperCase() + key.slice(1))}}",
                                                 "style": "color: white; display: flex; flex-direction: column; font-weight: bold; gap: 1em; list-style: none; margin: 0; padding: 0;",
                                                 "blueprint": {
-                                                    "count": "2",
+                                                    "count": "{{devRef.globals.const.documentation['getting started'].length}}",
                                                     "element": "li",
                                                     "children": [
                                                         {
                                                             "element": "a",
-                                                            "text": "cwrapGlobal[documentation.routes.cwrapIndex]",
+                                                            "text": "cwrapArray[{{devRef.globals.const.documentation['getting started']}}]",
                                                             "style": "position: relative; z-index: 1; transition: 300ms; padding: 0.2em 0.5em;",
                                                             "extend": [
                                                             
@@ -43,8 +43,8 @@
                                                                 }
                                                             ],
                                                             "attributes": {
-                                                                "href": "cwrapProperty[prefixAside=./]cwrapGlobal[documentation.routes.cwrapIndex]/",
-                                                                "class": "cwrapArray[{{['installation', 'running'].map((x) => `cwrapProperty[${x}Focus=cwrapOmit]`)}}]"
+                                                                "href": "cwrapProperty[prefixAside=./]cwrapGlobal[documentation.getting started.cwrapIndex]/",
+                                                                "class": "cwrapArray[{{devRef.globals.const.documentation['getting started'].map((x) => `cwrapProperty[${x}Focus=cwrapOmit]`)}}]"
                                                             }
                                                         }
                                                     ]
