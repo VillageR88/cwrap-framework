@@ -6,7 +6,7 @@
   "passover": [
     {
       "element": "div",
-      "style": "display: flex; flex-direction: column; gap: 1em; margin-block: 2em; max-width: 60em; width: 100%;",
+      "style": "display: flex; flex-direction: column; gap: 1em; margin-top: 2em; max-width: 60em; width: 100%;",
       "children": [
         {
           "element": "p",
@@ -35,7 +35,7 @@
         },
         {
           "element": "div",
-          "style": "overflow-x: auto;",
+          "style": "height: 400px; max-height: max-content; min-height: 400px; overflow-x: auto; overflow-y: auto; resize: vertical;",
           "children": [
             {
               "element": "pre",
@@ -46,23 +46,23 @@
         },
         {
           "element": "p",
-          "text": "\tSuch construction is like a building block for defining the structure of a website. In order to enhance the visual aspect of the elements, there has to be an accompanying stylesheet.\n\tIt might be tempting to apply styles directly to elements by adding them as attributes. However, this approach can prevent proper caching and limit the styles to only the specific elements, missing the broader application.\n\tOver the years, CSS has evolved with more advanced features, and my personal favorite is Tailwind CSS. It offers utility-first classes that allow you to build custom designs directly within your markup.",
+          "text": "\tThis construction serves as a building block for defining the structure of a website. To enhance the visual aspect of the elements, an accompanying stylesheet is essential.\n\tWhile it may be tempting to apply styles directly to elements using attributes, this approach can hinder proper caching and limit the styles to specific elements, missing out on broader application.\n\tOver the years, CSS has evolved with advanced features, and my personal favorite is Tailwind CSS. Its utility-first classes enable you to build custom designs directly within your markup.",
           "style": "line-height: 1.5em; white-space: pre-wrap;"
         }
       ]
     },
     {
       "element": "div",
-      "style": "display: flex; flex-direction: column; gap: 1em; margin-block: 2em; max-width: 60em; width: 100%;",
+      "style": "display: flex; flex-direction: column; gap: 1em; margin-block: 2em; max-width: 60em; resize: vertical; width: 100%;",
       "children": [
         {
           "element": "p",
-          "text": "This is skeleton.json file that defines the structure of a route in cwrap project:",
+          "text": "Below is the skeleton.json file for the same design. It defines the structure of a route in a cwrap project:",
           "style": "line-height: 1.5em; white-space: pre-wrap;"
         },
         {
           "element": "div",
-          "style": "overflow-x: auto;",
+          "style": "height: 400px; max-height: max-content; min-height: 400px; overflow-x: auto; overflow-y: auto; resize: vertical;",
           "children": [
             {
               "element": "pre",
@@ -70,6 +70,60 @@
               "style": "background-color: #14253D; border-radius: 8px; box-sizing: border-box; margin: 0; padding: 2em; width: fit-content;"
             }
           ]
+        },
+        {
+          "element": "p",
+          "text": "\tThe skeleton.json file is a JSON object that defines the structure of a route in a cwrap project. It consists, in most cases, of these common properties:\n\t- element: the HTML element to be rendered,\n\t- text: the text content to be displayed within the element,\n\t- style: the CSS styles to be applied to the element,\n\t- extend: an array of pseudo-classes and corresponding styles,\n\t- mediaQueries: an array of media queries and corresponding styles,\n\t- attributes: an object containing the attributes to be applied to the element,\n\t- blueprint: an object containing the blueprint for generating multiple child elements,\n\t- children: an array of child elements.\n\n\tThe skeleton.json file is used by the cwrap compiler to generate the HTML and CSS code for a route. It provides a structured way to define the layout and styling of a website, making it easier to maintain and update the design.",
+          "style": "line-height: 1.5em; white-space: pre-wrap;"
+        }
+      ]
+    },
+    {
+      "element": "div",
+      "style": "display: flex; flex-direction: column; gap: 1em; margin-block: 2em; max-width: 60em; resize: vertical; width: 100%;",
+      "children": [
+        {
+          "element": "p",
+          "text": "Here we have HTML DOM head element of the same project:",
+          "style": "line-height: 1.5em; white-space: pre-wrap;"
+        },
+        {
+          "element": "div",
+          "style": "height: fit-content; max-height: max-content; min-height: fit-content; overflow-x: auto; overflow-y: auto; resize: vertical;",
+          "children": [
+            {
+              "element": "pre",
+              "text": "<head>\n    <title>New Candy Wrapper project</title>\n    <link rel=\"stylesheet\"\n        href=\"https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap\"\n        type=\"text/css\">\n    <link rel=\"shortcut icon\" href=\"favicon.ico\" type=\"image/x-icon\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <meta charset=\"UTF-8\">\n    <meta name=\"description\" content=\"New Candy Wrapper project.\">\n    <meta name=\"keywords\" content=\"\">\n    <link rel=\"stylesheet\" href=\"styles.css\">\n    <link rel=\"stylesheet\" href=\"globals.css\">\n</head>",
+              "style": "background-color: #14253D; border-radius: 8px; box-sizing: border-box; margin: 0; padding: 2em; width: fit-content;"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "element": "div",
+      "style": "display: flex; flex-direction: column; gap: 1em; margin-block: 2em; max-width: 60em; resize: vertical; width: 100%;",
+      "children": [
+        {
+          "element": "p",
+          "text": "And here is the skeleton.json file for the head element:",
+          "style": "line-height: 1.5em; white-space: pre-wrap;"
+        },
+        {
+          "element": "div",
+          "style": "height: fit-content; max-height: max-content; min-height: fit-content; overflow-x: auto; overflow-y: auto; resize: vertical;",
+          "children": [
+            {
+              "element": "pre",
+              "text": "{\n  \"head\": {\n    \"title\": \"New Candy Wrapper project\",\n    \"link\": [\n      {\n        \"rel\": \"stylesheet\",\n        \"href\": \"https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap\",\n        \"type\": \"text/css\"\n      },\n      {\n        \"rel\": \"shortcut icon\",\n        \"href\": \"favicon.ico\",\n        \"type\": \"image/x-icon\"\n      },\n      {\n        \"rel\": \"stylesheet\",\n        \"href\": \"styles.css\"\n      },\n      {\n        \"rel\": \"stylesheet\",\n        \"href\": \"globals.css\"\n      }\n    ],\n    \"meta\": [\n      {\n        \"name\": \"viewport\",\n        \"content\": \"width=device-width, initial-scale=1.0\"\n      },\n      {\n        \"charset\": \"UTF-8\"\n      },\n      {\n        \"name\": \"description\",\n        \"content\": \"New Candy Wrapper project.\"\n      },\n      {\n        \"name\": \"keywords\",\n        \"content\": \"\"\n      }\n    ]\n  }\n}",
+              "style": "background-color: #14253D; border-radius: 8px; box-sizing: border-box; margin: 0; padding: 2em; width: fit-content;"
+            }
+          ]
+        },
+        {
+          "element": "p",
+          "text": "I think it pretty much self explains itself.",
+          "style": "line-height: 1.5em; white-space: pre-wrap;"
         }
       ]
     }
