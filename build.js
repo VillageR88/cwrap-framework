@@ -24,7 +24,7 @@ function runEmbeddedScripts(jsonObj, devRef, devRoute) {
           const func = new Function(
             "devRef",
             "devRoute",
-            `return (${scriptContent})`
+            `return (function() { ${scriptContent} })()`
           );
           const result = func(devRef, devRoute); // Execute the script with devRef and devRoute
           return obj.replace(`{{${scriptContent}}}`, result);
