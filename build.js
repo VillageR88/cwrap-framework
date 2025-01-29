@@ -17,23 +17,24 @@ const isDevelopment = activeParam.includes("dev");
 function runEmbeddedScripts(jsonObj, devRef, devRoute) {
   const traverseAndExecute = (obj) => {
     if (typeof obj === "string") {
-      const scriptMatch = obj.match(/{{(.*?)}}/);
-      if (scriptMatch) {
+      const scriptMatches = [...obj.matchAll(/{{(.*?)}}/g)];
+      let result = obj;
+      for (const match of scriptMatches) {
         try {
-          const scriptContent = scriptMatch[1];
+          const scriptContent = match[1];
           const func = new Function(
             "devRef",
             "devRoute",
             `return (function() { ${scriptContent} })()`
           );
-          const result = func(devRef, devRoute); // Execute the script with devRef and devRoute
-          return obj.replace(`{{${scriptContent}}}`, result);
+          const scriptResult = func(devRef, devRoute); // Execute the script with devRef and devRoute
+          result = result.replace(`{{${scriptContent}}}`, scriptResult);
         } catch (error) {
           console.error("Error executing script:", error);
           return obj;
         }
       }
-      return obj;
+      return result;
     }
     if (Array.isArray(obj)) {
       return obj.map(traverseAndExecute);
