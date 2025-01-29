@@ -312,6 +312,19 @@
         "skeleton",
         "globals",
         "templates"
+      ],
+      "advanced concepts": [
+        "embeddedJS",
+        "сwrapRef",
+        "сwrapRoute",
+        "сwrapContext",
+        "сwrapTemplate",
+        "сwrapProperty",
+        "сwrapArray",
+        "сwrapIndex",
+        "сwrapGlobal",
+        "сwrapOmit",
+        "сwrapPlaceholder"
       ]
     }
   }

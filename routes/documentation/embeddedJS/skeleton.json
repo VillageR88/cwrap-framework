@@ -1,0 +1,63 @@
+{
+  "": "{{cwrapContext.set('route',cwrapRoute.split('\\\\')); return '';}}",
+  "element": "cwrap-template",
+  "text": "cwrapTemplate[documentation(prefix=../../,prefixAside=../,{{return cwrapContext.get('route')[1]}}Focus=focus)]",
+  "passoverRef": "documentation",
+  "passover": [
+    {
+      "element": "div",
+      "style": "display: flex; flex-direction: column; gap: 1em; margin-block: 2em; max-width: 60em; width: 100%;",
+      "children": [
+        {
+          "element": "p",
+          "text": "\tIn Cwrap, you can embed JavaScript inside JSON using {‎{}‎}. This allows for dynamic values and transformations during development, making JSON more flexible and interactive.\n\tHere are some examples of embedded JavaScript in JSON:",
+          "style": "line-height: 1.5em; white-space: pre-wrap;"
+        },
+        {
+          "element": "div",
+          "style": "background-color: #14253D; border-radius: 8px; display: flex; flex-direction: column; gap: 2em; height: fit-content; max-height: max-content; min-height: fit-content; overflow-x: auto; overflow-y: auto; width: 100%;",
+          "children": [
+            {
+              "element": "pre",
+              "text": "{\n  \"element\": \"h2\",\n  \"style\": \"color: white; margin: 0; text-align: center; text-transform: uppercase;\",\n  \"text\": \"{‎{return 'Some text';}‎}\"\n}",
+              "style": "box-sizing: border-box; margin: 0; padding: 2em; width: fit-content;"
+            }
+          ]
+        },
+        {
+          "element": "div",
+          "style": "background-color: #14253D; border-radius: 8px; display: flex; flex-direction: column; gap: 2em; height: fit-content; max-height: max-content; min-height: fit-content; overflow-x: auto; overflow-y: auto; width: 100%;",
+          "children": [
+            {
+              "element": "pre",
+              "text": "{\n  \"element\": \"h2\",\n  \"style\": \"color: white; margin: 0; text-align: center; text-transform: uppercase;\",\n  \"text\": \"{‎{const part1 = 'Some'; const part2 = 'Text'; return [part1, part2].join(' ');}‎}\"\n}",
+              "style": "box-sizing: border-box; margin: 0; padding: 2em; width: fit-content;"
+            }
+          ]
+        },
+        {
+          "element": "div",
+          "style": "background-color: #14253D; border-radius: 8px; display: flex; flex-direction: column; gap: 2em; height: fit-content; max-height: max-content; min-height: fit-content; overflow-x: auto; overflow-y: auto; width: 100%;",
+          "children": [
+            {
+              "element": "pre",
+              "text": "{\n  \"element\": \"h2\",\n  \"style\": \"color: white; margin: 0; text-align: center; text-transform: uppercase;\",\n  \"text\": \"{‎{return new Date().toLocaleDateString();}‎}\"\n}",
+              "style": "box-sizing: border-box; margin: 0; padding: 2em; width: fit-content;"
+            }
+          ]
+        },
+        {
+          "element": "div",
+          "style": "background-color: #14253D; border-radius: 8px; display: flex; flex-direction: column; gap: 2em; height: fit-content; max-height: max-content; min-height: fit-content; overflow-x: auto; overflow-y: auto; width: 100%;",
+          "children": [
+            {
+              "element": "pre",
+              "text": "{\n  \"element\": \"h2\",\n  \"style\": \"color: white; margin: 0; text-align: center; text-transform: uppercase;\",\n  \"text\": \"{‎{const amount = 1234.56; return amount.toLocaleString('en-US', { style: 'currency', currency: 'USD' });}‎}\"\n}",
+              "style": "box-sizing: border-box; margin: 0; padding: 2em; width: fit-content;"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

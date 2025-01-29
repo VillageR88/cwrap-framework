@@ -120,7 +120,12 @@ function clearDocumentByPlaceholder(htmlString) {
 function loadTemplates() {
   if (fs.existsSync(templatesApiUrl)) {
     const templatesJson = JSON.parse(fs.readFileSync(templatesApiUrl, "utf8"));
-    const processedTemplatesJson = runEmbeddedScripts(templatesJson, cwrapRef); // Process embedded scripts
+    const processedTemplatesJson = runEmbeddedScripts(
+      templatesJson,
+      cwrapRef,
+      undefined,
+      cwrapContext
+    ); // Process embedded scripts
     templatesMap.clear();
     for (const template of processedTemplatesJson) {
       templatesMap.set(template.name, template);

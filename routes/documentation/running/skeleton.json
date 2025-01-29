@@ -14,9 +14,15 @@
           "style": "margin-bottom: 1em; white-space: pre-wrap;"
         },
         {
-          "element": "pre",
-          "text": "npm run dev",
-          "style": "background-color: #14253D; border-radius: 8px; box-sizing: border-box; margin: 0; padding: 1em; width: fit-content;"
+          "element": "div",
+          "style": "background-color: #14253D; border-radius: 8px; display: flex; flex-direction: column; gap: 2em; height: fit-content; max-height: max-content; min-height: fit-content; overflow-x: auto; overflow-y: auto; width: 100%;",
+          "children": [
+            {
+              "element": "pre",
+              "text": "npm run dev",
+              "style": "box-sizing: border-box; margin: 0; padding: 1em; width: fit-content;"
+            }
+          ]
         }
       ]
     }

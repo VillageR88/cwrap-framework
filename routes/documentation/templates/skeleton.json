@@ -26,7 +26,7 @@
         },
         {
           "element": "p",
-          "text": "\tThe templates.json file plays a vital role in the Cwrap framework by serving as a centralized hub for defining reusable templates. This approach ensures consistency across the application, enhancing both maintainability and scalability.\n\tAbove example is from cwrapSpan.",
+          "text": "\tThe templates.json file plays a vital role in the cwrap framework by serving as a centralized hub for defining reusable templates. This approach ensures consistency across the application, enhancing both maintainability and scalability.\n\tAbove example is from cwrapSpan.",
           "style": "line-height: 1.5em; white-space: pre-wrap;",
           "children": [
             {
