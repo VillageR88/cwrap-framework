@@ -1,6 +1,6 @@
 {
   "element": "cwrap-template",
-  "text": "cwrapTemplate[documentation(prefix=../../,prefixAside=../,structureFocus=focus)]",
+  "text": "cwrapTemplate[documentation(prefix=../../,prefixAside=../,{{devRoute.split('\\\\')[1]}}Focus=focus)]",
   "passoverRef": "documentation",
   "passover": [
     {

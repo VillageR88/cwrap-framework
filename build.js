@@ -14,15 +14,19 @@ const templatesMap = new Map();
 const globalsJsonPath = path.join(__dirname, "routes", "globals.json");
 const activeParam = process?.argv?.slice(2);
 const isDevelopment = activeParam.includes("dev");
-function runEmbeddedScripts(jsonObj, devRef) {
+function runEmbeddedScripts(jsonObj, devRef, devRoute) {
   const traverseAndExecute = (obj) => {
     if (typeof obj === "string") {
       const scriptMatch = obj.match(/{{(.*?)}}/);
       if (scriptMatch) {
         try {
           const scriptContent = scriptMatch[1];
-          const func = new Function("devRef", `return (${scriptContent})`);
-          const result = func(devRef); // Execute the script with devRef
+          const func = new Function(
+            "devRef",
+            "devRoute",
+            `return (${scriptContent})`
+          );
+          const result = func(devRef, devRoute); // Execute the script with devRef and devRoute
           return obj.replace(`{{${scriptContent}}}`, result);
         } catch (error) {
           console.error("Error executing script:", error);
@@ -560,13 +564,14 @@ function processDynamicRouteDirectory(routeDir, buildDir) {
 }
 
 function processStaticRouteDirectory(routeDir, buildDir, index) {
+  const devRoute = path.relative(path.join(__dirname, "routes"), routeDir);
   const jsonFile = path.join(routeDir, "skeleton.json");
   if (!fs.existsSync(jsonFile)) {
     console.error(`Error: Could not open ${jsonFile} file!`);
     return;
   }
   let jsonObj = JSON.parse(fs.readFileSync(jsonFile, "utf8"));
-  jsonObj = runEmbeddedScripts(jsonObj, devRef); // Process embedded scripts
+  jsonObj = runEmbeddedScripts(jsonObj, devRef, devRoute); // Process embedded scripts
   if (jsonObj.routes) {
     if (!isDevelopment) console.log("routeFound");
     const findCwrapRouteMatches = (str, cwrapMatch) => {
