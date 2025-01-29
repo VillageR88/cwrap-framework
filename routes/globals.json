@@ -310,7 +310,8 @@
         "running",
         "structure",
         "skeleton",
-        "globals"
+        "globals",
+        "templates"
       ]
     }
   }
