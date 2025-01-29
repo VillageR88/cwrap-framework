@@ -309,7 +309,8 @@
         "installation",
         "running",
         "structure",
-        "skeleton"
+        "skeleton",
+        "globals"
       ]
     }
   }
