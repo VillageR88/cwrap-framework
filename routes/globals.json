@@ -100,6 +100,11 @@
       "style": "font-size: 1rem;"
     },
     {
+      "name": "p",
+      "type": "element",
+      "style": "line-height: 1.5em;"
+    },
+    {
       "name": "a",
       "type": "element",
       "style": "color: white; font-weight: 400; text-decoration: none;"
@@ -135,7 +140,7 @@
         {
           "icon": "🛤️",
           "title": "Dynamic routing",
-          "description": "Easily manage and navigate between different ['getting-started'] in your application"
+          "description": "Easily manage and navigate between different routes in your application"
         },
         {
           "icon": "🧩",
@@ -303,7 +308,8 @@
       "getting started": [
         "installation",
         "running",
-        "structure"
+        "structure",
+        "skeleton"
       ]
     }
   }

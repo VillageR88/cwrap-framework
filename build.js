@@ -8,14 +8,14 @@ const constMap = new Map();
 const cssMap = new Map();
 const mediaQueriesMap = new Map();
 const { notNthEnumerableElements } = require("./cwrapConfig");
-const { devRef } = require("./cwrapConfig");
+const { cwrapRef } = require("./cwrapConfig");
 const templatesApiUrl = path.join(__dirname, "routes", "templates.json");
 const templatesMap = new Map();
 const globalsJsonPath = path.join(__dirname, "routes", "globals.json");
 const activeParam = process?.argv?.slice(2);
 const isDevelopment = activeParam.includes("dev");
-const devContext = new Map();
-function runEmbeddedScripts(jsonObj, devRef, devRoute, devContext) {
+const cwrapContext = new Map();
+function runEmbeddedScripts(jsonObj, cwrapRef, cwrapRoute, cwrapContext) {
   const traverseAndExecute = (obj) => {
     if (typeof obj === "string") {
       const scriptMatches = [...obj.matchAll(/{{(.*?)}}/g)];
@@ -24,12 +24,12 @@ function runEmbeddedScripts(jsonObj, devRef, devRoute, devContext) {
         try {
           const scriptContent = match[1];
           const func = new Function(
-            "devRef",
-            "devRoute",
-            "devContext",
+            "cwrapRef",
+            "cwrapRoute",
+            "cwrapContext",
             `return (function() { ${scriptContent} })()`
           );
-          const scriptResult = func(devRef, devRoute, devContext); // Execute the script with devRef and devRoute
+          const scriptResult = func(cwrapRef, cwrapRoute, cwrapContext); // Execute the script with cwrapRef and cwrapRoute
           result = result.replace(`{{${scriptContent}}}`, scriptResult);
         } catch (error) {
           console.error("Error executing script:", error);
@@ -120,7 +120,7 @@ function clearDocumentByPlaceholder(htmlString) {
 function loadTemplates() {
   if (fs.existsSync(templatesApiUrl)) {
     const templatesJson = JSON.parse(fs.readFileSync(templatesApiUrl, "utf8"));
-    const processedTemplatesJson = runEmbeddedScripts(templatesJson, devRef); // Process embedded scripts
+    const processedTemplatesJson = runEmbeddedScripts(templatesJson, cwrapRef); // Process embedded scripts
     templatesMap.clear();
     for (const template of processedTemplatesJson) {
       templatesMap.set(template.name, template);
@@ -567,14 +567,14 @@ function processDynamicRouteDirectory(routeDir, buildDir) {
 }
 
 function processStaticRouteDirectory(routeDir, buildDir, index) {
-  const devRoute = path.relative(path.join(__dirname, "routes"), routeDir);
+  const cwrapRoute = path.relative(path.join(__dirname, "routes"), routeDir);
   const jsonFile = path.join(routeDir, "skeleton.json");
   if (!fs.existsSync(jsonFile)) {
     console.error(`Error: Could not open ${jsonFile} file!`);
     return;
   }
   let jsonObj = JSON.parse(fs.readFileSync(jsonFile, "utf8"));
-  jsonObj = runEmbeddedScripts(jsonObj, devRef, devRoute, devContext); // Process embedded scripts
+  jsonObj = runEmbeddedScripts(jsonObj, cwrapRef, cwrapRoute, cwrapContext); // Process embedded scripts
   if (jsonObj.routes) {
     if (!isDevelopment) console.log("routeFound");
     const findCwrapRouteMatches = (str, cwrapMatch) => {
