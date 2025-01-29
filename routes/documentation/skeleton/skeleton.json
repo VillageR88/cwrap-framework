@@ -10,7 +10,7 @@
       "children": [
         {
           "element": "p",
-          "text": "Before we proceed with explaining the structure of the skeleton.json file, let's quickly remind ourselves of the basic website structure.\nHere is an example HTML DOM body element from cwrapSpan:",
+          "text": "\tBefore we proceed with explaining the structure of the skeleton.json file, let's quickly remind ourselves of the basic website structure.\nHere is an example HTML DOM body element from cwrapSpan:",
           "style": "line-height: 1.5em; white-space: pre-wrap;",
           "children": [
             {
@@ -57,7 +57,7 @@
       "children": [
         {
           "element": "p",
-          "text": "Below is the skeleton.json file for the same design. It defines the structure of a route in a cwrap project:",
+          "text": "\tBelow is the skeleton.json file for the same design. It defines the structure of a route in a cwrap project:",
           "style": "line-height: 1.5em; white-space: pre-wrap;"
         },
         {
@@ -84,7 +84,7 @@
       "children": [
         {
           "element": "p",
-          "text": "Here we have HTML DOM head element of the same project:",
+          "text": "\tHere we have HTML DOM head element of the same project:",
           "style": "line-height: 1.5em; white-space: pre-wrap;"
         },
         {
@@ -106,12 +106,12 @@
       "children": [
         {
           "element": "p",
-          "text": "And here is the skeleton.json file for the head element:",
+          "text": "\tAnd here is the skeleton.json file for the head element:",
           "style": "line-height: 1.5em; white-space: pre-wrap;"
         },
         {
           "element": "div",
-          "style": "height: fit-content; max-height: max-content; min-height: fit-content; overflow-x: auto; overflow-y: auto; resize: vertical;",
+          "style": "height: 400px; max-height: max-content; min-height: 400px; overflow-x: auto; overflow-y: auto; resize: vertical;",
           "children": [
             {
               "element": "pre",
@@ -122,7 +122,34 @@
         },
         {
           "element": "p",
-          "text": "I think it pretty much self explains itself.",
+          "text": "\tI think it pretty much self explains itself.",
+          "style": "line-height: 1.5em; white-space: pre-wrap;"
+        }
+      ]
+    },
+    {
+      "element": "div",
+      "style": "display: flex; flex-direction: column; gap: 1em; margin-block: 2em; max-width: 60em; resize: vertical; width: 100%;",
+      "children": [
+        {
+          "element": "p",
+          "text": "\tThe skeleton.json file, due to its unbounded JSON nature, allows for a more flexible pattern than the regular DOM. This flexibility is beneficial for defining complex structures and styles in a more manageable and scalable way. Unlike the standard DOM, which has its limitations, the skeleton.json format can accommodate a wide range of design and layout requirements, making it an excellent choice for projects that demand a high degree of customization and adaptability.",
+          "style": "line-height: 1.5em; white-space: pre-wrap;"
+        },
+        {
+          "element": "div",
+          "style": "height: 400px; max-height: max-content; min-height: 400px; overflow-x: auto; overflow-y: auto; resize: vertical;",
+          "children": [
+            {
+              "element": "pre",
+              "text": "{\n  \"classroom\": [\n    {\n      \"name\": \"placeholder\",\n      \"type\": \"pseudo::\",\n      \"style\": \"color: rgba(61, 59, 72, 0.75);\"\n    },\n    {\n      \"name\": \"user-invalid::placeholder\",\n      \"type\": \"pseudo:\",\n      \"style\": \"color: rgba(223, 86, 86, 0.5);\"\n    },\n    {\n      \"name\": \"label:has(*:user-invalid:placeholder-shown)::before\",\n      \"type\": \"element\",\n      \"style\": \"bottom: -4px; color: #FF7979; font-size: 11px; font-style: italic; font-weight: 500; position: absolute; right: 0;\"\n    },\n    {\n      \"name\": \"li:nth-of-type(1) > label:has(*:user-invalid:placeholder-shown)::before\",\n      \"type\": \"element\",\n      \"style\": \"content: 'First Name cannot be empty';\"\n    },\n    {\n      \"name\": \"li:nth-of-type(2) > label:has(*:user-invalid:placeholder-shown)::before\",\n      \"type\": \"element\",\n      \"style\": \"content: 'Last Name cannot be empty';\"\n    },\n    {\n      \"name\": \"li:nth-of-type(3) > label:has(*:user-invalid:placeholder-shown)::before\",\n      \"type\": \"element\",\n      \"style\": \"content: 'Password cannot be empty';\"\n    },\n    {\n      \"name\": \"li:nth-of-type(4) > label:has(*:user-invalid:placeholder-shown)::before\",\n      \"type\": \"element\",\n      \"style\": \"content: 'Password cannot be empty';\"\n    },\n    {\n      \"name\": \"label:has(*:user-invalid)::before\",\n      \"type\": \"element\",\n      \"style\": \"bottom: -4px; color: #FF7979; font-size: 11px; font-style: italic; font-weight: 500; position: absolute; right: 0;\"\n    },\n    {\n      \"name\": \"li:nth-of-type(1) > label:has(*:user-invalid)::before\",\n      \"type\": \"element\",\n      \"style\": \"content: 'Looks like this is not a first name';\"\n    },\n    {\n      \"name\": \"li:nth-of-type(2) > label:has(*:user-invalid)::before\",\n      \"type\": \"element\",\n      \"style\": \"content: 'Looks like this is not a last name';\"\n    },\n    {\n      \"name\": \"li:nth-of-type(3) > label:has(*:user-invalid)::before\",\n      \"type\": \"element\",\n      \"style\": \"content: 'Looks like this is not an email';\"\n    }\n  ]\n}",
+              "style": "background-color: #14253D; border-radius: 8px; box-sizing: border-box; margin: 0; padding: 2em; width: fit-content;"
+            }
+          ]
+        },
+        {
+          "element": "p",
+          "text": "\tAbove is an example of a skeleton.json file that defines custom styles for form validation messages. The file contains a list of CSS selectors and corresponding styles that are applied to the elements based on their state. This approach allows for a more granular control over the appearance of the elements and provides a way to define complex styles that are not easily achievable with standard CSS.",
           "style": "line-height: 1.5em; white-space: pre-wrap;"
         }
       ]

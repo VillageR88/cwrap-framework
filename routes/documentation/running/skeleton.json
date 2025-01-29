@@ -6,12 +6,12 @@
   "passover": [
     {
       "element": "div",
-      "style": "display: flex; flex-direction: column; margin-block: 2em; max-width: 60em;",
+      "style": "display: flex; flex-direction: column; margin-block: 2em; max-width: 60em; white-space: pre-wrap;",
       "children": [
         {
           "element": "p",
-          "text": "To run the development server, use the following command:",
-          "style": "margin-bottom: 1em;"
+          "text": "\tTo run the development server, use the following command:",
+          "style": "margin-bottom: 1em; white-space: pre-wrap;"
         },
         {
           "element": "pre",

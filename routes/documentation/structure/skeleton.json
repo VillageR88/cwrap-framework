@@ -6,12 +6,12 @@
   "passover": [
     {
       "element": "div",
-      "style": "display: flex; flex-direction: column; margin-block: 2em; max-width: 60em;",
+      "style": "display: flex; flex-direction: column; margin-block: 2em; max-width: 60em; white-space: pre-wrap;",
       "children": [
         {
           "element": "p",
-          "text": "The typical project structure for development files is as follows:",
-          "style": "margin-bottom: 1em;"
+          "text": "\tThe typical project structure for development files is as follows:",
+          "style": "margin-bottom: 1em; white-space: pre-wrap;"
         },
         {
           "element": "pre",
