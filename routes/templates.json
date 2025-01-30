@@ -20,7 +20,16 @@
                         "children": [
                             {
                                 "element": "aside",
-                                "style": "display: flex; height: calc(100% - 12em);  width: 100%; max-width: 10em; min-width: 11em; overflow-y: auto; position: fixed; box-sizing: border-box; margin-right: auto;",
+                                "style": "display: flex; height: calc(100% - 12em); transition: 300ms; width: 100%; max-width: 10em; min-width: 11em; overflow-y: auto; position: fixed; box-sizing: border-box; margin-right: auto; z-index: 1; background-color: #0D192B; ",
+                                "mediaQueries": [
+                                    {
+                                        "query": "max-width: 1024px",
+                                        "style": "opacity: 0; user-select: none; pointer-events: none; min-width: unset; left: 0; max-width: unset; justify-content: center; text-align: center;"
+                                    }
+                                ],
+                                "attributes": {
+                                    "id": "aside-documents"
+                                },
                                 "children": [
                                     {
                                         "element": "nav",
@@ -94,6 +103,15 @@
                             {
                                 "element": "div",
                                 "style": " width: 100%; padding-left: 12em; display: flex; flex-direction: column; max-height: 100%; box-sizing: border-box; ",
+                                "mediaQueries": [
+                                    {
+                                        "query": "max-width: 1024px",
+                                        "style": "padding-left: unset;"
+                                    }
+                                ],
+                                "attributes": {
+                                    "id": "documentation-container"
+                                },
                                 "children": [
                                     {
                                         "element": "cwrapProperty[passoverMain=cwrap-passover-documentation]"
@@ -170,7 +188,7 @@
                                 "mediaQueries": [
                                     {
                                         "query": "max-width: 1024px",
-                                        "style": "padding-inline: 2em; display: cwrapProperty[aDocumentationDisplay=none];"
+                                        "style": "display: cwrapProperty[aDocumentationDisplay=none];"
                                     }
                                 ],
                                 "blueprint": {
@@ -202,6 +220,47 @@
                                         }
                                     ]
                                 }
+                            },
+                            {
+                                "element": "button",
+                                "style": "margin-left: auto; font-size: 36px; background-color: transparent; border: none; color: white; cursor: pointer; display: none;",
+                                "mediaQueries": [
+                                    {
+                                        "query": "max-width: 1024px",
+                                        "style": "display: cwrapProperty[hamburgerNavDisplay=flex];"
+                                    }
+                                ],
+                                "attributes": {
+                                    "aria-label": "Toggle navigation",
+                                    "id": "mobile-nav-button"
+                                },
+                                "children": [
+                                    {
+                                        "element": "svg",
+                                        "attributes": {
+                                            "xmlns": "http://www.w3.org/2000/svg",
+                                            "width": "20",
+                                            "height": "17"
+                                        },
+                                        "children": [
+                                            {
+                                                "element": "g",
+                                                "attributes": {
+                                                    "fill": "#FFF",
+                                                    "fill-rule": "evenodd"
+                                                },
+                                                "children": [
+                                                    {
+                                                        "element": "path",
+                                                        "attributes": {
+                                                            "d": "M0 0h20v3H0zM0 7h20v3H0zM0 14h20v3H0z"
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
                             }
                         ]
                     }
