@@ -6,85 +6,85 @@
         "passover": [
             {
                 "element": "div",
-                "style": "margin-top: 4em; width: 100%; display: flex; ",
+                "style": "margin-top: 4em; width: 100%; display: flex; max-height: 100%; margin-inline: auto; max-width: 90rem; padding-inline: 4em; box-sizing: border-box;",
                 "children": [
                     {
-                        "element": "div",
-                        "style": " margin-inline: auto; max-width: 90rem; width: 100%; padding-inline: 3em; display: flex; gap: 6em;",
+                        "element": "aside",
+                        "style": "display: flex; height: 100%; padding-block: 2em; width: 100%; max-width: 10em; min-width: 10em; overflow-y: clip; max-height: 100%; position: fixed; margin-inline: auto; box-sizing: border-box;",
                         "children": [
                             {
-                                "element": "aside",
-                                "style": "display: flex; height: 100%; padding-block: 2em; width: 100%; max-width: 10em;",
+                                "element": "nav",
+                                "style": "display: flex; flex-direction: column; gap: 1em; ",
+                                "context1": "{{const asideRoutes = (Object.keys(cwrapReference.globals.const.documentation).map(key => key.charAt(0).toUpperCase() + key.slice(1))); cwrapContext.set('asideRoutes', asideRoutes);}}",
                                 "children": [
                                     {
-                                        "element": "nav",
-                                        "style": "display: flex; flex-direction: column; gap: 1em;",
-                                        "context1": "{{const asideRoutes = (Object.keys(cwrapReference.globals.const.documentation).map(key => key.charAt(0).toUpperCase() + key.slice(1))); cwrapContext.set('asideRoutes', asideRoutes);}}",
-                                        "children": [
-                                            {
-                                                "element": "ul",
-                                                "text": "{{return cwrapContext.get('asideRoutes')[0]}}",
-                                                "style": "color: white; display: flex; flex-direction: column; font-weight: bold; gap: 1em; list-style: none; margin: 0; padding: 0;",
-                                                "blueprint": {
-                                                    "count": "{{return cwrapReference.globals.const.documentation['getting started'].length}}",
-                                                    "element": "li",
-                                                    "children": [
+                                        "element": "ul",
+                                        "text": "{{return cwrapContext.get('asideRoutes')[0]}}",
+                                        "style": "color: white; display: flex; flex-direction: column; font-weight: bold; gap: 1em; list-style: none; margin: 0; padding: 0;",
+                                        "blueprint": {
+                                            "count": "{{return cwrapReference.globals.const.documentation['getting started'].length}}",
+                                            "element": "li",
+                                            "children": [
+                                                {
+                                                    "element": "a",
+                                                    "text": "cwrapArray[{{return cwrapReference.globals.const.documentation['getting started']}}]",
+                                                    "style": "position: relative; z-index: 1; transition: 300ms; padding: 0.2em 0.5em;",
+                                                    "extend": [
                                                         {
-                                                            "element": "a",
-                                                            "text": "cwrapArray[{{return cwrapReference.globals.const.documentation['getting started']}}]",
-                                                            "style": "position: relative; z-index: 1; transition: 300ms; padding: 0.2em 0.5em;",
-                                                            "extend": [
-                                                                {
-                                                                    "extension": ":hover",
-                                                                    "style": "color: rgba(150, 250, 250, 1);"
-                                                                },
-                                                                {
-                                                                    "extension": ".focus",
-                                                                    "style": "color: rgba(150, 250, 250, 1); background-color: rgba(20, 37, 61, 0.8); padding: 0.2em 0.5em; border-radius: 0.3em;"
-                                                                }
-                                                            ],
-                                                            "attributes": {
-                                                                "href": "cwrapProperty[prefixAside=./]cwrapGlobal[documentation.getting started.cwrapIndex]/",
-                                                                "class": "cwrapArray[{{return cwrapReference.globals.const.documentation['getting started'].map((x) => `cwrapProperty[${x}Focus=cwrapOmit]`)}}]"
-                                                            }
-                                                        }
-                                                    ]
-                                                }
-                                            },
-                                            {
-                                                "element": "ul",
-                                                "text": "{{return cwrapContext.get('asideRoutes')[1]}}",
-                                                "style": "color: white; display: flex; flex-direction: column; font-weight: bold; gap: 1em; list-style: none; margin: 0; padding: 0;",
-                                                "blueprint": {
-                                                    "count": "{{return cwrapReference.globals.const.documentation['advanced concepts'].length}}",
-                                                    "element": "li",
-                                                    "children": [
+                                                            "extension": ":hover",
+                                                            "style": "color: rgba(150, 250, 250, 1);"
+                                                        },
                                                         {
-                                                            "element": "a",
-                                                            "text": "cwrapArray[{{return cwrapReference.globals.const.documentation['advanced concepts'].map((x)=>(x.replace('сwrap','c‎wrap')))}}]",
-                                                            "style": "position: relative; z-index: 1; transition: 300ms; padding: 0.2em 0.5em;",
-                                                            "extend": [
-                                                                {
-                                                                    "extension": ":hover",
-                                                                    "style": "color: rgba(150, 250, 250, 1);"
-                                                                },
-                                                                {
-                                                                    "extension": ".focus",
-                                                                    "style": "color: rgba(150, 250, 250, 1); background-color: rgba(20, 37, 61, 0.8); padding: 0.2em 0.5em; border-radius: 0.3em;"
-                                                                }
-                                                            ],
-                                                            "attributes": {
-                                                                "href": "cwrapProperty[prefixAside=./]cwrapGlobal[documentation.advanced concepts.cwrapIndex]/",
-                                                                "class": "cwrapArray[{{return cwrapReference.globals.const.documentation['advanced concepts'].map((x) => `cwrapProperty[${x}Focus=cwrapOmit]`)}}]"
-                                                            }
+                                                            "extension": ".focus",
+                                                            "style": "color: rgba(150, 250, 250, 1); background-color: rgba(20, 37, 61, 0.8); padding: 0.2em 0.5em; border-radius: 0.3em;"
                                                         }
-                                                    ]
+                                                    ],
+                                                    "attributes": {
+                                                        "href": "cwrapProperty[prefixAside=./]cwrapGlobal[documentation.getting started.cwrapIndex]/",
+                                                        "class": "cwrapArray[{{return cwrapReference.globals.const.documentation['getting started'].map((x) => `cwrapProperty[${x}Focus=cwrapOmit]`)}}]"
+                                                    }
                                                 }
-                                            }
-                                        ]
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "element": "ul",
+                                        "text": "{{return cwrapContext.get('asideRoutes')[1]}}",
+                                        "style": "color: white; display: flex; flex-direction: column; font-weight: bold; gap: 1em; list-style: none; margin: 0; padding: 0;",
+                                        "blueprint": {
+                                            "count": "{{return cwrapReference.globals.const.documentation['advanced concepts'].length}}",
+                                            "element": "li",
+                                            "children": [
+                                                {
+                                                    "element": "a",
+                                                    "text": "cwrapArray[{{return cwrapReference.globals.const.documentation['advanced concepts'].map((x)=>(x.replace('сwrap','c‎wrap')))}}]",
+                                                    "style": "position: relative; z-index: 1; transition: 300ms; padding: 0.2em 0.5em;",
+                                                    "extend": [
+                                                        {
+                                                            "extension": ":hover",
+                                                            "style": "color: rgba(150, 250, 250, 1);"
+                                                        },
+                                                        {
+                                                            "extension": ".focus",
+                                                            "style": "color: rgba(150, 250, 250, 1); background-color: rgba(20, 37, 61, 0.8); padding: 0.2em 0.5em; border-radius: 0.3em;"
+                                                        }
+                                                    ],
+                                                    "attributes": {
+                                                        "href": "cwrapProperty[prefixAside=./]cwrapGlobal[documentation.advanced concepts.cwrapIndex]/",
+                                                        "class": "cwrapArray[{{return cwrapReference.globals.const.documentation['advanced concepts'].map((x) => `cwrapProperty[${x}Focus=cwrapOmit]`)}}]"
+                                                    }
+                                                }
+                                            ]
+                                        }
                                     }
                                 ]
-                            },
+                            }
+                        ]
+                    },
+                    {
+                        "element": "div",
+                        "style": " width: 100%; padding-left: 12em; display: flex; gap: 6em; max-height: 100%; box-sizing: border-box; ",
+                        "children": [
                             {
                                 "element": "main",
                                 "style": "width: 100%;",
