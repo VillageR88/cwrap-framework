@@ -1,5 +1,5 @@
 {
-  "": "{{cwrapContext.set('route',cwrapRoute.split('\\\\')); return '';}}",
+  "_": "{{cwrapContext.set('route',cwrapRoute.split('\\\\')); return '';}}",
   "element": "cwrap-template",
   "text": "cwrapTemplate[documentation(prefix=../../,prefixAside=../,{{return cwrapContext.get('route')[1]}}Focus=focus)]",
   "passoverRef": "documentation",

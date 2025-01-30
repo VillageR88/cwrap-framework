@@ -188,7 +188,7 @@
                                 "mediaQueries": [
                                     {
                                         "query": "max-width: 1024px",
-                                        "style": "display: cwrapProperty[aDocumentationDisplay=none];"
+                                        "style": "display: cwrapProperty[aDocumentationDisplay=none]; margin-left: auto;"
                                     }
                                 ],
                                 "blueprint": {
