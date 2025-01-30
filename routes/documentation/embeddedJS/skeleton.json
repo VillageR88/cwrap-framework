@@ -10,7 +10,7 @@
       "children": [
         {
           "element": "p",
-          "text": "\tIn Cwrap, you can embed JavaScript inside JSON using {‎{}‎}. This allows for dynamic values and transformations during development, making JSON more flexible and interactive.\n\tHere are some examples of embedded JavaScript in JSON:",
+          "text": "\tIn cwrap, you can embed JavaScript inside JSON using {‎{}‎}. This allows for dynamic values and transformations during development, making JSON more flexible and interactive.\n\tHere are some examples of embedded JavaScript in JSON:",
           "style": "line-height: 1.5em; white-space: pre-wrap;"
         },
         {
