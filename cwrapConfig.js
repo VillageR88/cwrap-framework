@@ -1,4 +1,4 @@
-// Define here a all const to be used as cwrapRef in build.js runEmbeddedScripts function.
+// Define here a all const to be used as cwrapReference in build.js runEmbeddedScripts function.
 const globals = require("./routes/globals.json");
 const definitions = {
   documentation: {
@@ -10,7 +10,7 @@ const definitions = {
  * @type {Object}
  * Data used in build.js runEmbeddedScripts passed as property to retrieve it while using function in JSON.
  */
-const cwrapRef = { globals, definitions };
+const cwrapReference = { globals, definitions };
 
 /**
  * @type {Object}
@@ -31,4 +31,4 @@ const notNthEnumerableElements = [
   "html",
 ];
 
-module.exports = { notNthEnumerableElements, cwrapRef };
+module.exports = { notNthEnumerableElements, cwrapReference };

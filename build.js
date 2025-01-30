@@ -8,14 +8,14 @@ const constMap = new Map();
 const cssMap = new Map();
 const mediaQueriesMap = new Map();
 const { notNthEnumerableElements } = require("./cwrapConfig");
-const { cwrapRef } = require("./cwrapConfig");
+const { cwrapReference } = require("./cwrapConfig");
 const templatesApiUrl = path.join(__dirname, "routes", "templates.json");
 const templatesMap = new Map();
 const globalsJsonPath = path.join(__dirname, "routes", "globals.json");
 const activeParam = process?.argv?.slice(2);
 const isDevelopment = activeParam.includes("dev");
 const cwrapContext = new Map();
-function runEmbeddedScripts(jsonObj, cwrapRef, cwrapRoute, cwrapContext) {
+function runEmbeddedScripts(jsonObj, cwrapReference, cwrapRoute, cwrapContext) {
   const traverseAndExecute = (obj) => {
     if (typeof obj === "string") {
       const scriptMatches = [...obj.matchAll(/{{(.*?)}}/g)];
@@ -24,12 +24,12 @@ function runEmbeddedScripts(jsonObj, cwrapRef, cwrapRoute, cwrapContext) {
         try {
           const scriptContent = match[1];
           const func = new Function(
-            "cwrapRef",
+            "cwrapReference",
             "cwrapRoute",
             "cwrapContext",
             `return (function() { ${scriptContent} })()`
           );
-          const scriptResult = func(cwrapRef, cwrapRoute, cwrapContext); // Execute the script with cwrapRef and cwrapRoute
+          const scriptResult = func(cwrapReference, cwrapRoute, cwrapContext); // Execute the script with cwrapReference and cwrapRoute
           result = result.replace(`{{${scriptContent}}}`, scriptResult);
         } catch (error) {
           console.error("Error executing script:", error);
@@ -122,7 +122,7 @@ function loadTemplates() {
     const templatesJson = JSON.parse(fs.readFileSync(templatesApiUrl, "utf8"));
     const processedTemplatesJson = runEmbeddedScripts(
       templatesJson,
-      cwrapRef,
+      cwrapReference,
       undefined,
       cwrapContext
     ); // Process embedded scripts
@@ -579,7 +579,7 @@ function processStaticRouteDirectory(routeDir, buildDir, index) {
     return;
   }
   let jsonObj = JSON.parse(fs.readFileSync(jsonFile, "utf8"));
-  jsonObj = runEmbeddedScripts(jsonObj, cwrapRef, cwrapRoute, cwrapContext); // Process embedded scripts
+  jsonObj = runEmbeddedScripts(jsonObj, cwrapReference, cwrapRoute, cwrapContext); // Process embedded scripts
   if (jsonObj.routes) {
     if (!isDevelopment) console.log("routeFound");
     const findCwrapRouteMatches = (str, cwrapMatch) => {

@@ -19,19 +19,19 @@
                                     {
                                         "element": "nav",
                                         "style": "display: flex; flex-direction: column; gap: 1em;",
-                                        "context1": "{{const asideRoutes = (Object.keys(cwrapRef.globals.const.documentation).map(key => key.charAt(0).toUpperCase() + key.slice(1))); cwrapContext.set('asideRoutes', asideRoutes);}}",
+                                        "context1": "{{const asideRoutes = (Object.keys(cwrapReference.globals.const.documentation).map(key => key.charAt(0).toUpperCase() + key.slice(1))); cwrapContext.set('asideRoutes', asideRoutes);}}",
                                         "children": [
                                             {
                                                 "element": "ul",
                                                 "text": "{{return cwrapContext.get('asideRoutes')[0]}}",
                                                 "style": "color: white; display: flex; flex-direction: column; font-weight: bold; gap: 1em; list-style: none; margin: 0; padding: 0;",
                                                 "blueprint": {
-                                                    "count": "{{return cwrapRef.globals.const.documentation['getting started'].length}}",
+                                                    "count": "{{return cwrapReference.globals.const.documentation['getting started'].length}}",
                                                     "element": "li",
                                                     "children": [
                                                         {
                                                             "element": "a",
-                                                            "text": "cwrapArray[{{return cwrapRef.globals.const.documentation['getting started']}}]",
+                                                            "text": "cwrapArray[{{return cwrapReference.globals.const.documentation['getting started']}}]",
                                                             "style": "position: relative; z-index: 1; transition: 300ms; padding: 0.2em 0.5em;",
                                                             "extend": [
                                                                 {
@@ -45,7 +45,7 @@
                                                             ],
                                                             "attributes": {
                                                                 "href": "cwrapProperty[prefixAside=./]cwrapGlobal[documentation.getting started.cwrapIndex]/",
-                                                                "class": "cwrapArray[{{return cwrapRef.globals.const.documentation['getting started'].map((x) => `cwrapProperty[${x}Focus=cwrapOmit]`)}}]"
+                                                                "class": "cwrapArray[{{return cwrapReference.globals.const.documentation['getting started'].map((x) => `cwrapProperty[${x}Focus=cwrapOmit]`)}}]"
                                                             }
                                                         }
                                                     ]
@@ -56,12 +56,12 @@
                                                 "text": "{{return cwrapContext.get('asideRoutes')[1]}}",
                                                 "style": "color: white; display: flex; flex-direction: column; font-weight: bold; gap: 1em; list-style: none; margin: 0; padding: 0;",
                                                 "blueprint": {
-                                                    "count": "{{return cwrapRef.globals.const.documentation['advanced concepts'].length}}",
+                                                    "count": "{{return cwrapReference.globals.const.documentation['advanced concepts'].length}}",
                                                     "element": "li",
                                                     "children": [
                                                         {
                                                             "element": "a",
-                                                            "text": "cwrapArray[{{return cwrapRef.globals.const.documentation['advanced concepts'].map((x)=>(x.replace('сwrap','c‎wrap')))}}]",
+                                                            "text": "cwrapArray[{{return cwrapReference.globals.const.documentation['advanced concepts'].map((x)=>(x.replace('сwrap','c‎wrap')))}}]",
                                                             "style": "position: relative; z-index: 1; transition: 300ms; padding: 0.2em 0.5em;",
                                                             "extend": [
                                                                 {
@@ -75,7 +75,7 @@
                                                             ],
                                                             "attributes": {
                                                                 "href": "cwrapProperty[prefixAside=./]cwrapGlobal[documentation.advanced concepts.cwrapIndex]/",
-                                                                "class": "cwrapArray[{{return cwrapRef.globals.const.documentation['advanced concepts'].map((x) => `cwrapProperty[${x}Focus=cwrapOmit]`)}}]"
+                                                                "class": "cwrapArray[{{return cwrapReference.globals.const.documentation['advanced concepts'].map((x) => `cwrapProperty[${x}Focus=cwrapOmit]`)}}]"
                                                             }
                                                         }
                                                     ]
