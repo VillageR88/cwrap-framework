@@ -6,7 +6,7 @@
   "passover": [
     {
       "element": "div",
-      "style": "display: flex; flex-direction: column; gap: 1em; margin-top: 2em; max-width: 60em; width: 100%;",
+      "style": "display: flex; flex-direction: column; gap: 1em; max-width: 60em; width: 100%;",
       "children": [
         {
           "element": "p",
@@ -53,11 +53,11 @@
     },
     {
       "element": "div",
-      "style": "display: flex; flex-direction: column; gap: 1em; margin-block: 2em; max-width: 60em; resize: vertical; width: 100%;",
+      "style": "display: flex; flex-direction: column; gap: 1em; max-width: 60em; resize: vertical; width: 100%;",
       "children": [
         {
           "element": "p",
-          "text": "\tHere is the skeleton.json file for the same design. It defines the structure of a route in a cwrap project:",
+          "text": "\n\tHere is the skeleton.json file for the same design. It defines the structure of a route in a cwrap project:",
           "style": "line-height: 1.5em; white-space: pre-wrap;"
         },
         {
@@ -80,11 +80,11 @@
     },
     {
       "element": "div",
-      "style": "display: flex; flex-direction: column; gap: 1em; margin-block: 2em; max-width: 60em; resize: vertical; width: 100%;",
+      "style": "display: flex; flex-direction: column; gap: 1em; max-width: 60em; resize: vertical; width: 100%;",
       "children": [
         {
           "element": "p",
-          "text": "\tHere we have HTML DOM head element of the same project:",
+          "text": "\n\tHere we have HTML DOM head element of the same project:",
           "style": "line-height: 1.5em; white-space: pre-wrap;"
         },
         {
@@ -102,11 +102,11 @@
     },
     {
       "element": "div",
-      "style": "display: flex; flex-direction: column; gap: 1em; margin-block: 2em; max-width: 60em; resize: vertical; width: 100%;",
+      "style": "display: flex; flex-direction: column; gap: 1em; max-width: 60em; resize: vertical; width: 100%;",
       "children": [
         {
           "element": "p",
-          "text": "\tAnd here is the skeleton.json file for the head element:",
+          "text": "\n\tAnd here is the skeleton.json file for the head element:",
           "style": "line-height: 1.5em; white-space: pre-wrap;"
         },
         {
@@ -129,11 +129,11 @@
     },
     {
       "element": "div",
-      "style": "display: flex; flex-direction: column; gap: 1em; margin-block: 2em; max-width: 60em; resize: vertical; width: 100%;",
+      "style": "display: flex; flex-direction: column; gap: 1em; max-width: 60em; resize: vertical; width: 100%;",
       "children": [
         {
           "element": "p",
-          "text": "\tThe skeleton.json file, due to its unbounded JSON nature, allows for a more flexible pattern than the regular DOM. This flexibility is beneficial for defining complex structures and styles in a more manageable and scalable way. Unlike the standard DOM, which has its limitations, the skeleton.json format can accommodate a wide range of design and layout requirements, making it an excellent choice for projects that demand a high degree of customization and adaptability.",
+          "text": "\n\tThe skeleton.json file, due to its unbounded JSON nature, allows for a more flexible pattern than the regular DOM. This flexibility is beneficial for defining complex structures and styles in a more manageable and scalable way. Unlike the standard DOM, which has its limitations, the skeleton.json format can accommodate a wide range of design and layout requirements, making it an excellent choice for projects that demand a high degree of customization and adaptability.",
           "style": "line-height: 1.5em; white-space: pre-wrap;"
         },
         {

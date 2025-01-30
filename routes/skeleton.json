@@ -1,6 +1,6 @@
 {
   "element": "cwrap-template",
-  "text": "cwrapTemplate[body(documentationFocus=cwrapOmit,homeFocus=focus)]",
+  "text": "cwrapTemplate[body(documentationFocus=cwrapOmit,homeFocus=focus,aDocumentationDisplay=flex)]",
   "passover": [
     {
       "element": "cwrap-template",
@@ -11,8 +11,8 @@
           "style": "display: flex; flex-direction: column; margin-inline: auto; max-width: 90em; padding-inline: 3em; padding-top: 4em;",
           "mediaQueries": [
             {
-              "query": "max-width: 640px",
-              "style": "padding-inline: 1em;"
+              "query": "max-width: 1024px",
+              "style": "padding-inline: 2em;"
             }
           ],
           "children": [
@@ -24,7 +24,7 @@
                   "element": "img",
                   "mediaQueries": [
                     {
-                      "query": "max-width: 640px",
+                      "query": "max-width: 1024px",
                       "style": "max-width: 80px;"
                     }
                   ],
@@ -39,7 +39,7 @@
                   "text": "CcwrapSpan\nWRAPcwrapSpan",
                   "mediaQueries": [
                     {
-                      "query": "max-width: 640px",
+                      "query": "max-width: 1024px",
                       "style": "margin-block: 16px;"
                     }
                   ],
@@ -63,7 +63,7 @@
                   "style": "color: hsl(215, 51%, 70%); font-size: 1.1rem; line-height: 1.9rem; text-align: center;",
                   "mediaQueries": [
                     {
-                      "query": "max-width: 640px",
+                      "query": "max-width: 1024px",
                       "style": "white-space: pre-wrap;"
                     }
                   ]
@@ -119,8 +119,8 @@
           "style": "margin-block: 10em; margin-inline: auto; max-width: 80em; padding-inline: 3em;",
           "mediaQueries": [
             {
-              "query": "max-width: 640px",
-              "style": "padding-inline: 1em;"
+              "query": "max-width: 1024px",
+              "style": "padding-inline: 2em;"
             }
           ],
           "children": [
@@ -130,7 +130,7 @@
               "style": "color: white; font-size: 2.8rem; margin: 0 auto 0 auto; text-align: center; width: fit-content;",
               "mediaQueries": [
                 {
-                  "query": "max-width: 640px",
+                  "query": "max-width: 1024px",
                   "style": "font-size: 2rem;"
                 }
               ]

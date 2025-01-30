@@ -6,7 +6,7 @@
   "passover": [
     {
       "element": "div",
-      "style": "display: flex; flex-direction: column; gap: 1em; margin-block: 2em; max-width: 60em; width: 100%;",
+      "style": "display: flex; flex-direction: column; gap: 1em; max-width: 60em; width: 100%;",
       "children": [
         {
           "element": "p",

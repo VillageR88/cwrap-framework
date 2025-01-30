@@ -83,7 +83,7 @@
       "type": "element",
       "mediaQueries": [
         {
-          "query": "max-width: 640px",
+          "query": "max-width: 1024px",
           "style": "font-size: 32px; line-height: 38px;"
         }
       ],
