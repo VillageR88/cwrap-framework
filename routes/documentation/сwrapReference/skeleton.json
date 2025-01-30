@@ -10,12 +10,12 @@
       "children": [
         {
           "element": "p",
-          "text": "\tThe c‎wrapReference is an embedded JavaScript property used to pass references into the development environment. It is configured via the c‎wrapConfig.js file located in the root directory. This property allows developers to access different cwrapSpan contexts.",
+          "text": "\tThe c‎wrapReference is a predefined JavaScript property used to store and pass reference information before the compilation process begins. It is configured in the cwrapConfig.js file and remains static throughout the build. This property allows developers to define key references ahead of time, ensuring consistency and predictability across the application.\n\tUnlike c‎wrapContext, which is created dynamically during compilation, c‎wrapReference is established cwrapSpan compilation and remains unchanged as the application is built.",
           "style": "line-height: 1.5em; white-space: pre-wrap;",
           "children": [
             {
               "element": "span",
-              "text": "outside",
+              "text": "before",
               "style": "color: white; position: relative; transition: 300ms;",
               "extend": [
                 {
@@ -32,7 +32,7 @@
           "children": [
             {
               "element": "pre",
-              "text": "{\n  \"element\": \"ul\",\n  \"text\": \"{{return c‎wrapContext.get('asideRoutes')[0]}}\",\n  \"style\": \"color: white; display: flex; flex-direction: column; font-weight: bold; gap: 1em; list-style: none; margin: 0; padding: 0;\",\n  \"blueprint\": {\n    \"count\": \"{{return c‎wrapReference.globals.const.documentation['getting started'].length}}\",\n    \"element\": \"li\",\n    \"children\": [\n      {\n        \"element\": \"a\",\n        \"text\": \"c‎wrapArray[{{return c‎wrapReference.globals.const.documentation['getting started']}}]\",\n        \"style\": \"position: relative; z-index: 1; transition: 300ms; padding: 0.2em 0.5em;\",\n        \"extend\": [\n          {\n            \"extension\": \":hover\",\n            \"style\": \"color: rgba(150, 250, 250, 1);\"\n          },\n          {\n            \"extension\": \".focus\",\n            \"style\": \"color: rgba(150, 250, 250, 1); background-color: rgba(20, 37, 61, 0.8); padding: 0.2em 0.5em; border-radius: 0.3em;\"\n          }\n        ],\n        \"attributes\": {\n          \"href\": \"c‎wrapProperty[prefixAside=./]c‎wrapGlobal[documentation.getting started.c‎wrapIndex]/\",\n          \"class\": \"c‎wrapArray[{{return c‎wrapReference.globals.const.documentation['getting started'].map((x) => `c‎wrapProperty[${x}Focus=c‎wrapOmit]`)}}]\"\n        }\n      }\n    ]\n  }\n}",
+              "text": "{\n  \"element\": \"ul\",\n  \"text\": \"{{return c‎wrapContext.get('asideRoutes')[0]}}\",\n  \"style\": \"color: white; display: flex; flex-direction: column; font-weight: bold; gap: 1em; list-style: none; margin: 0; padding: 0;\",\n  \"blueprint\": {\n    \"count\": \"{‎{return c‎wrapReference.globals.const.documentation['getting started'].length}‎}\",\n    \"element\": \"li\",\n    \"children\": [\n      {\n        \"element\": \"a\",\n        \"text\": \"c‎wrapArray[{{return c‎wrapReference.globals.const.documentation['getting started']}}]\",\n        \"style\": \"position: relative; z-index: 1; transition: 300ms; padding: 0.2em 0.5em;\",\n        \"extend\": [\n          {\n            \"extension\": \":hover\",\n            \"style\": \"color: rgba(150, 250, 250, 1);\"\n          },\n          {\n            \"extension\": \".focus\",\n            \"style\": \"color: rgba(150, 250, 250, 1); background-color: rgba(20, 37, 61, 0.8); padding: 0.2em 0.5em; border-radius: 0.3em;\"\n          }\n        ],\n        \"attributes\": {\n          \"href\": \"c‎wrapProperty[prefixAside=./]c‎wrapGlobal[documentation.getting started.c‎wrapIndex]/\",\n          \"class\": \"c‎wrapArray[{‎{return c‎wrapReference.globals.const.documentation['getting started'].map((x) => `c‎wrapProperty[${x}Focus=c‎wrapOmit]`)}‎}]\"\n        }\n      }\n    ]\n  }\n}",
               "style": "box-sizing: border-box; margin: 0; padding: 2em; width: fit-content;"
             }
           ]

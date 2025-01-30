@@ -10,7 +10,7 @@
       "children": [
         {
           "element": "p",
-          "text": "\tBefore we proceed with explaining the structure of the skeleton.json file, let's quickly remind ourselves of the basic website structure.\nHere is an example HTML DOM body element from cwrapSpan:",
+          "text": "\tBefore we proceed with explaining the structure of the skeleton.json file, let's quickly remind ourselves of the basic website structure. Below is an example HTML DOM body element from cwrapSpan:",
           "style": "line-height: 1.5em; white-space: pre-wrap;",
           "children": [
             {
@@ -57,7 +57,7 @@
       "children": [
         {
           "element": "p",
-          "text": "\tBelow is the skeleton.json file for the same design. It defines the structure of a route in a cwrap project:",
+          "text": "\tHere is the skeleton.json file for the same design. It defines the structure of a route in a cwrap project:",
           "style": "line-height: 1.5em; white-space: pre-wrap;"
         },
         {

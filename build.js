@@ -32,7 +32,7 @@ function runEmbeddedScripts(jsonObj, cwrapReference, cwrapRoute, cwrapContext) {
           const scriptResult = func(cwrapReference, cwrapRoute, cwrapContext); // Execute the script with cwrapReference and cwrapRoute
           result = result.replace(`{{${scriptContent}}}`, scriptResult);
         } catch (error) {
-          console.error("Error executing script:", error);
+          console.error("Error executing script:", error, obj);
           return obj;
         }
       }
@@ -579,7 +579,12 @@ function processStaticRouteDirectory(routeDir, buildDir, index) {
     return;
   }
   let jsonObj = JSON.parse(fs.readFileSync(jsonFile, "utf8"));
-  jsonObj = runEmbeddedScripts(jsonObj, cwrapReference, cwrapRoute, cwrapContext); // Process embedded scripts
+  jsonObj = runEmbeddedScripts(
+    jsonObj,
+    cwrapReference,
+    cwrapRoute,
+    cwrapContext
+  ); // Process embedded scripts
   if (jsonObj.routes) {
     if (!isDevelopment) console.log("routeFound");
     const findCwrapRouteMatches = (str, cwrapMatch) => {

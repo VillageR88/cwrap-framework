@@ -316,8 +316,8 @@
       "advanced concepts": [
         "embeddedJS",
         "сwrapReference",
-        "сwrapRoute",
         "сwrapContext",
+        "сwrapRoute",
         "сwrapTemplate",
         "сwrapProperty",
         "сwrapArray",
