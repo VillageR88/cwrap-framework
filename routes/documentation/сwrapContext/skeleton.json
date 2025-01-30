@@ -28,7 +28,7 @@
         },
         {
           "element": "div",
-          "style": "background-color: #14253D; border-radius: 8px; display: flex; flex-direction: column; gap: 2em; height: 400px; max-height: max-height: max-content; min-height: 400px; overflow-x: auto; overflow-y: auto; resize: vertical; width: 100%;",
+          "style": "background-color: #14253D; border-radius: 8px; display: flex; flex-direction: column; gap: 2em; height: 400px; max-height: max-content; min-height: 400px; overflow-x: auto; overflow-y: auto; resize: vertical; width: 100%;",
           "children": [
             {
               "element": "pre",

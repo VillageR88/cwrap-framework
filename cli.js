@@ -76,8 +76,7 @@ askQuestion(
                 dev: "node cleanup.js dev && node build.js dev && node start.js dev && node server.js dev",
               },
               devDependencies: {
-                // "cwrap-framework":
-                //   "file:../cwrap-framework-0.1.0-rc.202501252151.tgz",
+                // "cwrap-framework": `file:../cwrap-framework-${cwrapFrameworkVersion}.tgz`,
                 "cwrap-framework": cwrapFrameworkVersion,
                 "body-parser": "^1.20.2",
                 express: "^4.17.1",
