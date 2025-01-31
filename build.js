@@ -117,13 +117,13 @@ function clearDocumentByPlaceholder(htmlString) {
   return htmlString.replace(/cwrapPlaceholder/g, "");
 }
 
-function loadTemplates() {
+function loadTemplates(cwrapRoute) {
   if (fs.existsSync(templatesApiUrl)) {
     const templatesJson = JSON.parse(fs.readFileSync(templatesApiUrl, "utf8"));
     const processedTemplatesJson = runEmbeddedScripts(
       templatesJson,
       cwrapReference,
-      undefined,
+      cwrapRoute,
       cwrapContext
     ); // Process embedded scripts
     templatesMap.clear();
@@ -134,8 +134,6 @@ function loadTemplates() {
     console.warn(`Warning: Templates file ${templatesApiUrl} does not exist.`);
   }
 }
-
-loadTemplates();
 
 /**
  * Creates a DOM element from the provided JSON object and adds it to the preview document (iframe).
@@ -585,6 +583,7 @@ function processStaticRouteDirectory(routeDir, buildDir, index) {
     cwrapRoute,
     cwrapContext
   ); // Process embedded scripts
+  loadTemplates(cwrapRoute);
   if (jsonObj.routes) {
     if (!isDevelopment) console.log("routeFound");
     const findCwrapRouteMatches = (str, cwrapMatch) => {
