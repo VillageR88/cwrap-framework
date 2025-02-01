@@ -1,8 +1,9 @@
 [
     {
+        "": "{{cwrapContext.set('route',cwrapRoute.split('\\\\')); console.log(cwrapRoute.split('\\\\')[1]); return '';}}",
         "element": "cwrap-template",
         "name": "documentation",
-        "text": "cwrapTemplate[body(cwrapProperty[prefix=./])]",
+        "text": "cwrapTemplate[body(prefix={{let prefix = cwrapRoute.length > 0 ? './' : '../'; prefix = prefix.concat('../'.repeat(cwrapRoute.split('\\\\').length));return prefix;}})]",
         "passover": [
             {
                 "element": "div",
@@ -59,8 +60,8 @@
                                                                 }
                                                             ],
                                                             "attributes": {
-                                                                "href": "cwrapProperty[prefixAside=./]cwrapGlobal[documentation.getting started.cwrapIndex]/",
-                                                                "class": "cwrapArray[{{return cwrapReference.globals.const.documentation['getting started'].map((x) => `cwrapProperty[${x}Focus=cwrapOmit]`)}}]"
+                                                                "href": "cwrapProperty[prefixAside=../]cwrapGlobal[documentation.getting started.cwrapIndex]/",
+                                                                "class": "cwrapArray[{{return cwrapReference.globals.const.documentation['getting started'].map((x) =>  x !== cwrapRoute.split('\\\\')[1] ? 'cwrapOmit' : 'focus')}}]"
                                                             }
                                                         }
                                                     ]
@@ -89,7 +90,7 @@
                                                                 }
                                                             ],
                                                             "attributes": {
-                                                                "href": "cwrapProperty[prefixAside=./]cwrapGlobal[documentation.advanced concepts.cwrapIndex]/",
+                                                                "href": "cwrapProperty[prefixAside=../]cwrapGlobal[documentation.advanced concepts.cwrapIndex]/",
                                                                 "class": "cwrapArray[{{return cwrapReference.globals.const.documentation['advanced concepts'].map((x) => `cwrapProperty[${x}Focus=cwrapOmit]`)}}]"
                                                             }
                                                         }

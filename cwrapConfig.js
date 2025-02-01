@@ -1,10 +1,6 @@
 // Define here a all const to be used as cwrapReference in build.js runEmbeddedScripts function.
 const globals = require("./routes/globals.json");
 
-/**
- * @type {Object}
- * Data used in build.js runEmbeddedScripts passed as property to retrieve it while using function in JSON.
- */
 const cwrapReference = { globals };
 
 /**
@@ -26,8 +22,14 @@ const notNthEnumerableElements = [
   "html",
 ];
 
+/**
+ * @type {Object}
+ * Configuration settings for the build process.
+ * @property {boolean} deleteDynamicRoutesAfterStaticConversion - Indicates whether to delete dynamic routes after converting to static build.
+ *
+ * Data used in build.js runEmbeddedScripts passed as property to retrieve it while using function in JSON.
+ */
 const buildConfig = {
-  convertDynamicBuildToStatic: true,
   deleteDynamicRoutesAfterStaticConversion: true,
 };
 
