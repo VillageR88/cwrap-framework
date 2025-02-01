@@ -482,7 +482,7 @@ function copyFaviconToRoot(buildDir) {
   }
 }
 
-function generateHeadHtml(head, jsonFile) {
+function generateHeadHtml(head, jsonFile, dynamicallyInvokedRoute) {
   let headHtml = "<head>\n";
   const prefix = process.env.PAGE_URL;
   if (prefix) {
@@ -527,7 +527,11 @@ function generateHeadHtml(head, jsonFile) {
 
   // Calculate the depth based on the JSON file's path relative to the routes folder
   const relativePath = path.relative(path.join(__dirname, "routes"), jsonFile);
-  const depth = relativePath.split(/[\\/]/).length - 1;
+  console.log(relativePath, dynamicallyInvokedRoute);
+  console.log(dynamicallyInvokedRoute?.split("/").length);
+  const depth = dynamicallyInvokedRoute
+    ? dynamicallyInvokedRoute.split("/").length
+    : relativePath.split(/[\\/]/).length - 1;
   const globalsCssPath = `${"../".repeat(depth)}globals.css`;
   headHtml += `    <link rel="stylesheet" href="${globalsCssPath}">\n`;
 
@@ -668,7 +672,7 @@ function processStaticRouteDirectory(
       mergedHead[key] = [...globalsHead[key], ...jsonObj.head[key]];
     }
   }
-  headContent = generateHeadHtml(mergedHead, jsonFile);
+  headContent = generateHeadHtml(mergedHead, jsonFile, dynamicallyInvokedRoute);
 
   const bodyContent = generateHtml(replaceCwrapGlobals(jsonObj), jsonFile);
   let bodyHtml = bodyContent.outerHTML;
