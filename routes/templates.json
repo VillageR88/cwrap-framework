@@ -1,9 +1,9 @@
 [
     {
-        "": "{{cwrapContext.set('route',cwrapRoute.split('\\\\')); console.log(cwrapRoute.split('\\\\')[1]); return '';}}",
+        "": "{{cwrapContext.set('route',cwrapRoute.split('\\\\'));  return '';}}",
         "element": "cwrap-template",
         "name": "documentation",
-        "text": "cwrapTemplate[body(prefix={{let prefix = cwrapRoute.length > 0 ? './' : '../'; prefix = prefix.concat('../'.repeat(cwrapRoute.split('\\\\').length));return prefix;}})]",
+        "text": "cwrapTemplate[body(prefix={{let prefix = cwrapRoute.length > 0 ? '../' : './'; prefix = prefix.concat('../'.repeat(cwrapRoute.split('\\\\').length));return prefix;}})]",
         "passover": [
             {
                 "element": "div",
@@ -298,6 +298,7 @@
                                     }
                                 ],
                                 "attributes": {
+                                    "aria-label": "NPM package for cwrap-framework",
                                     "id": "version",
                                     "href": "https://www.npmjs.com/package/cwrap-framework"
                                 }

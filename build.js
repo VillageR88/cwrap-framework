@@ -19,8 +19,42 @@ const activeParam = process?.argv?.slice(2);
 const isDevelopment = activeParam.includes("dev");
 const cwrapContext = new Map();
 function runEmbeddedScripts(jsonObj, cwrapReference, cwrapRoute, cwrapContext) {
-  const traverseAndExecute = (obj) => {
+  // Recursive function that carries along the parent and key/index information.
+  const traverseAndExecute = (obj, parent, key) => {
     if (typeof obj === "string") {
+      // Check for triple-brace syntax: must match the entire string.
+      const tripleMatch = obj.match(/^\{\{\{(.*?)\}\}\}$/);
+      if (tripleMatch) {
+        try {
+          const scriptContent = tripleMatch[1];
+          const func = new Function(
+            "cwrapReference",
+            "cwrapRoute",
+            "cwrapContext",
+            `return (function() { ${scriptContent} })()`
+          );
+          const scriptResult = func(cwrapReference, cwrapRoute, cwrapContext);
+          // We expect the result to be an object.
+          if (typeof scriptResult !== "object" || scriptResult === null) {
+            throw new Error("Triple brace script must return an object.");
+          }
+          // If there's a parent (i.e. we're inside an object), remove the current key
+          // and merge the returned object's keys into the parent.
+          if (parent && typeof parent === "object") {
+            delete parent[key];
+            Object.assign(parent, scriptResult);
+            // Nothing to return since we've modified the parent directly.
+            return;
+          }
+          // If no parent exists, return the script result.
+          return scriptResult;
+        } catch (error) {
+          console.error("Error executing triple-brace script:", error, obj);
+          return obj;
+        }
+      }
+
+      // Otherwise, handle inline double-brace expressions.
       const scriptMatches = [...obj.matchAll(/{{(.*?)}}/g)];
       let result = obj;
       for (const match of scriptMatches) {
@@ -54,7 +88,7 @@ function runEmbeddedScripts(jsonObj, cwrapReference, cwrapRoute, cwrapContext) {
     return obj;
   };
 
-  return traverseAndExecute(jsonObj);
+  return traverseAndExecute(jsonObj, null, null);
 }
 
 const getNestedValue = (obj, path) => {
@@ -527,8 +561,6 @@ function generateHeadHtml(head, jsonFile, dynamicallyInvokedRoute) {
 
   // Calculate the depth based on the JSON file's path relative to the routes folder
   const relativePath = path.relative(path.join(__dirname, "routes"), jsonFile);
-  console.log(relativePath, dynamicallyInvokedRoute);
-  console.log(dynamicallyInvokedRoute?.split("/").length);
   const depth = dynamicallyInvokedRoute
     ? dynamicallyInvokedRoute.split("/").length
     : relativePath.split(/[\\/]/).length - 1;
@@ -549,7 +581,14 @@ function processDynamicRouteDirectory(routeDir, buildDir) {
   const jsonFilePath = path.join(routeDir, "skeleton.json");
   if (fs.existsSync(jsonFilePath)) {
     const jsonContent = fs.readFileSync(jsonFilePath, "utf8");
-    const jsonObj = JSON.parse(jsonContent);
+    let jsonObj = JSON.parse(jsonContent);
+    jsonObj = runEmbeddedScripts(
+      jsonObj,
+      cwrapReference,
+      undefined,
+      cwrapContext
+    ); // Process embedded scripts
+
     if (jsonObj.routes) {
       for (const [index, routeObj] of jsonObj.routes.entries()) {
         let route;
