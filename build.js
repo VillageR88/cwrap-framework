@@ -544,15 +544,15 @@ function processDynamicRouteDirectory(routeDir, buildDir) {
     const jsonContent = fs.readFileSync(jsonFilePath, "utf8");
     const jsonObj = JSON.parse(jsonContent);
     if (jsonObj.routes) {
-      //console.log(jsonObj.routes);
-    } else {
-      //console.error(`Error: Could not find ${jsonFilePath}`);
-    }
-
-    if (jsonObj.routes) {
       for (const [index, routeObj] of jsonObj.routes.entries()) {
-        const route = routeObj.route; // Ensure route is a string
-        const parentRoute = routeObj.parent;
+        let route;
+        let parentRoute;
+        if (typeof routeObj === "string") {
+          route = routeObj;
+        } else {
+          route = routeObj.route;
+          parentRoute = routeObj.parent;
+        }
         const routePath = path.join(routeDir);
         const buildPath = parentRoute
           ? path.join(
@@ -563,17 +563,22 @@ function processDynamicRouteDirectory(routeDir, buildDir) {
               route.toString()
             )
           : path.join(buildDir, "..", route.toString());
-        processStaticRouteDirectory(routePath, buildPath, index);
+        processStaticRouteDirectory(routePath, buildPath, index, route);
       }
     }
   }
 }
 
-function processStaticRouteDirectory(routeDir, buildDir, index) {
+function processStaticRouteDirectory(
+  routeDir,
+  buildDir,
+  index,
+  dynamicallyInvokedRoute
+) {
   const cwrapRoute = path.relative(path.join(__dirname, "routes"), routeDir);
   const jsonFile = path.join(routeDir, "skeleton.json");
   if (!fs.existsSync(jsonFile)) {
-    console.error(`Error: Could not open ${jsonFile} file!`);
+    console.warn(`Could not open ${jsonFile} file, proceeding dynamic search.`);
     return;
   }
   let jsonObj = JSON.parse(fs.readFileSync(jsonFile, "utf8"));
@@ -583,7 +588,12 @@ function processStaticRouteDirectory(routeDir, buildDir, index) {
     cwrapRoute,
     cwrapContext
   ); // Process embedded scripts
-  loadTemplates(cwrapRoute);
+
+  if (!dynamicallyInvokedRoute) {
+    loadTemplates(cwrapRoute);
+  } else {
+    loadTemplates(dynamicallyInvokedRoute.slice(0, -1));
+  }
   if (jsonObj.routes) {
     if (!isDevelopment) console.log("routeFound");
     const findCwrapRouteMatches = (str, cwrapMatch) => {
@@ -762,9 +772,14 @@ ${headContent}
   cssMap.clear();
   mediaQueriesMap.clear();
   if (!isDevelopment) console.log(`Generated ${cssFile} successfully!`);
-
   // Generate globals.css from globals.json if it exists and if processing the home route
-  if (routeDir === path.resolve("routes") && fs.existsSync(globalsJsonPath)) {
+
+  if (
+    (routeDir === path.resolve("routes") ||
+      (dynamicallyInvokedRoute &&
+        dynamicallyInvokedRoute.slice(0, -1) === "")) &&
+    fs.existsSync(globalsJsonPath)
+  ) {
     const globalsJson = JSON.parse(fs.readFileSync(globalsJsonPath, "utf8"));
     let globalsCssContent = "";
 
