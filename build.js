@@ -7,8 +7,11 @@ const { document } = new JSDOM().window;
 const constMap = new Map();
 const cssMap = new Map();
 const mediaQueriesMap = new Map();
-const { notNthEnumerableElements } = require("./cwrapConfig");
-const { cwrapReference } = require("./cwrapConfig");
+const {
+  notNthEnumerableElements,
+  cwrapReference,
+  buildConfig,
+} = require("./cwrapConfig");
 const templatesApiUrl = path.join(__dirname, "routes", "templates.json");
 const templatesMap = new Map();
 const globalsJsonPath = path.join(__dirname, "routes", "globals.json");
@@ -576,9 +579,16 @@ function processStaticRouteDirectory(
   dynamicallyInvokedRoute
 ) {
   const cwrapRoute = path.relative(path.join(__dirname, "routes"), routeDir);
+  if (
+    buildConfig.deleteDynamicRoutesAfterStaticConversion &&
+    !dynamicallyInvokedRoute &&
+    cwrapRoute.includes("[" || cwrapRoute.includes("]"))
+  ) {
+    console.log(dynamicallyInvokedRoute, cwrapRoute);
+    return;
+  }
   const jsonFile = path.join(routeDir, "skeleton.json");
   if (!fs.existsSync(jsonFile)) {
-    console.warn(`Could not open ${jsonFile} file, proceeding dynamic search.`);
     return;
   }
   let jsonObj = JSON.parse(fs.readFileSync(jsonFile, "utf8"));
@@ -642,6 +652,7 @@ function processStaticRouteDirectory(
   let globalsHead = {};
   if (fs.existsSync(globalsJsonPath)) {
     const globalsJson = JSON.parse(fs.readFileSync(globalsJsonPath, "utf8"));
+
     if (globalsJson?.const) {
       for (const [key, value] of Object.entries(globalsJson.const)) {
         constMap.set(key, value);
