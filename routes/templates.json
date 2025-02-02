@@ -418,7 +418,7 @@
                 "children": [
                     {
                         "element": "pre",
-                        "text": "project-root/\n├── dist/\n├── routes/\n│   ├── skeleton.json\n│   ├── globals.json\n│   ├── templates.json\n│   └── some-other-route/\n│       └── skeleton.json\n├── static/\n│   ├── favicon/\n│   ├── images/\n│   └── scripts/\n└── cwrapConfig.js",
+                        "text": "project-root/\n├── dist/\n├── routes/\n│   ├── skeleton.json\n│   ├── globals.json\n│   ├── templates.json\n│   ├── some-other-route/\n│   │   ├── skeleton.json\n│   │   └── [dynamic-route]/\n│   │       └── skeleton.json\n├── static/\n│   ├── favicon/\n│   ├── images/\n│   └── scripts/\n└── cwrapConfig.js",
                         "style": "box-sizing: border-box; margin: 0; padding: 2em; width: fit-content;"
                     }
                 ]
@@ -888,6 +888,191 @@
                 "element": "p",
                 "text": "\tThe default value is defined after the '=' mark.",
                 "style": "line-height: 1.5em; white-space: pre-wrap;"
+            }
+        ]
+    },
+    {
+        "element": "div",
+        "name": "documentation/сwrapArray/",
+        "style": "display: flex; flex-direction: column; gap: 1em; max-width: 60em; width: 100%;",
+        "children": [
+            {
+                "element": "p",
+                "text": "\tThe c‎wrapArray directive is used to access each slot of an array item in the blueprint in index order. This allows for sequential processing and manipulation of array elements within the object model.",
+                "style": "line-height: 1.5em; white-space: pre-wrap;"
+            },
+            {
+                "element": "div",
+                "style": "background-color: #14253D; border-radius: 8px; display: flex; flex-direction: column; gap: 2em; height: fit-content; max-height: max-content; overflow-x: auto; overflow-y: auto; resize: vertical; width: 100%;",
+                "children": [
+                    {
+                        "element": "pre",
+                        "text": "{\n  \"element\": \"ul\",\n  \"style\": \"display: flex; flex-direction: column; gap: 1em; list-style: none; margin: 0; padding: 0;\",\n  \"blueprint\": {\n    \"count\": \"{‎{return c‎wrapReference.globals.const.documentation['getting started'].length}‎}\",\n    \"element\": \"li\",\n    \"children\": [\n      {\n        \"element\": \"a\",\n        \"text\": \"c‎wrapArray[{‎{return c‎wrapReference.globals.const.documentation['getting started']}‎}]\",\n        \"style\": \"position: relative; z-index: 1; transition: 300ms; padding: 0.2em 0.5em;\",\n        \"extend\": [\n          {\n            \"extension\": \":hover\",\n            \"style\": \"color: rgba(150, 250, 250, 1);\"\n          },\n          {\n            \"extension\": \".focus\",\n            \"style\": \"color: rgba(150, 250, 250, 1); background-color: rgba(20, 37, 61, 0.8); padding: 0.2em 0.5em; border-radius: 0.3em;\"\n          }\n        ],\n        \"attributes\": {\n          \"href\": \"c‎wrapProperty[prefixAside=../]c‎wrapGlobal[documentation.getting started.c‎wrapIndex]/\",\n          \"class\": \"c‎wrapArray[‎{return c‎wrapReference.globals.const.documentation['getting started'].map((x) =>  x !== c‎wrapRoute.replace('documentation/','') ? 'c‎wrapOmit' : 'focus')}‎}]\"\n        }\n      }\n    ]\n  }\n}",
+                        "style": "box-sizing: border-box; margin: 0; padding: 2em; width: fit-content;"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "element": "div",
+        "name": "documentation/сwrapBreak/",
+        "style": "display: flex; flex-direction: column; gap: 1em; max-width: 60em; width: 100%;",
+        "children": [
+            {
+                "element": "p",
+                "text": "\tThe c‎wrapBreak directive is a strong separator that replaces \",\" preventing conflicts when using \",\" within an array slot in regex patterns.",
+                "style": "line-height: 1.5em; white-space: pre-wrap;"
+            },
+            {
+                "element": "div",
+                "style": "background-color: #14253D; border-radius: 8px; display: flex; flex-direction: column; gap: 2em; height: fit-content; max-height: max-content; overflow-x: auto; overflow-y: auto; resize: vertical; width: 100%;",
+                "children": [
+                    {
+                        "element": "pre",
+                        "text": "{\n  \"blueprint\": {\n    \"count\": \"4\",\n    \"element\": \"p\",\n    \"text\": \"c‎wrapArray[987  Hillcrest Lane c‎wrapBreak Irvine, CA c‎wrapBreak California 92714 c‎wrapBreak Call Us : 949-833-7432]\"\n  }\n}",
+                        "style": "box-sizing: border-box; margin: 0; padding: 2em; width: fit-content;"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "element": "div",
+        "name": "documentation/сwrapIndex/",
+        "style": "display: flex; flex-direction: column; gap: 1em; max-width: 60em; width: 100%;",
+        "children": [
+            {
+                "element": "p",
+                "text": "\tThe c‎wrapIndex directive represents the index number of the current array iteration.",
+                "style": "line-height: 1.5em; white-space: pre-wrap;"
+            },
+            {
+                "element": "div",
+                "style": "background-color: #14253D; border-radius: 8px; display: flex; flex-direction: column; gap: 2em; height: fit-content; max-height: max-content; overflow-x: auto; overflow-y: auto; resize: vertical; width: 100%;",
+                "children": [
+                    {
+                        "element": "pre",
+                        "text": "{\n  \"element\": \"ul\",\n  \"style\": \" box-sizing: border-box; margin: -14px 0 0 0; padding: 0 0 0 24px; gap: 8px; display: flex; flex-direction: column;\",\n  \"blueprint\": {\n    \"count\": \"7\",\n    \"element\": \"li\",\n    \"style\": \"padding-left: 8px; color:hsl(215, 51%, 70%); list-style-type: 'cwrapArray[✨,🔍,🧹,👀,🛤️,🧩,🌍]';\",\n    \"children\": [\n      {\n        \"element\": \"p\",\n        \"style\": \"margin:0;\",\n        \"text\": \"cwrapGlobal[features.cwrapIndex]\"\n      }\n    ]\n  }\n}",
+                        "style": "box-sizing: border-box; margin: 0; padding: 2em; width: fit-content;"
+                    }
+                ]
+            },
+            {
+                "element": "p",
+                "text": "\tThe c‎wrapIndex directive is equivalent to c‎wrapIndex0, while c‎wrapIndex1 represents the index iteration of a nested array within the current array, and so on.\n\tAdditionally, c‎wrapIndex can be used decoratively or for other purposes—for example, writing c‎wrap0+1 retrieves the current index value incremented by one.",
+                "style": "line-height: 1.5em; white-space: pre-wrap;"
+            }
+        ]
+    },
+    {
+        "element": "div",
+        "name": "documentation/сwrapGlobal/",
+        "style": "display: flex; flex-direction: column; gap: 1em; max-width: 60em; width: 100%;",
+        "children": [
+            {
+                "element": "p",
+                "text": "\tThe c‎wrapGlobal directive is used to access global constants defined inside globals.json.",
+                "style": "line-height: 1.5em; white-space: pre-wrap;"
+            },
+            {
+                "element": "div",
+                "style": "background-color: #14253D; border-radius: 8px; display: flex; flex-direction: column; gap: 2em; height: fit-content; max-height: max-content; overflow-x: auto; overflow-y: auto; resize: vertical; width: 100%;",
+                "children": [
+                    {
+                        "element": "pre",
+                        "text": "{\n  \"attributes\": { \n    \"href\": \"c‎wrapProperty[prefixAside=../]c‎wrapGlobal[documentation.advanced concepts.c‎wrapIndex]/\", \n    \"class\": \"c‎wrapArray[{‎{return c‎wrapReference.globals.const.documentation['advanced concepts'].map((x) =>  x !== c‎wrapRoute.replace('documentation/','') ? 'c‎wrapOmit' : 'focus')}‎}]\" \n  }\n}",
+                        "style": "box-sizing: border-box; margin: 0; padding: 2em; width: fit-content;"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "element": "div",
+        "name": "documentation/сwrapOmit/",
+        "style": "display: flex; flex-direction: column; gap: 1em; max-width: 60em; width: 100%;",
+        "children": [
+            {
+                "element": "p",
+                "text": "\tThe c‎wrapOmit is a very powerful versatile directive used to prevent the final rendering of elements or key-value pairs from their appearance.",
+                "style": "line-height: 1.5em; white-space: pre-wrap;"
+            },
+            {
+                "element": "p",
+                "text": "\n\tIn this example it will prevent from adding any class to current element in other words it will remove whole class attribute. It works a little bit different than c‎wrapPlaceholder directive that will be described on next documentation page.",
+                "style": "line-height: 1.5em; white-space: pre-wrap;"
+            },
+            {
+                "element": "div",
+                "style": "background-color: #14253D; border-radius: 8px; display: flex; flex-direction: column; gap: 2em; height: fit-content; max-height: max-content; overflow-x: auto; overflow-y: auto; resize: vertical; width: 100%;",
+                "children": [
+                    {
+                        "element": "pre",
+                        "text": "{\n  \"attributes\": { \n    \"href\": \"c‎wrapProperty[prefixAside=../]c‎wrapGlobal[documentation.advanced concepts.c‎wrapIndex]/\", \n    \"class\": \"c‎wrapArray[{‎{return c‎wrapReference.globals.const.documentation['advanced concepts'].map((x) =>  x !== c‎wrapRoute.replace('documentation/','') ? 'c‎wrapOmit' : 'focus')}‎}]\" \n  }\n}",
+                        "style": "box-sizing: border-box; margin: 0; padding: 2em; width: fit-content;"
+                    }
+                ]
+            },
+            {
+                "element": "p",
+                "text": "\n\tIn here by default, the property 'script' has the value 'script', resulting in the script element being rendered. However, if replaced with 'c‎wrapOmit', it will prevent this element from being rendered in the final DOM.",
+                "style": "line-height: 1.5em; white-space: pre-wrap;"
+            },
+            {
+                "element": "div",
+                "style": "background-color: #14253D; border-radius: 8px; display: flex; flex-direction: column; gap: 2em; height: fit-content; max-height: max-content; overflow-x: auto; overflow-y: auto; resize: vertical; width: 100%;",
+                "children": [
+                    {
+                        "element": "pre",
+                        "text": "{\n  \"element\": \"c‎wrapProperty[script=script]\",\n  \"attributes\": {\n    \"type\": \"module\",\n    \"src\": \"c‎wrapProperty[prefix=./]static/scripts/c‎wrapProperty[scriptSource=home.js]\"\n  }\n}",
+                        "style": "box-sizing: border-box; margin: 0; padding: 2em; width: fit-content;"
+                    }
+                ]
+            },
+            {
+                "element": "p",
+                "text": "\n\tIn this example, when 'c‎wrapOmit' is passed as a property into 'hamburgerNavDisplay', it will remove the current 'display: flex' key-value pair, leaving 'margin-left: 1em;' intact.",
+                "style": "line-height: 1.5em; white-space: pre-wrap;"
+            },
+            {
+                "element": "div",
+                "style": "background-color: #14253D; border-radius: 8px; display: flex; flex-direction: column; gap: 2em; height: fit-content; max-height: max-content; overflow-x: auto; overflow-y: auto; resize: vertical; width: 100%;",
+                "children": [
+                    {
+                        "element": "pre",
+                        "text": "{\n  \"element\": \"c‎wrapProperty[script=script]\",\n  \"mediaQueries\": [\n    {\n      \"query\": \"max-width: 1024px\",\n      \"style\": \"display: c‎wrapProperty[hamburgerNavDisplay=flex]; margin-left: 1em;\"\n    }\n  ],\n  \"attributes\": {\n    \"type\": \"module\",\n    \"src\": \"c‎wrapProperty[prefix=./]static/scripts/c‎wrapProperty[scriptSource=home.js]\"\n  }\n}",
+                        "style": "box-sizing: border-box; margin: 0; padding: 2em; width: fit-content;"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "element": "div",
+        "name": "documentation/сwrapPlaceholder/",
+        "style": "display: flex; flex-direction: column; gap: 1em; max-width: 60em; width: 100%;",
+        "children": [
+            {
+                "element": "p",
+                "text": "\tThe c‎wrapPlaceholder directive is used to put a value that will be removed from the DOM without removing its key from the final DOM render.",
+                "style": "line-height: 1.5em; white-space: pre-wrap;"
+            },
+            {
+                "element": "p",
+                "text": "\n\tIn this example, using c‎wrapPlaceholder will remove the placeholder value but preserve other values of the class key, as well as the class key itself, in the final DOM.",
+                "style": "line-height: 1.5em; white-space: pre-wrap;"
+            },
+            {
+                "element": "div",
+                "style": "background-color: #14253D; border-radius: 8px; display: flex; flex-direction: column; gap: 2em; height: fit-content; max-height: max-content; overflow-x: auto; overflow-y: auto; resize: vertical; width: 100%;",
+                "children": [
+                    {
+                        "element": "pre",
+                        "text": "{\n  \"attributes\": { \n    \"href\": \"c‎wrapProperty[prefixAside=../]c‎wrapGlobal[documentation.advanced concepts.c‎wrapIndex]/\", \n    \"class\": \"c‎wrapArray[{‎{return c‎wrapReference.globals.const.documentation['advanced concepts'].map((x) =>  x !== c‎wrapRoute.replace('documentation/','') ? 'c‎wrapOmit' : 'focus')}‎}]\" \n  }\n}",
+                        "style": "box-sizing: border-box; margin: 0; padding: 2em; width: fit-content;"
+                    }
+                ]
             }
         ]
     }
