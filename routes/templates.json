@@ -93,7 +93,7 @@
                                                             "children": [
                                                                 {
                                                                     "element": "a",
-                                                                    "text": "cwrapArray[{{return cwrapReference.globals.const.documentation['advanced concepts'].map((x)=>(x.replace('сwrap','c‎wrap')))}}]",
+                                                                    "text": "cwrapArray[{{return cwrapReference.globals.const.documentation['advanced concepts'].map((x) => (x === 'dynamic-routes' ? '[dynamic-routes]' : x.replace('сwrap','c‎wrap')))}}]",
                                                                     "style": "position: relative; z-index: 1; transition: 300ms; padding: 0.2em 0.5em;",
                                                                     "extend": [
                                                                         {
@@ -1070,6 +1070,29 @@
                     {
                         "element": "pre",
                         "text": "{\n  \"attributes\": { \n    \"href\": \"c‎wrapProperty[prefixAside=../]c‎wrapGlobal[documentation.advanced concepts.c‎wrapIndex]/\", \n    \"class\": \"c‎wrapArray[{‎{return c‎wrapReference.globals.const.documentation['advanced concepts'].map((x) =>  x !== c‎wrapRoute.replace('documentation/','') ? 'c‎wrapOmit' : 'focus')}‎}]\" \n  }\n}",
+                        "style": "box-sizing: border-box; margin: 0; padding: 2em; width: fit-content;"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "element": "div",
+        "name": "documentation/dynamic-routes/",
+        "style": "display: flex; flex-direction: column; gap: 1em; max-width: 60em; width: 100%;",
+        "children": [
+            {
+                "element": "p",
+                "text": "\t Dynamic routes are used to create flexible and reusable paths in your application. They allow you to define routes that can handle various parameters and values, making it easier to manage and navigate through different sections of your application. This approach is commonly used in many frameworks to enhance the scalability and maintainability of web applications.",
+                "style": "line-height: 1.5em; white-space: pre-wrap;"
+            },
+            {
+                "element": "div",
+                "style": "background-color: #14253D; border-radius: 8px; display: flex; flex-direction: column; gap: 2em; height: fit-content; max-height: max-content; overflow-x: auto; overflow-y: auto; resize: vertical; width: 100%;",
+                "children": [
+                    {
+                        "element": "pre",
+                        "text": "{\n  \"context\": \"{‎{let routes = c‎wrapReference.globals.const.documentation['getting started'].concat(c‎wrapReference.globals.const.documentation['advanced concepts']); routes = routes.map((x)=>`documentation/${x}/`);c‎wrapContext.set('documentRoutes',routes);return '';}‎}\",\n  \"routes\": \"{‎{‎{ return { \\\"routes\\\": c‎wrapContext.get('documentRoutes') }; }‎}‎}\",\n  \"element\": \"c‎wrap-template\",\n  \"text\": \"c‎wrapTemplate[documentation]\",\n  \"pass‎overRef\": \"documentation\",\n  \"pass‎over\": [\n    {\n      \"element\": \"c‎wrap-template\",\n      \"text\": \"c‎wrapTemplate[{‎{return c‎wrapRoute}‎}]\"\n    }\n  ]\n}",
                         "style": "box-sizing: border-box; margin: 0; padding: 2em; width: fit-content;"
                     }
                 ]
