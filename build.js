@@ -19,42 +19,49 @@ const activeParam = process?.argv?.slice(2);
 const isDevelopment = activeParam.includes("dev");
 const cwrapContext = new Map();
 function runEmbeddedScripts(jsonObj, cwrapReference, cwrapRoute, cwrapContext) {
-  // Recursive function that carries along the parent and key/index information.
-  const traverseAndExecute = (obj, parent, key) => {
+  // We'll use a reserved key to mark values that should be merged.
+  const MERGE_KEY = "__merge__";
+
+  // Helper to check for our merge marker.
+  function isMergeMarker(value) {
+    return (
+      typeof value === "object" &&
+      value !== null &&
+      Object.prototype.hasOwnProperty.call(value, MERGE_KEY)
+    );
+  }
+
+  // The recursive transformer.
+  function traverseAndExecute(obj) {
     if (typeof obj === "string") {
-      // Check for triple-brace syntax: must match the entire string.
-      const tripleMatch = obj.match(/^\{\{\{(.*?)\}\}\}$/);
+      // Check for triple-brace syntax that must match the entire string.
+      const tripleMatch = obj.match(/^\{\{\{([\s\S]*?)\}\}\}$/);
       if (tripleMatch) {
+        console.log("tripleMatch");
         try {
           const scriptContent = tripleMatch[1];
           const func = new Function(
             "cwrapReference",
             "cwrapRoute",
             "cwrapContext",
-            `return (function() { ${scriptContent} })()`
+            // We wrap the script in an IIFE to allow local scoping.
+            `return (function() { ${scriptContent} })();`
           );
           const scriptResult = func(cwrapReference, cwrapRoute, cwrapContext);
-          // We expect the result to be an object.
+          // Expecting an object; if not, throw an error.
           if (typeof scriptResult !== "object" || scriptResult === null) {
             throw new Error("Triple brace script must return an object.");
           }
-          // If there's a parent (i.e. we're inside an object), remove the current key
-          // and merge the returned object's keys into the parent.
-          if (parent && typeof parent === "object") {
-            delete parent[key];
-            Object.assign(parent, scriptResult);
-            // Nothing to return since we've modified the parent directly.
-            return;
-          }
-          // If no parent exists, return the script result.
-          return scriptResult;
+          // Instead of mutating the parent, return a merge marker.
+          return { [MERGE_KEY]: scriptResult };
         } catch (error) {
           console.error("Error executing triple-brace script:", error, obj);
           return obj;
         }
       }
 
-      // Otherwise, handle inline double-brace expressions.
+      // Handle inline double-brace expressions.
+      // We'll use the global matchAll with a RegExp to catch all occurrences.
       const scriptMatches = [...obj.matchAll(/{{(.*?)}}/g)];
       let result = obj;
       for (const match of scriptMatches) {
@@ -64,31 +71,49 @@ function runEmbeddedScripts(jsonObj, cwrapReference, cwrapRoute, cwrapContext) {
             "cwrapReference",
             "cwrapRoute",
             "cwrapContext",
-            `return (function() { ${scriptContent} })()`
+            `return (function() { ${scriptContent} })();`
           );
-          const scriptResult = func(cwrapReference, cwrapRoute, cwrapContext); // Execute the script with cwrapReference and cwrapRoute
+          const scriptResult = func(cwrapReference, cwrapRoute, cwrapContext);
+          // Replace the entire matched placeholder with the script result.
+          // Note: Using a string replace here assumes that the scriptResult converts properly to a string.
           result = result.replace(`{{${scriptContent}}}`, scriptResult);
         } catch (error) {
-          console.error("Error executing script:", error, obj);
+          console.error("Error executing inline script:", error, obj);
           return obj;
         }
       }
       return result;
     }
+
     if (Array.isArray(obj)) {
-      return obj.map(traverseAndExecute);
+      // Recursively process each item in the array.
+      return obj.map((item) => traverseAndExecute(item));
     }
+
     if (typeof obj === "object" && obj !== null) {
-      const newObj = {};
+      // Process objects in a way that allows merge markers to be incorporated.
+      let newObj = {};
       for (const key in obj) {
-        newObj[key] = traverseAndExecute(obj[key]);
+        // Skip properties from the prototype chain.
+        if (!Object.prototype.hasOwnProperty.call(obj, key)) continue;
+        const transformedValue = traverseAndExecute(obj[key]);
+        if (isMergeMarker(transformedValue)) {
+          // If the transformed value is a merge marker,
+          // merge its keys into the current object.
+          Object.assign(newObj, transformedValue[MERGE_KEY]);
+        } else {
+          // Otherwise, add the transformed value to the result.
+          newObj[key] = transformedValue;
+        }
       }
       return newObj;
     }
-    return obj;
-  };
 
-  return traverseAndExecute(jsonObj, null, null);
+    // For any other type (number, boolean, etc.), return it as is.
+    return obj;
+  }
+
+  return traverseAndExecute(jsonObj);
 }
 
 const getNestedValue = (obj, path) => {
@@ -580,15 +605,15 @@ function processDynamicRouteDirectory(routeDir, buildDir) {
   }
   const jsonFilePath = path.join(routeDir, "skeleton.json");
   if (fs.existsSync(jsonFilePath)) {
-    const jsonContent = fs.readFileSync(jsonFilePath, "utf8");
-    let jsonObj = JSON.parse(jsonContent);
-    jsonObj = runEmbeddedScripts(
-      jsonObj,
+    const jsonContent = JSON.parse(fs.readFileSync(jsonFilePath, "utf8"));
+    console.log("DYNAMICALLY RUN");
+    const jsonObj = runEmbeddedScripts(
+      jsonContent,
       cwrapReference,
       undefined,
       cwrapContext
     ); // Process embedded scripts
-
+    console.log("result JSON", jsonObj);
     if (jsonObj.routes) {
       for (const [index, routeObj] of jsonObj.routes.entries()) {
         let route;
@@ -634,9 +659,9 @@ function processStaticRouteDirectory(
   if (!fs.existsSync(jsonFile)) {
     return;
   }
-  let jsonObj = JSON.parse(fs.readFileSync(jsonFile, "utf8"));
-  jsonObj = runEmbeddedScripts(
-    jsonObj,
+  const jsonContent = JSON.parse(fs.readFileSync(jsonFile, "utf8"));
+  let jsonObj = runEmbeddedScripts(
+    jsonContent,
     cwrapReference,
     cwrapRoute,
     cwrapContext
@@ -674,7 +699,7 @@ function processStaticRouteDirectory(
       return matches;
     };
 
-    const jsonString = JSON.stringify(jsonObj);
+    jsonString = JSON.stringify(jsonObj);
     const arrayMatches = findCwrapRouteMatches(jsonString, "cwrapRoutes");
     let replacedString = jsonString;
 
