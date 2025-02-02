@@ -37,7 +37,6 @@ function runEmbeddedScripts(jsonObj, cwrapReference, cwrapRoute, cwrapContext) {
       // Check for triple-brace syntax that must match the entire string.
       const tripleMatch = obj.match(/^\{\{\{([\s\S]*?)\}\}\}$/);
       if (tripleMatch) {
-        console.log("tripleMatch");
         try {
           const scriptContent = tripleMatch[1];
           const func = new Function(
@@ -92,7 +91,7 @@ function runEmbeddedScripts(jsonObj, cwrapReference, cwrapRoute, cwrapContext) {
 
     if (typeof obj === "object" && obj !== null) {
       // Process objects in a way that allows merge markers to be incorporated.
-      let newObj = {};
+      const newObj = {};
       for (const key in obj) {
         // Skip properties from the prototype chain.
         if (!Object.prototype.hasOwnProperty.call(obj, key)) continue;
@@ -606,14 +605,12 @@ function processDynamicRouteDirectory(routeDir, buildDir) {
   const jsonFilePath = path.join(routeDir, "skeleton.json");
   if (fs.existsSync(jsonFilePath)) {
     const jsonContent = JSON.parse(fs.readFileSync(jsonFilePath, "utf8"));
-    console.log("DYNAMICALLY RUN");
     const jsonObj = runEmbeddedScripts(
       jsonContent,
       cwrapReference,
       undefined,
       cwrapContext
-    ); // Process embedded scripts
-    console.log("result JSON", jsonObj);
+    );
     if (jsonObj.routes) {
       for (const [index, routeObj] of jsonObj.routes.entries()) {
         let route;
@@ -625,6 +622,7 @@ function processDynamicRouteDirectory(routeDir, buildDir) {
           parentRoute = routeObj.parent;
         }
         const routePath = path.join(routeDir);
+
         const buildPath = parentRoute
           ? path.join(
               buildDir,
@@ -634,6 +632,7 @@ function processDynamicRouteDirectory(routeDir, buildDir) {
               route.toString()
             )
           : path.join(buildDir, "..", route.toString());
+
         processStaticRouteDirectory(routePath, buildPath, index, route);
       }
     }
@@ -652,7 +651,6 @@ function processStaticRouteDirectory(
     !dynamicallyInvokedRoute &&
     cwrapRoute.includes("[" || cwrapRoute.includes("]"))
   ) {
-    console.log(dynamicallyInvokedRoute, cwrapRoute);
     return;
   }
   const jsonFile = path.join(routeDir, "skeleton.json");
@@ -663,7 +661,7 @@ function processStaticRouteDirectory(
   let jsonObj = runEmbeddedScripts(
     jsonContent,
     cwrapReference,
-    cwrapRoute,
+    dynamicallyInvokedRoute ? dynamicallyInvokedRoute : cwrapRoute,
     cwrapContext
   ); // Process embedded scripts
 

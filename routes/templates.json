@@ -314,5 +314,498 @@
                 }
             }
         ]
+    },
+    {
+        "element": "div",
+        "name": "documentation/installation/",
+        "style": "display: flex; flex-direction: column; max-width: 60em; white-space: pre-wrap;",
+        "children": [
+            {
+                "element": "p",
+                "text": "\tTo install the latest version of cwrap, run the following command:",
+                "style": "margin-bottom: 1em; white-space: pre-wrap;"
+            },
+            {
+                "element": "div",
+                "style": "background-color: #14253D; border-radius: 8px; display: flex; flex-direction: column; gap: 2em; height: fit-content; max-height: max-content; min-height: fit-content; overflow-x: auto; overflow-y: auto; width: 100%;",
+                "children": [
+                    {
+                        "element": "pre",
+                        "text": "npx cwrap-framework@latest",
+                        "style": "box-sizing: border-box; margin: 0; padding: 1em; width: fit-content;"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "element": "div",
+        "name": "documentation/installation/",
+        "style": "display: flex; flex-direction: column; max-width: 60em; white-space: pre-wrap;",
+        "children": [
+            {
+                "element": "p",
+                "text": "\tTo install the latest version of cwrap, run the following command:",
+                "style": "margin-bottom: 1em; white-space: pre-wrap;"
+            },
+            {
+                "element": "div",
+                "style": "background-color: #14253D; border-radius: 8px; display: flex; flex-direction: column; gap: 2em; height: fit-content; max-height: max-content; min-height: fit-content; overflow-x: auto; overflow-y: auto; width: 100%;",
+                "children": [
+                    {
+                        "element": "pre",
+                        "text": "npx cwrap-framework@latest",
+                        "style": "box-sizing: border-box; margin: 0; padding: 1em; width: fit-content;"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "element": "div",
+        "name": "documentation/running/",
+        "style": "display: flex; flex-direction: column; max-width: 60em; white-space: pre-wrap;",
+        "children": [
+            {
+                "element": "p",
+                "text": "\tTo run the development server, use the following command:",
+                "style": "margin-bottom: 1em; white-space: pre-wrap;"
+            },
+            {
+                "element": "div",
+                "style": "background-color: #14253D; border-radius: 8px; display: flex; flex-direction: column; gap: 2em; height: fit-content; max-height: max-content; min-height: fit-content; overflow-x: auto; overflow-y: auto; width: 100%;",
+                "children": [
+                    {
+                        "element": "pre",
+                        "text": "npm run dev",
+                        "style": "box-sizing: border-box; margin: 0; padding: 1em; width: fit-content;"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "element": "div",
+        "name": "documentation/structure/",
+        "style": "display: flex; flex-direction: column; max-width: 60em; white-space: pre-wrap;",
+        "children": [
+            {
+                "element": "p",
+                "text": "\tThe typical project structure for development files is as follows:",
+                "style": "margin-bottom: 1em; white-space: pre-wrap;"
+            },
+            {
+                "element": "div",
+                "style": "background-color: #14253D; border-radius: 8px; display: flex; flex-direction: column; gap: 2em; height: fit-content; max-height: max-content; min-height: fit-content; overflow-x: auto; overflow-y: auto; width: 100%;",
+                "children": [
+                    {
+                        "element": "pre",
+                        "text": "project-root/\n├── dist/\n├── routes/\n│   ├── skeleton.json\n│   ├── globals.json\n│   ├── templates.json\n│   └── some-other-route/\n│       └── skeleton.json\n├── static/\n│   ├── favicon/\n│   ├── images/\n│   └── scripts/\n└── cwrapConfig.js",
+                        "style": "box-sizing: border-box; margin: 0; padding: 2em; width: fit-content;"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "element": "div",
+        "name": "documentation/skeleton/",
+        "children": [
+            {
+                "element": "div",
+                "style": "display: flex; flex-direction: column; gap: 1em; max-width: 60em; width: 100%;",
+                "children": [
+                    {
+                        "element": "p",
+                        "text": "\tBefore we proceed with explaining the structure of the skeleton.json file, let's quickly remind ourselves of the basic website structure. Below is an example HTML DOM body element from cwrapSpan:",
+                        "style": "line-height: 1.5em; white-space: pre-wrap;",
+                        "children": [
+                            {
+                                "element": "a",
+                                "text": "Intro component with sign-up form",
+                                "style": "color: white; position: relative; transition: 300ms;",
+                                "extend": [
+                                    {
+                                        "extension": "::before",
+                                        "style": "background: rgba(150, 250, 250, 1); bottom: 2px; content: \"\"; height: 1px; position: absolute; transition: 300ms; width: 100%; z-index: -1;"
+                                    },
+                                    {
+                                        "extension": ":hover",
+                                        "style": "color: rgba(150, 250, 250, 1);"
+                                    }
+                                ],
+                                "attributes": {
+                                    "href": "../../#link13"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "element": "div",
+                        "style": "height: 400px; max-height: max-content; min-height: 400px; overflow-x: auto; overflow-y: auto; resize: vertical;",
+                        "children": [
+                            {
+                                "element": "pre",
+                                "text": "<body>\n    <main>\n        <section>\n            <h1>Learn to code by watching others</h1>\n            <p>See how experienced developers solve problems in real-time. Watching scripted tutorials is great, but\n                understanding how developers think is invaluable.</p>\n        </section>\n        <div>\n            <div>Try it free 7 days <span>&nbsp;then\n                    $20/mo. thereafter</span></div>\n            <form method=\"GET\">\n                <ul>\n                    <li><label><input id=\"first-name\" name=\"first-name\" aria-label=\"First Name\" placeholder=\"First Name\"\n                                autocomplete=\"given-name\" required=\"\" pattern=\"^[a-zA-Z\\s]+$\"></label></li>\n                    <li><label><input id=\"last-name\" name=\"last-name\" aria-label=\"Last Name\" placeholder=\"Last Name\"\n                                autocomplete=\"family-name\" required=\"\" pattern=\"^[a-zA-Z\\s]+$\"></label></li>\n                    <li><label><input id=\"email\" name=\"email\" aria-label=\"Email Address\" placeholder=\"Email Address\"\n                                autocomplete=\"email\" required=\"\"\n                                pattern=\"^[a-zA-Z0-9._%+\\-]+@[a-zA-Z0-9.\\-]+\\.[a-zA-Z]{2,}$\"></label></li>\n                    <li><label><input id=\"password\" name=\"password\" aria-label=\"Password\" placeholder=\"Password\"\n                                required=\"\"></label></li>\n                </ul><button>\n                    <div><span>CLAIM YOUR FREE TRIAL</span></div>\n                </button>\n                <p>By clicking the button, you are agreeing to\n                    our <span>Terms and Services</span></p>\n            </form>\n        </div>\n    </main>\n</body>",
+                                "style": "background-color: #14253D; border-radius: 8px; box-sizing: border-box; margin: 0; padding: 2em; width: fit-content;"
+                            }
+                        ]
+                    },
+                    {
+                        "element": "p",
+                        "text": "\tThis construction serves as a building block for defining the structure of a website. To enhance the visual aspect of the elements, an accompanying stylesheet is essential.\n\tWhile it may be tempting to apply styles directly to elements using attributes, this approach can hinder proper caching and limit the styles to specific elements, missing out on broader application.\n\tOver the years, CSS has evolved with advanced features, and my personal favorite is Tailwind CSS. Its utility-first classes enable you to build custom designs directly within your markup.",
+                        "style": "line-height: 1.5em; white-space: pre-wrap;"
+                    }
+                ]
+            },
+            {
+                "element": "div",
+                "style": "display: flex; flex-direction: column; gap: 1em; max-width: 60em; resize: vertical; width: 100%;",
+                "children": [
+                    {
+                        "element": "p",
+                        "text": "\n\tHere is the skeleton.json file for the same design. It defines the structure of a route in a cwrap project:",
+                        "style": "line-height: 1.5em; white-space: pre-wrap;"
+                    },
+                    {
+                        "element": "div",
+                        "style": "height: 400px; max-height: max-content; min-height: 400px; overflow-x: auto; overflow-y: auto; resize: vertical;",
+                        "children": [
+                            {
+                                "element": "pre",
+                                "text": "{\n  \"element\": \"body\",\n  \"style\": \"background-color: #FF7979; background-image: url('./static/images/bg-intro-desktop.png'); background-repeat: repeat; box-sizing: border-box; display: flex; flex-direction: column; font-family: 'Poppins', serif; justify-content: center; margin: 0; min-height: 100dvh; padding: 24px;\",\n  \"mediaQueries\": [\n    {\n      \"query\": \"max-width: 1024px\",\n      \"style\": \"background-image: url('./static/images/bg-intro-mobile.png'); justify-content: center; padding: 88px 24px 68px 24px;\"\n    }\n  ],\n  \"children\": [\n    {\n      \"element\": \"main\",\n      \"style\": \"display: flex; gap: 32px; justify-content: space-between; margin-inline: auto; max-width: 1110px; min-height: 558px; width: 100%;\",\n      \"mediaQueries\": [\n        {\n          \"query\": \"max-width: 1024px\",\n          \"style\": \"flex-direction: column; gap: 64px; max-width: fit-content;\"\n        }\n      ],\n      \"children\": [\n        {\n          \"element\": \"section\",\n          \"style\": \"align-items: start; display: flex; flex-direction: column; gap: 11px; justify-content: center; max-width: 525px; text-align: start; width: 100%;\",\n          \"mediaQueries\": [\n            {\n              \"query\": \"max-width: 1024px\",\n              \"style\": \"align-items: center; text-align: center;\"\n            }\n          ],\n          \"children\": [\n            {\n              \"element\": \"h1\",\n              \"text\": \"cwrapGlobal[section.title]\",\n              \"style\": \"color: white; font-size: 50px; font-weight: bold; letter-spacing: -0.52px; line-height: 55px; margin: 0;\",\n              \"mediaQueries\": [\n                {\n                  \"query\": \"max-width: 640px\",\n                  \"style\": \"font-size: 28px; letter-spacing: -0.29px; line-height: 36px;\"\n                }\n              ]\n            },\n            {\n              \"element\": \"p\",\n              \"text\": \"cwrapGlobal[section.description]\",\n              \"style\": \"color: white; font-size: 16px; font-weight: 500; line-height: 26px;\"\n            }\n          ]\n        },\n        {\n          \"element\": \"div\",\n          \"style\": \"display: flex; flex-direction: column; gap: 24px; max-width: 540px; width: 100%;\",\n          \"children\": [\n            {\n              \"element\": \"div\",\n              \"text\": \"Try it free 7 days cwrapSpan\",\n              \"style\": \"align-items: center; background-color: #5E54A4; border-radius: 10px; box-shadow: 0 8px 1px rgba(0, 0, 0, 0.25); color: white; display: flex; font-size: 15px; font-weight: bold; justify-content: center; letter-spacing: 0.27px; line-height: 26px; min-height: 60px;\",\n              \"mediaQueries\": [\n                {\n                  \"query\": \"max-width: 640px\",\n                  \"style\": \"align-content: center; display: block; min-height: 88px; text-align: center; white-space: pre-wrap;\"\n                }\n              ],\n              \"children\": [\n                {\n                  \"element\": \"span\",\n                  \"text\": \" then\\n$20/mo. thereafter\",\n                  \"style\": \"font-weight: 400;\"\n                }\n              ]\n            },\n            {\n              \"element\": \"form\",\n              \"attributes\": {\n                \"method\": \"GET\"\n              },\n              \"style\": \"align-items: center; background-color: white; border-radius: 10px; box-shadow: 0 8px 1px rgba(0, 0, 0, 0.25); box-sizing: border-box; display: flex; flex-direction: column; min-height: 474px; padding: 40px; width: 100%;\",\n              \"mediaQueries\": [\n                {\n                  \"query\": \"max-width: 640px\",\n                  \"style\": \"padding: 24px;\"\n                }\n              ],\n              \"children\": [\n                {\n                  \"element\": \"ul\",\n                  \"style\": \"display: flex; flex-direction: column; gap: 20px; list-style: none; margin: 0; padding: 0; width: 100%;\",\n                  \"mediaQueries\": [\n                    {\n                      \"query\": \"max-width: 640px\",\n                      \"style\": \"gap: 16px;\"\n                    }\n                  ],\n                  \"blueprint\": {\n                    \"count\": \"4\",\n                    \"element\": \"li\",\n                    \"style\": \"display: flex; width: 100%;\",\n                    \"children\": [\n                      {\n                        \"element\": \"label\",\n                        \"style\": \"display: flex; position: relative; width: 100%;\",\n                        \"children\": [\n                          {\n                            \"element\": \"input\",\n                            \"style\": \"border: 1px solid #DEDEDE; border-radius: 5px; color: #3D3B48; display: flex; font-size: 14px; font-weight: 600; letter-spacing: 0.25px; line-height: 26px; margin: 0; min-height: 56px; outline: none; padding: 0; padding-inline: 32px; width: 100%;\",\n                            \"mediaQueries\": [\n                              {\n                                \"query\": \"max-width: 1024px\",\n                                \"style\": \"padding-inline: 24px;\"\n                              },\n                              {\n                                \"query\": \"max-width: 640px\",\n                                \"style\": \"padding-inline: 19.5px;\"\n                              }\n                            ],\n                            \"extend\": [\n                              {\n                                \"extension\": \":focus\",\n                                \"style\": \"border-color: #5E54A4;\"\n                              },\n                              {\n                                \"extension\": \":user-invalid\",\n                                \"style\": \"background: url('static/images/icon-error.svg') no-repeat right 27px top 16px; border: 2px solid #FF7979; margin-bottom: 20px; padding-right: 60px; position: relative; z-index: 2;\",\n                                \"mediaQueries\": [\n                                  {\n                                    \"query\": \"max-width: 1024px\",\n                                    \"style\": \"padding-right: 44px;\"\n                                  },\n                                  {\n                                    \"query\": \"max-width: 640px\",\n                                    \"style\": \"padding-inline: 39.5px;\"\n                                  }\n                                ]\n                              }\n                            ],\n                            \"attributes\": {\n                              \"id\": \"cwrapArray[first-name,last-name,email,password]\",\n                              \"name\": \"cwrapArray[first-name,last-name,email,password]\",\n                              \"aria-label\": \"cwrapArray[First Name,Last Name,Email Address,Password]\",\n                              \"placeholder\": \"cwrapArray[First Name,Last Name,Email Address,Password]\",\n                              \"autocomplete\": \"cwrapGlobal[cwrapArray[inputs.0.autocomplete,inputs.1.autocomplete,inputs.2.autocomplete,c‎wrapOmit]]\",\n                              \"required\": \"\",\n                              \"pattern\": \"cwrapGlobal[cwrapArray[inputs.0.pattern,inputs.1.pattern,inputs.2.pattern,c‎rapOmit]]\"\n                            }\n                          }\n                        ]\n                      }\n                    ]\n                  }\n                },\n                {\n                  \"element\": \"button\",\n                  \"style\": \"background-color: #38B57E; border: 1px solid transparent; border-radius: 5px; cursor: pointer; letter-spacing: 1px; margin-top: 20px; min-height: 56px; outline: none; padding: 0; position: relative; transition: background-color 300ms; width: 100%;\",\n                  \"extend\": [\n                    {\n                      \"extension\": \":focus\",\n                      \"style\": \"border: 1px solid #5E54A4;\"\n                    },\n                    {\n                      \"extension\": \"> div:nth-of-type(1)\",\n                      \"style\": \"transition: background-color 300ms;\"\n                    },\n                    {\n                      \"extension\": \":hover > div:nth-of-type(1)\",\n                      \"style\": \"background-color: #77E2B3;\"\n                    },\n                    {\n                      \"extension\": \":hover\",\n                      \"style\": \"background-color: #6FCBA2;\"\n                    }\n                  ],\n                  \"children\": [\n                    {\n                      \"element\": \"div\",\n                      \"style\": \"align-items: center; background-color: #38CC8B; border-radius: 5px; color: white; display: flex; font-size: 15px; font-weight: 600; justify-content: center; line-height: 26px; min-height: 52px; position: absolute; top: 0; width: 100%;\",\n                      \"children\": [\n                        {\n                          \"element\": \"span\",\n                          \"style\": \"margin-top: 4px;\",\n                          \"text\": \"CLAIM YOUR FREE TRIAL\"\n                        }\n                      ]\n                    }\n                  ]\n                },\n                {\n                  \"element\": \"p\",\n                  \"text\": \"By clicking the button, you are agreeing to\\nour cwrapSpan\",\n                  \"style\": \"color: #BAB7D4; font-size: 11px; font-weight: 500; line-height: 26px; text-align: center;\",\n                  \"mediaQueries\": [\n                    {\n                      \"query\": \"max-width: 640px\",\n                      \"style\": \"line-height: 21px; white-space: pre-wrap;\"\n                    }\n                  ],\n                  \"children\": [\n                    {\n                      \"element\": \"span\",\n                      \"text\": \"Terms and Services\",\n                      \"style\": \"color: #FF7979; font-weight: bold;\"\n                    }\n                  ]\n                }\n              ]\n            }\n          ]\n        }\n      ]\n    }\n  ]\n}",
+                                "style": "background-color: #14253D; border-radius: 8px; box-sizing: border-box; margin: 0; padding: 2em; width: fit-content;"
+                            }
+                        ]
+                    },
+                    {
+                        "element": "p",
+                        "text": "\tThe skeleton.json file is a JSON object that defines the structure of a route in a cwrap project. It consists, in most cases, of these common properties:\n\t- element: the HTML element to be rendered,\n\t- text: the text content to be displayed within the element,\n\t- style: the CSS styles to be applied to the element,\n\t- extend: an array of pseudo-classes and corresponding styles,\n\t- mediaQueries: an array of media queries and corresponding styles,\n\t- attributes: an object containing the attributes to be applied to the element,\n\t- blueprint: an object containing the blueprint for generating multiple child elements,\n\t- children: an array of child elements.\n\n\tThe skeleton.json file is used by the cwrap compiler to generate the HTML and CSS code for a route. It provides a structured way to define the layout and styling of a website, making it easier to maintain and update the design.",
+                        "style": "line-height: 1.5em; white-space: pre-wrap;"
+                    }
+                ]
+            },
+            {
+                "element": "div",
+                "style": "display: flex; flex-direction: column; gap: 1em; max-width: 60em; resize: vertical; width: 100%;",
+                "children": [
+                    {
+                        "element": "p",
+                        "text": "\n\tHere we have HTML DOM head element of the same project:",
+                        "style": "line-height: 1.5em; white-space: pre-wrap;"
+                    },
+                    {
+                        "element": "div",
+                        "style": "height: fit-content; max-height: max-content; min-height: fit-content; overflow-x: auto; overflow-y: auto; resize: vertical;",
+                        "children": [
+                            {
+                                "element": "pre",
+                                "text": "<head>\n    <title>New Candy Wrapper project</title>\n    <link rel=\"stylesheet\"\n        href=\"https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap\"\n        type=\"text/css\">\n    <link rel=\"shortcut icon\" href=\"favicon.ico\" type=\"image/x-icon\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <meta charset=\"UTF-8\">\n    <meta name=\"description\" content=\"New Candy Wrapper project.\">\n    <meta name=\"keywords\" content=\"\">\n    <link rel=\"stylesheet\" href=\"styles.css\">\n    <link rel=\"stylesheet\" href=\"globals.css\">\n</head>",
+                                "style": "background-color: #14253D; border-radius: 8px; box-sizing: border-box; margin: 0; padding: 2em; width: fit-content;"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "element": "div",
+                "style": "display: flex; flex-direction: column; gap: 1em; max-width: 60em; resize: vertical; width: 100%;",
+                "children": [
+                    {
+                        "element": "p",
+                        "text": "\n\tAnd here is the skeleton.json file for the head element:",
+                        "style": "line-height: 1.5em; white-space: pre-wrap;"
+                    },
+                    {
+                        "element": "div",
+                        "style": "height: 400px; max-height: max-content; min-height: 400px; overflow-x: auto; overflow-y: auto; resize: vertical;",
+                        "children": [
+                            {
+                                "element": "pre",
+                                "text": "{\n  \"head\": {\n    \"title\": \"New Candy Wrapper project\",\n    \"link\": [\n      {\n        \"rel\": \"stylesheet\",\n        \"href\": \"https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap\",\n        \"type\": \"text/css\"\n      },\n      {\n        \"rel\": \"shortcut icon\",\n        \"href\": \"favicon.ico\",\n        \"type\": \"image/x-icon\"\n      },\n      {\n        \"rel\": \"stylesheet\",\n        \"href\": \"styles.css\"\n      },\n      {\n        \"rel\": \"stylesheet\",\n        \"href\": \"globals.css\"\n      }\n    ],\n    \"meta\": [\n      {\n        \"name\": \"viewport\",\n        \"content\": \"width=device-width, initial-scale=1.0\"\n      },\n      {\n        \"charset\": \"UTF-8\"\n      },\n      {\n        \"name\": \"description\",\n        \"content\": \"New Candy Wrapper project.\"\n      },\n      {\n        \"name\": \"keywords\",\n        \"content\": \"\"\n      }\n    ]\n  }\n}",
+                                "style": "background-color: #14253D; border-radius: 8px; box-sizing: border-box; margin: 0; padding: 2em; width: fit-content;"
+                            }
+                        ]
+                    },
+                    {
+                        "element": "p",
+                        "text": "\tI think it is pretty much self-explanatory.",
+                        "style": "line-height: 1.5em; white-space: pre-wrap;"
+                    }
+                ]
+            },
+            {
+                "element": "div",
+                "style": "display: flex; flex-direction: column; gap: 1em; max-width: 60em; resize: vertical; width: 100%;",
+                "children": [
+                    {
+                        "element": "p",
+                        "text": "\n\tThe skeleton.json file, due to its unbounded JSON nature, allows for a more flexible pattern than the regular DOM. This flexibility is beneficial for defining complex structures and styles in a more manageable and scalable way. Unlike the standard DOM, which has its limitations, the skeleton.json format can accommodate a wide range of design and layout requirements, making it an excellent choice for projects that demand a high degree of customization and adaptability.",
+                        "style": "line-height: 1.5em; white-space: pre-wrap;"
+                    },
+                    {
+                        "element": "div",
+                        "style": "height: 400px; max-height: max-content; min-height: 400px; overflow-x: auto; overflow-y: auto; resize: vertical;",
+                        "children": [
+                            {
+                                "element": "pre",
+                                "text": "{\n  \"classroom\": [\n    {\n      \"name\": \"placeholder\",\n      \"type\": \"pseudo::\",\n      \"style\": \"color: rgba(61, 59, 72, 0.75);\"\n    },\n    {\n      \"name\": \"user-invalid::placeholder\",\n      \"type\": \"pseudo:\",\n      \"style\": \"color: rgba(223, 86, 86, 0.5);\"\n    },\n    {\n      \"name\": \"label:has(*:user-invalid:placeholder-shown)::before\",\n      \"type\": \"element\",\n      \"style\": \"bottom: -4px; color: #FF7979; font-size: 11px; font-style: italic; font-weight: 500; position: absolute; right: 0;\"\n    },\n    {\n      \"name\": \"li:nth-of-type(1) > label:has(*:user-invalid:placeholder-shown)::before\",\n      \"type\": \"element\",\n      \"style\": \"content: 'First Name cannot be empty';\"\n    },\n    {\n      \"name\": \"li:nth-of-type(2) > label:has(*:user-invalid:placeholder-shown)::before\",\n      \"type\": \"element\",\n      \"style\": \"content: 'Last Name cannot be empty';\"\n    },\n    {\n      \"name\": \"li:nth-of-type(3) > label:has(*:user-invalid:placeholder-shown)::before\",\n      \"type\": \"element\",\n      \"style\": \"content: 'Password cannot be empty';\"\n    },\n    {\n      \"name\": \"li:nth-of-type(4) > label:has(*:user-invalid:placeholder-shown)::before\",\n      \"type\": \"element\",\n      \"style\": \"content: 'Password cannot be empty';\"\n    },\n    {\n      \"name\": \"label:has(*:user-invalid)::before\",\n      \"type\": \"element\",\n      \"style\": \"bottom: -4px; color: #FF7979; font-size: 11px; font-style: italic; font-weight: 500; position: absolute; right: 0;\"\n    },\n    {\n      \"name\": \"li:nth-of-type(1) > label:has(*:user-invalid)::before\",\n      \"type\": \"element\",\n      \"style\": \"content: 'Looks like this is not a first name';\"\n    },\n    {\n      \"name\": \"li:nth-of-type(2) > label:has(*:user-invalid)::before\",\n      \"type\": \"element\",\n      \"style\": \"content: 'Looks like this is not a last name';\"\n    },\n    {\n      \"name\": \"li:nth-of-type(3) > label:has(*:user-invalid)::before\",\n      \"type\": \"element\",\n      \"style\": \"content: 'Looks like this is not an email';\"\n    }\n  ]\n}",
+                                "style": "background-color: #14253D; border-radius: 8px; box-sizing: border-box; margin: 0; padding: 2em; width: fit-content;"
+                            }
+                        ]
+                    },
+                    {
+                        "element": "p",
+                        "text": "\tAbove is an example of a skeleton.json file that defines custom styles for form validation messages. The file contains a list of CSS selectors and corresponding styles that are applied to the elements based on their state. This approach allows for a more granular control over the appearance of the elements and provides a way to define complex styles that are not easily achievable with standard CSS.",
+                        "style": "line-height: 1.5em; white-space: pre-wrap;"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "element": "div",
+        "name": "documentation/globals/",
+        "style": "display: flex; flex-direction: column; gap: 1em; max-width: 60em; width: 100%;",
+        "children": [
+            {
+                "element": "p",
+                "text": "\tThe globals.json shares the same initial structure as skeleton.json and serves as a globally defined resource. Its primary purpose is to manage common data across all routes, functioning like globally defined head elements or a centralized classroom array.",
+                "style": "line-height: 1.5em; white-space: pre-wrap;"
+            },
+            {
+                "element": "div",
+                "style": "height: 400px; max-height: max-content; min-height: 400px; overflow-x: auto; overflow-y: auto; resize: vertical;",
+                "children": [
+                    {
+                        "element": "pre",
+                        "text": "{\n  \"head\": {\n    \"title\": \"New Candy Wrapper project\",\n    \"link\": [\n      {\n        \"rel\": \"stylesheet\",\n        \"href\": \"https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap\",\n        \"type\": \"text/css\"\n      }\n    ],\n    \"meta\": [\n      {\n        \"name\": \"viewport\",\n        \"content\": \"width=device-width, initial-scale=1.0\"\n      },\n      {\n        \"charset\": \"UTF-8\"\n      },\n      {\n        \"name\": \"description\",\n        \"content\": \"New Candy Wrapper project.\"\n      },\n      {\n        \"name\": \"keywords\",\n        \"content\": \"\"\n      }\n    ]\n  },\n  \"classroom\": [\n    {\n      \"name\": \"@view-transition\",\n      \"type\": \"custom\",\n      \"style\": \"navigation: auto;\"\n    }\n  ],\n  \"const\": {\n    \"section\": {\n      \"title\": \"Learn to code by watching others\",\n      \"description\": \"See how experienced developers solve problems in real-time. Watching scripted tutorials is great, but understanding how developers think is invaluable.\"\n    },\n    \"inputs\": [\n      {\n        \"id\": \"first-name\",\n        \"autocomplete\": \"given-name\",\n        \"pattern\": \"^[a-zA-Z\\\\s]+$\"\n      },\n      {\n        \"id\": \"second-name\",\n        \"autocomplete\": \"family-name\",\n        \"pattern\": \"^[a-zA-Z\\\\s]+$\"\n      },\n      {\n        \"id\": \"email\",\n        \"autocomplete\": \"email\",\n        \"pattern\": \"^[a-zA-Z0-9._%+\\\\-]+@[a-zA-Z0-9.\\\\-]+\\\\.[a-zA-Z]{2,}$\"\n      },\n      {\n        \"id\": \"password\",\n        \"autocomplete\": \"password\"\n      }\n    ]\n  }\n}",
+                        "style": "background-color: #14253D; border-radius: 8px; box-sizing: border-box; margin: 0; padding: 2em; width: fit-content;"
+                    }
+                ]
+            },
+            {
+                "element": "p",
+                "text": "\tOne addition here to the regular skeleton.json is the const key. The const key allows you to declare globally accessible data across all routes.\n\tAbove example is from cwrapSpan.",
+                "style": "line-height: 1.5em; white-space: pre-wrap;",
+                "children": [
+                    {
+                        "element": "a",
+                        "text": "Intro component with sign-up form",
+                        "style": "color: white; position: relative; transition: 300ms;",
+                        "extend": [
+                            {
+                                "extension": "::before",
+                                "style": "background: rgba(150, 250, 250, 1); bottom: 2px; content: \"\"; height: 1px; position: absolute; transition: 300ms; width: 100%; z-index: -1;"
+                            },
+                            {
+                                "extension": ":hover",
+                                "style": "color: rgba(150, 250, 250, 1);"
+                            }
+                        ],
+                        "attributes": {
+                            "href": "../../#link13"
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "element": "div",
+        "name": "documentation/templates/",
+        "style": "display: flex; flex-direction: column; gap: 1em; max-width: 60em; width: 100%;",
+        "children": [
+            {
+                "element": "p",
+                "text": "\tThe c‎wrapTemplate is a cwrap directive used to apply defined templates into the application. It allows developers to insert pre-defined templates across various routes, ensuring a consistent design and structure throughout the application. By centralizing the use of templates, c‎wrapTemplate helps streamline the development process and promotes the reuse of common components, enhancing both maintainability and scalability.",
+                "style": "line-height: 1.5em; white-space: pre-wrap;"
+            },
+            {
+                "element": "div",
+                "style": "background-color: #14253D; border-radius: 8px; display: flex; flex-direction: column; gap: 2em; height: fit-content; max-height: max-content; overflow-x: auto; overflow-y: auto; resize: vertical; width: 100%;",
+                "children": [
+                    {
+                        "element": "pre",
+                        "text": "{\n  \"element\": \"c‎wrap-template\",\n  \"text\": \"c‎wrapTemplate[contactUsLink(contactUS768=display: none;)]\"\n}",
+                        "style": "box-sizing: border-box; margin: 0; padding: 2em; width: fit-content;"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "element": "div",
+        "name": "documentation/embeddedJS/",
+        "style": "display: flex; flex-direction: column; gap: 1em; max-width: 60em; width: 100%;",
+        "children": [
+            {
+                "element": "p",
+                "text": "\tIn cwrap, you can embed JavaScript inside JSON using {‎{}‎}. This allows for dynamic values and transformations during development, making JSON more flexible and interactive.\n\tHere are some examples of embedded JavaScript in JSON:",
+                "style": "line-height: 1.5em; white-space: pre-wrap;"
+            },
+            {
+                "element": "div",
+                "style": "background-color: #14253D; border-radius: 8px; display: flex; flex-direction: column; gap: 2em; height: fit-content; max-height: max-content; min-height: fit-content; overflow-x: auto; overflow-y: auto; width: 100%;",
+                "children": [
+                    {
+                        "element": "pre",
+                        "text": "{\n  \"element\": \"h2\",\n  \"style\": \"color: white; margin: 0; text-align: center; text-transform: uppercase;\",\n  \"text\": \"{‎{return 'Some text';}‎}\"\n}",
+                        "style": "box-sizing: border-box; margin: 0; padding: 2em; width: fit-content;"
+                    }
+                ]
+            },
+            {
+                "element": "div",
+                "style": "background-color: #14253D; border-radius: 8px; display: flex; flex-direction: column; gap: 2em; height: fit-content; max-height: max-content; min-height: fit-content; overflow-x: auto; overflow-y: auto; width: 100%;",
+                "children": [
+                    {
+                        "element": "pre",
+                        "text": "{\n  \"element\": \"h2\",\n  \"style\": \"color: white; margin: 0; text-align: center; text-transform: uppercase;\",\n  \"text\": \"{‎{const part1 = 'Some'; const part2 = 'Text'; return [part1, part2].join(' ');}‎}\"\n}",
+                        "style": "box-sizing: border-box; margin: 0; padding: 2em; width: fit-content;"
+                    }
+                ]
+            },
+            {
+                "element": "div",
+                "style": "background-color: #14253D; border-radius: 8px; display: flex; flex-direction: column; gap: 2em; height: fit-content; max-height: max-content; min-height: fit-content; overflow-x: auto; overflow-y: auto; width: 100%;",
+                "children": [
+                    {
+                        "element": "pre",
+                        "text": "{\n  \"element\": \"h2\",\n  \"style\": \"color: white; margin: 0; text-align: center; text-transform: uppercase;\",\n  \"text\": \"{‎{return new Date().toLocaleDateString();}‎}\"\n}",
+                        "style": "box-sizing: border-box; margin: 0; padding: 2em; width: fit-content;"
+                    }
+                ]
+            },
+            {
+                "element": "div",
+                "style": "background-color: #14253D; border-radius: 8px; display: flex; flex-direction: column; gap: 2em; height: fit-content; max-height: max-content; min-height: fit-content; overflow-x: auto; overflow-y: auto; width: 100%;",
+                "children": [
+                    {
+                        "element": "pre",
+                        "text": "{\n  \"element\": \"h2\",\n  \"style\": \"color: white; margin: 0; text-align: center; text-transform: uppercase;\",\n  \"text\": \"{‎{const amount = 1234.56; return amount.toLocaleString('en-US', { style: 'currency', currency: 'USD' });}‎}\"\n}",
+                        "style": "box-sizing: border-box; margin: 0; padding: 2em; width: fit-content;"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "element": "div",
+        "name": "documentation/сwrapReference/",
+        "style": "display: flex; flex-direction: column; gap: 1em; max-width: 60em; width: 100%;",
+        "children": [
+            {
+                "element": "p",
+                "text": "\tThe c‎wrapReference is a predefined JavaScript property used to store and pass reference information before the compilation process begins. It is configured in the cwrapConfig.js file and remains static throughout the build. This property allows developers to define key references ahead of time, ensuring consistency and predictability across the application.\n\tUnlike c‎wrapContext, which is created dynamically during compilation, c‎wrapReference is established cwrapSpan compilation and remains unchanged as the application is built.",
+                "style": "line-height: 1.5em; white-space: pre-wrap;",
+                "children": [
+                    {
+                        "element": "span",
+                        "text": "before",
+                        "style": "color: white; position: relative; transition: 300ms;",
+                        "extend": [
+                            {
+                                "extension": "::before",
+                                "style": "background: white; bottom: 2px; content: \"\"; height: 1px; position: absolute; transition: 300ms; width: 100%; z-index: -1;"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "element": "div",
+                "style": "background-color: #14253D; border-radius: 8px; display: flex; flex-direction: column; gap: 2em; height: 400px; max-height: max-content; min-height: 400px; overflow-x: auto; overflow-y: auto; resize: vertical; width: 100%;",
+                "children": [
+                    {
+                        "element": "pre",
+                        "text": "{\n  \"element\": \"ul\",\n  \"text\": \"{‎{return c‎wrapContext.get('asideRoutes')[0]}}\",\n  \"style\": \"color: white; display: flex; flex-direction: column; font-weight: bold; gap: 1em; list-style: none; margin: 0; padding: 0;\",\n  \"blueprint\": {\n    \"count\": \"{‎{return c‎wrapReference.globals.const.documentation['getting started'].length}‎}\",\n    \"element\": \"li\",\n    \"children\": [\n      {\n        \"element\": \"a\",\n        \"text\": \"c‎wrapArray[{‎{return c‎wrapReference.globals.const.documentation['getting started']}}]\",\n        \"style\": \"position: relative; z-index: 1; transition: 300ms; padding: 0.2em 0.5em;\",\n        \"extend\": [\n          {\n            \"extension\": \":hover\",\n            \"style\": \"color: rgba(150, 250, 250, 1);\"\n          },\n          {\n            \"extension\": \".focus\",\n            \"style\": \"color: rgba(150, 250, 250, 1); background-color: rgba(20, 37, 61, 0.8); padding: 0.2em 0.5em; border-radius: 0.3em;\"\n          }\n        ],\n        \"attributes\": {\n          \"href\": \"c‎wrapProperty[prefixAside=./]c‎wrapGlobal[documentation.getting started.c‎wrapIndex]/\",\n          \"class\": \"c‎wrapArray[{‎{return c‎wrapReference.globals.const.documentation['getting started'].map((x) => `c‎wrapProperty[${x}Focus=c‎wrapOmit]`)}‎}]\"\n        }\n      }\n    ]\n  }\n}",
+                        "style": "box-sizing: border-box; margin: 0; padding: 2em; width: fit-content;"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "element": "div",
+        "name": "documentation/сwrapContext/",
+        "style": "display: flex; flex-direction: column; gap: 1em; max-width: 60em; width: 100%;",
+        "children": [
+            {
+                "element": "p",
+                "text": "\tThe c‎wrapContext is an embedded JavaScript property used to manage and pass context information during the compilation process. It is created dynamically as the application is being compiled and can be passed across different parts of the build environment. This property allows developers to access and manipulate various contexts efficiently, ensuring that the application can adapt to different states and requirements.\n\tUnlike c‎wrapReference, which is configured via the cwrapConfig.js file and passed before compilation begins, c‎wrapContext is created and utilized cwrapSpan the compilation process.",
+                "style": "line-height: 1.5em; white-space: pre-wrap;",
+                "children": [
+                    {
+                        "element": "span",
+                        "text": "during",
+                        "style": "color: white; position: relative; transition: 300ms;",
+                        "extend": [
+                            {
+                                "extension": "::before",
+                                "style": "background: white; bottom: 2px; content: \"\"; height: 1px; position: absolute; transition: 300ms; width: 100%; z-index: -1;"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "element": "div",
+                "style": "background-color: #14253D; border-radius: 8px; display: flex; flex-direction: column; gap: 2em; height: 400px; max-height: max-content; min-height: 400px; overflow-x: auto; overflow-y: auto; resize: vertical; width: 100%;",
+                "children": [
+                    {
+                        "element": "pre",
+                        "text": "{\n  \"element\": \"ul\",\n  \"text\": \"{‎{return c‎wrapContext.get('asideRoutes')[0]}‎}\",\n  \"style\": \"color: white; display: flex; flex-direction: column; font-weight: bold; gap: 1em; list-style: none; margin: 0; padding: 0;\",\n  \"blueprint\": {\n    \"count\": \"{‎{return c‎wrapReference.globals.const.documentation['getting started'].length}}\",\n    \"element\": \"li\",\n    \"children\": [\n      {\n        \"element\": \"a\",\n        \"text\": \"c‎wrapArray[{‎{return c‎wrapReference.globals.const.documentation['getting started']}}]\",\n        \"style\": \"position: relative; z-index: 1; transition: 300ms; padding: 0.2em 0.5em;\",\n        \"extend\": [\n          {\n            \"extension\": \":hover\",\n            \"style\": \"color: rgba(150, 250, 250, 1);\"\n          },\n          {\n            \"extension\": \".focus\",\n            \"style\": \"color: rgba(150, 250, 250, 1); background-color: rgba(20, 37, 61, 0.8); padding: 0.2em 0.5em; border-radius: 0.3em;\"\n          }\n        ],\n        \"attributes\": {\n          \"href\": \"c‎wrapProperty[prefixAside=./]c‎wrapGlobal[documentation.getting started.c‎wrapIndex]/\",\n          \"class\": \"c‎wrapArray[{‎{return c‎wrapReference.globals.const.documentation['getting started'].map((x) => `c‎wrapProperty[${x}Focus=c‎wrapOmit]`)}‎}]\"\n        }\n      }\n    ]\n  }\n}",
+                        "style": "box-sizing: border-box; margin: 0; padding: 2em; width: fit-content;"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "element": "div",
+        "name": "documentation/сwrapRoute/",
+        "style": "display: flex; flex-direction: column; gap: 1em; max-width: 60em; width: 100%;",
+        "children": [
+            {
+                "element": "p",
+                "text": "\tThe c‎wrapRoute is an embedded JavaScript property used to automatically retrieve and pass relative route information within the cwrap framework. It ensures that navigation and resource linking are handled efficiently by maintaining consistency in route definitions and simplifying the management of relative paths throughout the application.",
+                "style": "line-height: 1.5em; white-space: pre-wrap;"
+            },
+            {
+                "element": "div",
+                "style": "background-color: #14253D; border-radius: 8px; display: flex; flex-direction: column; gap: 2em; height: 400px; max-height: max-content; min-height: 400px; overflow-x: auto; overflow-y: auto; resize: vertical; width: 100%;",
+                "children": [
+                    {
+                        "element": "pre",
+                        "text": "{\n  \"\": \"{‎w{c‎wrapContext.set('route',c‎wrapRoute.split('\\\\')); return '';}‎w}\",\n  \"element\": \"c‎wrap-template\",\n  \"text\": \"c‎wrapTemplate[documentation(prefix=../../,prefixAside=../,{‎w{return c‎wrapContext.get('route')[1]}‎w}Focus=focus)]\",\n  \"pass‎overRef\": \"documentation\",\n  \"pass‎over\": [\n    {\n      \"element\": \"div\",\n      \"style\": \"display: flex; flex-direction: column; max-width: 60em; white-space: pre-wrap;\",\n      \"children\": [\n        {\n          \"element\": \"p\",\n          \"text\": \"\\tTo run the development server, use the following command:\",\n          \"style\": \"margin-bottom: 1em; white-space: pre-wrap;\"\n        },\n        {\n          \"element\": \"div\",\n          \"style\": \"background-color: #14253D; border-radius: 8px; display: flex; flex-direction: column; gap: 2em; height: fit-content; max-height: max-content; min-height: fit-content; overflow-x: auto; overflow-y: auto; width: 100%;\",\n          \"children\": [\n            {\n              \"element\": \"pre\",\n              \"text\": \"npm run dev\",\n              \"style\": \"box-sizing: border-box; margin: 0; padding: 1em; width: fit-content;\"\n            }\n          ]\n        }\n      ]\n    }\n  ]\n}",
+                        "style": "box-sizing: border-box; margin: 0; padding: 2em; width: fit-content;"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "element": "div",
+        "name": "documentation/сwrapTemplate/",
+        "style": "display: flex; flex-direction: column; gap: 1em; max-width: 60em; width: 100%;",
+        "children": [
+            {
+                "element": "p",
+                "text": "\tThe c‎wrapTemplate is a cwrap directive used to apply defined templates into the application. It allows developers to insert pre-defined templates across various routes, ensuring a consistent design and structure throughout the application. By centralizing the use of templates, c‎wrapTemplate helps streamline the development process and promotes the reuse of common components, enhancing both maintainability and scalability.",
+                "style": "line-height: 1.5em; white-space: pre-wrap;"
+            },
+            {
+                "element": "div",
+                "style": "background-color: #14253D; border-radius: 8px; display: flex; flex-direction: column; gap: 2em; height: fit-content; max-height: max-content; overflow-x: auto; overflow-y: auto; resize: vertical; width: 100%;",
+                "children": [
+                    {
+                        "element": "pre",
+                        "text": "{\n  \"element\": \"c‎wrap-template\",\n  \"text\": \"c‎wrapTemplate[contactUsLink(contactUS768=display: none;)]\"\n}",
+                        "style": "box-sizing: border-box; margin: 0; padding: 2em; width: fit-content;"
+                    }
+                ]
+            }
+        ]
     }
 ]

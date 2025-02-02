@@ -4,5 +4,10 @@
   "element": "cwrap-template",
   "text": "cwrapTemplate[documentation]",
   "passoverRef": "documentation",
-  "passover": []
+  "passover": [
+    {
+      "element": "cwrap-template",
+      "text": "cwrapTemplate[{{return cwrapRoute}}]"
+    }
+  ]
 }
