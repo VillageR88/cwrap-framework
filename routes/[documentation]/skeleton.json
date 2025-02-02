@@ -1,6 +1,6 @@
 {
   "context": "{{let routes = cwrapReference.globals.const.documentation['getting started'].concat(cwrapReference.globals.const.documentation['advanced concepts']); routes = routes.map((x)=>`documentation/${x}/`);cwrapContext.set('documentRoutes',routes);return '';}}",
-  "placeholder": "{{{ return { \"routes\": cwrapContext.get('documentRoutes') }; }}}",
+  "routes": "{{{ return { \"routes\": cwrapContext.get('documentRoutes') }; }}}",
   "element": "cwrap-template",
   "text": "cwrapTemplate[documentation]",
   "passoverRef": "documentation",

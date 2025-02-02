@@ -1,6 +1,6 @@
 {
   "name": "cwrap-framework",
-  "version": "0.1.0-rc.202502010121",
+  "version": "0.1.0-rc.202502020201",
   "description": "Candy Wrapper (cwrap) is an open microframework for web developers.",
   "main": "scripts/main.js",
   "scripts": {
