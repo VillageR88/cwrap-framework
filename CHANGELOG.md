@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.1] - 2025-02-05
+
+- Fixed `globals.css` href generation in dynamic routes.
+
 ## [1.0.0] - 2025-02-02
 
 - Official release of CWrap v1.0.0.
