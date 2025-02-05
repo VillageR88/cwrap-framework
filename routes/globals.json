@@ -165,6 +165,26 @@
       ],
       "example projects": [
         {
+          "title": "PayAPI multi-page website",
+          "thumbnail": "static/images/home/thumbnails/payAPI-multi-pag-website.webp",
+          "tag": "-typescript",
+          "links": [
+            "https://www.frontendmentor.io/challenges/payapi-multipage-website-FDLR1Y11e",
+            "https://villager88.github.io/cwrap-payapi-multi-page-website/",
+            "https://github.com/VillageR88/cwrap-payapi-multi-page-website"
+          ]
+        },
+        {
+          "title": "Entertainment web app",
+          "thumbnail": "static/images/home/thumbnails/entertainment-web-app.webp",
+          "tag": "-typescript -webpack",
+          "links": [
+            "https://www.frontendmentor.io/challenges/entertainment-web-app-J-UhgAW1X",
+            "https://villager88.github.io/cwrap-entertainment-web-app/",
+            "https://github.com/VillageR88/cwrap-entertainment-web-app"
+          ]
+        },
+        {
           "title": "Arch Studio Multi-Page Website",
           "thumbnail": "static/images/home/thumbnails/arch-studio.webp",
           "tag": "-typescript -webpack",
