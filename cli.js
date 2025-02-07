@@ -74,6 +74,7 @@ askQuestion(
               scripts: {
                 build: "node build.js",
                 dev: "node cleanup.js dev && node build.js dev && node start.js dev && node server.js dev",
+                "convert-svg": "node converter/svgToJson.js",
               },
               devDependencies: {
                 // "cwrap-framework": `file:../cwrap-framework-${cwrapFrameworkVersion}.tgz`,
@@ -87,6 +88,7 @@ askQuestion(
                 mkdirp: "^3.0.1",
                 "serve-static": "^1.14.1",
                 jsdom: "^25.0.1",
+                xml2js: "^0.6.2",
               },
             };
 
@@ -395,6 +397,21 @@ error.html
     }
   } else {
     logMessage("schema folder already exists in the root folder");
+  }
+
+  //Move converter folder from cwrap to root folder if does not exits
+  const converterSrcPath = path.join(cwrapPath, "converter");
+  const converterDestPath = path.join(projectPath, "converter");
+  if (!fs.existsSync(converterDestPath)) {
+    try {
+      copyFolderSync(converterSrcPath, converterDestPath);
+      logMessage("Moved converter folder to root folder");
+    } catch (error) {
+      logMessage("Error moving converter folder:", error.message);
+      process.exit(1);
+    }
+  } else {
+    logMessage("converter folder already exists in the root folder");
   }
 
   // Move static folder from cwrap to root folder if it does not exist

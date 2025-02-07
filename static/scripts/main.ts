@@ -1,4 +1,5 @@
-const version = document.getElementById("version");
+const versionStable = document.getElementById("version-stable");
+const versionBeta = document.getElementById("version-beta");
 const mobileNavButton = document.getElementById("mobile-nav-button") as
 	| HTMLButtonElement
 	| undefined;
@@ -10,14 +11,29 @@ const documentation = document.getElementById("documentation-container") as
 	| undefined;
 
 window.onload = async () => {
-	if (version) {
+	if (versionStable) {
 		try {
 			const response = await fetch(
 				"https://registry.npmjs.org/cwrap-framework/latest",
 			);
 			if (response.ok) {
 				const data = await response.json();
-				version.textContent = `Version: ${data.version}`;
+				versionStable.textContent = `v${data.version} (latest)`;
+			} else {
+				console.error("Failed to fetch version information");
+			}
+		} catch (error) {
+			console.error("Error fetching version information:", error);
+		}
+	}
+	if (versionBeta) {
+		try {
+			const response = await fetch(
+				"https://registry.npmjs.org/cwrap-framework/beta",
+			);
+			if (response.ok) {
+				const data = await response.json();
+				versionBeta.textContent += `v${data.version} (beta)`;
 			} else {
 				console.error("Failed to fetch version information");
 			}

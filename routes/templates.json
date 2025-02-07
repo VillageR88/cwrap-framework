@@ -294,34 +294,33 @@
                 "children": [
                     {
                         "element": "div",
-                        "style": "max-width: 90em; margin-inline: auto; width: 100%; padding-inline: 3em; display: flex; align-items: center; box-sizing: border-box;",
+                        "style": "max-width: 90em; margin-inline: auto; width: 100%; padding-inline: 3em; display: flex; align-items: center; box-sizing: border-box; display: flex; gap: 24px; flex-wrap: wrap; padding-block: 20px;",
                         "mediaQueries": [
                             {
                                 "query": "max-width: 1024px",
                                 "style": "padding-inline: 2em;"
                             }
                         ],
-                        "children": [
-                            {
-                                "element": "a",
-                                "style": "color: white; position: relative; transition: 300ms; z-index: 1;",
-                                "extend": [
-                                    {
-                                        "extension": "::before",
-                                        "style": "content: \"\"; position: absolute; left: 50%; bottom: 0; height: 2px; background: rgba(150, 250, 250, 1); width: 0%; z-index: -1; transition: width 300ms ease-in-out, left 300ms ease-in-out; "
-                                    },
-                                    {
-                                        "extension": ":hover::before",
-                                        "style": "width: 100%; left: 1px; transform: translateX(0) scale(1); filter: drop-shadow(0 0 6px rgba(150, 250, 250, 1));"
-                                    }
-                                ],
-                                "attributes": {
-                                    "aria-label": "NPM package for cwrap-framework",
-                                    "id": "version",
-                                    "href": "https://www.npmjs.com/package/cwrap-framework"
+                        "blueprint": {
+                            "count": "2",
+                            "element": "a",
+                            "style": "color: white; position: relative; transition: 300ms; z-index: 1; white-space: pre-wrap;",
+                            "extend": [
+                                {
+                                    "extension": "::before",
+                                    "style": "content: \"\"; position: absolute; left: 50%; bottom: 0; height: 2px; background: rgba(150, 250, 250, 1); width: 0%; z-index: -1; transition: width 300ms ease-in-out, left 300ms ease-in-out; "
+                                },
+                                {
+                                    "extension": ":hover::before",
+                                    "style": "width: 100%; left: 1px; transform: translateX(0) scale(1); filter: drop-shadow(0 0 6px rgba(150, 250, 250, 1));"
                                 }
+                            ],
+                            "attributes": {
+                                "aria-label": "NPM package for cwrap-framework",
+                                "id": "cwrapArray[version-stable,version-beta]",
+                                "href": "https://www.npmjs.com/package/cwrap-framework/v/cwrapArray[latest,beta]"
                             }
-                        ]
+                        }
                     }
                 ]
             },

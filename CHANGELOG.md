@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.0-beta] - 2025-02-07
+
+- Added converter feature to convert SVG into CWrap JSON.
+
 ## [1.0.1] - 2025-02-05
 
 - Fixed `globals.css` href generation in dynamic routes.
