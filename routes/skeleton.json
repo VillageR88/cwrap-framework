@@ -111,16 +111,59 @@
                   "text": "and it's wrapped! :)"
                 }
               ]
+            },
+            {
+              "element": "div",
+              "style": "align-items: center; display: flex; flex-direction: column; margin-top: 6em;",
+              "children": [
+                {
+                  "element": "h2",
+                  "text": "Upcoming Features",
+                  "style": "color: white; font-size: 2.8rem; margin: 0 auto 0 auto; text-align: center; width: fit-content;",
+                  "mediaQueries": [
+                    {
+                      "query": "max-width: 1024px",
+                      "style": "font-size: 2rem;"
+                    }
+                  ]
+                },
+                {
+                  "element": "ul",
+                  "style": "box-sizing: border-box; display: flex; flex-wrap: wrap; gap: 1.5em; justify-content: center; margin-inline: auto; max-width: 70em; padding: 0;",
+                  "blueprint": {
+                    "count": "1",
+                    "element": "li",
+                    "style": "align-items: center; color: hsl(215, 51%, 70%); display: flex; flex-direction: column; list-style: none; max-width: 13em; padding: 1em;",
+                    "children": [
+                      {
+                        "element": "span",
+                        "style": "font-size: 4rem; margin-bottom: 8px;",
+                        "text": "cwrapGlobal[home.betaFeatures.cwrapIndex.icon]"
+                      },
+                      {
+                        "element": "h2",
+                        "style": "color: white; margin: 0; margin-top: 0.2em; text-align: center; text-transform: uppercase;",
+                        "text": "cwrapGlobal[home.betaFeatures.cwrapIndex.title]"
+                      },
+                      {
+                        "element": "p",
+                        "style": "color: hsl(215, 51%, 70%); line-height: unset; margin: 0; margin-top: 0.6em; text-align: center;",
+                        "text": "cwrapGlobal[home.betaFeatures.cwrapIndex.description]"
+                      }
+                    ]
+                  }
+                }
+              ]
             }
           ]
         },
         {
           "element": "div",
-          "style": "margin-block: 10em; margin-inline: auto; max-width: 80em; padding-inline: 3em;",
+          "style": "display: flex; flex-direction: column; gap: 2em; margin-block: 10em; margin-inline: auto; max-width: 80em; padding-inline: 3em;",
           "mediaQueries": [
             {
               "query": "max-width: 1024px",
-              "style": "padding-inline: 2em;"
+              "style": "gap: 1em; padding-inline: 2em;"
             }
           ],
           "children": [

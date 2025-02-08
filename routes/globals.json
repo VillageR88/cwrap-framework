@@ -158,6 +158,13 @@
           "description": "Enable additional features to customize your development environment"
         }
       ],
+      "betaFeatures": [
+        {
+          "icon": "🤖",
+          "title": "MDGen",
+          "description": "Fine-Tuned Context Network for AI Code Generation"
+        }
+      ],
       "examplesLinksKeys": [
         "DESIGN",
         "PREVIEW",
