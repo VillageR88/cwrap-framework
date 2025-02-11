@@ -74,7 +74,7 @@ askQuestion(
               scripts: {
                 build: "node build.js",
                 dev: "node cleanup.js dev && node build.js dev && node start.js dev && node server.js dev",
-                "convert-svg": "node converter/svgToJson.js",
+                "convert-svg": "node tools/svgToJson.js",
               },
               devDependencies: {
                 // "cwrap-framework": `file:../cwrap-framework-${cwrapFrameworkVersion}.tgz`,
@@ -400,18 +400,18 @@ error.html
   }
 
   //Move converter folder from cwrap to root folder if does not exits
-  const converterSrcPath = path.join(cwrapPath, "converter");
-  const converterDestPath = path.join(projectPath, "converter");
+  const converterSrcPath = path.join(cwrapPath, "tools");
+  const converterDestPath = path.join(projectPath, "tools");
   if (!fs.existsSync(converterDestPath)) {
     try {
       copyFolderSync(converterSrcPath, converterDestPath);
-      logMessage("Moved converter folder to root folder");
+      logMessage("Moved tools folder to root folder");
     } catch (error) {
-      logMessage("Error moving converter folder:", error.message);
+      logMessage("Error moving tools folder:", error.message);
       process.exit(1);
     }
   } else {
-    logMessage("converter folder already exists in the root folder");
+    logMessage("tools folder already exists in the root folder");
   }
 
   // Move static folder from cwrap to root folder if it does not exist

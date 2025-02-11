@@ -1,6 +1,6 @@
 {
   "name": "cwrap-framework",
-  "version": "1.1.0-beta.202502072133",
+  "version": "1.1.0-beta.202502112145",
   "description": "Candy Wrapper (cwrap) is an open microframework for web developers.",
   "main": "scripts/main.js",
   "scripts": {
@@ -11,7 +11,7 @@
     "compile:prod": "tsc -p tsconfig.prod.json",
     "build:dev": "webpack --mode development",
     "build:prod": "webpack --mode production",
-    "convert-svg": "node converter/svgToJson.js"
+    "convert-svg": "node tools/svgToJson.js"
   },
   "keywords": [
     "framework",
