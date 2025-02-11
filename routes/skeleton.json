@@ -188,7 +188,7 @@
                 }
               ],
               "blueprint": {
-                "count": "15",
+                "count": "{{return cwrapReference.globals.const.home['example projects'].length.toString()}}",
                 "element": "li",
                 "style": "display: flex; flex-direction: column; max-width: 604px; width: 100%;",
                 "attributes": {
