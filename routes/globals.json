@@ -172,6 +172,16 @@
       ],
       "example projects": [
         {
+          "title": "Devjobs web app",
+          "thumbnail": "static/images/home/thumbnails/devjobs-web-app.webp",
+          "tag": "-typescript",
+          "links": [
+            "https://www.frontendmentor.io/challenges/devjobs-web-app-HuvC_LP4l",
+            "https://villager88.github.io/cwrap_mdgen-devjobs-web-app/",
+            "https://github.com/VillageR88/cwrap_mdgen-devjobs-web-app"
+          ]
+        },
+        {
           "title": "PayAPI multi-page website",
           "thumbnail": "static/images/home/thumbnails/payAPI-multi-pag-website.webp",
           "tag": "-typescript",
