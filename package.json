@@ -29,7 +29,7 @@
     "jsdom": "^26.0.0",
     "livereload": "^0.9.3",
     "mkdirp": "^3.0.1",
-    "serve-static": "^1.14.1",
+    "serve-static": "^2.2.0",
     "typescript": "^5.7.3",
     "webpack": "^5.97.1",
     "webpack-cli": "^6.0.1"
