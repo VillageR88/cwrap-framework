@@ -27,7 +27,7 @@
     "express": "^5.1.0",
     "fs-extra": "^11.2.0",
     "jsdom": "^26.0.0",
-    "livereload": "^0.9.3",
+    "livereload": "^0.10.2",
     "mkdirp": "^3.0.1",
     "serve-static": "^2.2.0",
     "typescript": "^5.7.3",
